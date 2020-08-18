@@ -26,10 +26,9 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Use Laravel mix to compile asset with Node.js ${{ matrix.node-version }}
-    - uses: actions/setup-node@v2
+      uses: actions/setup-node@v2
       with:
-        node-version: '12'
-        check-latest: true
+          node-version: ${{ matrix.node }}
     - run: npm install
     - run: npm run production
     - name: Create Database, Test Migrate and seed database
