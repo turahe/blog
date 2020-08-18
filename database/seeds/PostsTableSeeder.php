@@ -29,8 +29,8 @@ class PostsTableSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
         Post::truncate();
 
-        factory(Category::class, 10)->create()->each(function (Category $category) {
-            factory(Post::class, 100)->make()->each(function (Post $post) use ($category) {
+        factory(Category::class, 2)->create()->each(function (Category $category) {
+            factory(Post::class, 10)->make()->each(function (Post $post) use ($category) {
                 $category->posts()->save($post);
 
                 $post->addMediaFromUrl('http://placeimg.com/1920/1920/any')
