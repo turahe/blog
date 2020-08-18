@@ -25,9 +25,10 @@ jobs:
       run: php artisan key:generate
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
-    - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
+    - name: Use Laravel mix to compile asset with Node.js ${{ matrix.node-version }}
+    - uses: actions/setup-node@v2-beta
+      with:
+        # The Node.js version to configure
           node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npm run production
