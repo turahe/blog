@@ -7,9 +7,9 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-use App\Models\Profile;
-use App\Models\Social;
 use App\Models\User;
+use App\Models\Social;
+use App\Models\Profile;
 use Illuminate\Database\Seeder;
 
 /**
@@ -25,14 +25,14 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::updateOrCreate([
-                'name' => 'Admin',
-                'email' => 'admin@example.com',
-                'email_verified_at' => now(),
-                'password' => bcrypt('secret'),
-                'remember_token' => Str::random(10),
-                'api_token' => Str::random(32),
-                'registered_at' => now(),
-            ])->assignRole('admin');
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('secret'),
+            'remember_token' => Str::random(10),
+            'api_token' => Str::random(32),
+            'registered_at' => now(),
+        ])->assignRole('admin');
 
         if (App::environment(['local', 'staging', 'testing'])) {
             factory(User::class, 10)->create()->each(function ($user) {

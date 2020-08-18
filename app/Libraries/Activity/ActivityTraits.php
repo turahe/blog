@@ -9,9 +9,9 @@
 
 namespace App\Libraries\Activity;
 
-use App\Models\Activity;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Activity;
 
 /**
  * Trait ActivityTraits.

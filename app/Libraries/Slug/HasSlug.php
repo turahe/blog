@@ -9,8 +9,8 @@
 
 namespace App\Libraries\Slug;
 
-use Illuminate\Database\Eloquent\Model;
 use Str;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Traits HasSlug.

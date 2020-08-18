@@ -29,7 +29,7 @@ $factory->define(Post::class, function (Faker $faker) {
 
     return [
         'user_id' => $user, //factory(\App\Models\User::class)->create()->id,
-//        'category_id' => mt_rand(1, 10),
+        //        'category_id' => mt_rand(1, 10),
         'title' => $title,
         'subtitle' => Str::limit($faker->realText(300, 3), 190),
         'content_raw' => implode("\n\n", $faker->paragraphs(mt_rand(7, 16))),

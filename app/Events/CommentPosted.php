@@ -9,13 +9,13 @@
 
 namespace App\Events;
 
-use App\Http\Resources\Comment as CommentResource;
 use App\Models\Post;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use App\Http\Resources\Comment as CommentResource;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
  * Class CommentPosted.

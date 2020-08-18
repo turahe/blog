@@ -1,14 +1,14 @@
 <?php
 
 use Spatie\Backup\Notifications\Notifiable;
+use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
 use Spatie\Backup\Notifications\Notifications\BackupHasFailed;
-use Spatie\Backup\Notifications\Notifications\BackupWasSuccessful;
+use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
 use Spatie\Backup\Notifications\Notifications\CleanupHasFailed;
+use Spatie\Backup\Notifications\Notifications\BackupWasSuccessful;
 use Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful;
 use Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound;
-use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
-use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
 use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
 return [

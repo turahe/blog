@@ -9,14 +9,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Tag;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TagRequest;
 use App\Http\Resources\Tag as TagResource;
-use App\Models\Tag;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Http\Response;
 
 class TagController extends Controller
 {
