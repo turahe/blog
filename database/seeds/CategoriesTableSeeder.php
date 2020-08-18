@@ -7,9 +7,9 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
+use App\Libraries\Post\MarkdownParse\YamlFrontMatter;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use App\Libraries\Post\MarkdownParse\YamlFrontMatter;
 
 /**
  * Class CategoriesTableSeeder.

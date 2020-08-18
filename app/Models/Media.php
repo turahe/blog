@@ -57,6 +57,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Media withAnyTags($tags, $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Media withAnyTagsOfAnyType($tags)
  * @mixin \Eloquent
+ * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|static[] all($columns = ['*'])
+ * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|static[] get($columns = ['*'])
+ * @property-read null|string $keywords
  */
 class Media extends Model
 {

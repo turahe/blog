@@ -9,13 +9,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use Hash;
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Requests\UsersRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UsersRequest;
 use App\Http\Resources\User as UserResource;
+use App\Models\User;
+use Hash;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**

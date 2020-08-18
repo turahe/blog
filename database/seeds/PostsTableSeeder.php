@@ -7,13 +7,13 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
+use App\Libraries\Post\MarkdownParse\YamlFrontMatter;
+use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Rate;
-use App\Models\Comment;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use App\Libraries\Post\MarkdownParse\YamlFrontMatter;
+use Illuminate\Database\Seeder;
 
 /**
  * Class PostsTableSeeder.

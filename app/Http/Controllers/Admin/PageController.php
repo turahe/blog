@@ -9,10 +9,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
+use App\Http\Requests\Admin\PageRequest;
 use App\Models\Post as Page;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\Admin\PageRequest;
+use Illuminate\View\View;
 
 /**
  * Class PageController.

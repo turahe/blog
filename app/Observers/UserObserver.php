@@ -9,9 +9,9 @@
 
 namespace App\Observers;
 
-use Str;
-use App\Models\User;
 use App\Models\Token;
+use App\Models\User;
+use Str;
 
 /**
  * Class UserObserver.

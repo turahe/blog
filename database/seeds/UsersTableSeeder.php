@@ -7,10 +7,10 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Social;
 use App\Models\Profile;
+use App\Models\Social;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 /**

@@ -12,11 +12,10 @@
 namespace App\Libraries\Tag;
 
 use App\Models\Tag;
-use InvalidArgumentException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use InvalidArgumentException;
 
 /**
  * Trait HasTags.
@@ -24,58 +23,26 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 trait HasTags
 {
     /**
-     * @var array
-     */
-    protected $queuedTags = [];
-
-    public static function bootHasTags()
-    {
-        static::created(function (Model $taggableModel) {
-            if (count($taggableModel->queuedTags) > 0) {
-                $taggableModel->attachTags($taggableModel->queuedTags);
-
-                $taggableModel->queuedTags = [];
-            }
-        });
-
-        static::deleted(function (Model $deletedModel) {
-            $tags = $deletedModel->tags()->get();
-
-            $deletedModel->detachTags($tags);
-        });
-    }
-
-    /**
-     * many to many polymorphic relationship between tags and images
-     * every image has one or many tags
-     * example:.
-     *
-     * @foreach($image->tags as $tag)
-     * $tag->title
-     *
      * @return MorphToMany
      */
     public function tags(): MorphToMany
     {
         return $this
-            ->morphToMany(Tag::class, 'taggable')
-            ->ordered();
+            ->morphToMany(Tag::class, 'taggable');
     }
 
     /**
-     * @param string $locale
-     * @return
+     * Return keyword of post based tags
+     *
+     * @return null|string
      */
-    public function tagsTranslated(string $locale = null)
+    public function getKeywordsAttribute(): ?string
     {
-        $locale = ! is_null($locale) ? $locale : app()->getLocale();
-
-        return $this
-            ->morphToMany(Tag::class, 'taggable')
-            ->select('*')
-            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
-            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated")
-            ->ordered();
+        $tags = $this->tags();
+        if ($tags->exists()) {
+            return $tags->implode('name', ', ');
+        }
+        return null;
     }
 
     /**
@@ -89,10 +56,11 @@ trait HasTags
             return;
         }
 
-        $this->attachTags($tags);
+        $this->syncTags($tags);
     }
 
     /**
+     *
      * @param Builder $query
      * @param $tags
      * @param null|string $type
@@ -112,10 +80,11 @@ trait HasTags
     }
 
     /**
-     * @param Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @param $tags
      * @param null|string $type
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithAnyTags(Builder $query, $tags, string $type = null): Builder
     {
@@ -174,6 +143,7 @@ trait HasTags
     }
 
     /**
+     *
      * @param $tags
      * @return $this
      */
@@ -187,8 +157,9 @@ trait HasTags
     }
 
     /**
+     *
      * @param $tag
-     * @return HasTags
+     * @return $this
      */
     public function attachTag($tag)
     {
@@ -214,8 +185,9 @@ trait HasTags
     }
 
     /**
+     *
      * @param $tag
-     * @return HasTags
+     * @return $this
      */
     public function detachTag($tag)
     {
@@ -255,11 +227,11 @@ trait HasTags
      * @param $values
      * @param null $type
      * @param null $locale
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection|\Tightenco\Collect\Support\Collection
      */
-    protected static function convertToTags($values, $type = null, $locale = null)
+    protected static function convertToTags($values, $type = null)
     {
-        return collect($values)->map(function ($value) use ($type, $locale) {
+        return collect($values)->map(function ($value) use ($type) {
             if ($value instanceof Tag) {
                 if (isset($type) && $value->type != $type) {
                     throw new InvalidArgumentException("Type was set to {$type} but tag is of type {$value->type}");
@@ -268,23 +240,24 @@ trait HasTags
                 return $value;
             }
 
-            return Tag::findFromString($value, $type, $locale);
+
+            return Tag::findFromString($value, $type);
         });
     }
 
     /**
      * @param $values
-     * @param null $locale
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection|\Tightenco\Collect\Support\Collection
      */
-    protected static function convertToTagsOfAnyType($values, $locale = null)
+    protected static function convertToTagsOfAnyType($values)
     {
-        return collect($values)->map(function ($value) use ($locale) {
+        return collect($values)->map(function ($value) {
             if ($value instanceof Tag) {
                 return $value;
             }
 
-            return Tag::findFromStringOfAnyType($value, $locale);
+
+            return Tag::findFromStringOfAnyType($value);
         });
     }
 

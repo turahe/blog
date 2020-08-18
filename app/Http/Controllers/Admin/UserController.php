@@ -9,11 +9,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\UsersRequest;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\View\View;
-use App\Http\Requests\UsersRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 /**
  * Class UserController.

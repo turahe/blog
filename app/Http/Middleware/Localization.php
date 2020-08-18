@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use App;
 use Closure;
-use Session;
 use Illuminate\Http\Request;
+use Session;
 
 /**
  * Class Localization.

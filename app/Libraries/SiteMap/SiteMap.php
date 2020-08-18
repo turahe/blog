@@ -10,12 +10,12 @@
 
 namespace App\Libraries\SiteMap;
 
-use DateTime;
-use Carbon\Carbon;
-use App\Models\Post;
 use App\Models\Category;
-use Illuminate\Support\Facades\Cache;
+use App\Models\Post;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class SiteMap
 {

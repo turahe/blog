@@ -9,27 +9,27 @@
 
 namespace App\Models;
 
-use App\Scopes\PostedScope;
-use App\Libraries\Tag\HasTags;
-use App\Libraries\Slug\HasSlug;
-use App\Libraries\Like\Likeable;
-use Spatie\MediaLibrary\HasMedia;
-use App\Libraries\Slug\SlugOptions;
-use App\Libraries\Post\ImageAttribute;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Model;
-use App\Libraries\Post\ReadTime\ReadTime;
-use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Routing\UrlRoutable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Libraries\DateAttribute\DateAttributeTrait;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Libraries\Like\Likeable;
+use App\Libraries\Post\ImageAttribute;
+use App\Libraries\Post\ReadTime\ReadTime;
+use App\Libraries\Slug\HasSlug;
+use App\Libraries\Slug\SlugOptions;
+use App\Libraries\Tag\HasTags;
+use App\Scopes\PostedScope;
+use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\Models\Post.
@@ -127,6 +127,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post withoutTrashed()
  * @mixin \Eloquent
  * @property-read string $publish_atom
+ * @property-read string $keywords
  */
 class Post extends Model implements HasMedia, UrlRoutable
 {

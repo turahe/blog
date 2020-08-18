@@ -9,13 +9,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
-use Socialite;
-use App\Models\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
+use Socialite;
 
 /**
  * Class AuthController.

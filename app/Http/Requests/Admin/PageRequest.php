@@ -11,8 +11,8 @@
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PageRequest extends FormRequest
 {

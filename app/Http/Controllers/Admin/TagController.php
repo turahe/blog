@@ -9,11 +9,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Tag;
-use Illuminate\View\View;
-use Illuminate\Support\Arr;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Admin\TagRequest;
+use App\Models\Tag;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
+use Illuminate\View\View;
 
 /**
  * Class TagController.
