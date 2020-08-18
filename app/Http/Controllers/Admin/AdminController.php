@@ -9,9 +9,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 
 /**
  * Class AdminController.

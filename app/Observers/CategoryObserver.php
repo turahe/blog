@@ -9,8 +9,8 @@
 
 namespace App\Observers;
 
-use App\Models\Category;
 use Str;
+use App\Models\Category;
 
 /**
  * Class CategoryObserver.

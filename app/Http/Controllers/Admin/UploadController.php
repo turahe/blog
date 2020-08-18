@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\UploadFileRequest;
-use App\Http\Requests\Admin\UploadNewFolderRequest;
-use App\Libraries\Storage\UploadsManager;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
+use App\Libraries\Storage\UploadsManager;
+use App\Http\Requests\Admin\UploadFileRequest;
+use App\Http\Requests\Admin\UploadNewFolderRequest;
 
 /**
  * Class UploadController.

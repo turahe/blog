@@ -9,28 +9,28 @@
 
 namespace App\Models;
 
-use App\Libraries\DateAttribute\DateAttributeTrait;
-use App\Libraries\Like\Likeable;
-use App\Libraries\Post\ImageAttribute;
-use App\Libraries\Post\Markdown;
-use App\Libraries\Post\ReadTime\ReadTime;
-use App\Libraries\Slug\HasSlug;
-use App\Libraries\Slug\SlugOptions;
-use App\Libraries\Tag\HasTags;
 use App\Scopes\PostedScope;
-use Illuminate\Contracts\Routing\UrlRoutable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
+use App\Libraries\Tag\HasTags;
+use App\Libraries\Slug\HasSlug;
+use App\Libraries\Like\Likeable;
+use App\Libraries\Post\Markdown;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Libraries\Slug\SlugOptions;
+use App\Libraries\Post\ImageAttribute;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Post\ReadTime\ReadTime;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Libraries\DateAttribute\DateAttributeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * App\Models\Post.

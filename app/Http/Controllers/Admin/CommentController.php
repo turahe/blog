@@ -9,11 +9,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Api\CommentsRequest;
-use App\Models\Comment;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Comment;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Api\CommentsRequest;
 
 /**
  * Class CommentController.

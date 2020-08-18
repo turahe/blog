@@ -12,9 +12,9 @@
 namespace App\Libraries\Sortable;
 
 use ArrayAccess;
+use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use InvalidArgumentException;
 
 /**
  * Trait SortableTrait.

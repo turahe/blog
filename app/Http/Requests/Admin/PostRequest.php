@@ -11,10 +11,10 @@
 
 namespace App\Http\Requests\Admin;
 
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class PostRequest.

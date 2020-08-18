@@ -9,14 +9,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\PostRequest;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\Tag;
-use App\Models\User;
 use Exception;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Tag;
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Admin\PostRequest;
 
 /**
  * Class PostController.
