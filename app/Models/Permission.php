@@ -10,11 +10,11 @@
 namespace App\Models;
 
 use Eloquent;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Permission as Model;
 
 /**

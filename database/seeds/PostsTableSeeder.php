@@ -7,11 +7,11 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
+use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Rate;
-use App\Models\Comment;
-use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 /**

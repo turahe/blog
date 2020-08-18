@@ -9,10 +9,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Tag.

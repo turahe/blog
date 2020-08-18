@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Comment;
-use App\Models\Category;
+use App\Observers\CategoryObserver;
+use App\Observers\CommentObserver;
 use App\Observers\PostObserver;
 use App\Observers\UserObserver;
-use App\Observers\CommentObserver;
-use App\Observers\CategoryObserver;
 use Illuminate\Support\ServiceProvider;
 
 /**

@@ -2,9 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\View;
-use Illuminate\View\Component;
 use App\Libraries\Instagram\Feed;
+use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class InstagramFeed extends Component
 {

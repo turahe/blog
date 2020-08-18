@@ -9,15 +9,15 @@
 
 namespace App\Models;
 
+use App\Libraries\DateAttribute\DateAttributeTrait;
 use App\Libraries\Like\Likeable;
 use App\Libraries\Like\LikeInterface;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Libraries\DateAttribute\DateAttributeTrait;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\Models\Comment.

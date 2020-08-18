@@ -2,11 +2,12 @@
 
 namespace Tests;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Permission;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -19,6 +20,7 @@ abstract class TestCase extends BaseTestCase
     protected $testUserPermission;
     protected $testAdminPermission;
     protected $user;
+    protected $faker;
 
     public function setUp(): void
     {
@@ -34,7 +36,7 @@ abstract class TestCase extends BaseTestCase
 
         // now re-register all the roles and permissions
         $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
-
+        $this->faker = Faker::create();
         $this->user = factory(User::class)->create();
     }
 }

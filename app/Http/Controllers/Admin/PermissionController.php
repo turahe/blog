@@ -9,10 +9,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
+use App\Http\Requests\Admin\PermissionRequest;
 use App\Models\Permission;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\Admin\PermissionRequest;
+use Illuminate\View\View;
 
 /**
  * Class PermissionController.

@@ -9,10 +9,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Role;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Admin\RoleRequest;
+use App\Models\Role;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 /**
  * Class RoleController.

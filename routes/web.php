@@ -22,8 +22,8 @@ Route::get('/privacy', 'PostController@page')->defaults('post', 'privacy-and-pol
 Route::get('/about', 'PostController@page')->defaults('post', 'about-me');
 
 Route::get('/', 'PostController@index')->name('home');
-Route::get('blog/{slug}', 'PostController@show');
-Route::get('book/{slug}', 'PostController@show');
+Route::get('blog/{slug}', 'PostController@show')->name('blog.detail');
+Route::get('book/{slug}', 'PostController@show')->name('book.detail');
 Route::get('category/{category}', 'CategoryController')->name('category.detail');
 
 Route::get('newsletter-subscriptions/unsubscribe', 'NewsletterSubscriptionController@unsubscribe')

@@ -10,10 +10,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
 
 /**
  * Class PostController.
@@ -42,7 +42,7 @@ final class PostController extends Controller
 
         $layout = 'blog.index';
 
-        return view($layout, [
+        return view('blog.index', [
             'blogs' => $blogs,
             'posts' => $posts,
             'featured' => $featured,
@@ -69,7 +69,7 @@ final class PostController extends Controller
 
         $layout = $blog ? $blog->layout : 'blog.show.default';
 
-        return view($layout, [
+        return view('blog.show.default', [
             'blog' => $blog,
             'related' => $related,
             'latest' => $latest,

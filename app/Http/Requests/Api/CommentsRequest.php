@@ -11,8 +11,8 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CommentsRequest extends FormRequest
 {
