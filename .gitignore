@@ -10,6 +10,7 @@ public/themes
 .idea/
 .env
 .env.backup
+.php_cs.cache
 .phpunit.result.cache
 .phpstorm.meta.php
 _ide_helper.php

@@ -34,7 +34,7 @@ script:
   - yarn production
   - yarn lint
   - vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --dry-run --diff
-#  - vendor/bin/phpunit --testdox
+  - vendor/bin/phpunit --testdox
 
 notifications:
   email: false

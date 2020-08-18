@@ -51,6 +51,7 @@
         "xlsx": "^0.16.1"
     },
     "devDependencies": {
+        "bootstrap": "^4.0.0",
         "cross-env": "7.0.1",
         "eslint": "6.8.0",
         "eslint-config-standard": "14.1.0",
@@ -59,12 +60,14 @@
         "eslint-plugin-promise": "4.2.1",
         "eslint-plugin-standard": "4.0.1",
         "eslint-plugin-vue": "6.2.1",
+        "jquery": "^3.2",
         "laravel-mix": "5.0.1",
         "laravel-mix-alias": "^1.0.2",
         "laravel-mix-polyfill": "^2.0.0",
         "laravel-mix-purgecss": "^5.0.0",
         "minify-html-webpack-plugin": "0.0.5",
         "node-sass": "^4.14.1",
+        "popper.js": "^1.12",
         "postcss-custom-properties": "^9.1.1",
         "postcss-loader": "^3.0.0",
         "purify-css": "^1.2.5",

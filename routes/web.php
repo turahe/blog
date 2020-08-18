@@ -24,7 +24,7 @@ Route::get('/about', 'PostController@page')->defaults('post', 'about-me');
 Route::get('/', 'PostController@index')->name('home');
 Route::get('blog/{slug}', 'PostController@show');
 Route::get('book/{slug}', 'PostController@show');
-Route::get('category/{category}', 'CategoryController');
+Route::get('category/{category}', 'CategoryController')->name('category.detail');
 
 Route::get('newsletter-subscriptions/unsubscribe', 'NewsletterSubscriptionController@unsubscribe')
     ->name('newsletter-subscriptions.unsubscribe');
