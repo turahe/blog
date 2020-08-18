@@ -65,63 +65,19 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class Tag extends Model implements Sortable
 {
-    use HasRoles, LogsActivity, SortableTrait;
+    use LogsActivity;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'tag', 'title', 'subtitle', 'meta_description',
+        'name', 'type',
     ];
 
     /**
-     * Return URL to post
-     *
-     * @return string
-     */
-    public function getUrlAttribute(): string
-    {
-        return '?tag='.urlencode($this->tag);
-    }
-
-
-    /**
-     * many to many polymorphic relationship between posts and tags
-     *
-     * @return MorphToMany
-     */
-    public function post(): MorphToMany
-    {
-        return $this->morphedByMany(Post::class, 'taggable');
-    }
-
-    /**
-     * Add any tags needed from the list
-     *
-     * @param array $tags List of tags to check/add
-     */
-    public static function addNeededTags(array $tags)
-    {
-        if (count($tags) === 0) {
-            return;
-        }
-
-        $found = static::whereIn('tag', $tags)->pluck('tag', 'id')->toArray();
-
-        foreach (array_diff($tags, $found) as $tag) {
-            static::create([
-                'tag' => $tag,
-                'title' => $tag,
-                'subtitle' => 'Subtitle for '.$tag,
-                'meta_description' => '',
-            ]);
-        }
-    }
-
-    /**
      * @param Builder $query
-     * @param null|string $type
+     * @param string|null $type
      * @return Builder
      */
     public function scopeWithType(Builder $query, string $type = null): Builder
@@ -130,37 +86,36 @@ class Tag extends Model implements Sortable
             return $query;
         }
 
-        return $query->where('type', $type)->ordered();
+        return $query->where('type', $type);
     }
 
     /**
      * @param Builder $query
-     * @param string $name
-     * @param null $locale
+     * @param string|null $name
      * @return Builder
      */
-    public function scopeContaining(Builder $query, string $name, $locale = null): Builder
+    public function scopeContaining(Builder $query, string $name = null): Builder
     {
         $locale = $locale ?? app()->getLocale();
 
         return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?', ['%'.mb_strtolower($name).'%']);
     }
 
-
     /**
-     * @param $values
-     * @param null|string $type
-     * @param null|string $locale
-     * @return \Illuminate\Support\Collection|mixed
+     * @param string|array|\ArrayAccess $values
+     * @param string|null $type
+     * @param string|null $locale
+     *
+     * @return \Illuminate\Support\Collection|mixed|\Tightenco\Collect\Support\Collection
      */
-    public static function findOrCreate($values, string $type = null, string $locale = null)
+    public static function findOrCreate($values, string $type = null)
     {
-        $tags = collect($values)->map(function ($value) use ($type, $locale) {
+        $tags = collect($values)->map(function ($value) use ($type) {
             if ($value instanceof self) {
                 return $value;
             }
 
-            return static::findOrCreateFromString($value, $type, $locale);
+            return static::findOrCreateFromString($value, $type);
         });
 
         return is_string($values) ? $tags->first() : $tags;
@@ -168,58 +123,52 @@ class Tag extends Model implements Sortable
 
     /**
      * @param string $type
-     * @return Collection
+     * @return DbCollection
      */
-    public static function getWithType(string $type): Collection
+    public static function getWithType(string $type): DbCollection
     {
-        return static::withType($type)->ordered()->get();
+        return static::withType($type)->get();
     }
 
     /**
      * @param string $name
-     * @param null|string $type
-     * @param null|string $locale
-     * @return null|\Illuminate\Database\Eloquent\Builder|Model|object
+     * @param string|null $type
+     * @return Tag|Builder|Model|object|null
      */
-    public static function findFromString(string $name, string $type = null, string $locale = null)
+    public static function findFromString(string $name, string $type = null)
     {
-        $locale = $locale ?? app()->getLocale();
 
         return static::query()
-            ->where("name->{$locale}", $name)
+            ->where("name", $name)
             ->where('type', $type)
             ->first();
     }
 
     /**
      * @param string $name
-     * @param null|string $locale
-     * @return null|\Illuminate\Database\Eloquent\Builder|Model|object
+     * @return Tag|Builder|Model|object|null
      */
-    public static function findFromStringOfAnyType(string $name, string $locale = null)
+    public static function findFromStringOfAnyType(string $name)
     {
-        $locale = $locale ?? app()->getLocale();
-
         return static::query()
-            ->where("name->{$locale}", $name)
+            ->where("name", $name)
             ->first();
     }
 
     /**
      * @param string $name
-     * @param null|string $type
-     * @param null|string $locale
-     * @return \Illuminate\Database\Eloquent\Builder|Model|object|Tag
+     * @param string|null $type
+     * @return Tag|Builder|Model|object|null
      */
-    protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null)
+    protected static function findOrCreateFromString(string $name, string $type = null)
     {
         $locale = $locale ?? app()->getLocale();
 
-        $tag = static::findFromString($name, $type, $locale);
+        $tag = static::findFromString($name, $type);
 
         if (! $tag) {
             $tag = static::create([
-                'name' => [$locale => $name],
+                'name' =>$name,
                 'type' => $type,
             ]);
         }

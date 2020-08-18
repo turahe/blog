@@ -56,27 +56,8 @@ class Role extends Model
 {
     use SoftDeletes, LogsActivity;
 
-    /**
-     *
-     */
     const ROLE_ADMIN = 'admin';
-    /**
-     *
-     */
     const ROLE_EDITOR = 'editor';
-    /**
-     *
-     */
     const ROLE_AUTHOR = 'author';
-    /**
-     *
-     */
     const ROLE_GUEST = 'guest';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'description', 'guard_name'];
 }
