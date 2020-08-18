@@ -12,6 +12,7 @@ namespace App\Models;
 use App\Libraries\DateAttribute\DateAttributeTrait;
 use App\Libraries\Like\Likeable;
 use App\Libraries\Post\ImageAttribute;
+use App\Libraries\Post\Markdown;
 use App\Libraries\Post\ReadTime\ReadTime;
 use App\Libraries\Slug\HasSlug;
 use App\Libraries\Slug\SlugOptions;
@@ -259,6 +260,29 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
+     * Set the HTML content automatically when the raw content is set
+     *
+     * @param string $value
+     */
+    public function setContentRawAttribute($value)
+    {
+        $markdown = new Markdown();
+
+        $this->attributes['content_raw'] = $value;
+        $this->attributes['content_html'] = $markdown->generate($value);
+    }
+
+
+    /**
+     * Alias for content_raw
+     * @return null|string
+     */
+    public function getContentAttribute()
+    {
+        return $this->content_raw;
+    }
+
+    /**
      * Return URL to post.
      *
      * @return string
@@ -307,7 +331,7 @@ class Post extends Model implements HasMedia, UrlRoutable
      */
     public function getReadTimeAttribute(): ReadTime
     {
-        $content = $this->content_html;
+        $content = $this->content;
         $omitSeconds = config('blog.omit_seconds');
         $timeOnly = config('blog.time_only');
         $abbreviated = config('blog.abbreviate_time_measurements');

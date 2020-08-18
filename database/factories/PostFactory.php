@@ -24,11 +24,12 @@ use Illuminate\Database\Eloquent\Factory;
 |
 */
 $factory->define(Post::class, function (Faker $faker) {
-    $title = $faker->unique()->realText(50, 2);
+    $title = $faker->unique()->sentence(3, 1);
+    $user = $faker->randomElement(\DB::table('users')->pluck('id')->toArray());
 
     return [
-        'user_id' => mt_rand(1, 100), //factory(\App\Models\User::class)->create()->id,
-        'category_id' => mt_rand(1, 10),
+        'user_id' => $user, //factory(\App\Models\User::class)->create()->id,
+//        'category_id' => mt_rand(1, 10),
         'title' => $title,
         'subtitle' => Str::limit($faker->realText(300, 3), 190),
         'content_raw' => join("\n\n", $faker->paragraphs(mt_rand(7, 16))),

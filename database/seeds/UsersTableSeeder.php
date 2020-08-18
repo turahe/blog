@@ -10,7 +10,6 @@
 use App\Models\Profile;
 use App\Models\Social;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 /**
@@ -25,24 +24,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = self::defaultUser();
+//        Schema::disableForeignKeyConstraints();
+//        User::truncate();
 
-        foreach ($users as $index => $user) {
             User::updateOrCreate([
-                'name' => strtolower($user['name']),
-                'email' => $user['email'],
-                'email_verified_at' => Carbon::now(),
+                'name' => 'Admin',
+                'email' => 'admin@example.com',
+                'email_verified_at' => now(),
                 'password' => bcrypt('secret'),
                 'remember_token' => Str::random(10),
                 'api_token' => Str::random(32),
                 'registered_at' => now(),
-            ])->assignRole('admin')
-                ->addMedia(storage_path('contents/assets/img/users/user-'.$index.'.png'))
-                ->preservingOriginal()
-                ->withResponsiveImages()
-                ->usingName($user['name'])
-                ->toMediaCollection('images');
-        }
+            ])->assignRole('admin');
 
         if (App::environment(['local', 'staging', 'testing'])) {
             factory(User::class, 100)->create()->each(function ($user) {
@@ -50,86 +43,6 @@ class UsersTableSeeder extends Seeder
                 $user->socials()->saveMany(factory(Social::class, mt_rand(3, 5))->make());
             });
         }
-    }
-
-    /**
-     * Seed default users.
-     *
-     * @return array
-     */
-    protected static function defaultUser()
-    {
-        return [
-
-            [
-                'name' => 'Nur Wachid',
-                'email' => 'wachid@outlook.com',
-
-            ],
-            [
-                'name' => 'Admin',
-                'email' => 'admin@example.com',
-            ],
-            [
-                'name' => 'User',
-                'email' => 'user@example.com',
-            ],
-            [
-                'name' => 'Costumer Service',
-                'email' => 'costumer-service@example.com',
-            ],
-            [
-                'name' => 'manager',
-                'email' => 'manager@example.com',
-            ],
-            [
-                'name' => 'Master',
-                'email' => 'master@example.com',
-            ],
-            [
-                'name' => 'Administrator',
-                'email' => 'administrator@example.com',
-            ],
-            [
-                'name' => 'Agent',
-                'email' => 'agent@example.com',
-            ],
-            [
-                'name' => 'no replay',
-                'email' => 'noreplay@example.com',
-            ],
-            [
-                'name' => 'Dev',
-                'email' => 'dev@example.com',
-            ],
-            [
-                'name' => 'Developer',
-                'email' => 'developer@example.com',
-            ],
-            [
-                'name' => 'Guest',
-                'email' => 'guest@example.com',
-            ],
-            [
-                'name' => 'User Manager',
-                'email' => 'user.manager@example.com',
-            ],
-            [
-                'name' => 'Media',
-                'email' => 'media@example.com',
-            ],
-            [
-                'name' => 'Role',
-                'email' => 'role@example.com',
-            ],
-            [
-                'name' => 'Permission',
-                'email' => 'permission@example.com',
-            ],
-            [
-                'name' => 'Email',
-                'email' => 'email@example.com',
-            ],
-        ];
+//        Schema::enableForeignKeyConstraints();
     }
 }

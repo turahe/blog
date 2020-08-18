@@ -1,3 +1,0 @@
-[submodule "storage\\contents"]
-	path = storage\\contents
-	url = https://gitlab.com/turahe/contents.git

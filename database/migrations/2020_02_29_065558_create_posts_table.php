@@ -29,15 +29,16 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique();
             $table->string('title');
             $table->string('subtitle', 255)->nullable();
-            $table->string('meta_description', 255)->nullable();
-            $table->text('content');
+            $table->text('meta_description')->nullable();
+            $table->text('content_raw');
+            $table->text('content_html');
 
             $table->string('is_draft')->default(false);
             $table->string('is_sticky')->default(false);
             $table->string('type');
 
             $table->timestamp('published_at');
-            $table->string('layout')->default('blog.show.default');
+            $table->string('layout')->default('default');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -52,7 +53,9 @@ class CreatePostsTable extends Migration
                 ->on('categories')
                 ->onDelete('cascade');
 
-            $table->foreign('parent_id')->references('id')->on('posts');
+            $table->foreign('parent_id')
+                ->references('id')
+                ->on('posts');
         });
     }
 
