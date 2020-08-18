@@ -1,0 +1,46 @@
+build:
+  environment:
+    php:
+      version: 7.4
+        compile_options: '--enable-sigchild --without-pear'
+
+        # see https://pecl.php.net/
+        pecl_extensions:
+          - redis
+          - memcached
+    mysql: '5.7'
+    node: '12.5'
+    hosts:
+      turahe.test: '127.0.0.1'
+    variables:
+      APP_KEY: 'base64:OYl4Bk9ekouOUIRXyeTD0FVi+cJ9D+HMyDJBgSBSUuI='
+      APP_ENV: 'testing'
+      APP_URL: 'http://turahe.test'
+      API_HOST: 'turahe.test'
+      DB_HOST: '127.0.0.1'
+      DB_DATABASE: 'turahe'
+      DB_USERNAME: 'root'
+      DB_PASSWORD: ''
+      MAIL_DRIVER: 'log'
+  cache:
+    directories:
+      - node_modules
+      - vendor/
+      - ~/.composer/cache/
+  dependencies:
+    before:
+      - mysql -uroot -e 'CREATE DATABASE turahe'
+  tests:
+    before:
+      - chmod -R 777 storage
+      - chmod -R 777 bootstrap/cache
+      - npm run production
+      - php artisan key:generate
+      - php artisan migrate --seed --no-interaction -vvv
+      - php artisan passport:install --force
+    override:
+      -
+        command: vendor/bin/phpunit --coverage-clover=turahe-test-coverage --testdox
+        coverage:
+          file: turahe-test-coverage
+          format: clover
