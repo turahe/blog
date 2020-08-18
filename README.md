@@ -2,6 +2,8 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/turahe/blog/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/turahe/blog/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/turahe/blog/badges/build.png?b=master)](https://scrutinizer-ci.com/g/turahe/blog/build-status/master)
+![Turahe](https://github.com/turahe/blog/workflows/turahe/badge.svg)
+[![StyleCI](https://github.styleci.io/repos/143525190/shield?branch=master)](https://github.styleci.io/repos/143525190?branch=master)
 [![Build Status](https://travis-ci.org/turahe/blog.svg?branch=master)](https://travis-ci.org/turahe/blog)
 [![Latest Stable Version](https://poser.pugx.org/turahe/blog/v/stable)](https://packagist.org/packages/turahe/blog)
 [![Total Downloads](https://poser.pugx.org/turahe/blog/downloads)](https://packagist.org/packages/turahe/blog)

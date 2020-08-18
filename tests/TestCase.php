@@ -2,9 +2,7 @@
 
 namespace Tests;
 
-use App\Models\Category;
 use App\Models\Permission;
-use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -38,7 +36,5 @@ abstract class TestCase extends BaseTestCase
         $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
 
         $this->user = factory(User::class)->create();
-
-
     }
 }
