@@ -9,18 +9,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
-use App\Http\Resources\Category as CategoryResource;
-use App\Models\Category;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
+use App\Http\Resources\Category as CategoryResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Http\Response;
 
 /**
- * Class CategoryController
- * @package App\Http\Controllers\Api
+ * Class CategoryController.
  */
 class CategoryController extends Controller
 {

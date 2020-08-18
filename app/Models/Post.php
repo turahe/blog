@@ -9,30 +9,30 @@
 
 namespace App\Models;
 
-use App\Libraries\DateAttribute\DateAttributeTrait;
-use App\Libraries\Like\Likeable;
-use App\Libraries\Post\ImageAttribute;
-use App\Libraries\Post\ReadTime\ReadTime;
-use App\Libraries\Slug\HasSlug;
-use App\Libraries\Slug\SlugOptions;
-use App\Libraries\Tag\HasTags;
 use App\Scopes\PostedScope;
-use Illuminate\Contracts\Routing\UrlRoutable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
+use App\Libraries\Tag\HasTags;
+use App\Libraries\Slug\HasSlug;
+use App\Libraries\Like\Likeable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Libraries\Slug\SlugOptions;
+use App\Libraries\Post\ImageAttribute;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
+use App\Libraries\Post\ReadTime\ReadTime;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Libraries\DateAttribute\DateAttributeTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * App\Models\Post
+ * App\Models\Post.
  *
  * @property int $id
  * @property int $category_id
@@ -232,7 +232,6 @@ class Post extends Model implements HasMedia, UrlRoutable
             ->saveSlugsTo('slug');
     }
 
-
     /**
      * Prepare a date for array / JSON serialization.
      *
@@ -259,7 +258,7 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * Return URL to post
+     * Return URL to post.
      *
      * @return string
      */
@@ -270,23 +269,24 @@ class Post extends Model implements HasMedia, UrlRoutable
                 return url($this->slug);
                 break;
             default:
-                return url($this->type .'/'.$this->slug);
+                return url($this->type.'/'.$this->slug);
         }
     }
 
     /**
-     * Return keyword of post based tags
+     * Return keyword of post based tags.
      *
      * @return string
      */
     public function getKeywordsAttribute(): string
     {
         $tags = $this->tags();
+
         return $tags->implode('tag', ', ');
     }
 
     /**
-     * Scope a query to search posts
+     * Scope a query to search posts.
      *
      * @param Builder $query
      * @param null|string $search
@@ -300,7 +300,6 @@ class Post extends Model implements HasMedia, UrlRoutable
         }
     }
 
-
     /**
      * @throws \Exception
      * @return ReadTime
@@ -312,8 +311,8 @@ class Post extends Model implements HasMedia, UrlRoutable
         $timeOnly = config('blog.time_only');
         $abbreviated = config('blog.abbreviate_time_measurements');
         $wordsPerMinute = config('blog.words_per_minute');
-        $ltr =  __('read-time.reads_left_to_right');
-        $translation =  __('read-time');
+        $ltr = __('read-time.reads_left_to_right');
+        $translation = __('read-time');
 
         return (new ReadTime($content))
             ->omitSeconds($omitSeconds)
@@ -323,9 +322,6 @@ class Post extends Model implements HasMedia, UrlRoutable
             ->ltr($ltr)
             ->setTranslation($translation);
     }
-
-
-
 
     /**
      * Define a one-to-many relationship.
@@ -339,7 +335,7 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * check if model has Children
+     * check if model has Children.
      *
      * @return bool
      */
@@ -349,7 +345,7 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * get first element children models
+     * get first element children models.
      *
      * @throws \Exception
      * @return Post
@@ -364,7 +360,7 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * get sibling attribute
+     * get sibling attribute.
      *
      * @return Collection|Post[]
      */
@@ -384,7 +380,7 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * Check if parent is exist or not null
+     * Check if parent is exist or not null.
      *
      * @return bool
      */
@@ -395,7 +391,7 @@ class Post extends Model implements HasMedia, UrlRoutable
 
     /**
      * one to many relationship between user and posts
-     * example: $post->user->name
+     * example: $post->user->name.
      *
      * @return BelongsTo
      */
@@ -405,17 +401,16 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * Get Author name from table user
+     * Get Author name from table user.
      *
      * @return string
      */
     public function getAuthorAttribute(): string
     {
-        if (!empty($this->user)) {
+        if (! empty($this->user)) {
             return $this->user->name;
         }
     }
-
 
     /**
      * Define an inverse one-to-one or many relationship.
@@ -447,6 +442,4 @@ class Post extends Model implements HasMedia, UrlRoutable
     {
         return $this->morphMany(Comment::class, 'comment');
     }
-
-
 }

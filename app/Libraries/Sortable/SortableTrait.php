@@ -7,25 +7,20 @@
  *  @name          SortableTrait.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Sortable;
 
 use ArrayAccess;
+use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use InvalidArgumentException;
 
 /**
- * Trait SortableTrait
- * @package App\Libraries\Sortable
+ * Trait SortableTrait.
  */
 trait SortableTrait
 {
-    /**
-     *
-     */
     public static function bootSortableTrait()
     {
         static::creating(function ($model) {
@@ -35,9 +30,6 @@ trait SortableTrait
         });
     }
 
-    /**
-     *
-     */
     public function setHighestOrderNumber()
     {
         $orderColumnName = $this->determineOrderColumnName();

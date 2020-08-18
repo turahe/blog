@@ -7,16 +7,11 @@
  *
  *  @author         wachid
  *  @copyright      Copyright (c) wachid 2017-2019.
- *
  */
-
-
-
 if (! function_exists('set_active')) {
 
-
     /**
-     * Menambahkan CSS class active Pada Menu Sesuai Route yang di Akses di Laravel 5
+     * Menambahkan CSS class active Pada Menu Sesuai Route yang di Akses di Laravel 5.
      *
      * https://medium.com/laravel-indonesia/menambahkan-css-class-active-pada-menu-sesuai-route-yang-di-akses-di-laravel-5-d0d35e91a7fd
      *
@@ -41,25 +36,24 @@ if (! function_exists('set_active')) {
     }
 }
 
-
 if (! function_exists('svg')) {
 
     /**
-     * SVG helper
+     * SVG helper.
      *
      * @param $src
      * @return bool|string
      */
     function svg($src): string
     {
-        return file_get_contents(resource_path('assets/icons/' . $src . '.svg'));
+        return file_get_contents(resource_path('assets/icons/'.$src.'.svg'));
     }
 }
 
 if (! function_exists('reading_time')) {
     /**
      * Returns an estimated reading time in a string
-     * idea from @link http://briancray.com/posts/estimated-reading-time-web-design/
+     * idea from @link http://briancray.com/posts/estimated-reading-time-web-design/.
      * @param string $content the content to be read
      * @return string          estimated read time eg. 1 minute, 30 seconds
      */
@@ -70,12 +64,13 @@ if (! function_exists('reading_time')) {
         $minutes = floor($word_count / 200);
         $seconds = floor($word_count % 200 / (200 / 60));
 
-        $str_minutes = ($minutes == 1) ? "minute" : "minutes";
-        $str_seconds = ($seconds == 1) ? "second" : "seconds";
+        $str_minutes = ($minutes == 1) ? 'minute' : 'minutes';
+        $str_seconds = ($seconds == 1) ? 'second' : 'seconds';
 
         if ($minutes == 0) {
             return "{$seconds} {$str_seconds}";
         }
+
         return "{$minutes} {$str_minutes}, {$seconds} {$str_seconds}";
     }
 }
@@ -92,9 +87,9 @@ if (! function_exists('dirToArray')) {
 
         $cdir = scandir($dir);
         foreach ($cdir as $key => $value) {
-            if (!in_array($value, [".", ".."])) {
-                if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                    $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value);
+            if (! in_array($value, ['.', '..'])) {
+                if (is_dir($dir.DIRECTORY_SEPARATOR.$value)) {
+                    $result[$value] = dirToArray($dir.DIRECTORY_SEPARATOR.$value);
                 } else {
                     $result[] = $value;
                 }
@@ -105,10 +100,9 @@ if (! function_exists('dirToArray')) {
     }
 }
 
-
 if (! function_exists('is_php')) {
     /**
-     * is_php
+     * is_php.
      *
      * Determines if the current version of PHP is equal to or greater than the supplied value
      *
@@ -119,18 +113,18 @@ if (! function_exists('is_php')) {
     function is_php($version)
     {
         static $_is_php;
-        $version = (string)$version;
+        $version = (string) $version;
 
-        if (! isset($_is_php[ $version ])) {
-            $_is_php[ $version ] = version_compare(PHP_VERSION, $version, '>=');
+        if (! isset($_is_php[$version])) {
+            $_is_php[$version] = version_compare(PHP_VERSION, $version, '>=');
         }
 
-        return $_is_php[ $version ];
+        return $_is_php[$version];
     }
 }
 if (! function_exists('is_really_writable')) {
     /**
-     * is_really_writable
+     * is_really_writable.
      *
      * Tests for file writability
      *
@@ -155,7 +149,7 @@ if (! function_exists('is_really_writable')) {
          * write a file then read it. Bah...
          */
         if (is_dir($file)) {
-            $file = rtrim($file, '/') . '/' . md5(mt_rand());
+            $file = rtrim($file, '/').'/'.md5(mt_rand());
             if (($fp = @fopen($file, 'ab')) === false) {
                 return false;
             }

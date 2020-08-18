@@ -10,19 +10,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\View\View;
 
 /**
- * Class PostController
- * @package App\Http\Controllers
+ * Class PostController.
  */
 final class PostController extends Controller
 {
     /**
-     * Show all blog
+     * Show all blog.
      *
      * @param Request $request
      * @return View
@@ -37,14 +36,11 @@ final class PostController extends Controller
 
         $latest = $posts->take(10);
 
-
         $featured = $posts->where('is_sticky', true);
 
         $getPost = $posts->random();
 
-
         $layout = 'blog.index';
-
 
         return view($layout, [
             'blogs' => $blogs,
@@ -56,7 +52,7 @@ final class PostController extends Controller
     }
 
     /**
-     * Show blog by slug
+     * Show blog by slug.
      *
      * @param Request $request
      * @param string $slug
@@ -67,13 +63,9 @@ final class PostController extends Controller
         $posts = $this->queryAll($request);
         $blog = $posts->where('slug', $slug)->first();
 
-
-        $related =  $posts->where('category_id', $blog->category->id)
+        $related = $posts->where('category_id', $blog->category->id)
             ->except($blog->id);
         $latest = $posts->take(10);
-
-
-
 
         $layout = $blog ? $blog->layout : 'blog.show.default';
 
@@ -92,7 +84,7 @@ final class PostController extends Controller
         $posts = Cache::remember('feed-posts', now()->addHour(), fn () => Post::latest()->limit(20)->get());
 
         return response()->view('posts_feed.index', [
-            'posts' => $posts
+            'posts' => $posts,
         ], 200)->header('Content-Type', 'text/xml');
     }
 
@@ -117,6 +109,5 @@ final class PostController extends Controller
         }
 
         return $query;
-
     }
 }

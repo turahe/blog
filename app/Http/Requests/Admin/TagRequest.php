@@ -7,13 +7,12 @@
  *  @name          TagRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class TagRequest extends FormRequest
 {
@@ -35,7 +34,7 @@ class TagRequest extends FormRequest
     public function rules()
     {
         return [
-            'tag' => 'required'
+            'tag' => 'required',
         ];
     }
 }

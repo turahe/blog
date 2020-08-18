@@ -9,19 +9,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewsletterSubscriptionRequest;
-use App\Jobs\UnsubscribeNewsletter;
-use App\Models\NewsletterSubscription;
 use Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Session;
 use Validator;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Jobs\UnsubscribeNewsletter;
+use Illuminate\Http\RedirectResponse;
+use App\Models\NewsletterSubscription;
+use App\Http\Requests\NewsletterSubscriptionRequest;
 
 /**
- * Class NewsletterSubscriptionController
- * @package App\Http\Controllers
+ * Class NewsletterSubscriptionController.
  */
 final class NewsletterSubscriptionController extends Controller
 {
@@ -44,7 +43,7 @@ final class NewsletterSubscriptionController extends Controller
     public function unsubscribe(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:newsletter_subscriptions,email'
+            'email' => 'required|email|exists:newsletter_subscriptions,email',
         ]);
 
         if ($validator->fails()) {

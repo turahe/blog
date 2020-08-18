@@ -12,8 +12,7 @@ namespace App\Libraries\Post\MarkdownParse;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class YamlFrontMatter
- * @package App\Libraries\Post\MarkdownParse
+ * Class YamlFrontMatter.
  */
 class YamlFrontMatter
 {

@@ -37,6 +37,6 @@ $factory->define(User::class, function (Faker $faker) {
 $factory->state(User::class, 'turahe', function (Generator $faker) {
     return [
         'name' => 'Turahe',
-        'email' => 'wachid@turahe.id'
+        'email' => 'wachid@turahe.id',
     ];
 });

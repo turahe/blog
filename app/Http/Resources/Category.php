@@ -22,7 +22,7 @@ class Category extends JsonResource
             'description' => $this->description,
             'created_at' => $this->created_at->toIso8601String(),
             'time_humanize' => $this->created_at->diffForHumans(),
-//            'posts' => Post::collection($this->whenLoaded('posts')),
+            //            'posts' => Post::collection($this->whenLoaded('posts')),
         ];
 //        return parent::toArray($request);
     }

@@ -9,17 +9,16 @@
 
 namespace App\Libraries\DateAttribute;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Trait DateAttributeTrait
- * @package App\Libraries\DateAttribute
+ * Trait DateAttributeTrait.
  */
 trait DateAttributeTrait
 {
     /**
-     * Scope a query to order posts by latest posted
+     * Scope a query to order posts by latest posted.
      *
      * @param Builder $query
      * @return Builder
@@ -56,7 +55,7 @@ trait DateAttributeTrait
     }
 
     /**
-     * get publish attribute
+     * get publish attribute.
      *
      * @param $value
      * @throws \Exception
@@ -68,7 +67,7 @@ trait DateAttributeTrait
     }
 
     /**
-     * get publish date attribute
+     * get publish date attribute.
      *
      * @param $value
      * @throws \Exception
@@ -80,7 +79,7 @@ trait DateAttributeTrait
     }
 
     /**
-     * get publish time attribute
+     * get publish time attribute.
      *
      * @param $value
      * @throws \Exception
@@ -92,7 +91,7 @@ trait DateAttributeTrait
     }
 
     /**
-     * get publish date attribute
+     * get publish date attribute.
      *
      * @param $value
      * @return string
@@ -103,7 +102,7 @@ trait DateAttributeTrait
     }
 
     /**
-     * get publish month attribute
+     * get publish month attribute.
      *
      * @param $value
      * @return string
@@ -114,7 +113,7 @@ trait DateAttributeTrait
     }
 
     /**
-     * get publish time elapsed attribute
+     * get publish time elapsed attribute.
      *
      * @return string
      */
@@ -124,7 +123,7 @@ trait DateAttributeTrait
     }
 
     /**
-     * get publish time elapsed attribute
+     * get publish time elapsed attribute.
      *
      * @param $value
      * @return string

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -74,7 +74,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('admin')
             ->middleware(['web', 'auth', 'role:admin', 'verified'])
-            ->namespace($this->namespace . '\Admin')
+            ->namespace($this->namespace.'\Admin')
             ->as('admin.')
             ->group(base_path('routes/admin.php'));
     }

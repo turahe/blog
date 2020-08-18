@@ -9,14 +9,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\PermissionRequest;
+use Illuminate\View\View;
 use App\Models\Permission;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use App\Http\Requests\Admin\PermissionRequest;
 
 /**
- * Class PermissionController
- * @package App\Http\Controllers\Admin
+ * Class PermissionController.
  */
 final class PermissionController extends Controller
 {
@@ -27,7 +26,8 @@ final class PermissionController extends Controller
      */
     public function index(): View
     {
-        $permissions =  Permission::all();
+        $permissions = Permission::all();
+
         return view('admin.permissions.index', compact('permissions'));
     }
 
@@ -41,11 +41,11 @@ final class PermissionController extends Controller
     public function store(PermissionRequest $request, Permission $permission): RedirectResponse
     {
         $permission->create($request->all());
+
         return redirect()
             ->back()
             ->with('success', 'new Permission  was saved successfully');
     }
-
 
     /**
      * Update the specified resource in storage.

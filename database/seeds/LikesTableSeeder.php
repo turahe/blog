@@ -11,7 +11,7 @@ use App\Models\Like;
 use Illuminate\Database\Seeder;
 
 /**
- * Class LikesTableSeeder
+ * Class LikesTableSeeder.
  */
 class LikesTableSeeder extends Seeder
 {

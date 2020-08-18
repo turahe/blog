@@ -10,17 +10,16 @@
 namespace App\Models;
 
 use Eloquent;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class ContactUs
+ * Class ContactUs.
  *
- * @package App\Models
  * @property int $id
  * @property string $name
  * @property string $email
@@ -78,6 +77,6 @@ class ContactUs extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'subject', 'message', 'phone', 'status', 'read'
+        'name', 'email', 'subject', 'message', 'phone', 'status', 'read',
     ];
 }

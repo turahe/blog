@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Factory;
 */
 $factory->define(Tag::class, function (Faker $faker) {
     $word = $faker->unique()->word;
+
     return [
         'tag' => $word,
         'title' => ucfirst($word),

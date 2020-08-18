@@ -10,8 +10,7 @@
 namespace App\Libraries\Slug;
 
 /**
- * Class SlugOptions
- * @package App\Libraries\Slug
+ * Class SlugOptions.
  */
 class SlugOptions
 {
@@ -67,6 +66,7 @@ class SlugOptions
             $fieldName = [$fieldName];
         }
         $this->generateSlugFrom = $fieldName;
+
         return $this;
     }
 
@@ -77,6 +77,7 @@ class SlugOptions
     public function saveSlugsTo(string $fieldName): self
     {
         $this->slugField = $fieldName;
+
         return $this;
     }
 
@@ -86,6 +87,7 @@ class SlugOptions
     public function allowDuplicateSlugs(): self
     {
         $this->generateUniqueSlugs = false;
+
         return $this;
     }
 
@@ -96,6 +98,7 @@ class SlugOptions
     public function slugsShouldBeNoLongerThan(int $maximumLength): self
     {
         $this->maximumLength = $maximumLength;
+
         return $this;
     }
 
@@ -105,6 +108,7 @@ class SlugOptions
     public function doNotGenerateSlugsOnCreate(): self
     {
         $this->generateSlugsOnCreate = false;
+
         return $this;
     }
 
@@ -114,6 +118,7 @@ class SlugOptions
     public function doNotGenerateSlugsOnUpdate(): self
     {
         $this->generateSlugsOnUpdate = false;
+
         return $this;
     }
 
@@ -124,6 +129,7 @@ class SlugOptions
     public function usingSeparator(string $separator): self
     {
         $this->slugSeparator = $separator;
+
         return $this;
     }
 
@@ -134,6 +140,7 @@ class SlugOptions
     public function usingLanguage(string $language): self
     {
         $this->slugLanguage = $language;
+
         return $this;
     }
 }

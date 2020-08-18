@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Libraries\Manifest\ManifestService;
 
 /**
- * Class ManifestController
- * @package App\Http\Controllers
+ * Class ManifestController.
  */
 final class ManifestController extends Controller
 {

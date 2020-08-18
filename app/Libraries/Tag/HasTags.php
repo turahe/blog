@@ -7,21 +7,19 @@
  *  @name          HasTags.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Tag;
 
 use App\Models\Tag;
+use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use InvalidArgumentException;
 
 /**
- * Trait HasTags
- * @package App\Libraries\Tag
+ * Trait HasTags.
  */
 trait HasTags
 {
@@ -30,10 +28,6 @@ trait HasTags
      */
     protected $queuedTags = [];
 
-
-    /**
-     *
-     */
     public static function bootHasTags()
     {
         static::created(function (Model $taggableModel) {
@@ -54,7 +48,7 @@ trait HasTags
     /**
      * many to many polymorphic relationship between tags and images
      * every image has one or many tags
-     * example:
+     * example:.
      *
      * @foreach($image->tags as $tag)
      * $tag->title
@@ -84,7 +78,6 @@ trait HasTags
             ->ordered();
     }
 
-
     /**
      * @param $tags
      */
@@ -98,7 +91,6 @@ trait HasTags
 
         $this->attachTags($tags);
     }
-
 
     /**
      * @param Builder $query
@@ -181,7 +173,6 @@ trait HasTags
         });
     }
 
-
     /**
      * @param $tags
      * @return $this
@@ -194,7 +185,6 @@ trait HasTags
 
         return $this;
     }
-
 
     /**
      * @param $tag
@@ -222,7 +212,6 @@ trait HasTags
 
         return $this;
     }
-
 
     /**
      * @param $tag

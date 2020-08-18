@@ -21,18 +21,14 @@ Route::post('contact', 'ContactUsController@store');
 Route::get('/privacy', 'PostController@page')->defaults('post', 'privacy-and-policy');
 Route::get('/about', 'PostController@page')->defaults('post', 'about-me');
 
-
 Route::get('/', 'PostController@index')->name('home');
 Route::get('blog/{slug}', 'PostController@show');
 Route::get('book/{slug}', 'PostController@show');
 Route::get('category/{category}', 'CategoryController');
 
-
-
 Route::get('newsletter-subscriptions/unsubscribe', 'NewsletterSubscriptionController@unsubscribe')
     ->name('newsletter-subscriptions.unsubscribe');
 Route::post('newsletter-subscriptions', 'NewsletterSubscriptionController@store');
-
 
 Auth::routes(['verify' => true]);
 

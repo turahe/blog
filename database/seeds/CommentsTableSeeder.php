@@ -10,7 +10,7 @@
 use Illuminate\Database\Seeder;
 
 /**
- * Class CommentsTableSeeder
+ * Class CommentsTableSeeder.
  */
 class CommentsTableSeeder extends Seeder
 {

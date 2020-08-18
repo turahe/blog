@@ -7,7 +7,6 @@
  *  @name          ProfileUpdateRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests;
@@ -28,8 +27,8 @@ class ProfileUpdateRequest extends BaseRequest
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users')->ignore($this->user())
-            ]
+                Rule::unique('users')->ignore($this->user()),
+            ],
         ];
     }
 }

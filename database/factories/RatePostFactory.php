@@ -27,6 +27,6 @@ $factory->define(Rate::class, function (Faker $faker) {
     return [
         'user_id' => mt_rand(1, 10),
         'post_id' => mt_rand(1, 100),
-        'rate' => mt_rand(1, 5)
+        'rate' => mt_rand(1, 5),
     ];
 });

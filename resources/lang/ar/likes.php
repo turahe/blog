@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'likes' => "Likes",
+    'likes' => 'Likes',
     'count' => ':count like|:count likes',
 ];

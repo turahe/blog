@@ -38,8 +38,6 @@ Route::prefix('v1')->namespace('Api')->group(function () {
 
     Route::post('/authenticate', 'Auth\AuthenticateController@authenticate')->name('authenticate');
 
-
-
     // Comments
 //    Route::apiResource('posts.comments', function (App\Models\Post $post) {
 //        return $post->id;
@@ -53,7 +51,6 @@ Route::prefix('v1')->namespace('Api')->group(function () {
     Route::apiResource('categories', 'CategoryController')->only(['index', 'show']);
     Route::apiResource('tags', 'TagController')->only(['index', 'show']);
     Route::apiResource('users.posts', 'UserPostController')->only('index');
-
 
     // Users
     Route::apiResource('users', 'UserController')->only(['index', 'show']);

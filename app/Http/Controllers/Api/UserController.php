@@ -9,18 +9,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UsersRequest;
-use App\Http\Resources\User as UserResource;
-use App\Models\User;
 use Hash;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UsersRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class UserController
- * @package App\Http\Controllers\Api
+ * Class UserController.
  */
 class UserController extends Controller
 {
@@ -61,7 +60,7 @@ class UserController extends Controller
 
         if ($request->filled('password')) {
             $request->merge([
-                'password' => Hash::make($request->input('password'))
+                'password' => Hash::make($request->input('password')),
             ]);
         }
 

@@ -2,5 +2,5 @@
 
 return [
     'topics' => 'Topics',
-    'home' => 'Home'
+    'home' => 'Home',
 ];

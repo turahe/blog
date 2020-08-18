@@ -2,30 +2,30 @@
 
 return [
 
-  'actions' => [
-    'save' => 'Simpan',
-    'update' => 'Perbaharui',
-    'back' => 'Kembali',
-    'generate' => 'Hasilkan',
-    'delete' => 'Hapus',
-    'add' => 'Tambah',
-  ],
+    'actions' => [
+        'save' => 'Simpan',
+        'update' => 'Perbaharui',
+        'back' => 'Kembali',
+        'generate' => 'Hasilkan',
+        'delete' => 'Hapus',
+        'add' => 'Tambah',
+    ],
 
-  'comments' => [
-    'delete' => 'Are you sure you want to delete this comment?'
-  ],
+    'comments' => [
+        'delete' => 'Are you sure you want to delete this comment?',
+    ],
 
-  'posts' => [
-    'delete' => 'Are you sure you want to delete this article?',
-    'delete_thumbnail' => "Are you sure you want to delete the image?"
-  ],
+    'posts' => [
+        'delete' => 'Are you sure you want to delete this article?',
+        'delete_thumbnail' => 'Are you sure you want to delete the image?',
+    ],
 
-  'tokens' => [
-    'generate' => 'Are you sure you want to generate a key? All of these APIs will be disconnected.',
-  ],
+    'tokens' => [
+        'generate' => 'Are you sure you want to generate a key? All of these APIs will be disconnected.',
+    ],
 
-  'media' => [
-    'delete' => 'Are you sure you want to delete this thumbnail?',
-  ],
+    'media' => [
+        'delete' => 'Are you sure you want to delete this thumbnail?',
+    ],
 
 ];

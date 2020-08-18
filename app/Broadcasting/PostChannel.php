@@ -6,8 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 
 /**
- * Class PostChannel
- * @package App\Broadcasting
+ * Class PostChannel.
  */
 class PostChannel
 {

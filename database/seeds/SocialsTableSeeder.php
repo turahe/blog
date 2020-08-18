@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\Social;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class SocialsTableSeeder extends Seeder
 {
@@ -19,7 +19,7 @@ class SocialsTableSeeder extends Seeder
                 'user_id' => 1,
                 'name' => $social['name'],
                 'url'=> $social['url'],
-                'text'=> $social['text']
+                'text'=> $social['text'],
             ]);
         }
 
@@ -29,7 +29,7 @@ class SocialsTableSeeder extends Seeder
                     'user_id' => 1,
                     'name' => $social['name'],
                     'url' => $social['url'],
-                    'text' => $social['text']
+                    'text' => $social['text'],
                 ]);
             }
         }

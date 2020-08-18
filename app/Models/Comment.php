@@ -9,18 +9,18 @@
 
 namespace App\Models;
 
-use App\Libraries\DateAttribute\DateAttributeTrait;
 use App\Libraries\Like\Likeable;
 use App\Libraries\Like\LikeInterface;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Libraries\DateAttribute\DateAttributeTrait;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * App\Models\Comment
+ * App\Models\Comment.
  *
  * @property int $id
  * @property int $user_id
@@ -92,7 +92,7 @@ class Comment extends Model implements LikeInterface
         'parent_id',
         'title',
         'content',
-        'published_at'
+        'published_at',
     ];
 
     /**
@@ -101,12 +101,11 @@ class Comment extends Model implements LikeInterface
      * @var array
      */
     protected $dates = [
-        'published_at'
+        'published_at',
     ];
 
-
     /**
-     * Return the comment's user
+     * Return the comment's user.
      *
      * @return BelongsTo
      */
@@ -117,7 +116,7 @@ class Comment extends Model implements LikeInterface
 
     /**
      * Return the comment's post
-     * Many to one polymorphic relationship between comments and post
+     * Many to one polymorphic relationship between comments and post.
      *
      * @return MorphTo
      */

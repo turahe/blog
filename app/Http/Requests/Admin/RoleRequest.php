@@ -7,13 +7,12 @@
  *  @name          RoleRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class RoleRequest extends FormRequest
 {
@@ -35,7 +34,7 @@ class RoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
         ];
     }
 }

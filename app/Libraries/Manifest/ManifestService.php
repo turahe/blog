@@ -10,8 +10,7 @@
 namespace App\Libraries\Manifest;
 
 /**
- * Class ManifestService
- * @package App\Libraries\Manifest
+ * Class ManifestService.
  */
 class ManifestService
 {
@@ -20,7 +19,7 @@ class ManifestService
      */
     public function generate(): array
     {
-        $basicManifest =  [
+        $basicManifest = [
             'name' => config('blog.manifest.name'),
             'short_name' => config('blog.manifest.short_name'),
             'start_url' => asset(config('blog.manifest.start_url')),
@@ -29,22 +28,23 @@ class ManifestService
             'background_color' => config('blog.manifest.background_color'),
             'orientation' =>  config('blog.manifest.orientation'),
             'status_bar' =>  config('blog.manifest.status_bar'),
-//            'splash' =>  config('blog.manifest.splash')
+            //            'splash' =>  config('blog.manifest.splash')
         ];
 
         foreach (config('blog.manifest.icons') as $size => $file) {
             $fileInfo = pathinfo($file['path']);
             $basicManifest['icons'][] = [
                 'src' => url($file['path']),
-                'type' => 'image/' . $fileInfo['extension'],
+                'type' => 'image/'.$fileInfo['extension'],
                 'sizes' => $size,
-                'purpose' => $file['purpose']
+                'purpose' => $file['purpose'],
             ];
         }
 
         foreach (config('blog.manifest.custom') as $tag => $value) {
             $basicManifest[$tag] = $value;
         }
+
         return $basicManifest;
     }
 }

@@ -13,8 +13,7 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Class CanBeAuthor
- * @package App\Rules
+ * Class CanBeAuthor.
  */
 class CanBeAuthor implements Rule
 {
@@ -27,6 +26,7 @@ class CanBeAuthor implements Rule
     public function passes($attribute, $value)
     {
         $author = User::find($value);
+
         return $author->canBeAuthor();
     }
 

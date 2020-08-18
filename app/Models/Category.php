@@ -10,20 +10,20 @@
 namespace App\Models;
 
 use App\Libraries\Slug\HasSlug;
-use App\Libraries\Slug\SlugOptions;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
+use App\Libraries\Slug\SlugOptions;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * App\Models\Category
+ * App\Models\Category.
  *
  * @property int $id
  * @property string $slug
@@ -82,7 +82,7 @@ class Category extends Model implements HasMedia
         'parent_id',
         'order_column',
         'subtitle',
-        'description'
+        'description',
     ];
 
     /**
@@ -105,9 +105,9 @@ class Category extends Model implements HasMedia
         if ($this->hasMedia('images')) {
             return $this->getFirstMediaUrl('images', 'cover');
         }
+
         return \Storage::url('img/categories/page.jpg');
     }
-
 
     /**
      * Get the route key for the model.
@@ -122,7 +122,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * Generate slug form from title field
+     * Generate slug form from title field.
      *
      * @return SlugOptions
      */
@@ -135,7 +135,7 @@ class Category extends Model implements HasMedia
 
     /**
      * Generate url category by
-     * call category->url
+     * call category->url.
      *
      * @return string|UrlGenerator
      */
@@ -145,7 +145,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * Category has children
+     * Category has children.
      *
      * @return HasMany
      */
@@ -156,7 +156,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * Count category if have children
+     * Count category if have children.
      *
      * @return bool
      */
@@ -189,7 +189,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * Parent of children
+     * Parent of children.
      *
      * @return BelongsTo
      */
@@ -199,7 +199,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * check if model has parent
+     * check if model has parent.
      *
      * @return bool
      */
@@ -209,7 +209,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * one to many polymorphic relation category model and other models
+     * one to many polymorphic relation category model and other models.
      *
      * @return HasMany
      */

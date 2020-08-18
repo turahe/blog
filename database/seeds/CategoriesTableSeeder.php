@@ -7,12 +7,12 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-use App\Libraries\Post\MarkdownParse\YamlFrontMatter;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use App\Libraries\Post\MarkdownParse\YamlFrontMatter;
 
 /**
- * Class CategoriesTableSeeder
+ * Class CategoriesTableSeeder.
  */
 class CategoriesTableSeeder extends Seeder
 {
@@ -37,7 +37,7 @@ class CategoriesTableSeeder extends Seeder
                 'order_column' => $index,
                 'title' => $content->title,
                 'subtitle' => is_string($content->subtitle) ? $content->subtitle : $content->subtitle,
-                'description' => $content->body()
+                'description' => $content->body(),
             ])->addMedia($image)
                 ->usingName($content->title)
                 ->preservingOriginal()
@@ -46,16 +46,15 @@ class CategoriesTableSeeder extends Seeder
         }
     }
 
-
     protected static function defaultCategories()
     {
         $path = 'contents/_pages/categories';
         $contents = dirToArray(storage_path($path));
         $data = [];
         foreach ($contents as $key => $content) {
-            $data[] = file_get_contents(storage_path($path. DIRECTORY_SEPARATOR .$content));
+            $data[] = file_get_contents(storage_path($path.DIRECTORY_SEPARATOR.$content));
         }
-        return  $data;
 
+        return  $data;
     }
 }

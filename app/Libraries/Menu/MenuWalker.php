@@ -7,14 +7,12 @@
  *  @name          MenuWalker.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Menu;
 
 /**
- * Class MenuWalker
- * @package App\Libraries\Menu
+ * Class MenuWalker.
  */
 class MenuWalker
 {
@@ -40,13 +38,10 @@ class MenuWalker
         $this->menu = $menu;
     }
 
-    /**
-     *
-     */
     public function generate()
     {
         $items = json_decode($this->menu->items, true);
-        if (!empty($items)) {
+        if (! empty($items)) {
             echo '<ul class="main-menu menu-generated">';
             $this->generateTree($items);
             echo '</ul>';
@@ -64,7 +59,7 @@ class MenuWalker
             $class = $item['class'] ?? '';
             $url = $item['url'] ?? '';
             $item['target'] = $item['target'] ?? '';
-            if (!isset($item['item_model'])) {
+            if (! isset($item['item_model'])) {
                 continue;
             }
             if (class_exists($item['item_model'])) {
@@ -80,24 +75,24 @@ class MenuWalker
                 $this->activeItems[] = $parentKey;
             }
 
-            if (!empty($item['children'])) {
+            if (! empty($item['children'])) {
                 ob_start();
                 $this->generateTree($item['children'], $depth + 1, $parentKey.'_'.$k);
                 $html = ob_get_clean();
                 if (in_array($parentKey.'_'.$k, $this->activeItems)) {
-                    $class.=' active ';
+                    $class .= ' active ';
                 }
             }
-            $class.=' depth-'.($depth);
+            $class .= ' depth-'.($depth);
             printf('<li class="%s">', $class);
-            if (!empty($item['children'])) {
+            if (! empty($item['children'])) {
                 $item['name'] .= ' <i class="fa fa-angle-down"></i>';
             }
             printf('<a  target="%s" href="%s" >%s</a>', $item['target'], $url, $item['name']);
-            if (!empty($item['children'])) {
+            if (! empty($item['children'])) {
                 echo '<ul class="children-menu menu-dropdown">';
                 echo $html;
-                echo "</ul>";
+                echo '</ul>';
             }
             echo '</li>';
         }
@@ -113,7 +108,7 @@ class MenuWalker
         if (trim($url, '/') == request()->path()) {
             return true;
         }
-        if (!static::$currentMenuItem) {
+        if (! static::$currentMenuItem) {
             return false;
         }
         if (empty($item['item_model'])) {
@@ -125,6 +120,7 @@ class MenuWalker
         if (is_object(static::$currentMenuItem) and get_class(static::$currentMenuItem) == $item['item_model'] && static::$currentMenuItem->id == $item['id']) {
             return true;
         }
+
         return false;
     }
 

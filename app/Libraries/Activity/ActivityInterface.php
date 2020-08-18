@@ -7,7 +7,6 @@
  *  @name          ActivityInterface.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Activity;

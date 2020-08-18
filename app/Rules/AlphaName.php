@@ -12,8 +12,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Class AlphaName
- * @package App\Rules
+ * Class AlphaName.
  */
 class AlphaName implements Rule
 {

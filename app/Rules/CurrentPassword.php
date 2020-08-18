@@ -13,8 +13,7 @@ use Hash;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Class CurrentPassword
- * @package App\Rules
+ * Class CurrentPassword.
  */
 class CurrentPassword implements Rule
 {

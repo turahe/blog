@@ -7,9 +7,7 @@
  *  @name          read-time.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
-
 
 return [
     'reads_left_to_right' => true,
@@ -17,5 +15,5 @@ return [
     'minute' => 'minute',
     'sec' => 'sec',
     'second' => 'second',
-    'read' => 'read'
+    'read' => 'read',
 ];

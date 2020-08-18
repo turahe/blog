@@ -7,7 +7,6 @@
  *  @name          Feed
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Instagram;
@@ -31,6 +30,7 @@ class Feed
         $api->setUserName($username);
 
         $feed = $api->getFeed();
+
         return $feed;
     }
 }

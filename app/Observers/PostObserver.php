@@ -9,12 +9,11 @@
 
 namespace App\Observers;
 
-use App\Models\Post;
 use Str;
+use App\Models\Post;
 
 /**
- * Class PostObserver
- * @package App\Observers
+ * Class PostObserver.
  */
 class PostObserver
 {

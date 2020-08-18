@@ -4,24 +4,22 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class Comment
+ * Class Comment.
  * @property int user_id
  * @property int post_id
  * @property mixed user
- * @property boolean approved
+ * @property bool approved
  * @property mixed published_at
  * @property mixed content
  * @property int id
  * @property string title
- * @package App\Http\Resources
  */
 class Comment extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
@@ -44,7 +42,7 @@ class Comment extends JsonResource
             'author_name' => $this->user->name,
             'author_url' => route('users.show', $this->user),
             'approved' => $this->approved,
-            'can_delete' => $user ? $user->can('delete', $this->resource) : false
+            'can_delete' => $user ? $user->can('delete', $this->resource) : false,
         ];
     }
 }

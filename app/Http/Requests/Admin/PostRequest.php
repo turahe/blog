@@ -7,18 +7,17 @@
  *  @name          PostRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class PostRequest
+ * Class PostRequest.
  * @property mixed publish_date
  * @property mixed publish_time
  * @property mixed subtitle
@@ -29,7 +28,6 @@ use Illuminate\Support\Facades\Auth;
  * @property mixed user
  * @property mixed meta_description
  * @property mixed is_draft
- * @package App\Http\Requests\Admin
  */
 class PostRequest extends FormRequest
 {
@@ -49,7 +47,7 @@ class PostRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'published_at' => Carbon::parse($this->input('published_at'))
+            'published_at' => Carbon::parse($this->input('published_at')),
         ]);
     }
 
@@ -78,6 +76,7 @@ class PostRequest extends FormRequest
         $published_at = new Carbon(
             $this->publish_date.' '.$this->publish_time
         );
+
         return [
             'title' => $this->title,
             'subtitle' => $this->subtitle,
@@ -86,9 +85,9 @@ class PostRequest extends FormRequest
             'category_id' => $this->category,
             'type' => $this->type ?: 'blog',
             'image' => $this->image,
-            'meta_description' => $this->meta_description ?: 'meta' .$this->title,
-            'is_draft' => (bool)$this->is_draft,
-            'published_at' => $published_at
+            'meta_description' => $this->meta_description ?: 'meta'.$this->title,
+            'is_draft' => (bool) $this->is_draft,
+            'published_at' => $published_at,
         ];
     }
 }

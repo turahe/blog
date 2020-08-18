@@ -9,27 +9,27 @@
 
 namespace App\Models;
 
-use App\Libraries\Slug\HasSlug;
-use App\Libraries\Slug\SlugOptions;
-use App\Libraries\Users\Avatar;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Translation\HasLocalePreference;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Image\Exceptions\InvalidManipulation;
+use App\Libraries\Slug\HasSlug;
+use App\Libraries\Users\Avatar;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Laravel\Passport\HasApiTokens;
+use App\Libraries\Slug\SlugOptions;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Image\Exceptions\InvalidManipulation;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
 /**
- * App\Models\User
+ * App\Models\User.
  *
  * @method static firstOrCreate(array $array)
  * @property int $id
@@ -103,7 +103,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'provider', 'provider_id', 'registered_at', 'api_token'
+        'name', 'email', 'password', 'provider', 'provider_id', 'registered_at', 'api_token',
     ];
 
     /**
@@ -112,7 +112,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
      * @var array
      */
     protected $dates = [
-        'registered_at'
+        'registered_at',
     ];
 
     /**
@@ -123,7 +123,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     protected $hidden = [
         'password', 'remember_token',
     ];
-
 
     /**
      * The attributes that should be cast to native types.
@@ -147,7 +146,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
             ->optimize()
             ->withResponsiveImages();
 
-
         $this->addMediaConversion('medium')
             ->width(180)
             ->height(180)
@@ -169,7 +167,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
             ->optimize()
             ->withResponsiveImages();
     }
-
 
     /**
      * @return SlugOptions
@@ -201,7 +198,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     }
 
     /**
-     * Get gravatar based username
+     * Get gravatar based username.
      *
      * @return null|string
      */
@@ -210,8 +207,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
         if ($this->getMedia('images')->count()) {
             return $this->getMedia('images')[0]->getUrl('x-small');
         }
+
         return Avatar::get($this);
     }
+
     /**
      * Return a unique personal access token.
      *
@@ -225,6 +224,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
 
         return $api_token;
     }
+
     /**
      * Scope a query to only include users registered last week.
      *
@@ -263,8 +263,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     }
 
     /**
-     *
-     * Check if the user can be an author
+     * Check if the user can be an author.
      *
      * @return bool
      */
@@ -274,7 +273,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     }
 
     /**
-     * Check if the user has role admin
+     * Check if the user has role admin.
      *
      * @return bool
      */
@@ -284,7 +283,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     }
 
     /**
-     * Check if the user has role editor
+     * Check if the user has role editor.
      *
      * @return bool
      */
@@ -296,7 +295,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     /**
      * One to one relationship
      * Relation user and profile
-     * example: $user->profile
+     * example: $user->profile.
      *
      * @return HasOne
      */
@@ -316,7 +315,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     /**
      * One to many between users and post
      * every users has many posts
-     * example: $user->posts
+     * example: $user->posts.
      *
      * @return HasMany
      */
@@ -326,7 +325,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
     }
 
     /**
-     * Return the user's comments
+     * Return the user's comments.
      *
      * @return HasMany
      */
@@ -335,11 +334,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, HasLoca
         return $this->hasMany(Comment::class, 'user_id');
     }
 
-
     /**
      * Return the user's likes
      * One to many between user's likes and like
-     * Example: user->likes
+     * Example: user->likes.
      *
      * @return HasMany
      */

@@ -9,15 +9,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\UsersRequest;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Http\Requests\UsersRequest;
+use Illuminate\Http\RedirectResponse;
 
 /**
- * Class UserController
- * @package App\Http\Controllers\Admin
+ * Class UserController.
  */
 final class UserController extends Controller
 {
@@ -29,6 +28,7 @@ final class UserController extends Controller
     public function index(): View
     {
         $users = User::all();
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -52,6 +52,7 @@ final class UserController extends Controller
     public function store(UsersRequest $request, User $user): RedirectResponse
     {
         $user->create($request->all());
+
         return redirect()
             ->back()
             ->with('success', 'New user was saved successfully');
@@ -78,7 +79,7 @@ final class UserController extends Controller
     {
         return view('admin.users.edit', [
             'user' => $user,
-            'roles' => Role::all()
+            'roles' => Role::all(),
         ]);
     }
 

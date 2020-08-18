@@ -7,7 +7,6 @@
  *  @name          Rate.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Models;
@@ -15,7 +14,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Rate
+ * App\Models\Rate.
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Rate newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Rate newQuery()

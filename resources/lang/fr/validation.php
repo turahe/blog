@@ -157,6 +157,6 @@ return [
         'thumbnail_id'          => 'Media de couverture',
     ],
 
-    'errors' => ":count erreur :|:count erreurs : "
+    'errors' => ':count erreur :|:count erreurs : ',
 
 ];

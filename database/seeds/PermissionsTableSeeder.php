@@ -12,7 +12,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\PermissionRegistrar;
 
 /**
- * Class PermissionsTableSeeder
+ * Class PermissionsTableSeeder.
  */
 class PermissionsTableSeeder extends Seeder
 {
@@ -30,7 +30,7 @@ class PermissionsTableSeeder extends Seeder
         foreach ($defaultPermission as $name => $description) {
             Permission::create([
                 'name' => $name,
-                'description' => $description
+                'description' => $description,
             ]);
         }
     }

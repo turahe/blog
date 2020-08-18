@@ -7,7 +7,6 @@
  *  @name          BaseRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests;
@@ -15,8 +14,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class BaseRequest
- * @package App\Http\Requests
+ * Class BaseRequest.
  */
 abstract class BaseRequest extends FormRequest
 {

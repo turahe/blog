@@ -6,7 +6,6 @@
  *  @modified    5/21/20, 11:18 PM
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Post;
@@ -21,6 +20,7 @@ trait ImageAttribute
         if ($this->hasMedia('images')) {
             return $this->getFirstMediaUrl('images', 'slider-index');
         }
+
         return asset('storage/images/default/not-found/slide-index.jpg');
     }
 
@@ -32,6 +32,7 @@ trait ImageAttribute
         if ($this->hasMedia('images')) {
             return $this->getFirstMediaUrl('images', 'slider-show');
         }
+
         return asset('storage/images/default/not-found/slide-show.jpg');
     }
 
@@ -43,6 +44,7 @@ trait ImageAttribute
         if ($this->hasMedia('images')) {
             return $this->getFirstMediaUrl('images', 'lg');
         }
+
         return asset('storage/images/default/not-found/lg.jpg');
     }
 
@@ -54,6 +56,7 @@ trait ImageAttribute
         if ($this->hasMedia('images')) {
             return $this->getFirstMediaUrl('images', 'sm');
         }
+
         return asset('storage/images/default/not-found/sm.jpg');
     }
 
@@ -65,6 +68,7 @@ trait ImageAttribute
         if ($this->hasMedia('images')) {
             return $this->getFirstMediaUrl('images', 'xs');
         }
+
         return asset('storage/images/default/not-found/xs.jpg');
     }
 }

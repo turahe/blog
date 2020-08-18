@@ -9,17 +9,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Comment;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Comment as CommentResource;
-use App\Models\Comment;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Http\Response;
 
 /**
- * Class CommentController
- * @package App\Http\Controllers\Api
+ * Class CommentController.
  */
 class CommentController extends Controller
 {

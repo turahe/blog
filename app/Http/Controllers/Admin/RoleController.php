@@ -9,14 +9,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\RoleRequest;
 use App\Models\Role;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Admin\RoleRequest;
 
 /**
- * Class RoleController
- * @package App\Http\Controllers\Admin
+ * Class RoleController.
  */
 final class RoleController extends Controller
 {
@@ -25,9 +24,10 @@ final class RoleController extends Controller
      *
      * @return View
      */
-    public function index():View
+    public function index(): View
     {
         $roles = Role::all();
+
         return view('admin.roles.index', compact('roles'));
     }
 
@@ -51,11 +51,11 @@ final class RoleController extends Controller
     public function store(RoleRequest $request, Role $role): RedirectResponse
     {
         $role->create($request->all());
+
         return redirect()
             ->back()
             ->with('success', 'New Role successfully');
     }
-
 
     /**
      * Show the form for editing the specified resource.

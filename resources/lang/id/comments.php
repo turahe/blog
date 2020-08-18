@@ -21,6 +21,6 @@ return [
     ],
 
     'placeholder' => [
-        'content' => 'Komentar Anda'
-    ]
+        'content' => 'Komentar Anda',
+    ],
 ];

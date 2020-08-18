@@ -12,8 +12,7 @@ namespace App\Libraries\Post\MarkdownParse;
 use Illuminate\Support\Arr;
 
 /**
- * Class Document
- * @package App\Libraries\Post\MarkdownParse
+ * Class Document.
  */
 class Document
 {
@@ -54,7 +53,7 @@ class Document
     /**
      * @return string
      */
-    public function body() : string
+    public function body(): string
     {
         return $this->body;
     }

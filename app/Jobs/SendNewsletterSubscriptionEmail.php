@@ -9,18 +9,17 @@
 
 namespace App\Jobs;
 
-use App\Mail\Newsletter;
+use Mail;
 use App\Models\Post;
+use App\Mail\Newsletter;
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Mail;
 
 /**
- * Class SendNewsletterSubscriptionEmail
- * @package App\Jobs
+ * Class SendNewsletterSubscriptionEmail.
  */
 class SendNewsletterSubscriptionEmail implements ShouldQueue
 {
@@ -46,7 +45,7 @@ class SendNewsletterSubscriptionEmail implements ShouldQueue
      *
      * @return void
      */
-    public function handle() : void
+    public function handle(): void
     {
         $posts = Post::lastMonth()->get();
         $email = $this->email;

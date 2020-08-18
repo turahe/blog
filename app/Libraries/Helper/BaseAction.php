@@ -6,7 +6,6 @@
  *  @modified    5/7/20, 8:33 PM
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Helper;
@@ -19,10 +18,12 @@ abstract class BaseAction
      * @var array
      */
     protected $listeners = null;
+
     public function __construct()
     {
         $this->listeners = collect([]);
     }
+
     /**
      * Adds a listener.
      *
@@ -41,8 +42,10 @@ abstract class BaseAction
             'priority'  => $priority,
             'arguments' => $arguments,
         ]);
+
         return $this;
     }
+
     /**
      * Removes a listener.
      *
@@ -63,6 +66,7 @@ abstract class BaseAction
                 });
         }
     }
+
     /**
      * Remove all listeners with given hook in collection. If no hook, clear all listeners.
      *
@@ -81,6 +85,7 @@ abstract class BaseAction
             $this->listeners = collect([]);
         }
     }
+
     /**
      * Gets a sorted list of all listeners.
      *
@@ -95,6 +100,7 @@ abstract class BaseAction
         // });
         return $this->listeners->sortBy('priority');
     }
+
     /**
      * Gets the function.
      *
@@ -102,12 +108,12 @@ abstract class BaseAction
      *
      * @throws
      * @return mixed A closure, an array if "class@method" or a string if "function_name"
-     *
      */
     protected function getFunction($callback)
     {
         if (is_string($callback) && strpos($callback, '@')) {
             $callback = explode('@', $callback);
+
             return [app('\\'.$callback[0]), $callback[1]];
         }
         if (is_callable($callback)) {
@@ -115,6 +121,7 @@ abstract class BaseAction
         }
         throw new \Exception('$callback is not a Callable', 1);
     }
+
     /**
      * Fires a new action.
      *

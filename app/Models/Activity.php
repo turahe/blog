@@ -10,14 +10,14 @@
 namespace App\Models;
 
 use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity as Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * App\Models\Activity
+ * App\Models\Activity.
  *
  * @property int $id
  * @property null|string $log_name

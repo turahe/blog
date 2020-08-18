@@ -6,7 +6,6 @@
  *  @modified    5/7/20, 8:34 PM
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Helper;
@@ -14,6 +13,7 @@ namespace App\Libraries\Helper;
 class FilterManager extends BaseAction
 {
     protected $value = '';
+
     /**
      * Filters a value.
      *
@@ -26,7 +26,7 @@ class FilterManager extends BaseAction
     {
         $this->value = isset($args[0]) ? $args[0] : ''; // get the value, the first argument is always the value
         if ($this->getListeners()) {
-            $this->getListeners()->where('hook', $action)->each(function ($listener) use ($action, $args) {
+            $this->getListeners()->where('hook', $action)->each(function ($listener) use ($args) {
                 $parameters = [];
                 $args[0] = $this->value;
                 for ($i = 0; $i < $listener['arguments']; $i++) {
@@ -36,6 +36,7 @@ class FilterManager extends BaseAction
                 $this->value = call_user_func_array($this->getFunction($listener['callback']), $parameters);
             });
         }
+
         return $this->value;
     }
 }

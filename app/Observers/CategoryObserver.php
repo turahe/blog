@@ -9,12 +9,11 @@
 
 namespace App\Observers;
 
-use App\Models\Category;
 use Str;
+use App\Models\Category;
 
 /**
- * Class CategoryObserver
- * @package App\Observers
+ * Class CategoryObserver.
  */
 class CategoryObserver
 {

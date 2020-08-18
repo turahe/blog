@@ -69,39 +69,39 @@ return [
     'socials' => [
         [
             'name' => 'facebook',
-            'url'=> 'https://facebook.com/' .env('SOCIAL_FACEBOOK', null),
+            'url'=> 'https://facebook.com/'.env('SOCIAL_FACEBOOK', null),
             'text' => 'LIKE ME ON',
         ],
         [
             'name' => 'instagram',
-            'url'=> 'https://instagram.com/' .env('SOCIAL_INSTAGRAM', null),
+            'url'=> 'https://instagram.com/'.env('SOCIAL_INSTAGRAM', null),
             'text' => 'FOLLOW ME',
         ],
         [
             'name' => 'linkedin',
-            'url'=> 'https://instagram.com/' .env('SOCIAL_LINKEDIN', null),
+            'url'=> 'https://instagram.com/'.env('SOCIAL_LINKEDIN', null),
             'text' => 'FOLLOW ME',
         ],
         [
             'name' => 'behance',
-            'url'=> 'https://behance.net/' .env('SOCIAL_BEHANCE', null),
+            'url'=> 'https://behance.net/'.env('SOCIAL_BEHANCE', null),
             'text' => 'FOLLOW ME',
         ],
         [
             'name' => 'twitter',
-            'url'=> 'https://twitter.com/' .env('SOCIAL_TWITTER', null),
+            'url'=> 'https://twitter.com/'.env('SOCIAL_TWITTER', null),
             'text' => 'FOLLOW ME',
         ],
         [
             'name' => 'github',
-            'url'=> 'https://github.com/' .env('SOCIAL_GITHUB', null),
+            'url'=> 'https://github.com/'.env('SOCIAL_GITHUB', null),
             'text' => 'FOLLOW ME',
         ],
         [
             'name' => 'youtube',
-            'url'=> 'https://youtube.com/' .env('SOCIAL_YOUTUBE', 'turahe'),
+            'url'=> 'https://youtube.com/'.env('SOCIAL_YOUTUBE', 'turahe'),
             'text' => 'SUBSCRIBE',
-        ]
+        ],
     ],
 
     /*
@@ -120,7 +120,7 @@ return [
         'address' =>[
             'city' => 'Sydney',
             'street' => '6 rip carl Avenue CA 90733',
-        ]
+        ],
     ],
 
     /*
@@ -146,35 +146,35 @@ return [
         'icons' => [
             '72x72' => [
                 'path' => '/images/icons/icon-72x72.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
             '96x96' => [
                 'path' => '/images/icons/icon-96x96.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
             '128x128' => [
                 'path' => '/images/icons/icon-128x128.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
             '144x144' => [
                 'path' => '/images/icons/icon-144x144.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
             '152x152' => [
                 'path' => '/images/icons/icon-152x152.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
             '192x192' => [
                 'path' => '/images/icons/icon-192x192.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
             '384x384' => [
                 'path' => '/images/icons/icon-384x384.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
             '512x512' => [
                 'path' => '/images/icons/icon-512x512.png',
-                'purpose' => 'any'
+                'purpose' => 'any',
             ],
         ],
         'splash' => [
@@ -189,7 +189,7 @@ return [
             '1668x2388' => '/images/icons/splash-1668x2388.png',
             '2048x2732' => '/images/icons/splash-2048x2732.png',
         ],
-        'custom' => []
+        'custom' => [],
     ],
 
     /*

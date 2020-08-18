@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * App\Models\Profile
+ * App\Models\Profile.
  *
  * @property int $id
  * @property int $user_id
@@ -71,7 +71,7 @@ class Profile extends Model
     }
 
     /**
-     * Return the profile's user
+     * Return the profile's user.
      *
      * @return BelongsTo
      */

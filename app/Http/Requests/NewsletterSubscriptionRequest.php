@@ -7,14 +7,12 @@
  *  @name          NewsletterSubscriptionRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests;
 
 class NewsletterSubscriptionRequest extends BaseRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

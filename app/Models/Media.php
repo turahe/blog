@@ -6,7 +6,7 @@ use App\Libraries\Tag\HasTags;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as Model;
 
 /**
- * App\Models\Media
+ * App\Models\Media.
  *
  * @property int $id
  * @property string $model_type

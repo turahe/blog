@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class Post
+ * Class Post.
  * @property mixed user_id
  * @property mixed published_at
  * @property mixed content
@@ -20,7 +20,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed content_html
  * @property mixed thumbnail
  * @property mixed cover
- * @package App\Http\Resources
  */
 class Post extends JsonResource
 {
@@ -41,13 +40,13 @@ class Post extends JsonResource
             'content' => $this->content_html,
             'published_at' => $this->published_at,
             'time_humanize' => $this->published_at->diffForHumans(),
-//            'category' => $this->category->title,
-//            'author' => $this->user->name,
-//            'avatar' => $this->user->avatar,
-//            'comments_count' => $this->comments_count ?? $this->comments()->count(),
-//            'likes_count' => $this->likes_count ?? $this->likes()->count(),
-//            'image_thumbnail' => $this->thumbnail,
-//            'image_cover' => $this->cover
+            //            'category' => $this->category->title,
+            //            'author' => $this->user->name,
+            //            'avatar' => $this->user->avatar,
+            //            'comments_count' => $this->comments_count ?? $this->comments()->count(),
+            //            'likes_count' => $this->likes_count ?? $this->likes()->count(),
+            //            'image_thumbnail' => $this->thumbnail,
+            //            'image_cover' => $this->cover
         ];
     }
 }

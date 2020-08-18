@@ -27,7 +27,7 @@ class Categories extends Component
     public function render()
     {
         return view('blog.components.categories', [
-            'categories' => $this->category
+            'categories' => $this->category,
         ]);
     }
 }

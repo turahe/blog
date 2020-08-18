@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * App\Models\Social
+ * App\Models\Social.
  *
  * @property int $id
  * @property int $user_id
@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Social extends Model
 {
     /**
-     * Return the socials's user
+     * Return the socials's user.
      *
      * @return BelongsTo
      */

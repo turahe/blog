@@ -9,12 +9,11 @@
 
 namespace App\Libraries\Slug;
 
-use Illuminate\Database\Eloquent\Model;
 use Str;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Traits HasSlug
- * @package App\Libraries\Slug
+ * Traits HasSlug.
  */
 trait HasSlug
 {
@@ -28,9 +27,6 @@ trait HasSlug
      */
     abstract public function getSlugOptions(): SlugOptions;
 
-    /**
-     *
-     */
     protected static function bootHasSlug()
     {
         static::creating(function (Model $model) {
@@ -42,7 +38,6 @@ trait HasSlug
     }
 
     /**
-     *
      * @throws InvalidOption
      */
     protected function generateSlugOnCreate()
@@ -55,7 +50,6 @@ trait HasSlug
     }
 
     /**
-     *
      * @throws InvalidOption
      */
     protected function generateSlugOnUpdate()
@@ -68,7 +62,6 @@ trait HasSlug
     }
 
     /**
-     *
      * @throws InvalidOption
      */
     public function generateSlug()
@@ -78,7 +71,6 @@ trait HasSlug
     }
 
     /**
-     *
      * @throws InvalidOption
      */
     protected function addSlug()
@@ -101,6 +93,7 @@ trait HasSlug
         if ($this->hasCustomSlugBeenUsed() && ! empty($this->$slugField)) {
             return $this->$slugField;
         }
+
         return Str::slug($this->getSlugSourceString(), $this->slugOptions->slugSeparator, $this->slugOptions->slugLanguage);
     }
 
@@ -110,6 +103,7 @@ trait HasSlug
     protected function hasCustomSlugBeenUsed(): bool
     {
         $slugField = $this->slugOptions->slugField;
+
         return $this->getOriginal($slugField) != $this->$slugField;
     }
 
@@ -120,13 +114,15 @@ trait HasSlug
     {
         if (is_callable($this->slugOptions->generateSlugFrom)) {
             $slugSourceString = call_user_func($this->slugOptions->generateSlugFrom, $this);
+
             return substr($slugSourceString, 0, $this->slugOptions->maximumLength);
         }
         $slugSourceString = collect($this->slugOptions->generateSlugFrom)
-            ->map(function (string $fieldName) : string {
+            ->map(function (string $fieldName): string {
                 return data_get($this, $fieldName, '');
             })
             ->implode($this->slugOptions->slugSeparator);
+
         return substr($slugSourceString, 0, $this->slugOptions->maximumLength);
     }
 
@@ -141,6 +137,7 @@ trait HasSlug
         while ($this->otherRecordExistsWithSlug($slug) || $slug === '') {
             $slug = $originalSlug.$this->slugOptions->slugSeparator.$i++;
         }
+
         return $slug;
     }
 
@@ -154,6 +151,7 @@ trait HasSlug
         if ($this->incrementing) {
             $key = $key ?? '0';
         }
+
         return static::where($this->slugOptions->slugField, $slug)
             ->where($this->getKeyName(), '!=', $key)
             ->withoutGlobalScopes()
@@ -161,7 +159,6 @@ trait HasSlug
     }
 
     /**
-     *
      * @throws InvalidOption
      */
     protected function ensureValidSlugOptions()

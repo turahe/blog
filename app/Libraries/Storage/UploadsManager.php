@@ -7,14 +7,13 @@
  *  @name          UploadsManager.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Storage;
 
 use Carbon\Carbon;
-use Dflydev\ApacheMimeTypes\PhpRepository;
 use Illuminate\Support\Facades\Storage;
+use Dflydev\ApacheMimeTypes\PhpRepository;
 
 class UploadsManager
 {
@@ -28,7 +27,7 @@ class UploadsManager
     }
 
     /**
-     * Return files and directories within a folder
+     * Return files and directories within a folder.
      *
      * @param string $folder
      * @return array of [
@@ -68,17 +67,17 @@ class UploadsManager
     }
 
     /**
-     * Sanitize the folder name
+     * Sanitize the folder name.
      * @param $folder
      * @return string
      */
     protected function cleanFolder($folder)
     {
-        return '/' . trim(str_replace('..', '', $folder), '/');
+        return '/'.trim(str_replace('..', '', $folder), '/');
     }
 
     /**
-     * Return breadcrumbs to current folder
+     * Return breadcrumbs to current folder.
      * @param $folder
      * @return string[]
      */
@@ -102,13 +101,13 @@ class UploadsManager
     }
 
     /**
-     * Return an array of file details for a file
+     * Return an array of file details for a file.
      * @param $path
      * @return array
      */
     protected function fileDetails($path)
     {
-        $path = '/' . ltrim($path, '/');
+        $path = '/'.ltrim($path, '/');
 
         return [
             'name' => basename($path),
@@ -121,19 +120,20 @@ class UploadsManager
     }
 
     /**
-     * Return the full web path to a file
+     * Return the full web path to a file.
      * @param $path
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
      */
     public function fileWebpath($path)
     {
-        $path = rtrim(config('blog.uploads.webpath'), '/') . '/' .
+        $path = rtrim(config('blog.uploads.webpath'), '/').'/'.
             ltrim($path, '/');
+
         return url($path);
     }
 
     /**
-     * Return the mime type
+     * Return the mime type.
      * @param $path
      * @return
      */
@@ -145,7 +145,7 @@ class UploadsManager
     }
 
     /**
-     * Return the file size
+     * Return the file size.
      * @param $path
      * @return int
      */
@@ -155,7 +155,7 @@ class UploadsManager
     }
 
     /**
-     * Return the last modified time
+     * Return the last modified time.
      * @param $path
      * @return Carbon
      */
@@ -167,7 +167,7 @@ class UploadsManager
     }
 
     /**
-     * Create a new directory
+     * Create a new directory.
      * @param $folder
      * @return bool|string
      */
@@ -183,7 +183,7 @@ class UploadsManager
     }
 
     /**
-     * Delete a directory
+     * Delete a directory.
      * @param $folder
      * @return bool|string
      */
@@ -196,14 +196,14 @@ class UploadsManager
             $this->disk->files($folder)
         );
         if (! empty($filesFolders)) {
-            return "Directory must be empty to delete it.";
+            return 'Directory must be empty to delete it.';
         }
 
         return $this->disk->deleteDirectory($folder);
     }
 
     /**
-     * Delete a file
+     * Delete a file.
      * @param $path
      * @return bool|string
      */
@@ -212,14 +212,14 @@ class UploadsManager
         $path = $this->cleanFolder($path);
 
         if (! $this->disk->exists($path)) {
-            return "File does not exist.";
+            return 'File does not exist.';
         }
 
         return $this->disk->delete($path);
     }
 
     /**
-     * Save a file
+     * Save a file.
      * @param $path
      * @param $content
      * @return bool|string
@@ -229,7 +229,7 @@ class UploadsManager
         $path = $this->cleanFolder($path);
 
         if ($this->disk->exists($path)) {
-            return "File already exists.";
+            return 'File already exists.';
         }
 
         return $this->disk->put($path, $content);

@@ -7,7 +7,6 @@
  *  @name          HookManager.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Helper;
@@ -28,6 +27,7 @@ class HookManager
      * @var FilterManager
      */
     protected $filter;
+
     /**
      * Construct the class.
      */
@@ -36,6 +36,7 @@ class HookManager
         $this->action = new ActionManager();
         $this->filter = new FilterManager();
     }
+
     /**
      * Get the action instance.
      *
@@ -45,6 +46,7 @@ class HookManager
     {
         return $this->action;
     }
+
     /**
      * Get the action instance.
      *
@@ -54,6 +56,7 @@ class HookManager
     {
         return $this->filter;
     }
+
     /**
      * Add an action.
      *
@@ -66,6 +69,7 @@ class HookManager
     {
         $this->action->listen($hook, $callback, $priority, $arguments);
     }
+
     /**
      * Remove an action.
      *
@@ -77,6 +81,7 @@ class HookManager
     {
         $this->action->remove($hook, $callback, $priority);
     }
+
     /**
      * Remove all actions.
      *
@@ -86,6 +91,7 @@ class HookManager
     {
         $this->action->removeAll($hook);
     }
+
     /**
      * Adds a filter.
      *
@@ -98,6 +104,7 @@ class HookManager
     {
         $this->filter->listen($hook, $callback, $priority, $arguments);
     }
+
     /**
      * Remove a filter.
      *
@@ -109,6 +116,7 @@ class HookManager
     {
         $this->filter->remove($hook, $callback, $priority);
     }
+
     /**
      * Remove all filters.
      *
@@ -118,6 +126,7 @@ class HookManager
     {
         $this->filter->removeAll($hook);
     }
+
     /**
      * Set a new action.
      *
@@ -155,14 +164,16 @@ class HookManager
         $hook = $args[0];
         unset($args[0]);
         $args = array_values($args);
+
         return $this->filter->fire($hook, $args);
     }
 
     public static function inst()
     {
-        if (!self::$inst) {
+        if (! self::$inst) {
             self::$inst = new self();
         }
+
         return self::$inst;
     }
 }

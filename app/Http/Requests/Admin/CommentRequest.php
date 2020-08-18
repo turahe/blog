@@ -7,14 +7,13 @@
  *  @name          CommentRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CommentRequest extends FormRequest
 {
@@ -34,7 +33,7 @@ class CommentRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'published_at' => Carbon::parse($this->input('published_at'))
+            'published_at' => Carbon::parse($this->input('published_at')),
         ]);
     }
 
@@ -47,8 +46,8 @@ class CommentRequest extends FormRequest
     {
         return [
             'content' => 'required',
-            'published_at' => 'required|after_or_equal:' . $this->comment->post->published_at,
-            'user_id' => 'required|exists:users,id'
+            'published_at' => 'required|after_or_equal:'.$this->comment->post->published_at,
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }

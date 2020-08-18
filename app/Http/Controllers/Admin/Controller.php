@@ -7,20 +7,18 @@
  *  @name          Controller.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 /**
- * Class Controller
- * @package App\Http\Controllers
+ * Class Controller.
  */
 abstract class Controller extends BaseController
 {
@@ -41,7 +39,7 @@ abstract class Controller extends BaseController
     public function checkPermission($permission = false)
     {
         if ($permission) {
-            if (!Auth::id() or !Auth::user()->hasPermissionTo($permission)) {
+            if (! Auth::id() or ! Auth::user()->hasPermissionTo($permission)) {
                 abort(403);
             }
         }

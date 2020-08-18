@@ -9,13 +9,12 @@
 
 namespace App\Policies;
 
-use App\Models\Comment;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
- * Class CommentPolicy
- * @package App\Policies
+ * Class CommentPolicy.
  */
 class CommentPolicy
 {

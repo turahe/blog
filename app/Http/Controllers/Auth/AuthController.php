@@ -9,17 +9,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
 use Auth;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\RedirectResponse;
 use Socialite;
+use App\Models\User;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class AuthController
- * @package App\Http\Controllers\Auth
+ * Class AuthController.
  */
 class AuthController extends Controller
 {
@@ -58,7 +57,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Return user if exists; create and return if doesn't
+     * Return user if exists; create and return if doesn't.
      *
      * @param $user
      * @param $provider
@@ -76,7 +75,7 @@ class AuthController extends Controller
             'name' => $user->name ?? $user->email,
             'email' => $user->email,
             'provider' => $provider,
-            'provider_id' => $user->id
+            'provider_id' => $user->id,
         ]);
     }
 }

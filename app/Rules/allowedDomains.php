@@ -12,8 +12,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Class allowedDomains
- * @package App\Rules
+ * Class allowedDomains.
  */
 class allowedDomains implements Rule
 {
@@ -34,10 +33,11 @@ class allowedDomains implements Rule
      */
     public function passes($attribute, $value)
     {
-        $domain = substr(strrchr($value, "@"), 1);
+        $domain = substr(strrchr($value, '@'), 1);
         if (in_array($domain, $this->allowedDomains)) {
             return true;
         }
+
         return false;
     }
 

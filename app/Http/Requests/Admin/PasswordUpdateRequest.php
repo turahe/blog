@@ -7,20 +7,18 @@
  *  @name          PasswordUpdateRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
 use Hash;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class PasswordUpdateRequest
+ * Class PasswordUpdateRequest.
  * @property mixed password_current
- * @package App\Http\Requests\Admin
  */
 class PasswordUpdateRequest extends FormRequest
 {
@@ -43,7 +41,7 @@ class PasswordUpdateRequest extends FormRequest
     {
         return [
             'password_current' => 'required',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
         ];
     }
 

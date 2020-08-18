@@ -7,14 +7,14 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-use App\Models\Profile;
-use App\Models\Social;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Social;
+use App\Models\Profile;
 use Illuminate\Database\Seeder;
 
 /**
- * Class UsersTableSeeder
+ * Class UsersTableSeeder.
  */
 class UsersTableSeeder extends Seeder
 {
@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
                 'api_token' => Str::random(32),
                 'registered_at' => now(),
             ])->assignRole('admin')
-                ->addMedia(storage_path('contents/assets/img/users/user-' . $index . '.png'))
+                ->addMedia(storage_path('contents/assets/img/users/user-'.$index.'.png'))
                 ->preservingOriginal()
                 ->withResponsiveImages()
                 ->usingName($user['name'])
@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
     }
 
     /**
-     * Seed default users
+     * Seed default users.
      *
      * @return array
      */
@@ -62,74 +62,74 @@ class UsersTableSeeder extends Seeder
         return [
 
             [
-                'name' => "Nur Wachid",
+                'name' => 'Nur Wachid',
                 'email' => 'wachid@outlook.com',
 
             ],
             [
-                'name' => "Admin",
-                'email' => 'admin@example.com'
+                'name' => 'Admin',
+                'email' => 'admin@example.com',
             ],
             [
-                'name' => "User",
-                'email' => "user@example.com"
+                'name' => 'User',
+                'email' => 'user@example.com',
             ],
             [
                 'name' => 'Costumer Service',
-                'email' => 'costumer-service@example.com'
+                'email' => 'costumer-service@example.com',
             ],
             [
                 'name' => 'manager',
-                'email' => 'manager@example.com'
+                'email' => 'manager@example.com',
             ],
             [
                 'name' => 'Master',
-                'email' => 'master@example.com'
+                'email' => 'master@example.com',
             ],
             [
                 'name' => 'Administrator',
-                'email' => 'administrator@example.com'
+                'email' => 'administrator@example.com',
             ],
             [
                 'name' => 'Agent',
-                'email' => 'agent@example.com'
+                'email' => 'agent@example.com',
             ],
             [
                 'name' => 'no replay',
-                'email' => 'noreplay@example.com'
+                'email' => 'noreplay@example.com',
             ],
             [
                 'name' => 'Dev',
-                'email' => 'dev@example.com'
+                'email' => 'dev@example.com',
             ],
             [
                 'name' => 'Developer',
-                'email' => 'developer@example.com'
+                'email' => 'developer@example.com',
             ],
             [
                 'name' => 'Guest',
-                'email' => 'guest@example.com'
+                'email' => 'guest@example.com',
             ],
             [
                 'name' => 'User Manager',
-                'email' => 'user.manager@example.com'
+                'email' => 'user.manager@example.com',
             ],
             [
                 'name' => 'Media',
-                'email' => 'media@example.com'
+                'email' => 'media@example.com',
             ],
             [
                 'name' => 'Role',
-                'email' => 'role@example.com'
+                'email' => 'role@example.com',
             ],
             [
                 'name' => 'Permission',
-                'email' => 'permission@example.com'
+                'email' => 'permission@example.com',
             ],
             [
                 'name' => 'Email',
-                'email' => 'email@example.com'
-            ]
+                'email' => 'email@example.com',
+            ],
         ];
     }
 }

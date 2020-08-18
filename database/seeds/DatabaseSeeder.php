@@ -10,7 +10,7 @@
 use Illuminate\Database\Seeder;
 
 /**
- * Class DatabaseSeeder
+ * Class DatabaseSeeder.
  */
 class DatabaseSeeder extends Seeder
 {
@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             CategoriesTableSeeder::class,
             PostsTableSeeder::class,
             TagsTableSeeder::class,
-//            LikesTableSeeder::class,
+            //            LikesTableSeeder::class,
             ContactsUsTableSeeder::class,
             NewsletterSubscriptionTableSeeder::class,
 

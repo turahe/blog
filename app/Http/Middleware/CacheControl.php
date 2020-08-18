@@ -6,8 +6,7 @@ use Closure;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class CacheControl
- * @package App\Http\Middleware
+ * Class CacheControl.
  */
 class CacheControl
 {

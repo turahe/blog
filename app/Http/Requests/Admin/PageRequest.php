@@ -7,13 +7,12 @@
  *  @name          PageRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class PageRequest extends FormRequest
 {
@@ -55,7 +54,7 @@ class PageRequest extends FormRequest
             'type' => 'page',
             'meta_description' => $this->title,
             'is_draft' => false,
-            'published_at' => now()
+            'published_at' => now(),
         ];
     }
 }

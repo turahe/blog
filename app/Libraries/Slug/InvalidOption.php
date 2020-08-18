@@ -12,8 +12,7 @@ namespace App\Libraries\Slug;
 use Exception;
 
 /**
- * Class InvalidOption
- * @package App\Libraries\Slug
+ * Class InvalidOption.
  */
 class InvalidOption extends Exception
 {

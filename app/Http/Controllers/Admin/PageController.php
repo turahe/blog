@@ -9,14 +9,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\PageRequest;
+use Illuminate\View\View;
 use App\Models\Post as Page;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use App\Http\Requests\Admin\PageRequest;
 
 /**
- * Class PageController
- * @package App\Http\Controllers\Admin
+ * Class PageController.
  */
 final class PageController extends Controller
 {
@@ -29,7 +28,7 @@ final class PageController extends Controller
     {
         return view('admin.pages.index', [
             'pages' => Page::whereType('page')
-                ->get()
+                ->get(),
         ]);
     }
 
@@ -99,7 +98,6 @@ final class PageController extends Controller
                 ->back()
                 ->with('success', 'Post saved.');
         }
-
 
         return redirect()
             ->route('admin.pages.index')

@@ -9,15 +9,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\TagRequest;
 use App\Models\Tag;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Arr;
 use Illuminate\View\View;
+use Illuminate\Support\Arr;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Admin\TagRequest;
 
 /**
- * Class TagController
- * @package App\Http\Controllers\Admin
+ * Class TagController.
  */
 final class TagController extends Controller
 {
@@ -28,6 +27,7 @@ final class TagController extends Controller
         'meta_description' => '',
         'layout' => 'blog.layouts.index',
     ];
+
     /**
      * Display a listing of the resource.
      *
@@ -36,15 +36,17 @@ final class TagController extends Controller
     public function index(): View
     {
         $data = [
-            'tags' => Tag::all()
+            'tags' => Tag::all(),
         ];
         foreach ($this->fields as $field => $default) {
             $data[$field] = old($field, $default);
         }
+
         return view('admin.tags.index', $data);
     }
+
     /**
-     * Show form for creating new tag
+     * Show form for creating new tag.
      */
     public function create()
     {
@@ -70,13 +72,14 @@ final class TagController extends Controller
             $tag->$field = $request->get($field);
         }
         $tag->save();
+
         return redirect()
             ->back()
             ->with('success', 'Tag was saved successfully');
     }
 
     /**
-     * Show the form for editing a tag
+     * Show the form for editing a tag.
      *
      * @param Tag $tag
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|View
@@ -91,7 +94,6 @@ final class TagController extends Controller
 
         return view('admin.tag.edit', $data);
     }
-
 
     /**
      * Update the specified resource in storage.

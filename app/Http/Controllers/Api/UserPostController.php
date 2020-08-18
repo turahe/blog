@@ -9,15 +9,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Post as PostResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Post as PostResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class UserPostController
- * @package App\Http\Controllers\Api
+ * Class UserPostController.
  */
 class UserPostController extends Controller
 {

@@ -9,15 +9,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Comment as CommentResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Comment as CommentResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
- * Class UserCommentController
- * @package App\Http\Controllers\Api
+ * Class UserCommentController.
  */
 class UserCommentController extends Controller
 {

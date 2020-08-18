@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\UploadFileRequest;
-use App\Http\Requests\Admin\UploadNewFolderRequest;
-use App\Libraries\Storage\UploadsManager;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
+use App\Libraries\Storage\UploadsManager;
+use App\Http\Requests\Admin\UploadFileRequest;
+use App\Http\Requests\Admin\UploadNewFolderRequest;
 
 /**
- * Class UploadController
- * @package App\Http\Controllers\Admin
+ * Class UploadController.
  */
 class UploadController extends Controller
 {
@@ -32,7 +31,7 @@ class UploadController extends Controller
     }
 
     /**
-     * Show page of files / subfolders
+     * Show page of files / subfolders.
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -45,7 +44,7 @@ class UploadController extends Controller
     }
 
     /**
-     * Create a new folder
+     * Create a new folder.
      * @param UploadNewFolderRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -62,14 +61,15 @@ class UploadController extends Controller
                 ->withSuccess("Folder '$new_folder' created.");
         }
 
-        $error = $result ? : "An error occurred creating directory.";
+        $error = $result ?: 'An error occurred creating directory.';
+
         return redirect()
             ->back()
             ->withErrors([$error]);
     }
 
     /**
-     * Delete a file
+     * Delete a file.
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -86,14 +86,15 @@ class UploadController extends Controller
                 ->withSuccess("File '$del_file' deleted.");
         }
 
-        $error = $result ? : "An error occurred deleting file.";
+        $error = $result ?: 'An error occurred deleting file.';
+
         return redirect()
             ->back()
             ->withErrors([$error]);
     }
 
     /**
-     * Delete a folder
+     * Delete a folder.
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -110,14 +111,15 @@ class UploadController extends Controller
                 ->withSuccess("Folder '$del_folder' deleted.");
         }
 
-        $error = $result ? : "An error occurred deleting directory.";
+        $error = $result ?: 'An error occurred deleting directory.';
+
         return redirect()
             ->back()
             ->withErrors([$error]);
     }
 
     /**
-     * Upload new file
+     * Upload new file.
      * @param UploadFileRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -126,7 +128,7 @@ class UploadController extends Controller
         $file = $_FILES['file'];
         $fileName = $request->get('file_name');
         $fileName = $fileName ?: $file['name'];
-        $path = Str::finish($request->get('folder'), '/') . $fileName;
+        $path = Str::finish($request->get('folder'), '/').$fileName;
         $content = File::get($file['tmp_name']);
 
         $result = $this->manager->saveFile($path, $content);
@@ -137,7 +139,8 @@ class UploadController extends Controller
                 ->withSuccess("File '$fileName' uploaded.");
         }
 
-        $error = $result ? : "An error occurred uploading file.";
+        $error = $result ?: 'An error occurred uploading file.';
+
         return redirect()
             ->back()
             ->withErrors([$error]);

@@ -9,18 +9,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\PostRequest;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\Tag;
-use App\Models\User;
 use Exception;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Tag;
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Admin\PostRequest;
 
 /**
- * Class PostController
- * @package App\Http\Controllers\Admin
+ * Class PostController.
  */
 final class PostController extends Controller
 {
@@ -35,7 +34,7 @@ final class PostController extends Controller
                 ->with(['category', 'user'])
                 ->where('type', '!=', 'page')
                 ->latest()
-                ->get()
+                ->get(),
         ]);
     }
 
@@ -68,7 +67,6 @@ final class PostController extends Controller
             ->with('success', __('posts.created'));
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -81,7 +79,7 @@ final class PostController extends Controller
             'post' => $post,
             'users' => User::authors()->pluck('name', 'id'),
             'categories' => Category::pluck('title', 'id'),
-            'tags' => Tag::pluck('tag', 'id')->toArray()
+            'tags' => Tag::pluck('tag', 'id')->toArray(),
         ]);
     }
 

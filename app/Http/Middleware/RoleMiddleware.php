@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class RoleMiddleware
- * @package App\Http\Middleware
+ * Class RoleMiddleware.
  */
 class RoleMiddleware
 {

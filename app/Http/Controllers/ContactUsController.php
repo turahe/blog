@@ -9,14 +9,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactRequest;
 use App\Models\ContactUs;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Http\Requests\ContactRequest;
+use Illuminate\Http\RedirectResponse;
 
 /**
- * Class ContactUsController
- * @package App\Http\Controllers
+ * Class ContactUsController.
  */
 final class ContactUsController extends Controller
 {
@@ -29,7 +28,7 @@ final class ContactUsController extends Controller
     }
 
     /**
-     * Save request from Contact Us Form
+     * Save request from Contact Us Form.
      *
      * @param ContactRequest $request
      * @return RedirectResponse

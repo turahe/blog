@@ -10,7 +10,7 @@ return [
         'delete' => 'Delete',
         'add' => 'Add',
         'save_continue' => 'Save Continue',
-        'save_finished' => 'Save Finished'
+        'save_finished' => 'Save Finished',
     ],
 
     'label' => [
@@ -23,16 +23,16 @@ return [
         'publish_time' => 'Publish Time',
         'category' => 'Category',
         'tags' => 'Tags',
-        'cover' => 'Cover'
+        'cover' => 'Cover',
     ],
 
     'comments' => [
-        'delete' => 'Are you sure you want to delete this comment?'
+        'delete' => 'Are you sure you want to delete this comment?',
     ],
 
     'posts' => [
         'delete' => 'Are you sure you want to delete this article?',
-        'delete_thumbnail' => "Are you sure you want to delete the image?"
+        'delete_thumbnail' => 'Are you sure you want to delete the image?',
     ],
 
     'tokens' => [

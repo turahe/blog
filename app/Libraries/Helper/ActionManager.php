@@ -6,7 +6,6 @@
  *  @modified    5/7/20, 8:33 PM
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Helper;

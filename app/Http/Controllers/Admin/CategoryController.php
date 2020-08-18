@@ -10,13 +10,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 /**
- * Class CategoryController
- * @package App\Http\Controllers\Admin
+ * Class CategoryController.
  */
 final class CategoryController extends Controller
 {
@@ -28,6 +27,7 @@ final class CategoryController extends Controller
     public function index(): View
     {
         $categories = Category::all();
+
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -66,6 +66,7 @@ final class CategoryController extends Controller
     public function show($id): View
     {
         $category = Category::findOrFail($id);
+
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -88,10 +89,11 @@ final class CategoryController extends Controller
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id):RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         $category = Category::findOrFail($id);
         $category->update($request->all());
+
         return redirect()
             ->route('admin.category.index')
             ->with('success', 'Category has been saved successfully');
@@ -106,8 +108,9 @@ final class CategoryController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        $category  = Category::findOrFail($id);
+        $category = Category::findOrFail($id);
         $category->delete();
+
         return redirect()
             ->route('admin.category.index')
             ->with('success', 'Category has been deleted successfully');

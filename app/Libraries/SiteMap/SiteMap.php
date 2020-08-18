@@ -6,22 +6,21 @@
  *  @modified    5/6/20, 1:29 AM
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\SiteMap;
 
-use App\Models\Category;
-use App\Models\Post;
-use Carbon\Carbon;
 use DateTime;
-use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
+use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Collection;
 
 class SiteMap
 {
     /**
-     * Return the content of the Site Map
+     * Return the content of the Site Map.
      */
     public function getSiteMap()
     {
@@ -31,11 +30,12 @@ class SiteMap
 
         $siteMap = $this->buildSiteMap();
         Cache::add('site-map', $siteMap, 120);
+
         return $siteMap;
     }
 
     /**
-     * Build the Site Map
+     * Build the Site Map.
      */
     protected function buildSiteMap()
     {
@@ -43,9 +43,8 @@ class SiteMap
         $categoriesInfo = $this->getCategoriesInfo();
         $data = new Collection([$postsInfo, $categoriesInfo]);
         $lastPost = $data->last();
-        $lastmod = $lastPost->updated_at->format(DateTime::ATOM) ;
-        $url = trim(url('/'), '/') . '/';
-
+        $lastmod = $lastPost->updated_at->format(DateTime::ATOM);
+        $url = trim(url('/'), '/').'/';
 
         $xml = [];
         $xml[] = '<?xml version="1.0" encoding="UTF-8"?'.'>';
@@ -63,7 +62,7 @@ class SiteMap
             $xml[] = '  <url>';
             $xml[] = "    <loc>$post->url</loc>";
             $xml[] = "    <lastmod>$post->publish_atom </lastmod>";
-            $xml[] = "  </url>";
+            $xml[] = '  </url>';
         }
 
         $xml[] = '</urlset>';
@@ -72,7 +71,7 @@ class SiteMap
     }
 
     /**
-     * Return all the posts
+     * Return all the posts.
      */
     protected function getPostsInfo()
     {
@@ -81,8 +80,9 @@ class SiteMap
             ->orderBy('published_at', 'desc')
             ->get();
     }
+
     /**
-     * Return all the categories
+     * Return all the categories.
      */
     protected function getCategoriesInfo()
     {

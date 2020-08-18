@@ -9,13 +9,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 
 /**
- * Class AdminController
- * @package App\Http\Controllers\Admin
+ * Class AdminController.
  */
 final class AdminController extends Controller
 {

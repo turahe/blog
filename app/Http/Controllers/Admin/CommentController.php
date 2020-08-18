@@ -9,15 +9,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Api\CommentsRequest;
-use App\Models\Comment;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Comment;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Api\CommentsRequest;
 
 /**
- * Class CommentController
- * @package App\Http\Controllers\Admin
+ * Class CommentController.
  */
 final class CommentController extends Controller
 {
@@ -29,7 +28,7 @@ final class CommentController extends Controller
         return view('admin.comments.index', [
             'comments' => Comment::with(['post', 'user'])
                 ->latest()
-                ->get()
+                ->get(),
         ]);
     }
 
@@ -42,7 +41,7 @@ final class CommentController extends Controller
     {
         return view('admin.comments.edit', [
             'comment' => $comment,
-            'users' => User::pluck('name', 'id')
+            'users' => User::pluck('name', 'id'),
         ]);
     }
 

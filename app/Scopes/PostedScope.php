@@ -10,9 +10,9 @@
 namespace App\Scopes;
 
 use Auth;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
 class PostedScope implements Scope
 {
@@ -26,7 +26,7 @@ class PostedScope implements Scope
         $user = Auth::user() ?? Auth::guard('api')->user();
 
         // if not connected or if connected but not admin
-        if (!$user || !$user->isAdmin()) {
+        if (! $user || ! $user->isAdmin()) {
             $builder->where('published_at', '<=', now());
         }
     }

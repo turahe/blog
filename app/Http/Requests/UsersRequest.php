@@ -7,18 +7,15 @@
  *  @name          UsersRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests;
 
 /**
- * Class UsersRequest
- * @package App\Http\Requests
+ * Class UsersRequest.
  */
 class UsersRequest extends BaseRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *

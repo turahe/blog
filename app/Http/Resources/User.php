@@ -7,16 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class User
+ * Class User.
  * @property mixed provider
- * @property integer provider_id
- * @property integer registered_at
+ * @property int provider_id
+ * @property int registered_at
  * @property mixed roles
  * @property mixed email
- * @property integer id
+ * @property int id
  * @property string name
  * @property string avatar
- * @package App\Http\Resources
  */
 class User extends JsonResource
 {

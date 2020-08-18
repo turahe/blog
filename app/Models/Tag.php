@@ -9,17 +9,13 @@
 
 namespace App\Models;
 
-use App\Libraries\Sortable\Sortable;
-use App\Libraries\Sortable\SortableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Query\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
- * App\Models\Tag
+ * App\Models\Tag.
  *
  * @property int $id
  * @property string $tag
@@ -63,7 +59,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag ordered($direction = 'asc')
  */
-class Tag extends Model implements Sortable
+class Tag extends Model
 {
     use LogsActivity;
     /**
@@ -77,7 +73,7 @@ class Tag extends Model implements Sortable
 
     /**
      * @param Builder $query
-     * @param string|null $type
+     * @param null|string $type
      * @return Builder
      */
     public function scopeWithType(Builder $query, string $type = null): Builder
@@ -89,23 +85,10 @@ class Tag extends Model implements Sortable
         return $query->where('type', $type);
     }
 
-    /**
-     * @param Builder $query
-     * @param string|null $name
-     * @return Builder
-     */
-    public function scopeContaining(Builder $query, string $name = null): Builder
-    {
-        $locale = $locale ?? app()->getLocale();
-
-        return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?', ['%'.mb_strtolower($name).'%']);
-    }
 
     /**
-     * @param string|array|\ArrayAccess $values
-     * @param string|null $type
-     * @param string|null $locale
-     *
+     * @param array|\ArrayAccess|string $values
+     * @param null|string $type
      * @return \Illuminate\Support\Collection|mixed|\Tightenco\Collect\Support\Collection
      */
     public static function findOrCreate($values, string $type = null)
@@ -123,21 +106,20 @@ class Tag extends Model implements Sortable
 
     /**
      * @param string $type
-     * @return DbCollection
+     * @return Collection
      */
-    public static function getWithType(string $type): DbCollection
+    public static function getWithType(string $type): Collection
     {
         return static::withType($type)->get();
     }
 
     /**
      * @param string $name
-     * @param string|null $type
-     * @return Tag|Builder|Model|object|null
+     * @param null|string $type
+     * @return null|Builder|Model|object|Tag
      */
     public static function findFromString(string $name, string $type = null)
     {
-
         return static::query()
             ->where("name", $name)
             ->where('type', $type)
@@ -146,7 +128,7 @@ class Tag extends Model implements Sortable
 
     /**
      * @param string $name
-     * @return Tag|Builder|Model|object|null
+     * @return null|Builder|Model|object|Tag
      */
     public static function findFromStringOfAnyType(string $name)
     {
@@ -157,8 +139,8 @@ class Tag extends Model implements Sortable
 
     /**
      * @param string $name
-     * @param string|null $type
-     * @return Tag|Builder|Model|object|null
+     * @param null|string $type
+     * @return null|Builder|Model|object|Tag
      */
     protected static function findOrCreateFromString(string $name, string $type = null)
     {

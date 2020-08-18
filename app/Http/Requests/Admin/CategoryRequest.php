@@ -7,13 +7,12 @@
  *  @name          CategoryRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
 {
@@ -26,7 +25,6 @@ class CategoryRequest extends FormRequest
     {
         return Auth::check();
     }
-
 
     /**
      * Get the validation rules that apply to the request.

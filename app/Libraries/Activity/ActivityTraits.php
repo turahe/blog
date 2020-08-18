@@ -9,13 +9,12 @@
 
 namespace App\Libraries\Activity;
 
-use App\Models\Activity;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Activity;
 
 /**
- * Trait ActivityTraits
- * @package App\Libraries\Activity
+ * Trait ActivityTraits.
  */
 trait ActivityTraits
 {
@@ -51,10 +50,10 @@ trait ActivityTraits
         if (empty($list_changes)) {
             $changes = 'No attribute changed';
         } else {
-            if (count($before)>0) {
+            if (count($before) > 0) {
                 foreach ($before as $key=>$original) {
                     if (array_key_exists($key, $list_changes)) {
-                        $old_keys[$key]=$original;
+                        $old_keys[$key] = $original;
                     }
                 }
             }
@@ -64,14 +63,14 @@ trait ActivityTraits
 
         $properties = [
             'attributes'=>$list_changes,
-            'old' =>$old_value_array
+            'old' =>$old_value_array,
         ];
 
         $activity = activity()
             ->causedBy(Auth::user())
             ->performedOn($list)
             ->withProperties($properties)
-            ->log($changes.' made by '. Auth::user()->name);
+            ->log($changes.' made by '.Auth::user()->name);
 
         return true;
     }
@@ -86,7 +85,7 @@ trait ActivityTraits
         $attributes = $this->unsetAttributes($list);
 
         $properties = [
-            'attributes' => $attributes->toArray()
+            'attributes' => $attributes->toArray(),
         ];
 
         $activity = activity()
@@ -106,7 +105,7 @@ trait ActivityTraits
     {
         $updated_at = Carbon::now()->format('d/m/Y H:i:s');
         $properties = [
-            'attributes' =>['name'=>$user->username,'description'=>'Login into the system by '.$updated_at]
+            'attributes' =>['name'=>$user->username, 'description'=>'Login into the system by '.$updated_at],
         ];
 
         $changes = 'User '.$user->username.' logged in into the system';
@@ -128,6 +127,7 @@ trait ActivityTraits
     {
         unset($model->created_at);
         unset($model->updated_at);
+
         return $model;
     }
 }

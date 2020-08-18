@@ -9,12 +9,12 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\User as UserResource;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\User as UserResource;
 
 class AuthenticateController extends Controller
 {
@@ -30,7 +30,7 @@ class AuthenticateController extends Controller
 
             return (new UserResource($user))
                 ->additional(['meta' => [
-                    'access_token' => $user->api_token
+                    'access_token' => $user->api_token,
                 ]]);
         }
 

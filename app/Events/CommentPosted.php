@@ -9,31 +9,30 @@
 
 namespace App\Events;
 
-use App\Http\Resources\Comment as CommentResource;
 use App\Models\Post;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use App\Http\Resources\Comment as CommentResource;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
- * Class CommentPosted
- * @package App\Events
+ * Class CommentPosted.
  */
 class CommentPosted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Comment details
+     * Comment details.
      *
      * @var CommentResource
      */
     public CommentResource $comment;
 
     /**
-     * Post details
+     * Post details.
      *
      * @var Post
      */
@@ -58,7 +57,7 @@ class CommentPosted implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('post.' . $this->post->id);
+        return new Channel('post.'.$this->post->id);
     }
 
     /**

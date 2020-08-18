@@ -7,12 +7,12 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Database\Seeder;
 
 /**
- * Class RolesTableSeeder
+ * Class RolesTableSeeder.
  */
 class RolesTableSeeder extends Seeder
 {
@@ -25,22 +25,22 @@ class RolesTableSeeder extends Seeder
     {
         Role::updateOrCreate([
             'name' => Role::ROLE_ADMIN,
-            'description' => 'Hak akses super sekali'
+            'description' => 'Hak akses super sekali',
         ])->syncPermissions(Permission::all());
 
         Role::updateOrCreate([
             'name' => Role::ROLE_EDITOR,
-            'description' => 'Edit all posts'
+            'description' => 'Edit all posts',
         ])->syncPermissions(Permission::all());
 
         Role::updateOrCreate([
             'name' => Role::ROLE_AUTHOR,
-            'description' => 'Edit all posts'
+            'description' => 'Edit all posts',
         ])->syncPermissions(Permission::all());
 
         Role::updateOrCreate([
             'name' => Role::ROLE_GUEST,
-            'description' => 'Pengguna biasa'
-        ])->syncPermissions(['view_user','edit_user']);
+            'description' => 'Pengguna biasa',
+        ])->syncPermissions(['view_user', 'edit_user']);
     }
 }

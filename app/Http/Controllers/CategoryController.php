@@ -12,8 +12,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 
 /**
- * Class CategoryController
- * @package App\Http\Controllers
+ * Class CategoryController.
  */
 class CategoryController extends Controller
 {

@@ -6,7 +6,6 @@
  *  @modified    5/8/20, 3:44 PM
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Libraries\Like;
@@ -16,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 interface LikeInterface
 {
-
     /**
      * Get all of the resource's likes.
      *
@@ -32,7 +30,7 @@ interface LikeInterface
     public function like(): Model;
 
     /**
-     * Check if the resource is liked by the current user
+     * Check if the resource is liked by the current user.
      *
      * @return bool
      */

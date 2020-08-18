@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class Role
+ * Class Role.
  * @property mixed id
  * @property mixed name
- * @package App\Http\Resources
  */
 class Role extends JsonResource
 {
@@ -23,7 +22,7 @@ class Role extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
         ];
     }
 }

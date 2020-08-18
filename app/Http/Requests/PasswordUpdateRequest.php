@@ -7,7 +7,6 @@
  *  @name          PasswordUpdateRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests;
@@ -21,7 +20,6 @@ use Illuminate\Validation\Validator;
  */
 class PasswordUpdateRequest extends BaseRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -31,7 +29,7 @@ class PasswordUpdateRequest extends BaseRequest
     {
         return [
             'password_current' => 'required',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
         ];
     }
 

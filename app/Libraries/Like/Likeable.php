@@ -14,8 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
- * Trait Likeable
- * @package App\Libraries\Like
+ * Trait Likeable.
  */
 trait Likeable
 {
@@ -54,13 +53,13 @@ trait Likeable
     }
 
     /**
-     * Check if the resource is liked by the current user
+     * Check if the resource is liked by the current user.
      *
      * @return bool
      */
     public function isLiked(): bool
     {
-        if (!empty($this->likes)) {
+        if (! empty($this->likes)) {
             return $this->likes->where('user_id', auth()->id())->isNotEmpty();
         }
     }

@@ -29,6 +29,6 @@ $factory->define(Comment::class, function (Faker $faker) {
         'title' => $faker->sentence,
         'content' => Str::limit($faker->paragraph(mt_rand(3, 5))),
         'published_at' => $faker->dateTimeBetween('-1 Month', '+3 days'),
-        'approved' => $faker->boolean
+        'approved' => $faker->boolean,
     ];
 });

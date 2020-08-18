@@ -7,17 +7,15 @@
  *  @name          PermissionRequest.php
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
- *
  */
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class PermissionRequest
- * @package App\Http\Requests\Admin
+ * Class PermissionRequest.
  */
 class PermissionRequest extends FormRequest
 {
@@ -39,7 +37,7 @@ class PermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
         ];
     }
 }
