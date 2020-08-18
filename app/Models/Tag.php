@@ -85,7 +85,6 @@ class Tag extends Model
         return $query->where('type', $type);
     }
 
-
     /**
      * @param array|\ArrayAccess|string $values
      * @param null|string $type
@@ -121,7 +120,7 @@ class Tag extends Model
     public static function findFromString(string $name, string $type = null)
     {
         return static::query()
-            ->where("name", $name)
+            ->where('name', $name)
             ->where('type', $type)
             ->first();
     }
@@ -133,7 +132,7 @@ class Tag extends Model
     public static function findFromStringOfAnyType(string $name)
     {
         return static::query()
-            ->where("name", $name)
+            ->where('name', $name)
             ->first();
     }
 

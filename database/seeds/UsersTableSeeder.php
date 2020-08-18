@@ -24,10 +24,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-//        Schema::disableForeignKeyConstraints();
-//        User::truncate();
-
-            User::updateOrCreate([
+        User::updateOrCreate([
                 'name' => 'Admin',
                 'email' => 'admin@example.com',
                 'email_verified_at' => now(),
@@ -38,11 +35,10 @@ class UsersTableSeeder extends Seeder
             ])->assignRole('admin');
 
         if (App::environment(['local', 'staging', 'testing'])) {
-            factory(User::class, 100)->create()->each(function ($user) {
+            factory(User::class, 10)->create()->each(function ($user) {
                 $user->profile()->save(factory(Profile::class)->make());
                 $user->socials()->saveMany(factory(Social::class, mt_rand(3, 5))->make());
             });
         }
-//        Schema::enableForeignKeyConstraints();
     }
 }

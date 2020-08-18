@@ -35,6 +35,6 @@ class PrepareNewsletterSubscriptionEmail implements ShouldQueue
 
         $newsletterSubscriptions->each(fn ($newsletterSubscription) => SendNewsletterSubscriptionEmail::dispatch($newsletterSubscription->email));
 
-        PrepareNewsletterSubscriptionEmail::dispatch()->delay(Carbon::tomorrow());
+        self::dispatch()->delay(Carbon::tomorrow());
     }
 }

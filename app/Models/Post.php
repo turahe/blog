@@ -260,7 +260,7 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * Set the HTML content automatically when the raw content is set
+     * Set the HTML content automatically when the raw content is set.
      *
      * @param string $value
      */
@@ -272,9 +272,8 @@ class Post extends Model implements HasMedia, UrlRoutable
         $this->attributes['content_html'] = $markdown->generate($value);
     }
 
-
     /**
-     * Alias for content_raw
+     * Alias for content_raw.
      * @return null|string
      */
     public function getContentAttribute()

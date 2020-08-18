@@ -7,7 +7,7 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Like;
 use Faker\Generator as Faker;

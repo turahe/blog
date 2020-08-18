@@ -46,5 +46,4 @@ class PostsTableSeeder extends Seeder
         });
         Schema::enableForeignKeyConstraints();
     }
-
 }

@@ -7,7 +7,7 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-/** @var Factory $factory */
+/* @var Factory $factory */
 
 use App\Models\Post;
 use Faker\Generator as Faker;
@@ -32,7 +32,7 @@ $factory->define(Post::class, function (Faker $faker) {
 //        'category_id' => mt_rand(1, 10),
         'title' => $title,
         'subtitle' => Str::limit($faker->realText(300, 3), 190),
-        'content_raw' => join("\n\n", $faker->paragraphs(mt_rand(7, 16))),
+        'content_raw' => implode("\n\n", $faker->paragraphs(mt_rand(7, 16))),
         'meta_description' => "Meta for $title",
         'is_sticky' => $faker->boolean,
         'published_at' => $faker->dateTimeBetween('-1 Month', '+3 days'),

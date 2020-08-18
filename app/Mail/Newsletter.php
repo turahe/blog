@@ -37,7 +37,7 @@ class Newsletter extends Mailable
      *
      * @return $this
      */
-    public function build(): Newsletter
+    public function build(): self
     {
         return $this->from('hello@turahe.id', config('app.name', 'Turahe'))
             ->subject(__('newsletter.email.subject'))

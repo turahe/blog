@@ -32,7 +32,7 @@ trait HasTags
     }
 
     /**
-     * Return keyword of post based tags
+     * Return keyword of post based tags.
      *
      * @return null|string
      */
@@ -42,6 +42,7 @@ trait HasTags
         if ($tags->exists()) {
             return $tags->implode('name', ', ');
         }
+
         return null;
     }
 
@@ -60,7 +61,6 @@ trait HasTags
     }
 
     /**
-     *
      * @param Builder $query
      * @param $tags
      * @param null|string $type
@@ -143,7 +143,6 @@ trait HasTags
     }
 
     /**
-     *
      * @param $tags
      * @return $this
      */
@@ -157,7 +156,6 @@ trait HasTags
     }
 
     /**
-     *
      * @param $tag
      * @return $this
      */
@@ -185,7 +183,6 @@ trait HasTags
     }
 
     /**
-     *
      * @param $tag
      * @return $this
      */
@@ -240,7 +237,6 @@ trait HasTags
                 return $value;
             }
 
-
             return Tag::findFromString($value, $type);
         });
     }
@@ -255,7 +251,6 @@ trait HasTags
             if ($value instanceof Tag) {
                 return $value;
             }
-
 
             return Tag::findFromStringOfAnyType($value);
         });

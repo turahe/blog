@@ -7,7 +7,7 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
-/** @var Factory $factory */
+/* @var Factory $factory */
 
 use App\Models\Rate;
 use Faker\Generator as Faker;
