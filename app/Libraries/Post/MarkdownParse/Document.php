@@ -37,6 +37,15 @@ class Document
     }
 
     /**
+     * @param $key
+     * @return array|\ArrayAccess|mixed
+     */
+    public function __get($key)
+    {
+        return $this->matter($key);
+    }
+
+    /**
      * @param null|string $key
      * @param null $default
      * @return array|\ArrayAccess|mixed
@@ -56,14 +65,5 @@ class Document
     public function body(): string
     {
         return $this->body;
-    }
-
-    /**
-     * @param $key
-     * @return array|\ArrayAccess|mixed
-     */
-    public function __get($key)
-    {
-        return $this->matter($key);
     }
 }

@@ -27,6 +27,15 @@ trait HasSlug
      */
     abstract public function getSlugOptions(): SlugOptions;
 
+    /**
+     * @throws InvalidOption
+     */
+    public function generateSlug()
+    {
+        $this->slugOptions = $this->getSlugOptions();
+        $this->addSlug();
+    }
+
     protected static function bootHasSlug()
     {
         static::creating(function (Model $model) {
@@ -58,15 +67,6 @@ trait HasSlug
         if (! $this->slugOptions->generateSlugsOnUpdate) {
             return;
         }
-        $this->addSlug();
-    }
-
-    /**
-     * @throws InvalidOption
-     */
-    public function generateSlug()
-    {
-        $this->slugOptions = $this->getSlugOptions();
         $this->addSlug();
     }
 

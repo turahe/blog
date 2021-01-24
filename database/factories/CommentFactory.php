@@ -1,34 +1,36 @@
 <?php
-/**
- * For the full copyright and license information, please view the LICENSE
- *  file that was distributed with this source code.
- *
- *  @author         Nur Wachid
- *  @copyright      Copyright (c) Turahe 2020.
- */
 
-/* @var Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Comment;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-$factory->define(Comment::class, function (Faker $faker) {
-    return [
-        'user_id' => mt_rand(1, 100), //factory(\App\Models\User::class)->create()->id,
-        'title' => $faker->sentence,
-        'content' => Str::limit($faker->paragraph(mt_rand(3, 5))),
-        'published_at' => $faker->dateTimeBetween('-1 Month', '+3 days'),
-        'approved' => $faker->boolean,
-    ];
-});
+class CommentFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Comment::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $user = $this->faker->randomElement(User::pluck('id')->toArray());
+
+        return [
+            'user_id' => $user,
+            'title' => $this->faker->sentence,
+            'content' => Str::limit($this->faker->paragraph(mt_rand(3, 5))),
+            'published_at' => $this->faker->dateTimeBetween('-1 Month', '+3 days'),
+            'approved' => $this->faker->boolean,
+        ];
+    }
+}

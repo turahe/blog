@@ -24,7 +24,7 @@ final class PostController extends Controller
      * Show all blog.
      *
      * @param Request $request
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
@@ -56,9 +56,9 @@ final class PostController extends Controller
      *
      * @param Request $request
      * @param string $slug
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(Request $request, string $slug): View
+    public function show(Request $request, string $slug)
     {
         $posts = $this->queryAll($request);
         $blog = $posts->where('slug', $slug)->first();

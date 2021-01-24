@@ -7,10 +7,13 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
+namespace Database\Seeders;
+
 use App\Models\Profile;
 use App\Models\Social;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 /**
  * Class UsersTableSeeder.
@@ -34,11 +37,9 @@ class UsersTableSeeder extends Seeder
             'registered_at' => now(),
         ])->assignRole('admin');
 
-        if (App::environment(['local', 'staging', 'testing'])) {
-            factory(User::class, 10)->create()->each(function ($user) {
-                $user->profile()->save(factory(Profile::class)->make());
-                $user->socials()->saveMany(factory(Social::class, mt_rand(3, 5))->make());
-            });
-        }
+        User::factory(10)->create()->each(function ($user) {
+            $user->profile()->save(Profile::factory()->make());
+            $user->socials()->saveMany(Social::factory(mt_rand(3, 5))->make());
+        });
     }
 }

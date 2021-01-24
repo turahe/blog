@@ -28,16 +28,6 @@ class CommentRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'published_at' => Carbon::parse($this->input('published_at')),
-        ]);
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -49,5 +39,15 @@ class CommentRequest extends FormRequest
             'published_at' => 'required|after_or_equal:'.$this->comment->post->published_at,
             'user_id' => 'required|exists:users,id',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'published_at' => Carbon::parse($this->input('published_at')),
+        ]);
     }
 }

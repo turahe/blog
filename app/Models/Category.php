@@ -12,65 +12,30 @@ namespace App\Models;
 use App\Libraries\Slug\HasSlug;
 use App\Libraries\Slug\SlugOptions;
 use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-/**
- * App\Models\Category.
- *
- * @property int $id
- * @property string $slug
- * @property null|int $parent_id
- * @property null|int $order_column
- * @property string $title
- * @property null|string $subtitle
- * @property string $description
- * @property string $layout
- * @property null|\Illuminate\Support\Carbon $deleted_at
- * @property null|\Illuminate\Support\Carbon $created_at
- * @property null|\Illuminate\Support\Carbon $updated_at
- * @property-read \App\Models\Activity[]|\Illuminate\Database\Eloquent\Collection $activities
- * @property-read null|int $activities_count
- * @property-read \App\Models\Category[]|\Illuminate\Database\Eloquent\Collection $children
- * @property-read null|int $children_count
- * @property-read \Category $first_child
- * @property-read \Category[]|\Collection $siblings
- * @property-read string|\UrlGenerator $url
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
- * @property-read null|int $media_count
- * @property-read null|\App\Models\Category $parent
- * @property-read \App\Models\Post[]|\Illuminate\Database\Eloquent\Collection $posts
- * @property-read null|int $posts_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Category onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereLayout($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereOrderColumn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereSubtitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Category withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Category withoutTrashed()
- * @mixin \Eloquent
- * @property-read string $cover
- */
-class Category extends Model implements HasMedia
+class Category extends Model implements HasMedia, Sortable
 {
     use SoftDeletes, HasSlug, LogsActivity, InteractsWithMedia;
+    use HasFactory;
+    use SortableTrait;
+    /**
+     * @var array
+     */
+    public $sortable = [
+        'order_column_name' => 'order_column',
+        'sort_when_creating' => true,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -179,7 +144,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * @return Category[]|Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getSiblingsAttribute()
     {

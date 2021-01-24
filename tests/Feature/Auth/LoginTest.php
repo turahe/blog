@@ -21,7 +21,7 @@ class LoginTest extends TestCase
     /** @test */
     public function it_user_cannot_view_a_login_form_when_authenticated()
     {
-        $user = factory(User::class)->make();
+        $user = User::factory()->make();
 
         $response = $this->actingAs($user)->get(route('login'));
 
@@ -31,7 +31,7 @@ class LoginTest extends TestCase
     /** @test */
     public function it_user_can_login_with_correct_credentials()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'password' => bcrypt($password = 'secret'),
             'email_verified_at' => now(),
         ]);
@@ -48,7 +48,7 @@ class LoginTest extends TestCase
     /** @test */
     public function it_user_cannot_login_with_invalid_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->post(route('login'), [
             'email' => $user->email,
@@ -62,7 +62,7 @@ class LoginTest extends TestCase
     /** @test */
     public function it_remember_me_functionality()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'id' => random_int(1, 100),
             'password' => bcrypt($password = 'secret'),
         ]);
@@ -106,7 +106,7 @@ class LoginTest extends TestCase
      */
     public function it_user_can_logout()
     {
-        $this->be(factory(User::class)->create());
+        $this->be(User::factory()->create());
 
         $response = $this->post(route('logout'));
 
@@ -132,7 +132,7 @@ class LoginTest extends TestCase
      */
     public function it_logout_an_authenticated_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post(route('logout'));
 
@@ -146,7 +146,7 @@ class LoginTest extends TestCase
      */
     public function it_user_cannot_make_more_than_five_attempts_in_one_minute()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'password' => bcrypt($password = 'secret'),
         ]);
 

@@ -32,7 +32,7 @@ class ResetsPasswordTest extends TestCase
      */
     public function it_sends_password_reset_email()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->expectsNotification($user, ResetPassword::class);
 
@@ -72,7 +72,7 @@ class ResetsPasswordTest extends TestCase
      */
     public function it_changes_a_users_password()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $token = Password::createToken($user);
 

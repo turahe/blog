@@ -7,6 +7,8 @@
  *  @copyright      Copyright (c) Turahe 2020.
  */
 
+namespace Database\Seeders;
+
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;

@@ -29,11 +29,6 @@ class ReadTime
      */
     public string $content;
     /**
-     * An array containing the read time estimate data.
-     * @var array
-     */
-    protected array $estimate;
-    /**
      * The direction the language reads. Default ltr is true.
      * @var bool
      */
@@ -55,16 +50,21 @@ class ReadTime
      */
     public array $translations;
     /**
+     * The average words read per minute.
+     * @var int (int)
+     */
+    public int $wordsPerMinute;
+    /**
+     * An array containing the read time estimate data.
+     * @var array
+     */
+    protected array $estimate;
+    /**
      * The sum total number of words in the content.
      *
      * @var int
      */
     protected int $wordsInContent;
-    /**
-     * The average words read per minute.
-     * @var int (int)
-     */
-    public int $wordsPerMinute;
 
     /**
      * ReadTime constructor.
@@ -111,6 +111,143 @@ class ReadTime
     public function abbreviated($abbreviated = true): self
     {
         $this->abbreviated = $abbreviated;
+
+        return $this;
+    }
+
+    /**
+     * Return the formatted read time string.
+     *
+     * @return string
+     */
+    public function get(): string
+    {
+        $this->estimate();
+
+        return $this->estimate['read_time'];
+    }
+
+    /**
+     * Get the translation array or specific key.
+     *
+     * @param  null|string $key The translation key
+     * @return mixed array if no key is passed, or string if existing key is passed
+     */
+    public function getTranslation($key = null)
+    {
+        return is_null($key) ? $this->translations : $this->translations[$key];
+    }
+
+    /**
+     * Set ltr mode for the read time.
+     *
+     * @param bool
+     * @return ReadTime
+     */
+    public function ltr(bool $ltr = true)
+    {
+        $this->ltr = $ltr;
+
+        return $this;
+    }
+
+    /**
+     * Omit seconds from being displayed in the read time result.
+     *
+     * @param bool $omitSeconds
+     * @return ReadTime
+     */
+    public function omitSeconds(bool $omitSeconds = true)
+    {
+        $this->omitSeconds = $omitSeconds;
+
+        return $this;
+    }
+
+    /**
+     * Set the read time results to read from right to left.
+     *
+     * @param bool $rtl
+     * @return ReadTime
+     */
+    public function rtl(bool $rtl = true)
+    {
+        $this->ltr = $rtl ? false : true;
+
+        return $this;
+    }
+
+    /**
+     * Set the translation keys for the read time string.
+     *
+     * @param array $translations An associative array of translation text
+     * @return ReadTime
+     */
+    public function setTranslation(array $translations)
+    {
+        $this->translations = [
+            'min' => isset($translations['min']) ? $translations['min'] : 'min',
+            'minute' => isset($translations['minute']) ? $translations['minute'] : 'minute',
+            'sec' => isset($translations['sec']) ? $translations['sec'] : 'sec',
+            'second' => isset($translations['second']) ? $translations['second'] : 'second',
+            'read' => isset($translations['read']) ? $translations['read'] : 'read',
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Determine if any text should accompany the time in the read time.
+     *
+     * @param bool $timeOnly
+     * @return ReadTime
+     */
+    public function timeOnly(bool $timeOnly = true)
+    {
+        $this->timeOnly = $timeOnly;
+
+        return $this;
+    }
+
+    /**
+     * Return an array of the class data.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $this->estimate();
+
+        return array_merge($this->estimate, [
+            'abbreviated' => (bool) $this->abbreviated,
+            'left_to_right' => (bool) $this->ltr,
+            'omit_seconds' => (bool) $this->omitSeconds,
+            'time_only' => (bool) $this->timeOnly,
+            'translation' => $this->translations,
+            'words_in_content' => (int) $this->wordsInContent,
+            'words_per_minute' => (int) $this->wordsPerMinute,
+        ]);
+    }
+
+    /**
+     * Return a json string of the class data.
+     *
+     * @return string
+     */
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    /**
+     * Set the average words read per minute.
+     *
+     * @param int $wordsPerMinute
+     * @return ReadTime
+     */
+    public function wpm(int $wordsPerMinute): self
+    {
+        $this->wordsPerMinute = $wordsPerMinute;
 
         return $this;
     }
@@ -209,29 +346,6 @@ class ReadTime
     }
 
     /**
-     * Return the formatted read time string.
-     *
-     * @return string
-     */
-    public function get(): string
-    {
-        $this->estimate();
-
-        return $this->estimate['read_time'];
-    }
-
-    /**
-     * Get the translation array or specific key.
-     *
-     * @param  null|string $key The translation key
-     * @return mixed array if no key is passed, or string if existing key is passed
-     */
-    public function getTranslation($key = null)
-    {
-        return is_null($key) ? $this->translations : $this->translations[$key];
-    }
-
-    /**
      * Check if the given content is formatted appropriately.
      *
      * @param  mixed $content
@@ -244,32 +358,6 @@ class ReadTime
         }
 
         return true;
-    }
-
-    /**
-     * Set ltr mode for the read time.
-     *
-     * @param bool
-     * @return ReadTime
-     */
-    public function ltr(bool $ltr = true)
-    {
-        $this->ltr = $ltr;
-
-        return $this;
-    }
-
-    /**
-     * Omit seconds from being displayed in the read time result.
-     *
-     * @param bool $omitSeconds
-     * @return ReadTime
-     */
-    public function omitSeconds(bool $omitSeconds = true)
-    {
-        $this->omitSeconds = $omitSeconds;
-
-        return $this;
     }
 
     /**
@@ -308,93 +396,5 @@ class ReadTime
     protected function reverseWords($string): string
     {
         return implode(' ', array_reverse(explode(' ', $string)));
-    }
-
-    /**
-     * Set the read time results to read from right to left.
-     *
-     * @param bool $rtl
-     * @return ReadTime
-     */
-    public function rtl(bool $rtl = true)
-    {
-        $this->ltr = $rtl ? false : true;
-
-        return $this;
-    }
-
-    /**
-     * Set the translation keys for the read time string.
-     *
-     * @param array $translations An associative array of translation text
-     * @return ReadTime
-     */
-    public function setTranslation(array $translations)
-    {
-        $this->translations = [
-            'min' => isset($translations['min']) ? $translations['min'] : 'min',
-            'minute' => isset($translations['minute']) ? $translations['minute'] : 'minute',
-            'sec' => isset($translations['sec']) ? $translations['sec'] : 'sec',
-            'second' => isset($translations['second']) ? $translations['second'] : 'second',
-            'read' => isset($translations['read']) ? $translations['read'] : 'read',
-        ];
-
-        return $this;
-    }
-
-    /**
-     * Determine if any text should accompany the time in the read time.
-     *
-     * @param bool $timeOnly
-     * @return ReadTime
-     */
-    public function timeOnly(bool $timeOnly = true)
-    {
-        $this->timeOnly = $timeOnly;
-
-        return $this;
-    }
-
-    /**
-     * Return an array of the class data.
-     *
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $this->estimate();
-
-        return array_merge($this->estimate, [
-            'abbreviated' => (bool) $this->abbreviated,
-            'left_to_right' => (bool) $this->ltr,
-            'omit_seconds' => (bool) $this->omitSeconds,
-            'time_only' => (bool) $this->timeOnly,
-            'translation' => $this->translations,
-            'words_in_content' => (int) $this->wordsInContent,
-            'words_per_minute' => (int) $this->wordsPerMinute,
-        ]);
-    }
-
-    /**
-     * Return a json string of the class data.
-     *
-     * @return string
-     */
-    public function toJson(): string
-    {
-        return json_encode($this->toArray());
-    }
-
-    /**
-     * Set the average words read per minute.
-     *
-     * @param int $wordsPerMinute
-     * @return ReadTime
-     */
-    public function wpm(int $wordsPerMinute): self
-    {
-        $this->wordsPerMinute = $wordsPerMinute;
-
-        return $this;
     }
 }

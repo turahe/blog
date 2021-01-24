@@ -22,7 +22,7 @@ class RegisterTest extends TestCase
     /** @test  */
     public function it_user_cannot_view_a_registration_form_when_authenticated()
     {
-        $user = factory(User::class)->make();
+        $user = User::factory()->make();
 
         $response = $this->actingAs($user, 'web')->get(route('register'));
 

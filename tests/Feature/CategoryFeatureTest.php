@@ -11,8 +11,8 @@ class CategoryFeatureTest extends TestCase
     /** @test  */
     public function it_can_show_the_category_and_posts_with_it()
     {
-        factory(Category::class, 2)->create()->each(function (Category $category) {
-            factory(Post::class, 10)->make()->each(function (Post $post) use ($category) {
+        Category::factory(2)->create()->each(function (Category $category) {
+            Post::factory(10)->make()->each(function (Post $post) use ($category) {
                 $category->posts()->save($post);
             });
         });

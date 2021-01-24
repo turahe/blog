@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parent_id')->nullable();
@@ -29,12 +29,13 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique();
             $table->string('title');
             $table->string('subtitle', 255)->nullable();
-            $table->text('meta_description')->nullable();
+            $table->text('description')->nullable();
             $table->text('content_raw');
             $table->text('content_html');
 
             $table->string('is_draft')->default(false);
             $table->string('is_sticky')->default(false);
+            $table->unsignedBigInteger('order_column')->nullable();
             $table->string('type');
 
             $table->timestamp('published_at');

@@ -1,7 +1,4 @@
 const mix = require('laravel-mix');
-const MinifyHtmlWebpackPlugin = require('minify-html-webpack-plugin');
-require('laravel-mix-purgecss');
-require('laravel-mix-polyfill');
 
 /*
  |--------------------------------------------------------------------------
@@ -18,7 +15,7 @@ mix.js('resources/assets/blog/js/script.js', 'public/js')
   .sass('resources/assets/blog/sass/style.scss', 'public/css')
 
   .js('resources/assets/blog/js/show.js', 'public/js')
-  .js('resources/assets/blog/js/comment.js', 'public/js')
+  .js('resources/assets/blog/js/comment.js', 'public/js').vue({ version: 2 })
   .js('resources/assets/blog/js/scripts/map.js', 'public/js')
   // .sass('resources/assets/blog/sass/carousel.scss', 'public/css')
 
@@ -53,11 +50,6 @@ mix.js('resources/assets/blog/js/script.js', 'public/js')
       }
     }
   })
-  .polyfill({
-    enabled: true,
-    useBuiltIns: "usage",
-    targets: {"firefox": "50", "ie": 11}
-  })
   .version();
 
 if (! mix.inProduction()) {
@@ -66,31 +58,3 @@ if (! mix.inProduction()) {
   })
 }
 
-
-// // fix css files 404 issue
-mix.webpackConfig({
-  // add any webpack dev server config here
-  devServer: {
-    proxy: {
-      host: '0.0.0.0',  // host machine ip
-      port: 8080,
-    },
-    watchOptions:{
-      aggregateTimeout:200,
-      poll:5000
-    },
-
-  },
-  plugins: [
-    new MinifyHtmlWebpackPlugin({
-      src: './storage/framework/views',
-      ignoreFileNameRegex: /\.(gitignore)$/,
-      rules: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-        minifyJS: true,
-      }
-    })
-  ]
-});
