@@ -13,7 +13,6 @@ use App\Http\Requests\UsersRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 /**
  * Class UserController.
@@ -23,9 +22,9 @@ final class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(): View
+    public function index()
     {
         $users = User::all();
 
@@ -35,9 +34,9 @@ final class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create(): View
+    public function create()
     {
         return view('admin.users.create');
     }
@@ -73,9 +72,9 @@ final class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param User $user
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(User $user): View
+    public function edit(User $user)
     {
         return view('admin.users.edit', [
             'user' => $user,

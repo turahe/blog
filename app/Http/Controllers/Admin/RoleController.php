@@ -12,7 +12,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\RoleRequest;
 use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 /**
  * Class RoleController.
@@ -22,9 +21,9 @@ final class RoleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(): View
+    public function index()
     {
         $roles = Role::all();
 
@@ -34,9 +33,9 @@ final class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create(): View
+    public function create()
     {
         return view('admin.roles.create');
     }
@@ -61,9 +60,9 @@ final class RoleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Role $role
-     * @return View
+     * @return
      */
-    public function edit(Role $role): View
+    public function edit(Role $role)
     {
         return view('admin.roles.edit', compact('role'));
     }

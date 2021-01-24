@@ -23,14 +23,14 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property null|Carbon $created_at
- * @property null|Carbon $updated_at
- * @method static bool|null forceDelete()
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|\App\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|NewsletterSubscription newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|NewsletterSubscription newQuery()
  * @method static Builder|NewsletterSubscription onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|NewsletterSubscription query()
- * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|NewsletterSubscription whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|NewsletterSubscription whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|NewsletterSubscription whereId($value)
@@ -39,8 +39,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|NewsletterSubscription withTrashed()
  * @method static Builder|NewsletterSubscription withoutTrashed()
  * @mixin Eloquent
- * @property-read Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read null|int $activities_count
  */
 class NewsletterSubscription extends Model
 {

@@ -17,7 +17,6 @@ use App\Libraries\Sortable\Sortable;
 use App\Scopes\PostedScope;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,7 +33,7 @@ use Turahe\Likeable\Contracts\Likeable as LikeableContract;
 use Turahe\Likeable\Traits\Likeable;
 
 /**
- * App\Models\Post.
+ * App\Models\Post
  *
  * @property int $id
  * @property int $category_id
@@ -43,38 +42,55 @@ use Turahe\Likeable\Traits\Likeable;
  * @property string $slug
  * @property string $title
  * @property string|null $subtitle
- * @property string|null $meta_description
+ * @property string|null $description
  * @property string $content_raw
  * @property string $content_html
  * @property string $is_draft
  * @property string $is_sticky
+ * @property int|null $order_column
  * @property string $type
  * @property \Illuminate\Support\Carbon $published_at
  * @property string $layout
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Collection|\App\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\Category $category
- * @property-read Collection|Post[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection|Post[] $children
  * @property-read int|null $children_count
- * @property-read Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Turahe\Likeable\Models\Like[] $dislikes
+ * @property-read int $dislikes_count
+ * @property-read \Turahe\Likeable\Models\LikeCounter|null $dislikesCounter
  * @property-read string $author
  * @property-read null|string $content
+ * @property-read bool $disliked
  * @property-read Post $first_child
  * @property-read string $keywords
+ * @property-read bool $liked
+ * @property-read int|null $likes_count
+ * @property-read int $likes_diff_dislikes_count
  * @property-read ReadTime $read_time
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $siblings
+ * @property-read \Illuminate\Support\Collection $siblings
  * @property-read string $url
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Turahe\Likeable\Models\Like[] $likes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Turahe\Likeable\Models\Like[] $likesAndDislikes
+ * @property-read int|null $likes_and_dislikes_count
+ * @property-read \Turahe\Likeable\Models\LikeCounter|null $likesCounter
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
  * @property-read int|null $media_count
  * @property-read Post|null $parent
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
+ * @property-read int|null $tags_count
  * @property-read \App\Models\User $user
  * @method static Builder|Post newModelQuery()
  * @method static Builder|Post newQuery()
  * @method static \Illuminate\Database\Query\Builder|Post onlyTrashed()
+ * @method static Builder|Post orderByDislikesCount($direction = 'desc')
+ * @method static Builder|Post orderByLikesCount($direction = 'desc')
+ * @method static Builder|Post ordered(string $direction = 'asc')
  * @method static Builder|Post query()
  * @method static Builder|Post search(?string $search)
  * @method static Builder|Post whereCategoryId($value)
@@ -82,11 +98,14 @@ use Turahe\Likeable\Traits\Likeable;
  * @method static Builder|Post whereContentRaw($value)
  * @method static Builder|Post whereCreatedAt($value)
  * @method static Builder|Post whereDeletedAt($value)
+ * @method static Builder|Post whereDescription($value)
+ * @method static Builder|Post whereDislikedBy($userId = null)
  * @method static Builder|Post whereId($value)
  * @method static Builder|Post whereIsDraft($value)
  * @method static Builder|Post whereIsSticky($value)
  * @method static Builder|Post whereLayout($value)
- * @method static Builder|Post whereMetaDescription($value)
+ * @method static Builder|Post whereLikedBy($userId = null)
+ * @method static Builder|Post whereOrderColumn($value)
  * @method static Builder|Post whereParentId($value)
  * @method static Builder|Post wherePublishedAt($value)
  * @method static Builder|Post whereSlug($value)
@@ -95,6 +114,10 @@ use Turahe\Likeable\Traits\Likeable;
  * @method static Builder|Post whereType($value)
  * @method static Builder|Post whereUpdatedAt($value)
  * @method static Builder|Post whereUserId($value)
+ * @method static Builder|Post withAllTags($tags, ?string $type = null)
+ * @method static Builder|Post withAllTagsOfAnyType($tags)
+ * @method static Builder|Post withAnyTags($tags, ?string $type = null)
+ * @method static Builder|Post withAnyTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Query\Builder|Post withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Post withoutTrashed()
  * @mixin \Eloquent

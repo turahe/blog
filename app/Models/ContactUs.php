@@ -18,25 +18,25 @@ use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * Class ContactUs.
+ * App\Models\ContactUs.
  *
  * @property int $id
  * @property string $name
  * @property string $email
  * @property string $subject
- * @property null|string $phone
+ * @property string|null $phone
  * @property string $message
  * @property int $status
  * @property int $read
- * @property null|Carbon $deleted_at
- * @property null|Carbon $created_at
- * @property null|Carbon $updated_at
- * @method static bool|null forceDelete()
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|\App\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs newQuery()
  * @method static Builder|ContactUs onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs query()
- * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs whereEmail($value)
@@ -51,8 +51,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|ContactUs withTrashed()
  * @method static Builder|ContactUs withoutTrashed()
  * @mixin Eloquent
- * @property-read Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read null|int $activities_count
  */
 class ContactUs extends Model
 {

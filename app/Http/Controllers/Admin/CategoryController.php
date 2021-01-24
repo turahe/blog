@@ -12,7 +12,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Pipeline\Pipeline;
 
 /**
  * Class CategoryController.
@@ -22,11 +22,20 @@ final class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(): View
+    public function index(Request $request)
     {
-        $categories = Category::all();
+        $categoeries = app(Pipeline::class)
+            ->send(Category::query())
+            ->through([
+                \App\Http\QueryFilters\Type::class,
+                \App\Http\QueryFilters\Sort::class,
+                \App\Http\QueryFilters\MaxCount::class,
+            ])
+            ->thenReturn()
+            ->paginate($request->input('limit', 10));
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -34,9 +43,9 @@ final class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create(): View
+    public function create()
     {
         return view('admin.categories.create');
     }
@@ -60,13 +69,11 @@ final class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return View
+     * @param Category $category
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($id): View
+    public function show(Category $category)
     {
-        $category = Category::findOrFail($id);
-
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -74,9 +81,9 @@ final class CategoryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Category $category
-     * @return View
+     * @return
      */
-    public function edit(Category $category): View
+    public function edit(Category $category)
     {
 //        $category-;
         return view('admin.categories.edit', compact('category'));
@@ -86,12 +93,11 @@ final class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
+     * @param Category $category
      * @return RedirectResponse
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, Category $category): RedirectResponse
     {
-        $category = Category::findOrFail($id);
         $category->update($request->all());
 
         return redirect()
@@ -102,13 +108,12 @@ final class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     *@throws \Exception
+     * @param Category $category
      * @return RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id): RedirectResponse
+    public function destroy(Category $category): RedirectResponse
     {
-        $category = Category::findOrFail($id);
         $category->delete();
 
         return redirect()

@@ -13,7 +13,8 @@ use App\Http\Requests\Api\CommentsRequest;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 
 /**
  * Class CommentController.
@@ -22,22 +23,30 @@ final class CommentController extends Controller
 {
     /**
      * Show the application comments index.
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(): View
+    public function index(Request $request)
     {
-        return view('admin.comments.index', [
-            'comments' => Comment::with(['post', 'user'])
-                ->latest()
-                ->get(),
-        ]);
+        $comments = app(Pipeline::class)
+            ->send(Comment::with('post', 'user')->latest())
+            ->through([
+                \App\Http\QueryFilters\Type::class,
+                \App\Http\QueryFilters\Sort::class,
+                \App\Http\QueryFilters\MaxCount::class,
+            ])
+            ->thenReturn()
+            ->paginate($request->input('limit', 10));
+
+        return view('admin.comments.index', compact('comments'));
     }
 
     /**
      * Display the specified resource edit form.
      * @param Comment $comment
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(Comment $comment): View
+    public function edit(Comment $comment)
     {
         return view('admin.comments.edit', [
             'comment' => $comment,

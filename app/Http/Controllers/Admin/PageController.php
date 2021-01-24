@@ -12,7 +12,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\PageRequest;
 use App\Models\Post as Page;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 /**
  * Class PageController.
@@ -22,9 +21,9 @@ final class PageController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(): View
+    public function index()
     {
         return view('admin.pages.index', [
             'pages' => Page::whereType('page')
@@ -35,9 +34,9 @@ final class PageController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create(): View
+    public function create()
     {
         return view('admin.pages.create');
     }
@@ -73,9 +72,9 @@ final class PageController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Page $page
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(Page $page): View
+    public function edit(Page $page)
     {
         return view('admin.pages.edit', [
             'page' => $page,

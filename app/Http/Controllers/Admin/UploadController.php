@@ -122,6 +122,7 @@ class UploadController extends Controller
      * Upload new file.
      * @param UploadFileRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function uploadFile(UploadFileRequest $request): RedirectResponse
     {

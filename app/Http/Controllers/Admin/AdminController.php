@@ -24,7 +24,7 @@ final class AdminController extends Controller
     public function __invoke()
     {
         return view('admin.dashboard.index', [
-            'comments' =>  Comment::lastWeek()->get(),
+            'comments' =>  Comment::latest()->get(),
             'posts' => Post::lastWeek()->get(),
             'users' => User::lastWeek()->get(),
         ]);

@@ -9,50 +9,44 @@
 
 namespace App\Models;
 
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Permission as Model;
 
 /**
- * Class Permission.
+ * App\Models\Permission
  *
- * @property-read Collection|Model[] $permissions
- * @property-read null|int $permissions_count
- * @property-read Collection|\Spatie\Permission\Models\Role[] $roles
- * @property-read null|int $roles_count
- * @property-read Collection|User[] $users
- * @property-read null|int $users_count
- * @method static bool|null forceDelete()
- * @method static Builder|Permission newModelQuery()
- * @method static Builder|Permission newQuery()
- * @method static \Illuminate\Database\Query\Builder|Permission onlyTrashed()
- * @method static Builder|Model permission($permissions)
- * @method static Builder|Permission query()
- * @method static bool|null restore()
- * @method static Builder|Model role($roles, $guard = null)
- * @method static \Illuminate\Database\Query\Builder|Permission withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Permission withoutTrashed()
- * @mixin Eloquent
  * @property int $id
  * @property string $name
- * @property null|string $description
+ * @property string|null $description
  * @property string $guard_name
- * @property null|Carbon $deleted_at
- * @property null|Carbon $created_at
- * @property null|Carbon $updated_at
- * @method static Builder|Permission whereCreatedAt($value)
- * @method static Builder|Permission whereDeletedAt($value)
- * @method static Builder|Permission whereDescription($value)
- * @method static Builder|Permission whereGuardName($value)
- * @method static Builder|Permission whereId($value)
- * @method static Builder|Permission whereName($value)
- * @method static Builder|Permission whereUpdatedAt($value)
- * @property-read Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read null|int $activities_count
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Permission onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereGuardName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Permission withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Permission withoutTrashed()
+ * @mixin \Eloquent
  */
 class Permission extends Model
 {

@@ -11,9 +11,9 @@
 
 namespace App\Http\Requests\Admin;
 
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -49,11 +49,11 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'subtitle' => ['string', 'max:255'],
-            'content' => ['required'],
-//            'publish_date' => ['required', 'date'],
-//            'publish_time' => ['required']
+            'title' => 'required|string|max:255|unique:posts',
+            'subtitle' => 'string|max:255',
+            'content' => 'required|string',
+            'publish_date' => 'required|date',
+            'publish_time' => 'required',
         ];
     }
 

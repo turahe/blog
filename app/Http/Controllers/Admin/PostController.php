@@ -12,11 +12,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\Tag;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
+use Spatie\Tags\Tag;
 
 /**
  * Class PostController.
@@ -25,27 +25,37 @@ final class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @return View
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(): View
+    public function index(Request $request)
     {
-        return view('admin.posts.index', [
-            'posts' => Post::withCount(['comments', 'likes'])
-                ->with(['category', 'user'])
-                ->where('type', '!=', 'page')
-                ->latest()
-                ->get(),
-        ]);
+        $data = Post::withCount(['comments', 'likes'])
+            ->with(['category', 'user'])
+            ->where('type', '!=', 'page')
+            ->latest();
+
+        $posts = $categoeries = app(Pipeline::class)
+            ->send($data)
+            ->through([
+                \App\Http\QueryFilters\Type::class,
+                \App\Http\QueryFilters\Sort::class,
+                \App\Http\QueryFilters\MaxCount::class,
+            ])
+            ->thenReturn()
+            ->paginate($request->input('limit', 10));
+
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
      * Show the form for creating a new resource.
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create(): View
+    public function create()
     {
         return view('admin.posts.create', [
-            'users' => User::authors()->pluck('name', 'id'),
+            'users' => User::pluck('name', 'id'),
             'categories' => Category::pluck('title', 'id'),
         ]);
     }
@@ -55,7 +65,7 @@ final class PostController extends Controller
      *
      * @param PostRequest $request
      * @param Post $post
-     * @throws Exception
+     * @throws
      * @return RedirectResponse
      */
     public function store(PostRequest $request, Post $post): RedirectResponse
@@ -71,13 +81,13 @@ final class PostController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Post $post
-     * @return View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(Post $post): View
+    public function edit(Post $post)
     {
         return view('admin.posts.edit', [
             'post' => $post,
-            'users' => User::authors()->pluck('name', 'id'),
+            'users' => User::pluck('name', 'id'),
             'categories' => Category::pluck('title', 'id'),
             'tags' => Tag::pluck('tag', 'id')->toArray(),
         ]);
@@ -88,7 +98,7 @@ final class PostController extends Controller
      *
      * @param PostRequest $request
      * @param Post $post
-     * @throws Exception
+     * @throws
      * @return RedirectResponse
      */
     public function update(PostRequest $request, Post $post): RedirectResponse
@@ -104,7 +114,7 @@ final class PostController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Post $post
-     * @throws Exception
+     * @throws
      * @return RedirectResponse
      */
     public function destroy(Post $post): RedirectResponse

@@ -11,31 +11,30 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int $id
  * @property int $user_id
- * @property string $full_name
+ * @property string $first_name
+ * @property string $last_name
  * @property int $gender
  * @property string $birthplace
  * @property string $birthday
- * @property null|\Illuminate\Support\Carbon $created_at
- * @property null|\Illuminate\Support\Carbon $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereBirthday($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereBirthplace($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereFullName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereGender($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUserId($value)
- * @mixin \Eloquent
- * @property string $first_name
- * @property string $last_name
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereLastName($value)
  * @property string $biography
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereBiography($value)
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $full_name
  * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereBiography($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereBirthday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereBirthplace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile whereUserId($value)
+ * @mixin \Eloquent
  */
 class Profile extends Model
 {

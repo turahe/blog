@@ -13,10 +13,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UsersRequest;
 use App\Http\Resources\User as UserResource;
 use App\Models\User;
-use Hash;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class UserController.
