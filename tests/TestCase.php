@@ -37,6 +37,6 @@ abstract class TestCase extends BaseTestCase
         // now re-register all the roles and permissions
         $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
         $this->faker = Faker::create();
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 }
