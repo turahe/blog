@@ -13,6 +13,7 @@ use App\Libraries\Slug\HasSlug;
 use App\Libraries\Slug\SlugOptions;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -71,6 +72,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Category extends Model implements HasMedia
 {
     use SoftDeletes, HasSlug, LogsActivity, InteractsWithMedia;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -179,7 +181,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * @return Category[]|Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getSiblingsAttribute()
     {

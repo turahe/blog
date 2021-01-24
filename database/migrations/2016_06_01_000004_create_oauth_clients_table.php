@@ -1,21 +1,38 @@
 <?php
-/**
- * For the full copyright and license information, please view the LICENSE
- *  file that was distributed with this source code.
- *
- *  @author         Nur Wachid
- *  @copyright      Copyright (c) Turahe 2020.
- */
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateOauthClientsTable.
- */
 class CreateOauthClientsTable extends Migration
 {
+    /**
+     * The database schema.
+     *
+     * @var \Illuminate\Database\Schema\Builder
+     */
+    protected $schema;
+
+    /**
+     * Create a new migration instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->schema = Schema::connection($this->getConnection());
+    }
+
+    /**
+     * Get the migration connection name.
+     *
+     * @return null|string
+     */
+    public function getConnection()
+    {
+        return config('passport.storage.database.connection');
+    }
+
     /**
      * Run the migrations.
      *
@@ -23,11 +40,12 @@ class CreateOauthClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('oauth_clients', function (Blueprint $table) {
+        $this->schema->create('oauth_clients', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->string('name');
             $table->string('secret', 100)->nullable();
+            $table->string('provider')->nullable();
             $table->text('redirect');
             $table->boolean('personal_access_client');
             $table->boolean('password_client');
@@ -43,6 +61,6 @@ class CreateOauthClientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('oauth_clients');
+        $this->schema->dropIfExists('oauth_clients');
     }
 }

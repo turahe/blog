@@ -12,6 +12,7 @@ namespace App\Models;
 use App\Libraries\DateAttribute\DateAttributeTrait;
 use App\Libraries\Like\Likeable;
 use App\Libraries\Like\LikeInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -81,6 +82,7 @@ use Spatie\Permission\Traits\HasRoles;
 class Comment extends Model implements LikeInterface
 {
     use SoftDeletes, Likeable, LogsActivity, HasRoles, DateAttributeTrait;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.

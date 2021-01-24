@@ -1,32 +1,31 @@
 <?php
-/**
- * For the full copyright and license information, please view the LICENSE
- *  file that was distributed with this source code.
- *
- *  @author         Nur Wachid
- *  @copyright      Copyright (c) Turahe 2020.
- */
 
-/* @var Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Category;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-$factory->define(Category::class, function (Faker $faker) {
-    return [
-        'title' => $faker->unique()->word,
-        'subtitle' => Str::limit($faker->sentence(mt_rand(10, 20)), 252),
-        'description' => $faker->sentence(mt_rand(10, 20)),
-    ];
-});
+class CategoryFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Category::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->unique()->word,
+            'subtitle' => Str::limit($this->faker->sentence(mt_rand(10, 20)), 252),
+            'description' => $this->faker->sentence(mt_rand(10, 20)),
+        ];
+    }
+}

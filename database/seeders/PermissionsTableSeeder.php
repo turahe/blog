@@ -6,7 +6,7 @@
  *  @author         Nur Wachid
  *  @copyright      Copyright (c) Turahe 2020.
  */
-
+namespace Database\Seeders;
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\PermissionRegistrar;
