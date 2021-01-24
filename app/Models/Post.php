@@ -13,6 +13,7 @@ use App\Libraries\Post\Markdown;
 use App\Libraries\Post\ReadTime\ReadTime;
 use App\Libraries\Slug\HasSlug;
 use App\Libraries\Slug\SlugOptions;
+use App\Libraries\Sortable\Sortable;
 use App\Scopes\PostedScope;
 use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,12 +25,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\EloquentSortable\SortableTrait;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Tags\HasTags;
+use Turahe\Likeable\Contracts\Likeable as LikeableContract;
+use Turahe\Likeable\Traits\Likeable;
 
 /**
- * App\Models\Post
+ * App\Models\Post.
  *
  * @property int $id
  * @property int $category_id
@@ -94,13 +99,25 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static \Illuminate\Database\Query\Builder|Post withoutTrashed()
  * @mixin \Eloquent
  */
-class Post extends Model implements HasMedia, UrlRoutable
+class Post extends Model implements HasMedia, UrlRoutable, LikeableContract, Sortable
 {
     use InteractsWithMedia;
     use HasSlug;
+    use HasTags;
+    use Likeable;
     use SoftDeletes;
     use LogsActivity;
     use HasFactory;
+    use SortableTrait;
+
+    /**
+     * @var array
+     */
+    public $sortable = [
+        'order_column_name' => 'order_column',
+        'sort_when_creating' => true,
+    ];
+
 
     /**
      * @var array
@@ -175,15 +192,6 @@ class Post extends Model implements HasMedia, UrlRoutable
     }
 
     /**
-     * The "booting" method of the model.
-     */
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::addGlobalScope(new PostedScope);
-    }
-
-    /**
      * @return SlugOptions
      */
     public function getSlugOptions(): SlugOptions
@@ -192,17 +200,6 @@ class Post extends Model implements HasMedia, UrlRoutable
         return SlugOptions::create()
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
-    }
-
-    /**
-     * Prepare a date for array / JSON serialization.
-     *
-     * @param \DateTimeInterface $date
-     * @return string
-     */
-    protected function serializeDate(\DateTimeInterface $date): string
-    {
-        return $date->format('Y-m-d H:i:s');
     }
 
     /**
@@ -253,7 +250,7 @@ class Post extends Model implements HasMedia, UrlRoutable
                 return url($this->slug);
                 break;
             default:
-                return url($this->type . '/' . $this->slug);
+                return url($this->type.'/'.$this->slug);
         }
     }
 
@@ -336,7 +333,7 @@ class Post extends Model implements HasMedia, UrlRoutable
      */
     public function getFirstChildAttribute(): self
     {
-        if (!$this->hasChildren()) {
+        if (! $this->hasChildren()) {
             throw new \Exception("Article `{$this->title}` doesn't have any children.");
         }
 
@@ -370,7 +367,7 @@ class Post extends Model implements HasMedia, UrlRoutable
      */
     public function hasParent(): bool
     {
-        return !is_null($this->parent_id);
+        return ! is_null($this->parent_id);
     }
 
     /**
@@ -391,7 +388,7 @@ class Post extends Model implements HasMedia, UrlRoutable
      */
     public function getAuthorAttribute(): string
     {
-        if (!empty($this->user)) {
+        if (! empty($this->user)) {
             return $this->user->name;
         }
     }
@@ -406,7 +403,6 @@ class Post extends Model implements HasMedia, UrlRoutable
         return $this->belongsTo(Category::class);
     }
 
-
     /**
      * Return the post's comments
      * Define a polymorphic one-to-many relationship.
@@ -416,5 +412,25 @@ class Post extends Model implements HasMedia, UrlRoutable
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'comment');
+    }
+
+    /**
+     * The "booting" method of the model.
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(new PostedScope);
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param \DateTimeInterface $date
+     * @return string
+     */
+    protected function serializeDate(\DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }

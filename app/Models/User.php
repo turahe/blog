@@ -6,8 +6,12 @@ use App\Libraries\Slug\HasSlug;
 use App\Libraries\Slug\SlugOptions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -46,9 +50,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
+    use InteractsWithMedia;
     use HasSlug;
     use HasRoles;
 
@@ -93,13 +99,27 @@ class User extends Authenticatable implements MustVerifyEmail
             ->saveSlugsTo('slug');
     }
 
-    public function profile()
+    /**
+     * @return HasOne
+     */
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class, 'user_id');
     }
 
-    public function socials()
+    /**
+     * @return HasMany
+     */
+    public function socials(): HasMany
     {
         return $this->hasMany(Social::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'user_id');
     }
 }

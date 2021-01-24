@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
         ])->assignRole('admin');
 
         User::factory(10)->create()->each(function ($user) {
-            $user->profile()->save(Profile::factory())->make();
+            $user->profile()->save(Profile::factory()->make());
             $user->socials()->saveMany(Social::factory(mt_rand(3, 5))->make());
         });
     }

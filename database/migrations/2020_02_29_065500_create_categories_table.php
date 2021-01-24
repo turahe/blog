@@ -24,11 +24,11 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('slug')->unique();
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->bigInteger('order_column')->nullable();
             $table->string('title');
             $table->string('subtitle', 255)->nullable();
             $table->text('description');
-            $table->string('layout')->default('blog.categories.index');
+            $table->unsignedBigInteger('order_column')->nullable();
+            $table->string('layout')->default('default');
             $table->softDeletes();
             $table->timestamps();
         });

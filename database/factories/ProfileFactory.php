@@ -22,7 +22,12 @@ class ProfileFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'gender' => $this->faker->boolean,
+            'birthplace' => $this->faker->city,
+            'birthday' => $this->faker->dateTimeBetween('-30 years', '-20 years'),
+            'biography' => $this->faker->sentence,
         ];
     }
 }

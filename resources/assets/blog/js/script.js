@@ -20,7 +20,7 @@ try {
   require('./scripts/main');
   // require('./scripts/map');
   // require('./scripts/socials');
-  require('./scripts/lozad');
+  // require('./scripts/lozad');
   // require('./show');
 
   $.ajaxSetup({

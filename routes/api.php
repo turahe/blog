@@ -18,42 +18,42 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::prefix('v1')->namespace('Api')->group(function () {
+Route::prefix('v1')->group(function () {
     Route::middleware(['auth:api', 'verified', 'throttle:3'])->group(function () {
         // Comments
-        Route::apiResource('comments', 'CommentController')->only('destroy');
-        Route::apiResource('posts.comments', 'PostCommentController')->only('store');
+        Route::delete('comments/{comment}', [\App\Http\Controllers\Api\CommentController::class, 'destroy'])->name('comments.destroy');
+        Route::post('posts/{post}/comments', [\App\Http\Controllers\Api\PostCommentController::class, 'store'])->name('posts.comments');
 
         // Posts
-        Route::apiResource('posts', 'PostController')->only(['update', 'store', 'destroy']);
-        Route::post('/posts/{post}/likes', 'PostLikeController@store')->name('posts.likes.store');
-        Route::delete('/posts/{post}/likes', 'PostLikeController@destroy')->name('posts.likes.destroy');
+        Route::apiResource('posts', \App\Http\Controllers\Api\PostController::class);
+        Route::post('/posts/{post}/likes', [\App\Http\Controllers\Api\PostLikeController::class, 'store'])->name('posts.likes.store');
+        Route::delete('/posts/{post}/likes', [\App\Http\Controllers\Api\PostLikeController::class, 'destroy'])->name('posts.likes.destroy');
 
         // Users
-        Route::apiResource('users', 'UserController')->only('update');
+        Route::apiResource('users', \App\Http\Controllers\Api\UserController::class)->only('update');
 
         // Media
 //        Route::apiResource('media', 'MediaController')->only(['store', 'destroy']);
     });
 
-    Route::post('/authenticate', 'Auth\AuthenticateController@authenticate')->name('authenticate');
+    Route::post('/authenticate', [\App\Http\Controllers\Api\Auth\AuthenticateController::class, 'authenticate'])->name('authenticate');
 
     // Comments
 //    Route::apiResource('posts.comments', function (App\Models\Post $post) {
 //        return $post->id;
 //    });
-    Route::apiResource('posts.comments', 'PostCommentController')->only('index');
-    Route::apiResource('users.comments', 'UserCommentController')->only('index');
-    Route::apiResource('comments', 'CommentController')->only(['index', 'show']);
+    Route::apiResource('posts.comments', \App\Http\Controllers\Api\PostCommentController::class)->only('index');
+    Route::apiResource('users.comments', \App\Http\Controllers\Api\UserCommentController::class)->only('index');
+    Route::apiResource('comments', \App\Http\Controllers\Api\CommentController::class)->only(['index', 'show']);
 
     // Posts
-    Route::apiResource('posts', 'PostController')->only(['index', 'show']);
-    Route::apiResource('categories', 'CategoryController')->only(['index', 'show']);
-    Route::apiResource('tags', 'TagController')->only(['index', 'show']);
-    Route::apiResource('users.posts', 'UserPostController')->only('index');
+    Route::apiResource('posts', \App\Http\Controllers\Api\PostController::class)->only(['index', 'show']);
+    Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class)->only(['index', 'show']);
+    Route::apiResource('tags', \App\Http\Controllers\Api\TagController::class)->only(['index', 'show']);
+    Route::apiResource('users.posts', \App\Http\Controllers\Api\UserPostController::class)->only('index');
 
     // Users
-    Route::apiResource('users', 'UserController')->only(['index', 'show']);
+    Route::apiResource('users', \App\Http\Controllers\Api\UserController::class)->only(['index', 'show']);
 
     // Media
 //    Route::apiResource('media', 'MediaController')->only('index');

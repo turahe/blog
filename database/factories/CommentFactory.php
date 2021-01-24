@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,8 +23,9 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
+        $user = $this->faker->randomElement(User::pluck('id')->toArray());
         return [
-            'user_id' => mt_rand(1, 100), //factory(\App\Models\User::class)->create()->id,
+            'user_id' => $user,
             'title' => $this->faker->sentence,
             'content' => Str::limit($this->faker->paragraph(mt_rand(3, 5))),
             'published_at' => $this->faker->dateTimeBetween('-1 Month', '+3 days'),

@@ -31,7 +31,7 @@ class PostFactory extends Factory
             'title' => $title,
             'subtitle' => Str::limit($this->faker->realText(300, 3), 190),
             'content_raw' => implode("\n\n", $this->faker->paragraphs(mt_rand(7, 16))),
-            'meta_description' => "Meta for $title",
+            'description' => "Meta for $title",
             'is_sticky' => $this->faker->boolean,
             'published_at' => $this->faker->dateTimeBetween('-1 Month', '+3 days'),
             'type' => $this->faker->randomElement(['blog', 'post', 'wiki', 'tutorial', 'book']),
