@@ -67,59 +67,6 @@ class UploadsManager
     }
 
     /**
-     * Sanitize the folder name.
-     * @param $folder
-     * @return string
-     */
-    protected function cleanFolder($folder)
-    {
-        return '/'.trim(str_replace('..', '', $folder), '/');
-    }
-
-    /**
-     * Return breadcrumbs to current folder.
-     * @param $folder
-     * @return string[]
-     */
-    protected function breadcrumbs($folder)
-    {
-        $folder = trim($folder, '/');
-        $crumbs = ['/' => 'root'];
-
-        if (empty($folder)) {
-            return $crumbs;
-        }
-
-        $folders = explode('/', $folder);
-        $build = '';
-        foreach ($folders as $folder) {
-            $build .= '/'.$folder;
-            $crumbs[$build] = $folder;
-        }
-
-        return $crumbs;
-    }
-
-    /**
-     * Return an array of file details for a file.
-     * @param $path
-     * @return array
-     */
-    protected function fileDetails($path)
-    {
-        $path = '/'.ltrim($path, '/');
-
-        return [
-            'name' => basename($path),
-            'fullPath' => $path,
-            'webPath' => $this->fileWebpath($path),
-            'mimeType' => $this->fileMimeType($path),
-            'size' => $this->fileSize($path),
-            'modified' => $this->fileModified($path),
-        ];
-    }
-
-    /**
      * Return the full web path to a file.
      * @param $path
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
@@ -233,5 +180,58 @@ class UploadsManager
         }
 
         return $this->disk->put($path, $content);
+    }
+
+    /**
+     * Sanitize the folder name.
+     * @param $folder
+     * @return string
+     */
+    protected function cleanFolder($folder)
+    {
+        return '/'.trim(str_replace('..', '', $folder), '/');
+    }
+
+    /**
+     * Return breadcrumbs to current folder.
+     * @param $folder
+     * @return string[]
+     */
+    protected function breadcrumbs($folder)
+    {
+        $folder = trim($folder, '/');
+        $crumbs = ['/' => 'root'];
+
+        if (empty($folder)) {
+            return $crumbs;
+        }
+
+        $folders = explode('/', $folder);
+        $build = '';
+        foreach ($folders as $folder) {
+            $build .= '/'.$folder;
+            $crumbs[$build] = $folder;
+        }
+
+        return $crumbs;
+    }
+
+    /**
+     * Return an array of file details for a file.
+     * @param $path
+     * @return array
+     */
+    protected function fileDetails($path)
+    {
+        $path = '/'.ltrim($path, '/');
+
+        return [
+            'name' => basename($path),
+            'fullPath' => $path,
+            'webPath' => $this->fileWebpath($path),
+            'mimeType' => $this->fileMimeType($path),
+            'size' => $this->fileSize($path),
+            'modified' => $this->fileModified($path),
+        ];
     }
 }

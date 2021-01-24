@@ -118,7 +118,6 @@ class Post extends Model implements HasMedia, UrlRoutable, LikeableContract, Sor
         'sort_when_creating' => true,
     ];
 
-
     /**
      * @var array
      */

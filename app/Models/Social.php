@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Social extends Model
 {
     use HasFactory;
+
     /**
      * Return the social's user.
      *

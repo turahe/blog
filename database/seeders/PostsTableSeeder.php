@@ -22,10 +22,10 @@ class PostsTableSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @return void
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @return void
      */
     public function run()
     {

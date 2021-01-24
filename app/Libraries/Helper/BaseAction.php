@@ -102,6 +102,14 @@ abstract class BaseAction
     }
 
     /**
+     * Fires a new action.
+     *
+     * @param string $action Name of action
+     * @param array  $args   Arguments passed to the action
+     */
+    abstract public function fire($action, $args);
+
+    /**
      * Gets the function.
      *
      * @param mixed $callback Callback
@@ -121,12 +129,4 @@ abstract class BaseAction
         }
         throw new \Exception('$callback is not a Callable', 1);
     }
-
-    /**
-     * Fires a new action.
-     *
-     * @param string $action Name of action
-     * @param array  $args   Arguments passed to the action
-     */
-    abstract public function fire($action, $args);
 }

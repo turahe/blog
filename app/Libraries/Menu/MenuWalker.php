@@ -100,6 +100,22 @@ class MenuWalker
 
     /**
      * @param $item
+     */
+    public static function setCurrentMenuItem($item)
+    {
+        static::$currentMenuItem = $item;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getActiveMenu()
+    {
+        return static::$currentMenuItem;
+    }
+
+    /**
+     * @param $item
      * @param string $url
      * @return bool
      */
@@ -122,21 +138,5 @@ class MenuWalker
         }
 
         return false;
-    }
-
-    /**
-     * @param $item
-     */
-    public static function setCurrentMenuItem($item)
-    {
-        static::$currentMenuItem = $item;
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getActiveMenu()
-    {
-        return static::$currentMenuItem;
     }
 }

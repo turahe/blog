@@ -92,14 +92,6 @@ trait SortableTrait
     }
 
     /**
-     * @return string
-     */
-    protected function determineOrderColumnName(): string
-    {
-        return $this->sortable['order_column_name'] ?? 'order_column';
-    }
-
-    /**
      * Determine if the order column should be set when saving a new model instance.
      */
     public function shouldSortWhenCreating(): bool
@@ -227,5 +219,13 @@ trait SortableTrait
     public function buildSortQuery()
     {
         return static::query();
+    }
+
+    /**
+     * @return string
+     */
+    protected function determineOrderColumnName(): string
+    {
+        return $this->sortable['order_column_name'] ?? 'order_column';
     }
 }

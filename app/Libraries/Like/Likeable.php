@@ -19,18 +19,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 trait Likeable
 {
     /**
-     * The "booting" method of the trait.
-     *
-     * @return void
-     */
-    protected static function bootLikeable(): void
-    {
-        static::deleting(function ($resource) {
-            $resource->likes->each->delete();
-        });
-    }
-
-    /**
      * Get all of the resource's likes.
      *
      * @return MorphMany
@@ -76,5 +64,17 @@ trait Likeable
             ->get()
             ->each
             ->delete();
+    }
+
+    /**
+     * The "booting" method of the trait.
+     *
+     * @return void
+     */
+    protected static function bootLikeable(): void
+    {
+        static::deleting(function ($resource) {
+            $resource->likes->each->delete();
+        });
     }
 }

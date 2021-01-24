@@ -42,16 +42,6 @@ class PostRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'published_at' => Carbon::parse($this->input('published_at')),
-        ]);
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -89,5 +79,15 @@ class PostRequest extends FormRequest
             'is_draft' => (bool) $this->is_draft,
             'published_at' => $published_at,
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'published_at' => Carbon::parse($this->input('published_at')),
+        ]);
     }
 }

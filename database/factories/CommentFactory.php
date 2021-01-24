@@ -24,6 +24,7 @@ class CommentFactory extends Factory
     public function definition()
     {
         $user = $this->faker->randomElement(User::pluck('id')->toArray());
+
         return [
             'user_id' => $user,
             'title' => $this->faker->sentence,

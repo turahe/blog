@@ -29,6 +29,13 @@ class Category extends Model implements HasMedia, Sortable
     use SoftDeletes, HasSlug, LogsActivity, InteractsWithMedia;
     use HasFactory;
     use SortableTrait;
+    /**
+     * @var array
+     */
+    public $sortable = [
+        'order_column_name' => 'order_column',
+        'sort_when_creating' => true,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -41,13 +48,6 @@ class Category extends Model implements HasMedia, Sortable
         'order_column',
         'subtitle',
         'description',
-    ];
-    /**
-     * @var array
-     */
-    public $sortable = [
-        'order_column_name' => 'order_column',
-        'sort_when_creating' => true,
     ];
 
     /**
