@@ -25,8 +25,8 @@ final class AdminController extends Controller
     {
         return view('admin.dashboard.index', [
             'comments' =>  Comment::latest()->get(),
-            'posts' => Post::lastWeek()->get(),
-            'users' => User::lastWeek()->get(),
+            'posts' => Post::latest()->get(),
+            'users' => User::latest()->get(),
         ]);
     }
 }

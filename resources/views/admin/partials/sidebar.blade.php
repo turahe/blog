@@ -3,8 +3,8 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
         {!! svg('turahe-light') !!}
-{{--        <img src="{{ Storage::url('turahe-light.svg') }}" alt="{{ config('blog.name') }}" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
-{{--        <span class="brand-text font-weight-light">{{ config('blog.name') }}</span>--}}
+        {{--        <img src="{{ Storage::url('turahe-light.svg') }}" alt="{{ config('blog.name') }}" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
+        {{--        <span class="brand-text font-weight-light">{{ config('blog.name') }}</span>--}}
     </a>
 
     <!-- Sidebar -->
@@ -25,33 +25,29 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 <?php
-                $content_route = ['admin.posts.index', 'admin.posts.create', 'admin.posts.edit', 'admin.categories.index', 'admin.categories.create', 'admin.categories.edit', 'admin.tags.index', 'admin.tags.create', 'admin.tags.edit']
+                $content_route = ['admin.posts.index', 'admin.posts.create', 'admin.posts.edit', 'admin.categories.index', 'admin.categories.create', 'admin.categories.edit']
                 ?>
                 <li class="nav-item has-treeview {{ set_active($content_route, 'menu-open') }}">
                     <a href="#" class="nav-link {{ set_active($content_route) }}">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
-                           Contents
+                            Contents
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.posts.index') }}" class="nav-link {{ set_active(['admin.posts.index', 'admin.posts.create', 'admin.posts.edit']) }}">
+                            <a href="{{ route('admin.posts.index') }}"
+                               class="nav-link {{ set_active(['admin.posts.index', 'admin.posts.create', 'admin.posts.edit']) }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All posts</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.categories.index') }}" class="nav-link {{ set_active(['admin.categories.index', 'admin.categories.create', 'admin.categories.edit']) }}">
+                            <a href="{{ route('admin.categories.index') }}"
+                               class="nav-link {{ set_active(['admin.categories.index', 'admin.categories.create', 'admin.categories.edit']) }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Categories</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.tags.index') }}" class="nav-link {{ set_active(['admin.pages.index', 'admin.pages.create', 'admin.pages.edit']) }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Tags</p>
                             </a>
                         </li>
                     </ul>

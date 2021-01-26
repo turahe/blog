@@ -27,7 +27,7 @@ final class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categoeries = app(Pipeline::class)
+        $categories = app(Pipeline::class)
             ->send(Category::query())
             ->through([
                 \App\Http\QueryFilters\Type::class,

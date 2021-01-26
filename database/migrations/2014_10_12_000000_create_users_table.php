@@ -1,19 +1,9 @@
 <?php
-/**
- * For the full copyright and license information, please view the LICENSE
- *  file that was distributed with this source code.
- *
- *  @author         Nur Wachid
- *  @copyright      Copyright (c) Turahe 2020.
- */
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/**
- * Class CreateUsersTable.
- */
 class CreateUsersTable extends Migration
 {
     /**
@@ -25,19 +15,13 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-
-            $table->datetime('registered_at')->nullable();
-            $table->string('api_token', 60)->unique()->nullable();
-
-            $table->string('provider')->nullable();
-            $table->string('provider_id')->unique()->nullable();
-
             $table->rememberToken();
+            $table->foreignId('current_team_id')->nullable();
+            $table->text('profile_photo_path')->nullable();
             $table->timestamps();
         });
     }

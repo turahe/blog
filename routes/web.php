@@ -30,9 +30,7 @@ Route::get('newsletter-subscriptions/unsubscribe', [\App\Http\Controllers\Newsle
     ->name('newsletter-subscriptions.unsubscribe');
 Route::post('newsletter-subscriptions', [\App\Http\Controllers\NewsletterSubscriptionController::class, 'store']);
 
-Auth::routes(['verify' => true]);
 
-Route::prefix('auth')->group(function () {
-    Route::get('{provider}', [\App\Http\Controllers\Auth\AuthController::class, 'redirectToProvider'])->name('auth.provider');
-    Route::get('{provider}/callback', [\App\Http\Controllers\Auth\AuthController::class, 'handleProviderCallback']);
-});
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');

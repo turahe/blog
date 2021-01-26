@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
 
-Route::middleware(['auth:api', 'verified', 'throttle:3'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'throttle:3'])->group(function () {
     // Comments
     Route::delete('comments/{comment}', [\App\Http\Controllers\Api\CommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('posts/{post}/comments', [\App\Http\Controllers\Api\PostCommentController::class, 'store'])->name('posts.comments');

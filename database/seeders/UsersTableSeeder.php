@@ -32,9 +32,6 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('secret'),
-            'remember_token' => Str::random(10),
-            'api_token' => Str::random(32),
-            'registered_at' => now(),
         ])->assignRole('admin');
 
         User::factory(10)->create()->each(function ($user) {

@@ -35,7 +35,7 @@ final class PostController extends Controller
             ->where('type', '!=', 'page')
             ->latest();
 
-        $posts = $categoeries = app(Pipeline::class)
+        $posts = app(Pipeline::class)
             ->send($data)
             ->through([
                 \App\Http\QueryFilters\Type::class,
@@ -89,7 +89,7 @@ final class PostController extends Controller
             'post' => $post,
             'users' => User::pluck('name', 'id'),
             'categories' => Category::pluck('title', 'id'),
-            'tags' => Tag::pluck('tag', 'id')->toArray(),
+            'tags' => Tag::pluck('name', 'id')->toArray(),
         ]);
     }
 

@@ -8,7 +8,8 @@
 
     <p>@lang('posts.show') : <a href="{{ $post->url }}">{{ $post->url }}</a></p>
 
-    <form method="POST" action="{{ route('admin.posts.update', $post) }}" enctype="multipart/form-data" accept-charset="UTF-8">
+    <form method="POST" action="{{ route('admin.posts.update', $post) }}" enctype="multipart/form-data"
+          accept-charset="UTF-8">
         @method('PATCH')
         @csrf
 
@@ -34,7 +35,8 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="buttonDelete" tabindex="-1" role="dialog" aria-labelledby="buttonDeleteTitle" aria-hidden="true">
+    <div class="modal fade" id="buttonDelete" tabindex="-1" role="dialog" aria-labelledby="buttonDeleteTitle"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -47,7 +49,8 @@
                     ...
                 </div>
                 <div class="modal-footer">
-                    <form method="POST" action="{{ route('admin.posts.destroy', $post) }}" accept-charset="UTF-8" class="form-inline pull-right" data-confirm="{{ __('forms.posts.delete') }}">
+                    <form method="POST" action="{{ route('admin.posts.destroy', $post) }}" accept-charset="UTF-8"
+                          class="form-inline pull-right" data-confirm="{{ __('forms.posts.delete') }}">
                         {{ method_field('DELETE') }}
                         @csrf
                         <button class="btn btn-danger" name="submit" type="submit">
@@ -61,10 +64,5 @@
         </div>
 
 
-        @endsection
-        <script>
-            import Button from "../../../assets/admin-vue/views/components/vuesax/button/Button";
-            export default {
-                components: {Button}
-            }
-        </script>
+@endsection
+
