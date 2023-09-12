@@ -7,6 +7,7 @@ import { RoughNotation } from 'react-rough-notation'
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
+  // @ts-ignore
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -14,7 +15,9 @@ export default function Home({ posts }) {
           <div className="pt-6">
             <h1 className="pb-6 text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
               Hi, I am{' '}
-              <span className="text-primary-color-500 dark:text-primary-color-dark-500">Wachid</span>
+              <span className="text-primary-color-500 dark:text-primary-color-dark-500">
+                Nur Wachid
+              </span>
             </h1>
             <h2 className="prose pt-5 text-lg text-gray-600 dark:text-gray-300">
               {`Welcome to ${siteMetadata.description}. I am a Data Engineer who is passionate about Data Science and Automation. In my free time, I like developing `}
@@ -29,7 +32,7 @@ export default function Home({ posts }) {
                 color="#DE1D8D"
                 animationDelay={1000}
                 animationDuration={2500}
-                className="text-slate-200"
+                customElement="text-slate-200"
               >
                 thoughts, reflections & everything&nbsp;
               </RoughNotation>
@@ -44,7 +47,7 @@ export default function Home({ posts }) {
                 color="#DE1D8D"
                 animationDelay={1000}
                 animationDuration={2500}
-                className="text-slate-200"
+                customElement="text-slate-200"
               >
                 thoughts, reflections & everything&nbsp;
               </RoughNotation>
