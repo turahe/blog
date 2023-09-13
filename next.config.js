@@ -1,5 +1,10 @@
 const { withContentlayer } = require('next-contentlayer')
-
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  // disable: process.env.NODE_ENV === 'development',
+  register: true,
+  sw: 'service-worker.js',
+})
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -58,7 +63,7 @@ const securityHeaders = [
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
 module.exports = () => {
-  const plugins = [withContentlayer, withBundleAnalyzer]
+  const plugins = [withContentlayer, withBundleAnalyzer, withPWA]
   return plugins.reduce((acc, next) => next(acc), {
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
