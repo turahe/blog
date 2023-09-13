@@ -42,6 +42,7 @@
     "remark": "^14.0.2",
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
+    "save-dev": "^0.0.1-security",
     "tailwindcss": "^3.3.3",
     "typewriter-effect": "^2.20.1",
     "unist-util-visit": "^4.1.0",

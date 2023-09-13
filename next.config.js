@@ -74,7 +74,7 @@ module.exports = () => {
       domains: ['picsum.photos'],
     },
     experimental: {
-      appDir: true,
+      appDir: process.env.NODE_ENV === 'development',
     },
     async headers() {
       return [
