@@ -1,9 +1,23 @@
 const { withContentlayer } = require('next-contentlayer')
+const isProduction = process.env.NODE_ENV === 'production'
+const isDev = !isProduction
 const withPWA = require('next-pwa')({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  disable: isDev,
   register: true,
   sw: 'service-worker.js',
+  exclude: [
+    // add buildExcludes here
+    ({ asset, compilation }) => {
+      if (
+        asset.name.startsWith('server/') ||
+        asset.name.match(/^((app-|^)build-manifest\.json|react-loadable-manifest\.json)$/)
+      ) {
+        return true
+      }
+      return isDev && !asset.name.startsWith('static/runtime/')
+    },
+  ],
 })
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
@@ -74,7 +88,7 @@ module.exports = () => {
       domains: ['picsum.photos'],
     },
     experimental: {
-      appDir: process.env.NODE_ENV === 'development',
+      appDir: true,
     },
     async headers() {
       return [
