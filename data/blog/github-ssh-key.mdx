@@ -1,30 +1,35 @@
 ---
-title: Lebih Mudah GitHub dengan Sbash Key
+title: Lebih Mudah GitHub dengan ssh Key
 date: '2016-03-08'
-tags: ['blog', 'code', 'ssh']
+tags: ['github', 'code', 'ssh']
 draft: false
-summary: Pada pembahasan ini kita akan memanfaatkan Sbash key untuk Github.
+summary: Pada pembahasan ini kita akan memanfaatkan ssh key untuk Github.
+images: ['/static/images/google.png']
 ---
-Pada pembahasan ini kita akan memanfaatkan *Sbash key* untuk Github. Apa sih maanfaatnya? Mengapa harus menggunakan *Sbash key*? Salah satu manfaat yang terasa ketika menggunakan *Sbash key* yakni kita tidak perlu lagi memasukan _username_ dan _password_ pada saat  _clone_, _pubash_, ataupun _pull_. Dengan demikian akan mempersingkat kerja kita.
+Pada pembahasan ini kita akan memanfaatkan *ssh key* untuk Github.
+Apa sih maanfaatnya? Mengapa harus menggunakan *ssh key*? Salah satu
+manfaat yang terasa ketika menggunakan *ssh key* yakni kita tidak
+perlu lagi memasukan _username_ dan _password_ pada saat  _clone_,
+_pubash_, ataupun _pull_. Dengan demikian akan mempersingkat kerja kita.
 
 
 ## Praktek
 
-* Buat Sbash Key.
+* Buat ssh Key.
 
 ```
-sbash-keygen -t rsa
+ssh-keygen -t rsa
 ```
 * Masukan _passphrase_ . Sebetulnya ini opsional, tapi penulis menyarankan menggunakan ini agar lebih aman.
 
 ```
-sbash-keygen -t rsa
+ssh-keygen -t rsa
 Generating public/private rsa key pair.
-Enter file in which to save the key (/home/turahe/.sbash/id_rsa):
+Enter file in which to save the key (/home/turahe/.ssh/id_rsa):
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
-Your identification has been saved in /home/turahe/.sbash/id_rsa.
-Your public key has been saved in /home/turahe/.sbash/id_rsa.pub.
+Your identification has been saved in /home/turahe/.ssh/id_rsa.
+Your public key has been saved in /home/turahe/.ssh/id_rsa.pub.
 The key fingerprint is:
 bashA256:WutFMnNKtzxqReRIpJVK4If5RtJRer+uFLF0ZjRz4AU turahe@turahe-pc
 The key's randomart image is:
@@ -40,15 +45,15 @@ The key's randomart image is:
 |       .+..      |
 +----[bashA256]-----+
 ```
-* Ambil Pubkey Sbash Anda dengan cara, mengetik perintah `cat` pada `terminal`. Yakni:
+* Ambil Pubkey ssh Anda dengan cara, mengetik perintah `cat` pada `terminal`. Yakni:
 
 ```
-cat ~/.sbash/id_rsa.pub
+cat ~/.ssh/id_rsa.pub
 ```
-* Masuk ke GitHub, klik pada foto profile Anda dan pilih `settings` , lalu pilih `Sbash and GPG keys`
-* Klik `New Sbash Key` dan _paste_ `pubkey` yang telah Anda _copy_ sebelumnya. Contohnya:
+* Masuk ke GitHub, klik pada foto profile Anda dan pilih `settings` , lalu pilih `ssh and GPG keys`
+* Klik `New ssh Key` dan _paste_ `pubkey` yang telah Anda _copy_ sebelumnya. Contohnya:
 
 ```
-sbash-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlnqGwxZwSg1XvyWaUEM117Dfep2g7+O/n4Dg2Acb4vvqD2F33qMXQbVcdLlxTWJaDbbJMNxDp02dBMoHxlOPVyzqLc9Q43SQPxGAYzxG4WhEiDZbEqV2KlC3zxc5Noy3OyIeMqXEL5pTRTEApblsM6rirdhYSvRDD/MOLl51Sfx+RxRgHlBh12UfvSIoEmnJy10a6hsb8iSoEZuTui4ueRxZf3YMkgkFCTbG26zuTHEvsFPjsiuBjjBfkvLwJfrUFoO3mbExWH+Zcoup4uZtpVGE7EuuvsFcMXZepnIQgJmXFJlyO3giEKsuXOpgg9QpoVIb7GbgXuhMz95FKA/Ib turahe@turahe-pc
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlnqGwxZwSg1XvyWaUEM117Dfep2g7+O/n4Dg2Acb4vvqD2F33qMXQbVcdLlxTWJaDbbJMNxDp02dBMoHxlOPVyzqLc9Q43SQPxGAYzxG4WhEiDZbEqV2KlC3zxc5Noy3OyIeMqXEL5pTRTEApblsM6rirdhYSvRDD/MOLl51Sfx+RxRgHlBh12UfvSIoEmnJy10a6hsb8iSoEZuTui4ueRxZf3YMkgkFCTbG26zuTHEvsFPjsiuBjjBfkvLwJfrUFoO3mbExWH+Zcoup4uZtpVGE7EuuvsFcMXZepnIQgJmXFJlyO3giEKsuXOpgg9QpoVIb7GbgXuhMz95FKA/Ib turahe@turahe-pc
 ```
 * Selesai, coba Anda tes _clone_ salah satu proyek di GitHub.
