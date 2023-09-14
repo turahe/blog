@@ -1,6 +1,6 @@
 import Link from '@/components/Link'
 
-const Experience = ({ title, company, location, range, url, text1, text2, text3 }) => {
+const Experience = ({ title, company, location, range, url, text }) => {
   return (
     <div className="my-3">
       <div className="flex flex-row text-xl">
@@ -14,19 +14,14 @@ const Experience = ({ title, company, location, range, url, text1, text2, text3 
       </div>
       <div>
         <div className="p-1 font-mono text-sm text-gray-400 dark:text-gray-600">{range}</div>
+        <div className="p-1 font-mono text-sm text-gray-400 dark:text-gray-600">{location}</div>
         <div className="p-2">
-          <div className="flex flex-row ">
-            <div className="mr-2 text-lg text-primary-color-500"> &#8227;</div>
-            <div className="text-gray-500 dark:text-gray-400">{text1}</div>
-          </div>
-          <div className="flex flex-row">
-            <div className="mr-2 text-lg text-primary-color-500"> &#8227;</div>
-            <div className="text-gray-500 dark:text-gray-400">{text2}</div>
-          </div>
-          <div className="items-top flex flex-row">
-            <div className="mr-2 text-lg text-primary-color-500"> &#8227;</div>
-            <div className="text-gray-500 dark:text-gray-400">{text3}</div>
-          </div>
+          {text.map((el, index) => (
+            <div className="flex flex-row" key={index}>
+              <div className="mr-2 text-lg text-primary-color-500"> &#8227;</div>
+              <div className="text-gray-500 dark:text-gray-400">{el}</div>
+            </div>
+          ))}
         </div>
       </div>
       <div className="justify-center text-center text-2xl font-medium text-gray-200  dark:text-gray-600">

@@ -44,7 +44,7 @@ export default function AuthorLayout({ children, content }: Props) {
             </div>
           </div>
           <div className="prose max-w-none pb-8 pt-8 dark:prose-invert xl:col-span-2">
-            <p>
+            <div>
               <RoughNotation
                 type="bracket"
                 brackets={['left', 'right']}
@@ -53,59 +53,58 @@ export default function AuthorLayout({ children, content }: Props) {
                 animationDelay={300}
                 animationDuration={3000}
               >
-                I am Currently, I am focused on building data pipelines and automating them at{' '}
-                <Link
-                  href={'https://www.accenture.com/in-en'}
-                  className="special-underline no-underline hover:text-gray-100 dark:text-gray-100 hover:dark:text-gray-100"
-                >
-                  Accenture
-                </Link>
+                <p>
+                  Experienced programmer with a strong background in software development and a
+                  passion for problem-solving. Proficient in designing, coding, testing, and
+                  maintaining software applications. Adept at collaborating with cross-functional
+                  teams to deliver high-quality solutions. Specialized web development and mobile
+                  app development.
+                </p>
+
+                <p>
+                  I am Currently, I am focused on building Enterprise resource planning (ERP), data
+                  pipelines and automating them at{' '}
+                  <Link
+                    href={'https://www.circlecreative.id'}
+                    className="special-underline no-underline hover:text-gray-100 dark:text-gray-100 hover:dark:text-gray-100"
+                  >
+                    Circle Creative
+                  </Link>
+                </p>
               </RoughNotation>
-            </p>
-            <br />
-            <p>
-              This is what I am doing right{' '}
-              <Link
-                href={'/now'}
-                className="special-underline no-underline hover:text-gray-100 dark:text-gray-100 hover:dark:text-gray-100"
-              >
-                now
-              </Link>
-            </p>
+            </div>
             <br />
             <p className="sm:block md:hidden lg:hidden">
               I am always looking to learn new things. I am currently working on a few projects
-              related to
-              <span className="font-semibold">
-                {' '}
-                Natural Language Processing and Machine Learning.{' '}
-              </span>
-              At the same time I am{' '}
+              related to At the same time I am{' '}
               <RoughNotation
-                type="underline"
-                show={true}
-                color="#FBCFE8"
-                animationDelay={1500}
+                animationDelay={1000}
                 animationDuration={3000}
-                multiline={true}
+                type="box"
+                color="#de1d8d"
+                strokeWidth={1}
+                show={true}
               >
-                actively on the lookout for remote internships which I can pursue in field of Data
-                Science.
+                <span className="text-black dark:text-white">
+                  Enterprise resource planning (ERP) adn Machine Learning.{' '}
+                </span>
               </RoughNotation>
+              actively on the wrote books in the fields of programming, data science and
+              electricity.
             </p>
             <p className="hidden md:block">
               I am always looking to learn new things. I am currently working on a few projects
               related to{' '}
               <RoughNotation
-                animationDelay="1000"
-                animationDuration="3000"
-                type="highlight"
-                color="#0ea4e9"
-                strokeWidth="3"
+                animationDelay={1000}
+                animationDuration={3000}
+                type="box"
+                color="#de1d8d"
+                strokeWidth={1}
                 show={true}
               >
                 <span className="text-black dark:text-white">
-                  Natural Language Processing and Machine Learning.{' '}
+                  Enterprise resource planning (ERP) and Machine Learning.{' '}
                 </span>
               </RoughNotation>
               At the same time I am{' '}
@@ -117,8 +116,8 @@ export default function AuthorLayout({ children, content }: Props) {
                 animationDuration={3000}
                 multiline={true}
               >
-                actively on the lookout for remote internships which I can pursue in field of Data
-                Science
+                actively on the wrote books in the fields of programming, data science and
+                electricity.
               </RoughNotation>
             </p>
             <br />
@@ -167,18 +166,7 @@ export default function AuthorLayout({ children, content }: Props) {
               </Link>
             </p>
             <br />
-            <p>
-              <Link
-                href={'/uses'}
-                className="special-underline no-underline hover:text-gray-100 dark:text-gray-100 hover:dark:text-gray-100"
-              >
-                Here
-              </Link>{' '}
-              you can see what I use on daily basis
-            </p>
           </div>
-
-
         </div>
         <div className="mt-10 md:pl-16">
           <div className="space-y-2 pt-6 pb-8 md:space-y-5">
@@ -195,9 +183,7 @@ export default function AuthorLayout({ children, content }: Props) {
                 location={d.location}
                 range={d.range}
                 url={d.url}
-                text1={d.text1}
-                text2={d.text2}
-                text3={d.text3}
+                text={d.text}
               />
             ))}
           </div>
