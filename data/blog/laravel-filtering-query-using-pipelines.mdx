@@ -1,0 +1,103 @@
+---
+title: Laravel Filtering Query using Pipelines
+date: '2023-09-15'
+tags: ['laravel', 'pipeline']
+draft: false
+summary: Pada pembahasan ini kita akan memanfaatkan ssh key untuk Github.
+images: ['/static/images/google.png']
+---
+
+In Laravel, you can use pipelines to filter and manipulate queries before executing them. Pipelines allow you to chain multiple filters and processes together to build complex query logic. Below is an example of how you can use pipelines to filter a query in Laravel.
+
+Let's say you have an Eloquent model called `Product`, and you want to filter the products based on certain criteria, such as category, price range, and availability.
+
+1. **Create a Filter Class**: First, create a filter class for each filter criterion. In your Laravel application, you can create these classes using the `php artisan make:filter` command. For example, you can create a filter class called `CategoryFilter`:
+
+```php
+<?php
+
+namespace App\Http\Pipelines\QueryFilters;
+
+use Illuminate\Support\Str;
+
+abstract class Filter
+{
+    /**
+     * @param $request
+     * @param \Closure $next
+     * @return mixed
+     */
+    public function handle($request, \Closure $next)
+    {
+        if (! request()->has($this->filterName())) {
+            return $next($request);
+        }
+
+        $builder = $next($request);
+
+        return $this->applyFilters($builder);
+    }
+
+    /**
+     * @param $builder
+     * @return mixed
+     */
+    abstract protected function applyFilters($builder);
+
+    /**
+     * @return string
+     */
+    protected function filterName(): string
+    {
+        return Str::snake(class_basename($this));
+    }
+}
+
+   ```
+
+This will generate a `CategoryFilter.php` file in the `app/Http/Pipelines/QueryFilters` directory.
+
+2. **Define the Filter Logic**: Open the `CategoryFilter.php` file and define the logic for filtering products based on the category. Here's an example:
+
+```php
+<?php
+
+namespace App\Http\Pipelines\QueryFilters;
+
+use Illuminate\Database\Eloquent\Builder;
+
+class CategoryFilter
+{
+    public function filter(Builder $builder, $value)
+    {
+        return $builder->where('category', $value);
+    }
+}
+   ```
+
+You can create similar filter classes for other criteria like price range and availability.
+
+
+Make sure to include all the filter classes you've created in the `$filters` array.
+
+4. **Use the Pipeline**: In your controller or wherever you want to filter the products, use the pipeline to build the query and apply the filters:
+
+```php
+use App\Pipelines\ProductPipeline;
+use Illuminate\Http\Request;
+
+public function index(Request $request)
+{
+    $products = app(Pipeline::class)
+        ->send(Product::query())
+        ->through($request->all())
+        ->thenReturn()
+        ->get();
+
+    return view('products.index', compact('products'));
+}
+```
+
+In this example, we use the `ProductPipeline` to filter the `Product` model based on the request parameters. The filters are applied through the `through` method, which takes an array of filter criteria from the request.
+
+Now, when you make a request to your endpoint with filter criteria in the query parameters, the pipeline will apply the filters, and you'll get the filtered products as a result. This allows you to easily add or modify filters without changing the core query logic in your controller.
