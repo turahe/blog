@@ -9,9 +9,6 @@ export const metadata = genPageMetadata({ title: 'Blog' })
 
 export default async function BlogPage() {
   const posts = allCoreContent(sortPosts(allBlogs))
-  const res = await fetch(`https://httpbin.org/get`)
-  const data = await res.json()
-  console.log(data)
   const pageNumber = 1
   const initialDisplayPosts = posts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
