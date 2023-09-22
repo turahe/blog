@@ -1,0 +1,161 @@
+---
+title: Menjalankan beberapa applikasi nextjs di server sama dengan PM2 dan NGINX
+date: '2023-09-19'
+tags: ['nextjs', 'server', 'ubuntu', 'nginx']
+draft: false
+summary: cara menjalankan beberapa aplikasi Next.js menggunakan PM2 dan Nginx di server ubuntu
+---
+
+Pada artikel ini, saya akan menjelaskan cara menjalankan beberapa aplikasi Next.js menggunakan PM2 dan Nginx di server ubuntu.
+Untuk demonstrasi ini, saya akan menggunakan Digital Ocean droplet dengan sistem operasi Ubuntu.
+
+## Persiapan
+- Pastikan Node dan npm telah terinstal di server Anda. Anda bisa gunakan [nvm](https://github.com/nvm-sh/nvm) untuk
+instalasi versi node yang anda perlukan
+- Anda memerlukan Next.js.
+
+## Instalasi dan Pembuatan Aplikasi Next.js
+
+Pertama-tama, saya akan menginstal dan membangun aplikasi Next.js di server.
+Saya akan menginstal dua aplikasi Next.js sebagai contoh untuk layanan ganda nanti.
+
+Asumsikan Anda telah masuk melalui SSH ke droplet Anda.
+Kemudian, masuk ke direktori home.
+
+Buat dua aplikasi :
+
+```bash
+mkdir www
+cd www
+npx create-next-app@latest nextjs-demo1 --use-npm --example "https://github.com/vercel/next-learn/tree/main/basics/learn-starter"
+npx create-next-app@latest nextjs-demo2 --use-npm --example "https://github.com/vercel/next-learn/tree/main/basics/learn-starter"
+```
+
+
+## Instalasi dan Konfigurasi PM2 (Manajer Proses)
+
+PM2 adalah manajer proses (daemon) yang membantu mengelola dan menjalankan aplikasi 24/7 di latar belakang.
+Untuk informasi lebih lanjut tentang PM2, kunjungi situs web resminya [di sini](https://pm2.keymetrics.io/).
+
+Instalasi PM2 di Ubuntu cukup mudah dengan npm (Node Package Manager):
+
+```bash
+npm install -g pm2
+```
+
+Anda dapat memeriksa status PM2 dengan perintah berikut:
+
+```bash
+pm2 status
+```
+
+## Penggunaan PM2 untuk Mengelola Aplikasi Next.js
+
+Setelah menginstal PM2, saya akan mempersiapkan agar dua aplikasi Next.js dapat berjalan secara paralel dalam PM2.
+
+Masuk ke dalam direktori aplikasi Next.js:
+
+```bash
+cd ~/www/nextjs-demo1
+```
+
+Lalu, jalankan PM2 dan aplikasi Next.js dengan port yang spesifik:
+
+```bash
+pm2 start npm --name nextjs-demo1 -- start -- -p 3000
+```
+
+Dengan perintah di atas, aplikasi Next.js seharusnya dapat diakses melalui URL http://localhost:3000.
+
+Ulangi perintah yang sama untuk aplikasi Next.js yang lain dengan port yang berbeda, misalnya, port 3001 atau 3002.
+
+Jika PM2 dan aplikasi Next.js dijalankan dengan sukses, Anda akan melihat informasi seperti berikut:
+
+```bash
+pm2 status
+```
+
+Dengan menggunakan PM2, Anda dapat dengan lancar menerapkan kode terbaru dari repositori tanpa memengaruhi ketersediaan aplikasi web Anda,
+yang disebut juga sebagai "zero downtime."
+
+##  Konfigurasi Nginx
+
+Langkah terakhir adalah menginstal dan mengkonfigurasi Nginx agar aplikasi Next.js dapat diakses secara publik melalui browser web.
+
+Kemudian, buat file konfigurasi baru untuk aplikasi Next.js Anda:
+
+```bash
+sudo  vim /etc/nginx/sites-available/nextjs-demo1.com
+```
+
+Untuk menjaga keteraturan, disarankan memberi nama file konfigurasi Nginx sesuai dengan domain atau URL yang Anda gunakan.
+
+Selanjutnya, buka file tersebut:
+
+```bash
+sudo nano nextjs-demo1.com
+```
+
+Isi file tersebut dengan kode berikut:
+
+```nginx
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name nextjs-demo1.com www.nextjs-demo1.com;
+
+        location / {
+                proxy_pass http://localhost:3000;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+        }
+}
+```
+
+Beberapa hal yang perlu diperhatikan dalam kode di atas:
+
+- `root` harus mengarah ke direktori Next.js.
+- `server_name` harus diisi dengan domain atau URL yang Anda persiapkan sebelumnya.
+- `proxy_pass` harus mengarah ke URL dan port default Next.js yang telah saya siapkan sebelumnya.
+
+Simpan dan keluar setelah Anda selesai mengedit file konfigurasi Nginx.
+
+Selanjutnya, Anda perlu mengaktifkan file konfigurasi ini dengan membuat tautan simbolis dari file tersebut ke direktori /etc/nginx/sites-enabled. Nginx akan membaca file simbolis tersebut saat dijalankan.
+
+Anda dapat membuat tautan simbolis dengan perintah berikut:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/nextjs-demo1.com /etc/nginx/sites-enabled
+```
+
+Pastikan Anda menyesuaikan `nextjs-demo1.com` dengan nama file dan domain yang telah Anda buat.
+
+Ulangi langkah di atas untuk aplikasi Next.js lainnya.
+
+Untuk memastikan tidak ada kesalahan dalam file konfigurasi yang telah dibuat, lakukan pengujian dengan perintah berikut:
+
+```bash
+sudo nginx -t
+```
+
+Jika tidak ada kesalahan, restart layanan Nginx untuk mengaktifkan konfigurasi baru:
+
+```bash
+sudo systemctl restart nginx
+```
+
+Kini, dua aplikasi web Next.js Anda seharusnya dapat diakses melalui web browser dengan menggunakan domain masing-masing
+(nextjs-demo1.com dan nextjs-demo2.com).
+
+Selamat, Anda telah berhasil menjalankan dua aplikasi web Next.js dengan sukses pada satu server menggunakan PM2.
+
+## Ringkasan
+
+Menjalankan lebih dari satu aplikasi web Next.js di satu server cloud atau server dedicated dapat lebih mudah dilakukan
+dengan menggunakan PM2. PM2 juga memungkinkan penggunaan aplikasi web Anda tanpa adanya downtime selama proses
+implementasi kode terbaru dan proses pembangunan di Next.js. Anda tidak perlu khawatir tentang downtime selama proses
+implementasi lagi.
