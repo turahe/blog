@@ -8,7 +8,7 @@ const siteMetadata = {
   language: 'id-id',
   theme: 'system', // system, dark or light
   siteUrl: 'https://wach.id',
-  siteRepo: 'https://github.com/turahe/blog-boilerplate',
+  siteRepo: 'https://github.com/turahe/blog',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   // mastodon: 'https://mastodon.social/@mastodonuser',
