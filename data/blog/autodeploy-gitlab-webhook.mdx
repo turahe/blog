@@ -1,0 +1,75 @@
+---
+title: Deploy Applikasi web dengan webhook Gitlab
+date: '2023-09-30'
+tags: ['gitlab', 'webhook']
+draft: false
+summary: Webhook juga dikenal sebagai "reverse API". Ini adalah alat yang memungkinkan satu sistem atau aplikasi untuk berkomunikasi dan mengirimkan pemberitahuan secara real-time tentang peristiwa tertentu ke sistem atau aplikasi lain..
+---
+
+## Apa itu webhook?
+
+Webhook juga dikenal sebagai "reverse API". Ini adalah alat yang memungkinkan satu sistem atau aplikasi untuk berkomunikasi
+dan mengirimkan pemberitahuan secara real-time tentang peristiwa tertentu ke sistem atau aplikasi lain.
+Webhook biasanya dipicu oleh suatu peristiwa. Penggunaan yang bagus untuk webhook adalah menjalankan pengujian pada server
+pengujian khusus atau mendeploy cabang master terbaru Anda ke tahap produksi/staging.
+
+Github / Gitlab / Bitbucket memungkinkan Anda untuk menentukan URL webhook dalam pengaturan repositori Anda.
+Github memicu webhook yang mengirimkan data peristiwa setiap kali terjadi push.
+
+## Webhook Server
+
+[Webhook](https://github.com/adnanh/webhook) merupakan proyek Golang yang sangat berguna yang menjalankan skrip di server lainnya.
+Download  dan ekstrak file sesuai dengan sistem operasi Anda dari [halaman rilis](https://github.com/adnanh/webhook/releases).
+
+
+### 1. Buatlah sebuah konfigurasi seperti berikut ini.
+
+```
+[
+  {
+    "id": "dev-redeploy",
+    "execute-command": "/home/default/www/.bin/update.sh",
+    "command-working-directory": "/home/default/www/",
+    "trigger-rule":
+    {
+      "match":
+      {
+        "type": "value",
+        "value": "secret",
+        "parameter":
+        {
+          "source": "header",
+          "name": "X-Gitlab-Token"
+        }
+      }
+    },
+  },
+]
+```
+`default` merupakan username yang ada di server saya
+
+### 2. buatlah sebuath file executable untuk menjalahkan update otomatis
+
+```bash
+#!/bin/bash
+
+# store the current dir
+CUR_DIR=$(pwd)
+
+# Let the person running the script know what's going on.
+echo -e "\n\033[1mPulling in latest changes for all repositories...\033[0m\n"
+git pull origin dev;
+
+#php composer.phar dump-autoload;
+php composer.phar update;
+
+echo -e "\n\033[32mComplete!\033[0m\n"
+
+```
+
+Jadikan file tersebut jadi executable dengan perintah `chmod +x update.sh`
+
+### Setting webhook pada gitlab
+
+Untuk mengatur webhook sama seperti pada tutorial [Laravel gitlab webhook](/blog/laravel-gitlab-webhook/#mulai-tahap-2)
+
