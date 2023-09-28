@@ -85,7 +85,7 @@ module.exports = () => {
       dirs: ['app', 'components', 'layouts', 'scripts'],
     },
     images: {
-      domains: ['picsum.photos', 'raw.githubusercontent.com'],
+      domains: ['sgp1.digitaloceanspaces.com', 'raw.githubusercontent.com'],
     },
     experimental: {
       appDir: true,

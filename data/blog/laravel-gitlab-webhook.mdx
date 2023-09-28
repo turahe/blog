@@ -103,7 +103,7 @@ nodejs -v
 const http = require('http');
 const createHandler = require('node-gitlab-webhook');
 // single handler
-const handler = createHandler({ path: '/webhook1', secret: 'secret1' });
+const handler = createHandler({ path: '/deploy', secret: 'secret' });
 const execFile = require('child_process').execFile;
 
 http.createServer(function (req, res) {
