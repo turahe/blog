@@ -1,0 +1,25 @@
+---
+title: Lebih Mudah GitHub dengan ssh Key
+date: '2016-03-08'
+tags: ['github', 'code', 'ssh']
+draft: false
+summary: Pada pembahasan ini kita akan memanfaatkan ssh key untuk Github.
+---
+
+Jika Anda baru saja selesai menyiapkan pengaturan email untuk aplikasi Laravel, Anda mungkin ingin mencobanya. 
+Anda dapat menyelami aplikasi Anda dan melakukan tindakan yang menghasilkan email terkirim, 
+tetapi ada cara cepat dan mudah untuk mengujinya melalui Laravel Tinker pada baris perintah.
+
+SSH ke server Anda atau buka prompt di root proyek Laravel Anda dan mulai sesi bermain-main.
+
+```shell
+php artisan tinker
+```
+
+Kemudian, gunakan `Facade Mail` untuk mengirim tes email. Pastikan untuk mengubah email Anda. 
+Anda juga dapat merangkai metode lain pada email biasa di sini.
+ Misalnya, Anda dapat menggunakan $msg->from('mysender@app.com') untuk menyesuaikan alamat email pengirim.
+
+```php
+Mail::raw('Halo Dunia!', function($msg) {$msg->to('myemail@gmail.com')->subject('Test Email'); });
+```
