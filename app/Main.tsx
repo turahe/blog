@@ -20,7 +20,14 @@ export default function Home({ posts }) {
               <span className="text-primary-color-500 dark:text-primary-color-dark-500">
                 <Typewriter
                   options={{
-                    strings: ['Nur Wachid', 'Senior Programmer', 'PHP/Laravel Expert', 'React', 'Vue', 'Next'],
+                    strings: [
+                      'Nur Wachid',
+                      'Senior Programmer',
+                      'PHP/Laravel Expert',
+                      'React',
+                      'Vue',
+                      'Next',
+                    ],
                     autoStart: true,
                     loop: true,
                   }}
