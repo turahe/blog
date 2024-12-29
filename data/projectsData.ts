@@ -8,7 +8,7 @@ const projectsData = [
   {
     title: 'Nextsuite',
     description: `A base theme for neo project`,
-    imgSrc: '/static/images/nextsuit.png',
+    imgSrc: '/static/images/nextsuite.png',
     href: 'https://nextsuite.wach.id',
   },
   {
