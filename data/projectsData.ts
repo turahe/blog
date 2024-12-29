@@ -1,5 +1,17 @@
 const projectsData = [
   {
+    title: 'Private Packagist',
+    description: `A repository Website for PHP packages. It's a central hub where developers can discover, share, and install reusable PHP code`,
+    imgSrc: '/static/images/satis.webp',
+    href: 'https://packagist.wach.id',
+  },
+  {
+    title: 'Nextsuite',
+    description: `A base theme for neo project`,
+    imgSrc: '/static/images/nextsuit.png',
+    href: 'https://nextsuite.wach.id',
+  },
+  {
     title: 'Laravel counter',
     description: `In some cases, you need to manage the state of the counters in your project, like the number of visitors of your website, or number of view for a post, or number of downloads for a file, this needs to create a new table to save these records, or at least adding new column for your tables to save the count value.`,
     imgSrc: '/static/images/counter.jpg',
