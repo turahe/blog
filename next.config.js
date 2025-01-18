@@ -1,4 +1,4 @@
-const { withContentlayer } = require('next-contentlayer')
+const { withContentlayer } = require('next-contentlayer2')
 const isProduction = process.env.NODE_ENV === 'production'
 const isDev = !isProduction
 const withPWA = require('next-pwa')({
