@@ -1,9 +1,18 @@
-const experienceData = [
+interface Props {
+  title: string,
+  company: string,
+  location: string,
+  range: string
+  url: string|undefined|null,
+  text: string[],
+
+}
+const experienceData:Props[] = [
   {
     title: 'Head of  Software Engineering',
     company: 'PT. Lingkar Kreasi Teknologi',
     location: 'Tangerang, Indonesia',
-    range: 'Augustus 2022 - Presence',
+    range: 'Augustus 2022 - December 2024',
     url: 'https://www.circlecreative.id',
     text: [
       'Successfully led a team of developers, fostering a collaborative and high-performing environment that resulted in a 20% increase in overall team productivity.',
@@ -59,6 +68,7 @@ const experienceData = [
     company: 'PT Danadipa Central Niaga',
     location: 'Yogyakarta, Indonesia',
     range: 'Nov 2017 - Nov 2018 ',
+    url: null,
     text: [
       'Successfully developing and launching large-scale websites for clients or companies',
       'Improving website performance by reducing loading times, minimizing server requests, and optimizing images and other resources. This can enhance user experience and SEO rankings.',

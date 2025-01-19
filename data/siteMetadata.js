@@ -12,6 +12,7 @@ const siteMetadata = {
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   // mastodon: 'https://mastodon.social/@mastodonuser',
+  
   email: 'wachid@outlook.com',
   github: 'https://github.com/turahe',
   twitter: 'https://twitter.com/wach_1',

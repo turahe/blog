@@ -2,10 +2,11 @@ import ListLayout from '@/layouts/ListLayoutWithTags'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'
 import { genPageMetadata } from 'app/seo'
+import { Metadata } from "next";
 
 const POSTS_PER_PAGE = 5
 
-export const metadata = genPageMetadata({ title: 'Blog' })
+export const metadata:Metadata = genPageMetadata({ title: 'Blog' })
 
 export default async function BlogPage() {
   const posts = allCoreContent(sortPosts(allBlogs))

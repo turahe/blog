@@ -20,6 +20,7 @@ export default [
   ...compat.extends(
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
     'next',
@@ -50,6 +51,7 @@ export default [
     rules: {
       'prettier/prettier': 'error',
       'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
 
       'jsx-a11y/anchor-is-valid': [
         'error',
