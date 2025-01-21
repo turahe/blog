@@ -22,7 +22,7 @@ const siteMetadata = {
   locale: 'id-ID',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
-    // content security policy in the `next.config.js` file.
+    // content security policy in the `next.config.ts` file.
     // supports Plausible, Simple Analytics, Umami, Posthog or Google Analytics.
     umamiAnalytics: {
       // We use an env variable for this site to avoid other users cloning our analytics ID
@@ -47,7 +47,7 @@ const siteMetadata = {
   },
   comments: {
     // If you want to use an analytics provider you have to add it to the
-    // content security policy in the `next.config.js` file.
+    // content security policy in the `next.config.ts` file.
     // Select a provider and use the environment variables associated to it
     // https://vercel.com/docs/environment-variables
     provider: 'giscus', // supported providers: giscus, utterances, disqus
