@@ -6,8 +6,7 @@
     "dev": "cross-env INIT_CWD=$PWD next dev",
     "build": "cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "serve": "next start",
-    "analyze": "cross-env ANALYZE=true next build",
-    "prepare": "husky"
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@next/bundle-analyzer": "13.4.19",
