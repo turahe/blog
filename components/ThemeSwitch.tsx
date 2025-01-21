@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 import useSound from 'use-sound'
 
 const ThemeSwitch = () => {
