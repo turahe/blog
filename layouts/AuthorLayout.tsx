@@ -177,7 +177,7 @@ export default function AuthorLayout({ children, content }: Props) {
           <div className="max-w-none pb-8 pt-8 xl:col-span-2">
             {experienceData.map((d) => (
               <Experience
-                key={d.company}
+                key={d.id}
                 title={d.title}
                 company={d.company}
                 location={d.location}

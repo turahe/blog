@@ -1,4 +1,5 @@
 interface Props {
+  id: number;
   title: string,
   company: string,
   location: string,
@@ -9,6 +10,7 @@ interface Props {
 }
 const experienceData:Props[] = [
   {
+    id: 1,
     title: 'Head of  Software Engineering',
     company: 'PT. Lingkar Kreasi Teknologi',
     location: 'Tangerang, Indonesia',
@@ -23,6 +25,7 @@ const experienceData:Props[] = [
     ],
   },
   {
+    id: 2,
     title: 'VP devOps Engineer',
     company: 'PT. Lingkar Kreasi',
     location: 'Bandung, Indonesia',
@@ -37,6 +40,7 @@ const experienceData:Props[] = [
     ],
   },
   {
+    id: 3,
     title: 'Backend Developer',
     company: 'PT. Rakhasa Artha Wisesa',
     location: 'Jakarta, Indonesia',
@@ -50,6 +54,7 @@ const experienceData:Props[] = [
     ],
   },
   {
+    id: 4,
     title: 'Project Lead Developer',
     company: 'PT. Lingkar Kreasi',
     location: 'Bandung, Indonesia',
@@ -64,6 +69,7 @@ const experienceData:Props[] = [
     ],
   },
   {
+    id: 5,
     title: 'Web Developer',
     company: 'PT Danadipa Central Niaga',
     location: 'Yogyakarta, Indonesia',
