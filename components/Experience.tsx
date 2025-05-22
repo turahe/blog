@@ -24,7 +24,7 @@ const Experience = ({ title, company, location, range, url, text }) => {
           ))}
         </div>
       </div>
-      <div className="justify-center text-center text-2xl font-medium text-gray-200  dark:text-gray-600">
+      <div className="justify-center text-center text-2xl font-medium text-gray-200 dark:text-gray-600">
         &#126;&#126;&#126;
       </div>
     </div>
