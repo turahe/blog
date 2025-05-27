@@ -1,10 +1,16 @@
 FROM node:22-alpine AS base
+ENV YARN_VERSION=4.9.1
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY package*.json ./
-COPY yarn.lock ./
-RUN corepack enable && corepack prepare yarn@4.9.1 --activate
-RUN yarn install --frozen-lockfile || (cat /app/yarn-error.log && exit 1)
+
+RUN corepack enable && corepack prepare yarn@${YARN_VERSION} --activate
+# add the user and group we'll need in our final image
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
+RUN yarn install --immutable
 EXPOSE 3000
 
 FROM base AS builder
