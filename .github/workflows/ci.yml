@@ -36,6 +36,12 @@ jobs:
     - name: Run tests
       run: yarn test:ci
       
+    - name: Install Playwright browsers
+      run: yarn test:e2e:install
+      
+    - name: Run E2E tests
+      run: yarn test:e2e
+      
     - name: Build project
       run: yarn build
       

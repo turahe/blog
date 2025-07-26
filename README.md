@@ -249,6 +249,12 @@ newsletter: {
 - `yarn test:watch` - Run tests in watch mode
 - `yarn test:coverage` - Run tests with coverage report
 - `yarn test:ci` - Run tests for CI environment
+- `yarn test:e2e` - Run E2E tests with Playwright
+- `yarn test:e2e:ui` - Run E2E tests with UI mode
+- `yarn test:e2e:headed` - Run E2E tests in headed mode
+- `yarn test:e2e:debug` - Run E2E tests in debug mode
+- `yarn test:e2e:install` - Install Playwright browsers
+- `yarn test:e2e:report` - Show E2E test report
 
 ## 🔄 CI/CD Pipeline
 
@@ -325,6 +331,9 @@ The test suite covers:
 - **Utility Functions** - Date formatting, text truncation, URL validation, email validation
 - **Component Testing** - React component rendering and interactions
 - **Configuration** - Jest setup and mocking
+- **E2E Testing** - Full user workflows and interactions
+- **Performance Testing** - Page load times and responsiveness
+- **Cross-browser Testing** - Chrome, Firefox, Safari, and mobile browsers
 
 ### Running Tests
 
@@ -348,6 +357,9 @@ yarn test:ci
 - **React Testing Library** - Component testing utilities
 - **jsdom** - DOM environment for testing
 - **Coverage Threshold** - 70% minimum coverage required
+- **Playwright** - E2E testing framework
+- **Multiple Browsers** - Chrome, Firefox, Safari, and mobile browsers
+- **Performance Testing** - Load time and responsiveness validation
 
 ### Writing Tests
 
@@ -357,6 +369,28 @@ Tests follow these conventions:
 - Mock external dependencies
 - Validate data structures
 - Test accessibility features
+
+### E2E Testing with Playwright
+
+The E2E test suite includes:
+
+#### Test Categories:
+- **Home Page Tests** - Page loading, navigation, and content verification
+- **Blog Page Tests** - Post listing, pagination, and search functionality
+- **Navigation Tests** - Cross-page navigation, mobile menu, and theme switching
+- **Performance Tests** - Load times, responsiveness, and resource optimization
+
+#### Browser Support:
+- **Desktop**: Chrome, Firefox, Safari
+- **Mobile**: Chrome (Pixel 5), Safari (iPhone 12)
+- **Responsive**: Multiple viewport sizes
+
+#### Features:
+- **Parallel Execution** - Tests run in parallel for faster execution
+- **Visual Testing** - Screenshots and videos on failure
+- **Performance Monitoring** - Load time and resource usage tracking
+- **Accessibility Testing** - Keyboard navigation and ARIA compliance
+- **Mobile Testing** - Touch interactions and responsive design validation
 
 ## 🤝 Contributing
 
