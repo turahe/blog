@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Nur Wachid. All rights reserved.
+ * This software is proprietary and confidential.
+ * See LICENSE file for details.
+ */
+
 // @ts-ignore
 import { sortPosts, allCoreContent } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'

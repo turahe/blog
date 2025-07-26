@@ -19,7 +19,7 @@ const projectsData = [
   },
   {
     title: 'Laravel Likeable',
-    description: `Laravel Likeable simplify management of Eloquent model's likes & dislikes. Make any model likeable & dislikeable in a minute!`,
+    description: `Laravel Likeable simplifies management of Eloquent model's likes & dislikes. Make any model likeable & dislikeable in a minute!`,
     imgSrc: '/static/images/like-dislike.jpeg',
     href: 'https://github.com/turahe/laravel-likeable',
   },

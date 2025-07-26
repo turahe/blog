@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Nur Wachid. All rights reserved.
+ * This software is proprietary and confidential.
+ * See LICENSE file for details.
+ */
+
 import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 
