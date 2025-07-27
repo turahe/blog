@@ -218,6 +218,17 @@ github-cache-status: ## Show GitHub cache status
 		echo "$(YELLOW)No cache file found$(RESET)"; \
 	fi
 
+# License Management
+.PHONY: license-headers
+license-headers: ## Add proprietary license headers to all source files
+	@echo "$(GREEN)Adding proprietary license headers to source files...$(RESET)"
+	@node scripts/add-license-headers.mjs
+
+.PHONY: license-check
+license-check: ## Check which files have license headers
+	@echo "$(GREEN)Checking license headers in source files...$(RESET)"
+	@find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.mjs" | grep -v node_modules | grep -v .next | xargs grep -l "PROPRIETARY LICENSE" | wc -l | xargs echo "Files with license headers:"
+
 # Docker
 .PHONY: docker-build
 docker-build: ## Build Docker image
