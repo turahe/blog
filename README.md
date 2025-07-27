@@ -6,6 +6,15 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.7-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg?style=for-the-badge)](LICENSE)
 [![Deploy on Vercel](https://img.shields.io/badge/Deploy%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
+[![GitHub Repositories](https://img.shields.io/badge/GitHub-Repositories-181717?style=for-the-badge&logo=github)](https://github.com/turahe)
+[![Make](https://img.shields.io/badge/Make-Automation-FF6B6B?style=for-the-badge&logo=gnu)](https://www.gnu.org/software/make/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![Yarn](https://img.shields.io/badge/Yarn-Package%20Manager-2C8EBB?style=for-the-badge&logo=yarn)](https://yarnpkg.com/)
+[![Jest](https://img.shields.io/badge/Jest-Testing-C21325?style=for-the-badge&logo=jest)](https://jestjs.io/)
+[![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-2EAD33?style=for-the-badge&logo=playwright)](https://playwright.dev/)
+[![ESLint](https://img.shields.io/badge/ESLint-Linting-4B32C3?style=for-the-badge&logo=eslint)](https://eslint.org/)
+[![Prettier](https://img.shields.io/badge/Prettier-Code%20Formatting-F7B93E?style=for-the-badge&logo=prettier)](https://prettier.io/)
+[![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
 
 A modern, fast, and SEO-optimized blog and portfolio website built with Next.js 15, Tailwind CSS 4, and Contentlayer. This project was forked and modified from [tailwind starter blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
 
@@ -29,6 +38,13 @@ A modern, fast, and SEO-optimized blog and portfolio website built with Next.js 
 - 🎵 **Sound Effects** - Interactive sound feedback
 - 📈 **Reading Time** - Automatic reading time calculation
 - 🏷️ **Tag System** - Organized content categorization
+- 🐙 **GitHub Integration** - Live GitHub repositories page with caching
+- 🔄 **Smart Caching** - 24-hour local JSON cache for GitHub data
+- 🛠️ **Makefile Automation** - Comprehensive build and development tools
+- 🔒 **Proprietary License** - Full intellectual property protection
+- 🧪 **Comprehensive Testing** - Unit, integration, and E2E tests
+- 🐳 **Docker Support** - Containerized development and deployment
+- 📦 **Package Management** - Yarn with optimized dependency handling
 
 ## 🚀 Quick Start
 
@@ -36,6 +52,7 @@ A modern, fast, and SEO-optimized blog and portfolio website built with Next.js 
 
 - Node.js 18+ 
 - Yarn (recommended) or npm
+- Make (optional, for enhanced automation)
 
 ### Installation
 
@@ -48,6 +65,8 @@ cd blog
 2. Install dependencies:
 ```bash
 yarn install
+# or with Makefile
+make install
 ```
 
 **Note for Windows users:** You may need to run:
@@ -61,6 +80,8 @@ Start the development server:
 
 ```bash
 yarn dev
+# or with Makefile
+make dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -73,12 +94,16 @@ The pages auto-update as you edit them with live reloading.
 
 ```bash
 yarn build
+# or with Makefile
+make build
 ```
 
 ### Start Production Server
 
 ```bash
 yarn serve
+# or with Makefile
+make serve
 ```
 
 ### Static Export
@@ -87,11 +112,99 @@ For static hosting services (GitHub Pages, S3, Firebase, etc.):
 
 ```bash
 EXPORT=1 UNOPTIMIZED=1 yarn build
+# or with Makefile
+make build-static
 ```
 
 **For URL base path deployment** (e.g., `https://example.org/myblog`):
 ```bash
 EXPORT=1 UNOPTIMIZED=1 BASE_PATH=/myblog yarn build
+```
+
+## 🐙 GitHub Integration
+
+### GitHub Repositories Page
+
+The project includes a dedicated GitHub repositories page that displays your public repositories with:
+
+- **Real-time Data** - Fetched directly from GitHub API
+- **Smart Caching** - 24-hour local JSON cache for performance
+- **Repository Cards** - Beautiful cards with stars, forks, languages, and topics
+- **Live Demo Links** - Direct links to repository homepages
+- **Language Indicators** - Color-coded programming language badges
+- **Update Timestamps** - Last modification dates
+- **Topic Tags** - Repository topics and categories
+
+### Cache Management
+
+Manage the GitHub repositories cache with these commands:
+
+```bash
+# Refresh the cache (fetch latest data)
+make github-cache-refresh
+
+# Clear the cache
+make github-cache-clear
+
+# Check cache status
+make github-cache-status
+```
+
+## 🛠️ Makefile Automation
+
+This project includes a comprehensive Makefile with 20+ commands for development automation:
+
+### Development Commands
+```bash
+make dev          # Start development server
+make build        # Build for production
+make serve        # Start production server
+make install      # Install dependencies
+make clean        # Clean build artifacts
+```
+
+### Testing Commands
+```bash
+make test         # Run all tests
+make test-watch   # Run tests in watch mode
+make test-e2e     # Run E2E tests
+make test-coverage # Run tests with coverage
+```
+
+### Code Quality
+```bash
+make lint         # Run ESLint
+make lint-fix     # Fix linting issues
+make format       # Format code with Prettier
+make type-check   # Run TypeScript type checking
+```
+
+### License Management
+```bash
+make license-headers  # Add license headers to all files
+make license-check    # Check which files have headers
+```
+
+### Docker Commands
+```bash
+make docker-build     # Build Docker image
+make docker-run       # Run Docker container
+make docker-compose-up # Start with Docker Compose
+```
+
+### GitHub Cache
+```bash
+make github-cache-refresh  # Refresh GitHub cache
+make github-cache-clear    # Clear GitHub cache
+make github-cache-status   # Check cache status
+```
+
+### Utility Commands
+```bash
+make help          # Show all available commands
+make audit         # Run security audit
+make outdated      # Check for outdated dependencies
+make size          # Analyze bundle size
 ```
 
 ## 🎨 Customization
@@ -120,6 +233,7 @@ EXPORT=1 UNOPTIMIZED=1 BASE_PATH=/myblog yarn build
 ### Components
 
 - `components/MDXComponents.tsx` - Custom MDX components
+- `components/GitHubCard.tsx` - GitHub repository card component
 - `layouts/` - Page layout templates
 - `app/` - Next.js App Router pages
 
@@ -197,6 +311,19 @@ EXPORT=1 UNOPTIMIZED=1 yarn build
 
 Then deploy the generated `out` folder.
 
+### Docker Deployment
+
+```bash
+# Build Docker image
+make docker-build
+
+# Run container
+make docker-run
+
+# Or use Docker Compose
+make docker-compose-up
+```
+
 ## 🔧 Configuration
 
 ### Analytics
@@ -240,6 +367,7 @@ newsletter: {
 
 ## 📦 Scripts
 
+### Yarn Scripts
 - `yarn dev` - Start development server
 - `yarn build` - Build for production
 - `yarn serve` - Start production server
@@ -255,6 +383,20 @@ newsletter: {
 - `yarn test:e2e:debug` - Run E2E tests in debug mode
 - `yarn test:e2e:install` - Install Playwright browsers
 - `yarn test:e2e:report` - Show E2E test report
+
+### Makefile Commands
+- `make help` - Show all available commands
+- `make dev` - Start development server
+- `make build` - Build for production
+- `make serve` - Start production server
+- `make install` - Install dependencies
+- `make test` - Run all tests
+- `make lint` - Run linting
+- `make format` - Format code
+- `make clean` - Clean build artifacts
+- `make audit` - Run security audit
+- `make docker-build` - Build Docker image
+- `make github-cache-refresh` - Refresh GitHub cache
 
 ## 🔄 CI/CD Pipeline
 
@@ -340,12 +482,18 @@ The test suite covers:
 ```bash
 # Run all tests
 yarn test
+# or
+make test
 
 # Run tests in watch mode
 yarn test:watch
+# or
+make test-watch
 
 # Run tests with coverage
 yarn test:coverage
+# or
+make test-coverage
 
 # Run tests for CI
 yarn test:ci
@@ -392,6 +540,30 @@ The E2E test suite includes:
 - **Accessibility Testing** - Keyboard navigation and ARIA compliance
 - **Mobile Testing** - Touch interactions and responsive design validation
 
+## 🔒 License System
+
+This project includes a comprehensive proprietary license system:
+
+### License Files
+- `LICENSE` - Full proprietary license text
+- `LICENSE_HEADER.txt` - License header template
+- `LICENSE_INFO.md` - Detailed license documentation
+
+### License Management
+```bash
+# Add license headers to all source files
+make license-headers
+
+# Check which files have license headers
+make license-check
+```
+
+### License Features
+- **Copyright Protection** - Full copyright notices in all source files
+- **Clear Restrictions** - No redistribution, modification, or commercial use
+- **Contact Information** - Direct contact for licensing inquiries
+- **Legal Compliance** - Proper disclaimer and warranty statements
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -417,6 +589,9 @@ For licensing inquiries, please contact:
 
 - Original template by [Timothy Lin](https://github.com/timlrx/tailwind-nextjs-starter-blog)
 - Built with [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/), and [Contentlayer](https://www.contentlayer.dev/)
+- GitHub integration and caching system
+- Comprehensive Makefile automation
+- Proprietary license system
 
 ---
 
