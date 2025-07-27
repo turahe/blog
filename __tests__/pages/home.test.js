@@ -1,25 +1,23 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import siteMetadata from '@/data/siteMetadata'
+const React = require('react')
+const { render, screen } = require('@testing-library/react')
+const siteMetadata = require('@/data/siteMetadata')
 
 // Mock the main page component
 const MockHomePage = () => {
-  return (
-    <div>
-      <h1>{siteMetadata.title}</h1>
-      <p>{siteMetadata.description}</p>
-      <nav>
-        <a href="/blog">Blog</a>
-        <a href="/about">About</a>
-        <a href="/projects">Projects</a>
-      </nav>
-    </div>
+  return React.createElement('div', null,
+    React.createElement('h1', null, siteMetadata.title),
+    React.createElement('p', null, siteMetadata.description),
+    React.createElement('nav', null,
+      React.createElement('a', { href: '/blog' }, 'Blog'),
+      React.createElement('a', { href: '/about' }, 'About'),
+      React.createElement('a', { href: '/projects' }, 'Projects')
+    )
   )
 }
 
 describe('Home Page', () => {
   test('renders site title', () => {
-    render(<MockHomePage />)
+    render(React.createElement(MockHomePage))
     
     const title = screen.getByRole('heading', { level: 1 })
     expect(title).toBeInTheDocument()
@@ -27,14 +25,14 @@ describe('Home Page', () => {
   })
 
   test('renders site description', () => {
-    render(<MockHomePage />)
+    render(React.createElement(MockHomePage))
     
     const description = screen.getByText(siteMetadata.description)
     expect(description).toBeInTheDocument()
   })
 
   test('renders navigation links', () => {
-    render(<MockHomePage />)
+    render(React.createElement(MockHomePage))
     
     const blogLink = screen.getByRole('link', { name: 'Blog' })
     const aboutLink = screen.getByRole('link', { name: 'About' })
@@ -50,9 +48,9 @@ describe('Home Page', () => {
   })
 
   test('has correct page structure', () => {
-    render(<MockHomePage />)
+    render(React.createElement(MockHomePage))
     
-    const main = screen.getByRole('main') || document.querySelector('div')
+    const main = document.querySelector('div')
     expect(main).toBeInTheDocument()
   })
 })

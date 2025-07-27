@@ -25,15 +25,11 @@ jest.mock('next/image', () => ({
   __esModule: true,
   default: (props) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} />
+    return require('react').createElement('img', props)
   },
 }))
 
-// Mock SVG imports
-jest.mock('*.svg', () => ({
-  __esModule: true,
-  default: (props) => <svg {...props} />,
-}))
+
 
 // Mock use-sound hook
 jest.mock('use-sound', () => ({
@@ -44,9 +40,9 @@ jest.mock('use-sound', () => ({
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }) => <div {...props}>{children}</div>,
-    span: ({ children, ...props }) => <span {...props}>{children}</span>,
-    button: ({ children, ...props }) => <button {...props}>{children}</button>,
+    div: ({ children, ...props }) => require('react').createElement('div', props, children),
+    span: ({ children, ...props }) => require('react').createElement('span', props, children),
+    button: ({ children, ...props }) => require('react').createElement('button', props, children),
   },
   AnimatePresence: ({ children }) => children,
 }))
@@ -54,20 +50,32 @@ jest.mock('framer-motion', () => ({
 // Mock react-rough-notation
 jest.mock('react-rough-notation', () => ({
   __esModule: true,
-  default: ({ children, ...props }) => <span {...props}>{children}</span>,
+  default: ({ children, ...props }) => require('react').createElement('span', props, children),
 }))
 
 // Mock typewriter-effect
 jest.mock('typewriter-effect', () => ({
   __esModule: true,
   default: ({ onInit, options }) => {
+    const React = require('react')
     React.useEffect(() => {
       if (onInit) {
         onInit({ typeString: jest.fn() })
       }
     }, [onInit])
-    return <div data-testid="typewriter" />
+    return React.createElement('div', { 'data-testid': 'typewriter' })
   },
+}))
+
+// Mock pliny modules
+jest.mock('pliny/search/AlgoliaButton', () => ({
+  __esModule: true,
+  AlgoliaButton: ({ children, ...props }) => require('react').createElement('button', props, children),
+}))
+
+jest.mock('pliny/search/KBarButton', () => ({
+  __esModule: true,
+  KBarButton: ({ children, ...props }) => require('react').createElement('button', props, children),
 }))
 
 // Global test utilities

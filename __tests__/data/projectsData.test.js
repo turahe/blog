@@ -21,13 +21,13 @@ describe('Projects Data', () => {
 
   test('project titles should not be empty', () => {
     projectsData.forEach((project) => {
-      expect(project.title.trim()).toBeGreaterThan(0)
+      expect(project.title.trim().length).toBeGreaterThan(0)
     })
   })
 
   test('project descriptions should not be empty', () => {
     projectsData.forEach((project) => {
-      expect(project.description.trim()).toBeGreaterThan(0)
+      expect(project.description.trim().length).toBeGreaterThan(0)
     })
   })
 

@@ -37,7 +37,7 @@ jobs:
       run: yarn test:ci
       
     - name: Install Playwright browsers
-      run: yarn test:e2e:install
+      run: npx playwright install --with-deps
       
     - name: Run E2E tests
       run: yarn test:e2e

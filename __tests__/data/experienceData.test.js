@@ -18,37 +18,38 @@ describe('Experience Data', () => {
       expect(typeof experience.company).toBe('string')
       expect(typeof experience.location).toBe('string')
       expect(typeof experience.range).toBe('string')
-      expect(typeof experience.url).toBe('string')
-      expect(typeof experience.text).toBe('string')
+      expect(typeof experience.url === 'string' || experience.url === null || experience.url === undefined).toBe(true)
+      expect(Array.isArray(experience.text)).toBe(true)
     })
   })
 
   test('experience titles should not be empty', () => {
     experienceData.forEach((experience) => {
-      expect(experience.title.trim()).toBeGreaterThan(0)
+      expect(experience.title.trim().length).toBeGreaterThan(0)
     })
   })
 
   test('company names should not be empty', () => {
     experienceData.forEach((experience) => {
-      expect(experience.company.trim()).toBeGreaterThan(0)
+      expect(experience.company.trim().length).toBeGreaterThan(0)
     })
   })
 
   test('locations should not be empty', () => {
     experienceData.forEach((experience) => {
-      expect(experience.location.trim()).toBeGreaterThan(0)
+      expect(experience.location.trim().length).toBeGreaterThan(0)
     })
   })
 
   test('date ranges should not be empty', () => {
     experienceData.forEach((experience) => {
-      expect(experience.range.trim()).toBeGreaterThan(0)
+      expect(experience.range.trim().length).toBeGreaterThan(0)
     })
   })
 
   test('company URLs should be valid', () => {
     const isValidUrl = (string) => {
+      if (!string) return true // Allow null/undefined URLs
       try {
         new URL(string)
         return true
@@ -64,7 +65,10 @@ describe('Experience Data', () => {
 
   test('experience descriptions should not be empty', () => {
     experienceData.forEach((experience) => {
-      expect(experience.text.trim()).toBeGreaterThan(0)
+      expect(experience.text.length).toBeGreaterThan(0)
+      experience.text.forEach(text => {
+        expect(text.trim().length).toBeGreaterThan(0)
+      })
     })
   })
 
