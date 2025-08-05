@@ -84,7 +84,8 @@ const EXCLUDED_DIRS = [
   '.git',
   'playwright-report',
   'test-results',
-  'coverage'
+  'coverage',
+  '.yarn'
 ]
 
 const INCLUDED_EXTENSIONS = [
@@ -92,12 +93,32 @@ const INCLUDED_EXTENSIONS = [
   '.tsx',
   '.js',
   '.jsx',
-  '.mjs',
-  '.cjs'
+  '.mjs'
 ]
+
+async function isBinaryFile(filePath) {
+  try {
+    const buffer = await fs.readFile(filePath)
+    // Check for null bytes or other binary indicators
+    for (let i = 0; i < Math.min(buffer.length, 1024); i++) {
+      if (buffer[i] === 0) {
+        return true
+      }
+    }
+    return false
+  } catch (error) {
+    return false
+  }
+}
 
 async function addLicenseHeader(filePath) {
   try {
+    // Skip binary files
+    if (await isBinaryFile(filePath)) {
+      console.log(`⏭️  Skipped (binary file): ${filePath}`)
+      return
+    }
+    
     const content = await fs.readFile(filePath, 'utf-8')
     
     // Skip if already has license header
