@@ -35,6 +35,7 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 
 import { Space_Grotesk } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 // @ts-ignore
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 // @ts-ignore
@@ -126,6 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </SectionContainer>
         </ThemeProviders>
+        <SpeedInsights />
       </body>
     </html>
   )
