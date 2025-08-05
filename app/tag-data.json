@@ -1,5 +1,5 @@
 {
-  "gitlab": 3,
+  "gitlab": 2,
   "webhook": 2,
   "github": 1,
   "code": 1,
@@ -14,10 +14,6 @@
   "nextjs": 1,
   "ubuntu": 1,
   "nginx": 1,
-  "docker": 1,
-  "cicd": 1,
-  "pipeline": 1,
-  "deployment": 1,
   "serat": 1,
   "jawa": 1
 }

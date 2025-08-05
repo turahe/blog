@@ -50,19 +50,21 @@ A modern, fast, and SEO-optimized blog and portfolio website built with Next.js 
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - Yarn (recommended) or npm
 - Make (optional, for enhanced automation)
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/turahe/blog.git
 cd blog
 ```
 
 2. Install dependencies:
+
 ```bash
 yarn install
 # or with Makefile
@@ -70,6 +72,7 @@ make install
 ```
 
 **Note for Windows users:** You may need to run:
+
 ```powershell
 $env:PWD = $(Get-Location).Path
 ```
@@ -117,6 +120,7 @@ make build-static
 ```
 
 **For URL base path deployment** (e.g., `https://example.org/myblog`):
+
 ```bash
 EXPORT=1 UNOPTIMIZED=1 BASE_PATH=/myblog yarn build
 ```
@@ -155,6 +159,7 @@ make github-cache-status
 This project includes a comprehensive Makefile with 20+ commands for development automation:
 
 ### Development Commands
+
 ```bash
 make dev          # Start development server
 make build        # Build for production
@@ -164,6 +169,7 @@ make clean        # Clean build artifacts
 ```
 
 ### Testing Commands
+
 ```bash
 make test         # Run all tests
 make test-watch   # Run tests in watch mode
@@ -172,6 +178,7 @@ make test-coverage # Run tests with coverage
 ```
 
 ### Code Quality
+
 ```bash
 make lint         # Run ESLint
 make lint-fix     # Fix linting issues
@@ -180,12 +187,14 @@ make type-check   # Run TypeScript type checking
 ```
 
 ### License Management
+
 ```bash
 make license-headers  # Add license headers to all files
 make license-check    # Check which files have headers
 ```
 
 ### Docker Commands
+
 ```bash
 make docker-build     # Build Docker image
 make docker-run       # Run Docker container
@@ -193,6 +202,7 @@ make docker-compose-up # Start with Docker Compose
 ```
 
 ### GitHub Cache
+
 ```bash
 make github-cache-refresh  # Refresh GitHub cache
 make github-cache-clear    # Clear GitHub cache
@@ -200,6 +210,7 @@ make github-cache-status   # Check cache status
 ```
 
 ### Utility Commands
+
 ```bash
 make help          # Show all available commands
 make audit         # Run security audit
@@ -368,6 +379,7 @@ newsletter: {
 ## 📦 Scripts
 
 ### Yarn Scripts
+
 - `yarn dev` - Start development server
 - `yarn build` - Build for production
 - `yarn serve` - Start production server
@@ -385,6 +397,7 @@ newsletter: {
 - `yarn test:e2e:report` - Show E2E test report
 
 ### Makefile Commands
+
 - `make help` - Show all available commands
 - `make dev` - Start development server
 - `make build` - Build for production
@@ -405,21 +418,25 @@ This project uses GitHub Actions for continuous integration and deployment:
 ### Workflows
 
 - **CI** (`ci.yml`) - Runs on every push and PR
+
   - Linting and type checking
   - Building the project
   - Security audits
   - Performance analysis
 
 - **Deploy** (`deploy.yml`) - Deploys to Vercel on main branch
+
   - Automatic deployment to production
   - Requires Vercel secrets configuration
 
 - **Static Export** (`static-export.yml`) - Creates static build
+
   - Exports static files for hosting
   - Deploys to GitHub Pages
   - Uploads build artifacts
 
 - **Dependency Review** (`dependency-review.yml`) - Security checks
+
   - Reviews dependencies for vulnerabilities
   - Runs on every PR
 
@@ -433,11 +450,13 @@ This project uses GitHub Actions for continuous integration and deployment:
 For deployment workflows, you'll need to configure these secrets in your GitHub repository:
 
 #### Vercel Deployment
+
 - `VERCEL_TOKEN` - Your Vercel API token
 - `VERCEL_ORG_ID` - Your Vercel organization ID
 - `VERCEL_PROJECT_ID` - Your Vercel project ID
 
 #### How to get Vercel secrets:
+
 1. Install Vercel CLI: `npm i -g vercel`
 2. Run `vercel login`
 3. Run `vercel link` in your project
@@ -469,6 +488,7 @@ This project includes comprehensive unit tests to ensure code quality and reliab
 ### Test Coverage
 
 The test suite covers:
+
 - **Data Validation** - Site metadata, navigation links, projects, and experience data
 - **Utility Functions** - Date formatting, text truncation, URL validation, email validation
 - **Component Testing** - React component rendering and interactions
@@ -512,6 +532,7 @@ yarn test:ci
 ### Writing Tests
 
 Tests follow these conventions:
+
 - Use descriptive test names
 - Test both success and failure cases
 - Mock external dependencies
@@ -523,17 +544,20 @@ Tests follow these conventions:
 The E2E test suite includes:
 
 #### Test Categories:
+
 - **Home Page Tests** - Page loading, navigation, and content verification
 - **Blog Page Tests** - Post listing, pagination, and search functionality
 - **Navigation Tests** - Cross-page navigation, mobile menu, and theme switching
 - **Performance Tests** - Load times, responsiveness, and resource optimization
 
 #### Browser Support:
+
 - **Desktop**: Chrome, Firefox, Safari
 - **Mobile**: Chrome (Pixel 5), Safari (iPhone 12)
 - **Responsive**: Multiple viewport sizes
 
 #### Features:
+
 - **Parallel Execution** - Tests run in parallel for faster execution
 - **Visual Testing** - Screenshots and videos on failure
 - **Performance Monitoring** - Load time and resource usage tracking
@@ -545,11 +569,13 @@ The E2E test suite includes:
 This project includes a comprehensive proprietary license system:
 
 ### License Files
+
 - `LICENSE` - Full proprietary license text
 - `LICENSE_HEADER.txt` - License header template
 - `LICENSE_INFO.md` - Detailed license documentation
 
 ### License Management
+
 ```bash
 # Add license headers to all source files
 make license-headers
@@ -559,6 +585,7 @@ make license-check
 ```
 
 ### License Features
+
 - **Copyright Protection** - Full copyright notices in all source files
 - **Clear Restrictions** - No redistribution, modification, or commercial use
 - **Contact Information** - Direct contact for licensing inquiries
@@ -576,11 +603,12 @@ make license-check
 
 This project is licensed under a Proprietary License - see the [LICENSE](LICENSE) file for details.
 
-**Important:** This software is proprietary and confidential. All rights are reserved by Nur Wachid. 
-This project is provided for personal, non-commercial use only. Commercial use, redistribution, 
+**Important:** This software is proprietary and confidential. All rights are reserved by Nur Wachid.
+This project is provided for personal, non-commercial use only. Commercial use, redistribution,
 modification, or derivative works require explicit written permission from the copyright holder.
 
 For licensing inquiries, please contact:
+
 - **Email:** wachid@outlook.com
 - **Website:** https://wach.id
 - **GitHub:** https://github.com/turahe

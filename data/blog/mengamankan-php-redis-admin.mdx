@@ -25,7 +25,7 @@ Anda dapat membuatnya dengan perintah berikut (pastikan Anda berada di direktori
 
 ```bash
 htpasswd -c /path/to/.htpasswd username
-   ```
+```
 
 Gantilah `/path/to/.htpasswd` dengan lokasi yang sesuai dan `username` dengan nama pengguna yang ingin Anda buat.
 Anda akan diminta untuk mengatur kata sandi untuk pengguna tersebut.
@@ -40,7 +40,7 @@ AuthType Basic
 AuthName "Restricted Access"
 AuthUserFile /path/to/.htpasswd
 Require valid-user
-   ```
+```
 
 Gantilah `/path/to/.htpasswd` dengan lokasi yang sesuai.
 
@@ -68,7 +68,7 @@ Tambahkan baris berikut ke konfigurasi:
 
 ```php
 $config['servers'][0]['host'] = '127.0.0.1';
-   ```
+```
 
 Ini akan mengikat PHP Redis Admin agar hanya dapat diakses melalui localhost (IP 127.0.0.1).
 

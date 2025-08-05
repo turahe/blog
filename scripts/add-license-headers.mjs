@@ -2,32 +2,32 @@
 
 /**
  * PROPRIETARY LICENSE
- * 
+ *
  * Copyright (c) 2024 Nur Wachid. All rights reserved.
- * 
- * This software and associated documentation files (the "Software") are the 
- * proprietary and confidential information of Nur Wachid ("Licensor"). 
- * The Software is protected by copyright laws and international copyright 
+ *
+ * This software and associated documentation files (the "Software") are the
+ * proprietary and confidential information of Nur Wachid ("Licensor").
+ * The Software is protected by copyright laws and international copyright
  * treaties, as well as other intellectual property laws and treaties.
- * 
+ *
  * RESTRICTIONS:
- * - NO REDISTRIBUTION: You may not redistribute, sell, lease, rent, 
- *   lend, or otherwise transfer the Software to any third party without 
+ * - NO REDISTRIBUTION: You may not redistribute, sell, lease, rent,
+ *   lend, or otherwise transfer the Software to any third party without
  *   the express written consent of Nur Wachid.
- * - NO MODIFICATION: You may not modify, adapt, alter, translate, or 
- *   create derivative works based on the Software without the express 
+ * - NO MODIFICATION: You may not modify, adapt, alter, translate, or
+ *   create derivative works based on the Software without the express
  *   written consent of Nur Wachid.
- * - NO REVERSE ENGINEERING: You may not reverse engineer, decompile, 
- *   disassemble, or otherwise attempt to derive the source code of the 
+ * - NO REVERSE ENGINEERING: You may not reverse engineer, decompile,
+ *   disassemble, or otherwise attempt to derive the source code of the
  *   Software.
- * - NO COMMERCIAL USE: You may not use the Software for any commercial 
+ * - NO COMMERCIAL USE: You may not use the Software for any commercial
  *   purpose without the express written consent of Nur Wachid.
- * - PERSONAL USE ONLY: This Software is provided for personal, 
+ * - PERSONAL USE ONLY: This Software is provided for personal,
  *   non-commercial use only.
- * 
- * For licensing inquiries, commercial use, or other permissions, please 
+ *
+ * For licensing inquiries, commercial use, or other permissions, please
  * contact: Nur Wachid (wachid@outlook.com)
- * 
+ *
  * @license PROPRIETARY
  * @author Nur Wachid <wachid@outlook.com>
  * @copyright 2024 Nur Wachid. All rights reserved.
@@ -85,16 +85,10 @@ const EXCLUDED_DIRS = [
   'playwright-report',
   'test-results',
   'coverage',
-  '.yarn'
+  '.yarn',
 ]
 
-const INCLUDED_EXTENSIONS = [
-  '.ts',
-  '.tsx',
-  '.js',
-  '.jsx',
-  '.mjs'
-]
+const INCLUDED_EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.mjs']
 
 async function isBinaryFile(filePath) {
   try {
@@ -118,15 +112,15 @@ async function addLicenseHeader(filePath) {
       console.log(`⏭️  Skipped (binary file): ${filePath}`)
       return
     }
-    
+
     const content = await fs.readFile(filePath, 'utf-8')
-    
+
     // Skip if already has license header
     if (content.includes('PROPRIETARY LICENSE') || content.includes('@license PROPRIETARY')) {
       console.log(`⏭️  Skipped (already licensed): ${filePath}`)
       return
     }
-    
+
     // Add license header
     const newContent = LICENSE_HEADER + content
     await fs.writeFile(filePath, newContent, 'utf-8')
@@ -139,10 +133,10 @@ async function addLicenseHeader(filePath) {
 async function processDirectory(dirPath) {
   try {
     const entries = await fs.readdir(dirPath, { withFileTypes: true })
-    
+
     for (const entry of entries) {
       const fullPath = path.join(dirPath, entry.name)
-      
+
       if (entry.isDirectory()) {
         if (!EXCLUDED_DIRS.includes(entry.name)) {
           await processDirectory(fullPath)
@@ -161,12 +155,12 @@ async function processDirectory(dirPath) {
 
 async function main() {
   console.log('🔒 Adding proprietary license headers to source files...\n')
-  
+
   const projectRoot = path.join(__dirname, '..')
   await processDirectory(projectRoot)
-  
+
   console.log('\n✅ License header addition completed!')
   console.log('📝 Remember to review and commit the changes.')
 }
 
-main().catch(console.error) 
+main().catch(console.error)

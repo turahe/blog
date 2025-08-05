@@ -13,176 +13,163 @@ Artikel ini akan memandu Anda melalui proses konfigurasi pipeline Continuous Int
 Sebelum memulai, pastikan Anda memiliki hal-hal berikut:
 
 1. **Proyek GitLab**: Repositori GitLab dengan kode sumber aplikasi Anda.
-    
 2. **Dockerfile**: Pastikan Anda memiliki `Dockerfile` yang valid di root direktori proyek Anda. Berikut adalah contoh `Dockerfile` untuk project golang yang sesuai dengan kode CI/CD ini:
-    
-    ```dockerfile
-    # Build Stage
-    FROM golang:1.24.2-alpine AS build_base
-    
-    ENV CGO_ENABLED=1
-    ENV GO111MODULE=on
-    
-    RUN apk add --no-cache git gcc g++
-    
-    WORKDIR /src
-    
-    # Copy Go Modules files
-    COPY go.mod .
-    COPY go.sum .
-    RUN go mod download
-    
-    # Copy the rest of the application source code
-    COPY . .
-    
-    # Build the Go binary
-    RUN go build -o /app/webapi ./main.go
-    
-    # Production Stage
-    FROM alpine:3.17.0
-    
-    RUN apk add --no-cache ca-certificates tzdata chromium harfbuzz nss freetype ttf-freefont font-noto bash
-    
-    ENV TZ=Asia/Jakarta
-    ENV ENV=development
-    # Default to development (override in production)
-    
-    WORKDIR /app
-    
-    # Copy the built binary
-    COPY --from=build_base /app/webapi /app/webapi
-    COPY --from=build_base /src/data /app/data
-    
-    # Ensure executable permissions
-    RUN chmod +x /app/webapi
-    
-    # Copy the correct config file at runtime
-    ENTRYPOINT ["/bin/sh", "-c", "cp /app/data/config.yml.$ENV /app/data/config.yml && exec /app/webapi server"]
-    
-    EXPOSE 8080
-    ```
-    
-    Dockerfile ini menggunakan [multi-stage build](https://docs.docker.com/build/building/multi-stage/) untuk membuat binary Go dan kemudian mengemasnya ke dalam image Alpine yang lebih kecil. Perhatikan bagaimana ia menyalin file konfigurasi berdasarkan variabel lingkungan `ENV` saat runtime, yang akan diatur oleh pipeline CI/CD kita.
-    
+
+   ```dockerfile
+   # Build Stage
+   FROM golang:1.24.2-alpine AS build_base
+
+   ENV CGO_ENABLED=1
+   ENV GO111MODULE=on
+
+   RUN apk add --no-cache git gcc g++
+
+   WORKDIR /src
+
+   # Copy Go Modules files
+   COPY go.mod .
+   COPY go.sum .
+   RUN go mod download
+
+   # Copy the rest of the application source code
+   COPY . .
+
+   # Build the Go binary
+   RUN go build -o /app/webapi ./main.go
+
+   # Production Stage
+   FROM alpine:3.17.0
+
+   RUN apk add --no-cache ca-certificates tzdata chromium harfbuzz nss freetype ttf-freefont font-noto bash
+
+   ENV TZ=Asia/Jakarta
+   ENV ENV=development
+   # Default to development (override in production)
+
+   WORKDIR /app
+
+   # Copy the built binary
+   COPY --from=build_base /app/webapi /app/webapi
+   COPY --from=build_base /src/data /app/data
+
+   # Ensure executable permissions
+   RUN chmod +x /app/webapi
+
+   # Copy the correct config file at runtime
+   ENTRYPOINT ["/bin/sh", "-c", "cp /app/data/config.yml.$ENV /app/data/config.yml && exec /app/webapi server"]
+
+   EXPOSE 8080
+   ```
+
+   Dockerfile ini menggunakan [multi-stage build](https://docs.docker.com/build/building/multi-stage/) untuk membuat binary Go dan kemudian mengemasnya ke dalam image Alpine yang lebih kecil. Perhatikan bagaimana ia menyalin file konfigurasi berdasarkan variabel lingkungan `ENV` saat runtime, yang akan diatur oleh pipeline CI/CD kita.
+
 3. **Server Development & Production**: Dua server (VM, VPS, dll.) yang dapat diakses melalui SSH, satu untuk development dan satu untuk production. Pastikan Docker sudah terinstal di kedua server tersebut.
-    
 4. **Kunci SSH Privat**: Sepasang kunci SSH (privat dan publik) yang akan digunakan oleh GitLab Runner untuk terhubung ke server Anda. Kunci publik harus ditambahkan ke file `~/.ssh/authorized_keys` di server development dan production untuk user `root` (atau user lain yang Anda gunakan).
-    
 
 ## Langkah 1: Buat File `.gitlab-ci.yml`
 
 File `.gitlab-ci.yml` adalah definisi pipeline Anda.
 
 1. Pada proyek root directori GitLab Anda, buatlah sebuah file dengan nama `.gitlab-ci.yml`.
-    
 2. Copy paste kode pipeline berikut ke dalam file tersebut:
-    
-    ```yaml
-    # .gitlab-ci.yml
-    
-    image: docker:latest
-    
-    stages:
-      - build
-      - deploy
-      - notify
-    
-    variables:
-      DEV_SERVER: "192.168.111.2"
-      PROD_SERVER: "192.168.111.6"
-    
-    build_image:
-      stage: build
-      script:
-        - docker build -t golang-docker:latest .
-      retry: 2
-      only:
-        - dev
-        - tags
-    
-    send_notification:
-      stage: notify
-      before_script:
-        - apk add --no-cache curl
-      script:
-        - |
-          curl -X POST "http://192.168.111.2:4000/api/sendText" \
-            -H "accept: application/json" \
-            -H "Content-Type: application/json" \
-            -d "{\"chatId\": \"120363304496648883@g.us\", \"reply_to\": null, \"text\": \"Pipeline *$CI_PIPELINE_STATUS* for $CI_PROJECT_NAME completed. Check here: $CI_PIPELINE_URL\", \"linkPreview\": true, \"session\": \"default\"}"
-      only:
-        - tags
-    
-    deploy_dev:
-      stage: deploy
-      before_script:
-        - 'which ssh-agent || ( apk add --update --no-cache openssh )'
-        - eval $(ssh-agent -s)
-        - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        - mkdir -p ~/.ssh
-        - chmod 700 ~/.ssh
-        - ssh-keyscan -H $DEV_SERVER >> ~/.ssh/known_hosts
-        - chmod 644 ~/.ssh/known_hosts
-      script:
-        - docker save golang-docker:latest > golang-docker.tar
-        - scp golang-docker.tar root@$DEV_SERVER:/root/golang-docker.tar
-        - ssh root@$DEV_SERVER 'docker rmi golang-docker -f'
-        - ssh root@$DEV_SERVER 'docker load < /root/golang-docker.tar'
-        - ssh root@$DEV_SERVER 'docker rm golang-docker -f'
-        - ssh root@$DEV_SERVER 'docker run -itd --name golang-docker --restart always -p 8080:8080 -e ENV=development golang-docker'
-      retry: 2
-      only:
-        - dev
-    
-    deploy_prod:
-      stage: deploy
-      before_script:
-        - 'which ssh-agent || ( apk add --update --no-cache openssh )'
-        - eval $(ssh-agent -s)
-        - echo "$SSH_PRD_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        - mkdir -p ~/.ssh
-        - chmod 700 ~/.ssh
-        - ssh-keyscan -H $PROD_SERVER >> ~/.ssh/known_hosts
-        - chmod 644 ~/.ssh/known_hosts
-      script:
-        - docker save golang-docker:latest > golang-docker.tar
-        - ssh root@$PROD_SERVER 'rm /root/golang-docker.tar.bak || true'
-        - ssh root@$PROD_SERVER 'mv /root/golang-docker.tar /root/golang-docker.tar.bak || true'
-        - scp golang-docker.tar root@$PROD_SERVER:/root/golang-docker.tar
-        - ssh root@$PROD_SERVER 'docker rmi golang-docker -f || true'
-        - ssh root@$PROD_SERVER 'docker load < /root/golang-docker.tar'
-        - ssh root@$PROD_SERVER 'docker rm golang-docker -f || true'
-        - ssh root@$PROD_SERVER 'docker run -itd --name golang-docker --restart always -p 8080:8080 -e ENV=production golang-docker'
-      retry: 2
-      only:
-        - tags
-    
-    ```
-    
+
+   ```yaml
+   # .gitlab-ci.yml
+
+   image: docker:latest
+
+   stages:
+     - build
+     - deploy
+     - notify
+
+   variables:
+     DEV_SERVER: '192.168.111.2'
+     PROD_SERVER: '192.168.111.6'
+
+   build_image:
+     stage: build
+     script:
+       - docker build -t golang-docker:latest .
+     retry: 2
+     only:
+       - dev
+       - tags
+
+   send_notification:
+     stage: notify
+     before_script:
+       - apk add --no-cache curl
+     script:
+       - |
+         curl -X POST "http://192.168.111.2:4000/api/sendText" \
+           -H "accept: application/json" \
+           -H "Content-Type: application/json" \
+           -d "{\"chatId\": \"120363304496648883@g.us\", \"reply_to\": null, \"text\": \"Pipeline *$CI_PIPELINE_STATUS* for $CI_PROJECT_NAME completed. Check here: $CI_PIPELINE_URL\", \"linkPreview\": true, \"session\": \"default\"}"
+     only:
+       - tags
+
+   deploy_dev:
+     stage: deploy
+     before_script:
+       - 'which ssh-agent || ( apk add --update --no-cache openssh )'
+       - eval $(ssh-agent -s)
+       - echo "$SSH_DEV_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+       - mkdir -p ~/.ssh
+       - chmod 700 ~/.ssh
+       - ssh-keyscan -H $DEV_SERVER >> ~/.ssh/known_hosts
+       - chmod 644 ~/.ssh/known_hosts
+     script:
+       - docker save golang-docker:latest > golang-docker.tar
+       - scp golang-docker.tar root@$DEV_SERVER:/root/golang-docker.tar
+       - ssh root@$DEV_SERVER 'docker rmi golang-docker -f'
+       - ssh root@$DEV_SERVER 'docker load < /root/golang-docker.tar'
+       - ssh root@$DEV_SERVER 'docker rm golang-docker -f'
+       - ssh root@$DEV_SERVER 'docker run -itd --name golang-docker --restart always -p 8080:8080 -e ENV=development golang-docker'
+     retry: 2
+     only:
+       - dev
+
+   deploy_prod:
+     stage: deploy
+     before_script:
+       - 'which ssh-agent || ( apk add --update --no-cache openssh )'
+       - eval $(ssh-agent -s)
+       - echo "$SSH_PRD_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+       - mkdir -p ~/.ssh
+       - chmod 700 ~/.ssh
+       - ssh-keyscan -H $PROD_SERVER >> ~/.ssh/known_hosts
+       - chmod 644 ~/.ssh/known_hosts
+     script:
+       - docker save golang-docker:latest > golang-docker.tar
+       - ssh root@$PROD_SERVER 'rm /root/golang-docker.tar.bak || true'
+       - ssh root@$PROD_SERVER 'mv /root/golang-docker.tar /root/golang-docker.tar.bak || true'
+       - scp golang-docker.tar root@$PROD_SERVER:/root/golang-docker.tar
+       - ssh root@$PROD_SERVER 'docker rmi golang-docker -f || true'
+       - ssh root@$PROD_SERVER 'docker load < /root/golang-docker.tar'
+       - ssh root@$PROD_SERVER 'docker rm golang-docker -f || true'
+       - ssh root@$PROD_SERVER 'docker run -itd --name golang-docker --restart always -p 8080:8080 -e ENV=production golang-docker'
+     retry: 2
+     only:
+       - tags
+   ```
+
 3. Commit file tersebut ke repositori.
-    
 
 ## Langkah 2: Pahami `image` dan `stages`
 
 - **`image: docker:latest`**: Ini menentukan bahwa semua job di pipeline akan berjalan di dalam container Docker yang berbasis `docker:latest`. Ini penting karena job kita akan menggunakan perintah Docker.
-    
 - **`stages`**: Ini mendefinisikan urutan tahapan dalam proses pipeline:
-    
-    - `build`: Tahap untuk membangun Docker image.
-        
-    - `deploy`: Tahap untuk mendeploy aplikasi.
-        
-    - `notify`: Tahap untuk mengirim notifikasi. Job akan berjalan secara paralel dalam satu stage, dan stage berikutnya hanya akan dimulai jika semua job di stage sebelumnya berhasil.
-        
+  - `build`: Tahap untuk membangun Docker image.
+  - `deploy`: Tahap untuk mendeploy aplikasi.
+  - `notify`: Tahap untuk mengirim notifikasi. Job akan berjalan secara paralel dalam satu stage, dan stage berikutnya hanya akan dimulai jika semua job di stage sebelumnya berhasil.
 
 ## Langkah 3: Konfigurasi Variabel Server
 
 Di bagian `variables` dalam file `.gitlab-ci.yml`, telah mendefinisikan alamat IP server development dan production.
 
 - **`DEV_SERVER: "192.168.111.2"`**: Ganti dengan alamat IP server development yang sebenarnya.
-    
 - **`PROD_SERVER: "192.168.111.6"`**: Ganti dengan alamat IP server production yang sebenarnya.
-    
 
 Pastikan alamat IP ini dapat dijangkau oleh GitLab Runner.
 
@@ -191,52 +178,33 @@ Pastikan alamat IP ini dapat dijangkau oleh GitLab Runner.
 Berikut ini merupakan langkah **KRUSIAL** untuk memungkinkan GitLab Runner terhubung ke server melalui SSH. Anda harus menyimpan kunci SSH privat Anda sebagai variabel rahasia di GitLab.
 
 1. Buka proyek GitLab.
-    
 2. Navigasi ke **Settings > CI/CD**.
-    
 3. Perluas bagian **Variables**.
-    
 4. Klik **Add variable**.
-    
 5. Buat dua variabel baru:
-    
-    - **Variabel 1 (untuk Development):**
-        
-        - **Key**: `SSH_DEV_PRIVATE_KEY`
-            
-        - **Value**: Salin dan tempel seluruh isi kunci SSH privat untuk server development (termasuk baris `-----BEGIN OPENSSH PRIVATE KEY-----` dan `-----END OPENSSH PRIVATE KEY-----`).
-            
-        - **Type**: `File` (atau `Variable` jika mengelola newline secara manual, tetapi `File` lebih disarankan untuk kunci SSH).
-            
-        - Centang **Mask variable** (untuk keamanan, agar tidak terlihat di log job).
-            
-        - Centang **Protected variable** (jika ingin variabel ini hanya tersedia untuk branch dan tag yang dilindungi).
-            
-    - **Variabel 2 (untuk Production):**
-        
-        - **Key**: `SSH_PRD_PRIVATE_KEY`
-            
-        - **Value**: Salin dan tempel seluruh isi kunci SSH privat untuk server production.
-            
-        - **Type**: `File`
-            
-        - Centang **Mask variable**.
-            
-        - Centang **Protected variable**.
+
+   - **Variabel 1 (untuk Development):**
+     - **Key**: `SSH_DEV_PRIVATE_KEY`
+     - **Value**: Salin dan tempel seluruh isi kunci SSH privat untuk server development (termasuk baris `-----BEGIN OPENSSH PRIVATE KEY-----` dan `-----END OPENSSH PRIVATE KEY-----`).
+     - **Type**: `File` (atau `Variable` jika mengelola newline secara manual, tetapi `File` lebih disarankan untuk kunci SSH).
+     - Centang **Mask variable** (untuk keamanan, agar tidak terlihat di log job).
+     - Centang **Protected variable** (jika ingin variabel ini hanya tersedia untuk branch dan tag yang dilindungi).
+   - **Variabel 2 (untuk Production):**
+     - **Key**: `SSH_PRD_PRIVATE_KEY`
+     - **Value**: Salin dan tempel seluruh isi kunci SSH privat untuk server production.
+     - **Type**: `File`
+     - Centang **Mask variable**.
+     - Centang **Protected variable**.
 
 ![gitlab tag](/static/images/gitlab-variable.png)
 
 6. Klik **Add variable** untuk setiap variabel.
-    
 
 ## Langkah 5: Pahami Job `build_image`
 
 - **Tujuan**: Membangun Docker image dari kode aplikasi.
-    
 - **Pemicu**: Job ini akan berjalan ketika melakukan push ke branch `dev` atau ketika membuat tag baru.
-    
 - **Tindakan**: Perintah `docker build -t golang-docker:latest .` akan membangun image dan memberinya tag `golang-docker:latest`. Pastikan `Dockerfile` ada di root proyek.
-    
 
 ## Langkah 6: Pahami Job Deployment (`deploy_dev` dan `deploy_prod`)
 
@@ -245,91 +213,59 @@ Kedua job ini bertanggung jawab untuk mendeploy Docker image yang telah dibangun
 ### `deploy_dev` (Deployment ke Development)
 
 - **Tujuan**: Mendeploy aplikasi ke server development.
-    
 - **Pemicu**: Hanya akan berjalan ketika melakukan push ke branch `dev`.
-    
 - **Langkah-langkah Kunci**:
-    
-    1. **SSH Setup (`before_script`)**: Menginstal `openssh`, memulai `ssh-agent`, menambahkan kunci SSH privat dari variabel `SSH_DEV_PRIVATE_KEY`, dan menambahkan host key server ke `known_hosts`.
-        
-    2. **Simpan & Salin Image (`script`)**: Image Docker `golang-docker:latest` disimpan ke file `.tar` dan disalin ke server development menggunakan `scp`.
-        
-    3. **Deployment Docker di Server (`script`)**: Melalui SSH, perintah Docker dijalankan di server development untuk:
-        
-        - Menghapus image lama (`docker rmi -f`).
-            
-        - Memuat image baru dari file `.tar` (`docker load`).
-            
-        - Menghapus container lama (`docker rm -f`).
-            
-        - Menjalankan container baru dengan nama `golang-docker`, memetakan port 8080, dan mengatur variabel lingkungan `ENV=development`.
-            
+  1. **SSH Setup (`before_script`)**: Menginstal `openssh`, memulai `ssh-agent`, menambahkan kunci SSH privat dari variabel `SSH_DEV_PRIVATE_KEY`, dan menambahkan host key server ke `known_hosts`.
+  2. **Simpan & Salin Image (`script`)**: Image Docker `golang-docker:latest` disimpan ke file `.tar` dan disalin ke server development menggunakan `scp`.
+  3. **Deployment Docker di Server (`script`)**: Melalui SSH, perintah Docker dijalankan di server development untuk:
+
+     - Menghapus image lama (`docker rmi -f`).
+     - Memuat image baru dari file `.tar` (`docker load`).
+     - Menghapus container lama (`docker rm -f`).
+     - Menjalankan container baru dengan nama `golang-docker`, memetakan port 8080, dan mengatur variabel lingkungan `ENV=development`.
 
 ### `deploy_prod` (Deployment ke Production)
 
 - **Tujuan**: Mendeploy aplikasi ke server production.
-    
 - **Pemicu**: **Hanya** akan berjalan ketika membuat tag baru (misalnya, `v1.0.0`). Ini adalah praktik terbaik untuk rilis produksi.
-    
 - **Langkah-langkah Kunci**: Mirip dengan `deploy_dev`, tetapi dengan beberapa perbedaan penting untuk keamanan dan keandalan produksi:
-    
-    1. **SSH Setup (`before_script`)**: Menggunakan `SSH_PRD_PRIVATE_KEY`.
-        
-    2. **Backup & Salin Image (`script`)**: Sebelum menyalin image baru, image `.tar` yang ada di server production akan di-backup (`mv /root/golang-docker.tar /root/golang-docker.tar.bak`). Ini memungkinkan rollback cepat jika ada masalah dengan deployment baru.
-        
-    3. **Deployment Docker di Server (`script`)**: Mirip dengan `deploy_dev`, tetapi dengan tambahan `|| true` pada perintah `rm` dan `rmi` untuk memastikan pipeline tidak gagal jika file atau image tidak ada. Variabel lingkungan diatur ke `ENV=production`.
-        
+  1. **SSH Setup (`before_script`)**: Menggunakan `SSH_PRD_PRIVATE_KEY`.
+  2. **Backup & Salin Image (`script`)**: Sebelum menyalin image baru, image `.tar` yang ada di server production akan di-backup (`mv /root/golang-docker.tar /root/golang-docker.tar.bak`). Ini memungkinkan rollback cepat jika ada masalah dengan deployment baru.
+  3. **Deployment Docker di Server (`script`)**: Mirip dengan `deploy_dev`, tetapi dengan tambahan `|| true` pada perintah `rm` dan `rmi` untuk memastikan pipeline tidak gagal jika file atau image tidak ada. Variabel lingkungan diatur ke `ENV=production`.
 
 ## Langkah 7: Pahami Job `send_notification`
 
 - **Tujuan**: Mengirim notifikasi status pipeline.
-    
 - **Pemicu**: Hanya akan berjalan ketika membuat tag baru.
-    
 - **Langkah-langkah Kunci**:
-    
-    1. **Instal `curl` (`before_script`)**: Memastikan `curl` tersedia untuk mengirim permintaan HTTP.
-        
-    2. **Kirim Notifikasi (`script`)**: Menggunakan `curl` untuk mengirim permintaan POST ke endpoint API notifikasi.
-        
-        - **`http://192.168.111.2:4000/api/sendText`**: Ganti alamat IP dan port ini dengan alamat server notifikasi yang sebenarnya.
-            
-        - **`chatId`: `120363304496648883@g.us`**: Ganti ini dengan ID chat grup atau individu yang ingin kirimi notifikasi.
-            
-        - Pesan notifikasi akan mencakup status pipeline (`$CI_PIPELINE_STATUS`), nama proyek (`$CI_PROJECT_NAME`), dan URL pipeline (`$CI_PIPELINE_URL`).
-            
+  1. **Instal `curl` (`before_script`)**: Memastikan `curl` tersedia untuk mengirim permintaan HTTP.
+  2. **Kirim Notifikasi (`script`)**: Menggunakan `curl` untuk mengirim permintaan POST ke endpoint API notifikasi.
+
+     - **`http://192.168.111.2:4000/api/sendText`**: Ganti alamat IP dan port ini dengan alamat server notifikasi yang sebenarnya.
+     - **`chatId`: `120363304496648883@g.us`**: Ganti ini dengan ID chat grup atau individu yang ingin kirimi notifikasi.
+     - Pesan notifikasi akan mencakup status pipeline (`$CI_PIPELINE_STATUS`), nama proyek (`$CI_PROJECT_NAME`), dan URL pipeline (`$CI_PIPELINE_URL`).
 
 ## Langkah 8: Uji Pipeline
 
 Setelah semua konfigurasi selesai, saatnya menguji pipeline:
 
 1. **Untuk Deployment Development**:
-    
-    - Lakukan perubahan pada kode.
-        
-    - Commit perubahan tersebut dan push ke branch `dev`.
-        
-    - Buka proyek GitLab, navigasi ke **CI/CD > Pipelines**. Anda akan melihat pipeline baru berjalan.
-        
-    - Periksa log dari job `build_image` dan `deploy_dev` untuk memastikan semuanya berjalan lancar.
-        
-    - Akses aplikasi di server development (`http://<DEV_SERVER_IP>:8080`) untuk memverifikasi deployment.
-        
+
+   - Lakukan perubahan pada kode.
+   - Commit perubahan tersebut dan push ke branch `dev`.
+   - Buka proyek GitLab, navigasi ke **CI/CD > Pipelines**. Anda akan melihat pipeline baru berjalan.
+   - Periksa log dari job `build_image` dan `deploy_dev` untuk memastikan semuanya berjalan lancar.
+   - Akses aplikasi di server development (`http://<DEV_SERVER_IP>:8080`) untuk memverifikasi deployment.
+
 2. **Untuk Deployment Production & Notifikasi**:
-    
-    - Pastikan semua perubahan yang ingin dirilis sudah ada di branch yang relevan (misalnya, `main` atau `master`, lalu merge `dev` ke sana jika alur Anda seperti itu).
-        
-    - Buat tag baru di GitLab (misalnya, `v1.0.0`). Anda bisa melakukannya dari UI GitLab (**Repository > Tags > New tag**) atau dari baris perintah (`git tag v1.0.0 && git push origin v1.0.0`).
-    ![gitlab tag](/static/images/gitlab-tag.png)
-        
-    - Ini akan memicu pipeline yang menjalankan job `build_image`, `deploy_prod`, dan `send_notification`.
-        
-    - Periksa log job `deploy_prod` dan `send_notification`.
-        
-    - Verifikasi deployment Anda di server production (`http://<PROD_SERVER_IP>:8080`).
-        
-    - Pastikan menerima notifikasi di platform chat yang konfigurasikan.
-        
+
+   - Pastikan semua perubahan yang ingin dirilis sudah ada di branch yang relevan (misalnya, `main` atau `master`, lalu merge `dev` ke sana jika alur Anda seperti itu).
+   - Buat tag baru di GitLab (misalnya, `v1.0.0`). Anda bisa melakukannya dari UI GitLab (**Repository > Tags > New tag**) atau dari baris perintah (`git tag v1.0.0 && git push origin v1.0.0`).
+     ![gitlab tag](/static/images/gitlab-tag.png)
+   - Ini akan memicu pipeline yang menjalankan job `build_image`, `deploy_prod`, dan `send_notification`.
+   - Periksa log job `deploy_prod` dan `send_notification`.
+   - Verifikasi deployment Anda di server production (`http://<PROD_SERVER_IP>:8080`).
+   - Pastikan menerima notifikasi di platform chat yang konfigurasikan.
 
 ## Kesimpulan
 

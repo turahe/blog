@@ -34,6 +34,7 @@ This project is licensed under a **PROPRIETARY LICENSE** owned by **Nur Wachid**
 ## Legal Protection
 
 This software is protected by:
+
 - Copyright laws
 - International copyright treaties
 - Other intellectual property laws and treaties
@@ -43,6 +44,7 @@ This software is protected by:
 For licensing inquiries, commercial use, or other permissions, please contact:
 
 **Nur Wachid**
+
 - **Email**: wachid@outlook.com
 - **Website**: https://wach.id
 - **GitHub**: https://github.com/turahe
@@ -72,4 +74,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-**⚠️ IMPORTANT**: This is proprietary software. Unauthorized use, modification, or distribution may result in legal action. 
+**⚠️ IMPORTANT**: This is proprietary software. Unauthorized use, modification, or distribution may result in legal action.

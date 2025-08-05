@@ -10,8 +10,9 @@ Pada artikel ini, saya akan menjelaskan cara menjalankan beberapa aplikasi Next.
 Untuk demonstrasi ini, saya akan menggunakan Digital Ocean droplet dengan sistem operasi Ubuntu.
 
 ## Persiapan
+
 - Pastikan Node dan npm telah terinstal di server Anda. Anda bisa gunakan [nvm](https://github.com/nvm-sh/nvm) untuk
-instalasi versi node yang anda perlukan
+  instalasi versi node yang anda perlukan
 - Anda memerlukan Next.js.
 
 ## Instalasi dan Pembuatan Aplikasi Next.js
@@ -30,7 +31,6 @@ cd www
 npx create-next-app@latest nextjs-demo1 --use-npm --example "https://github.com/vercel/next-learn/tree/main/basics/learn-starter"
 npx create-next-app@latest nextjs-demo2 --use-npm --example "https://github.com/vercel/next-learn/tree/main/basics/learn-starter"
 ```
-
 
 ## Instalasi dan Konfigurasi PM2 (Manajer Proses)
 
@@ -78,7 +78,7 @@ pm2 status
 Dengan menggunakan PM2, Anda dapat dengan lancar menerapkan kode terbaru dari repositori tanpa memengaruhi ketersediaan aplikasi web Anda,
 yang disebut juga sebagai "zero downtime."
 
-##  Konfigurasi Nginx
+## Konfigurasi Nginx
 
 Langkah terakhir adalah menginstal dan mengkonfigurasi Nginx agar aplikasi Next.js dapat diakses secara publik melalui browser web.
 

@@ -5,21 +5,22 @@ tags: ['github', 'code', 'ssh']
 draft: false
 summary: Pada pembahasan ini kita akan memanfaatkan ssh key untuk Github.
 ---
-Pada pembahasan ini kita akan memanfaatkan *ssh key* untuk Github.
-Apa sih maanfaatnya? Mengapa harus menggunakan *ssh key*? Salah satu
-manfaat yang terasa ketika menggunakan *ssh key* yakni kita tidak
-perlu lagi memasukan _username_ dan _password_ pada saat  _clone_,
-_pubash_, ataupun _pull_. Dengan demikian akan mempersingkat kerja kita.
 
+Pada pembahasan ini kita akan memanfaatkan _ssh key_ untuk Github.
+Apa sih maanfaatnya? Mengapa harus menggunakan _ssh key_? Salah satu
+manfaat yang terasa ketika menggunakan _ssh key_ yakni kita tidak
+perlu lagi memasukan _username_ dan _password_ pada saat _clone_,
+_pubash_, ataupun _pull_. Dengan demikian akan mempersingkat kerja kita.
 
 ## Praktek
 
-* Buat ssh Key.
+- Buat ssh Key.
 
 ```
 ssh-keygen -t rsa
 ```
-* Masukan _passphrase_ . Sebetulnya ini opsional, tapi penulis menyarankan menggunakan ini agar lebih aman.
+
+- Masukan _passphrase_ . Sebetulnya ini opsional, tapi penulis menyarankan menggunakan ini agar lebih aman.
 
 ```
 ssh-keygen -t rsa
@@ -44,15 +45,18 @@ The key's randomart image is:
 |       .+..      |
 +----[bashA256]-----+
 ```
-* Ambil Pubkey ssh Anda dengan cara, mengetik perintah `cat` pada `terminal`. Yakni:
+
+- Ambil Pubkey ssh Anda dengan cara, mengetik perintah `cat` pada `terminal`. Yakni:
 
 ```
 cat ~/.ssh/id_rsa.pub
 ```
-* Masuk ke GitHub, klik pada foto profile Anda dan pilih `settings` , lalu pilih `ssh and GPG keys`
-* Klik `New ssh Key` dan _paste_ `pubkey` yang telah Anda _copy_ sebelumnya. Contohnya:
+
+- Masuk ke GitHub, klik pada foto profile Anda dan pilih `settings` , lalu pilih `ssh and GPG keys`
+- Klik `New ssh Key` dan _paste_ `pubkey` yang telah Anda _copy_ sebelumnya. Contohnya:
 
 ```
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlnqGwxZwSg1XvyWaUEM117Dfep2g7+O/n4Dg2Acb4vvqD2F33qMXQbVcdLlxTWJaDbbJMNxDp02dBMoHxlOPVyzqLc9Q43SQPxGAYzxG4WhEiDZbEqV2KlC3zxc5Noy3OyIeMqXEL5pTRTEApblsM6rirdhYSvRDD/MOLl51Sfx+RxRgHlBh12UfvSIoEmnJy10a6hsb8iSoEZuTui4ueRxZf3YMkgkFCTbG26zuTHEvsFPjsiuBjjBfkvLwJfrUFoO3mbExWH+Zcoup4uZtpVGE7EuuvsFcMXZepnIQgJmXFJlyO3giEKsuXOpgg9QpoVIb7GbgXuhMz95FKA/Ib turahe@turahe-pc
 ```
-* Selesai, coba Anda tes _clone_ salah satu proyek di GitHub.
+
+- Selesai, coba Anda tes _clone_ salah satu proyek di GitHub.
