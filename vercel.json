@@ -1,0 +1,10 @@
+{
+  "buildCommand": "yarn build",
+  "installCommand": "yarn install",
+  "framework": "nextjs",
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  }
+} 
