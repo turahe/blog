@@ -1,0 +1,23 @@
+{
+  "gitlab": 3,
+  "webhook": 2,
+  "github": 1,
+  "code": 1,
+  "ssh": 1,
+  "laravel": 1,
+  "tinker": 1,
+  "console": 1,
+  "php": 1,
+  "redis": 1,
+  "server": 2,
+  "admin": 1,
+  "nextjs": 1,
+  "ubuntu": 1,
+  "nginx": 1,
+  "docker": 1,
+  "cicd": 1,
+  "pipeline": 1,
+  "deployment": 1,
+  "serat": 1,
+  "jawa": 1
+}
