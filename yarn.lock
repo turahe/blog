@@ -7474,7 +7474,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsx-a11y@npm:^6.10.0":
+"eslint-plugin-jsx-a11y@npm:^6.10.0, eslint-plugin-jsx-a11y@npm:^6.10.2":
   version: 6.10.2
   resolution: "eslint-plugin-jsx-a11y@npm:6.10.2"
   dependencies:
@@ -15253,6 +15253,7 @@ __metadata:
     eslint: ^9.14.0
     eslint-config-next: 15.2.4
     eslint-config-prettier: ^9.1.0
+    eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-prettier: ^5.2.0
     framer-motion: ^12.12.1
     github-slugger: ^2.0.0

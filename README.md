@@ -8,7 +8,7 @@
 [![Deploy on Vercel](https://img.shields.io/badge/Deploy%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 [![GitHub Repositories](https://img.shields.io/badge/GitHub-Repositories-181717?style=for-the-badge&logo=github)](https://github.com/turahe)
 [![Make](https://img.shields.io/badge/Make-Automation-FF6B6B?style=for-the-badge&logo=gnu)](https://www.gnu.org/software/make/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-22+-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![Yarn](https://img.shields.io/badge/Yarn-Package%20Manager-2C8EBB?style=for-the-badge&logo=yarn)](https://yarnpkg.com/)
 [![Jest](https://img.shields.io/badge/Jest-Testing-C21325?style=for-the-badge&logo=jest)](https://jestjs.io/)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-2EAD33?style=for-the-badge&logo=playwright)](https://playwright.dev/)
@@ -50,7 +50,7 @@ A modern, fast, and SEO-optimized blog and portfolio website built with Next.js 
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - Yarn (recommended) or npm
 - Make (optional, for enhanced automation)
 

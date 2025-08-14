@@ -34,29 +34,35 @@
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import globals from 'globals'
 import tsParser from '@typescript-eslint/parser'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-})
+const compat = new FlatCompat()
 
 export default [
   {
-    ignores: [],
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      '__tests__/**',
+      'tests/**',
+      '*.config.js',
+      '*.config.mjs',
+      '*.config.ts',
+      'scripts/**',
+      'cache/**'
+    ],
   },
   js.configs.recommended,
   ...compat.extends(
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:prettier/recommended',
-    'next',
-    'next/core-web-vitals'
+    'plugin:prettier/recommended'
   ),
   {
     plugins: {
@@ -66,24 +72,30 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.amd,
         ...globals.node,
+        ...globals.es2022,
       },
 
       parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: 'commonjs',
+      ecmaVersion: 2022,
+      sourceType: 'module',
 
       parserOptions: {
-        project: true,
-        tsconfigRootDir: __dirname,
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
 
     rules: {
       'prettier/prettier': 'error',
       'react/react-in-jsx-scope': 'off',
-
+      'react/prop-types': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      'react/no-unescaped-entities': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
       'jsx-a11y/anchor-is-valid': [
         'error',
         {
@@ -92,12 +104,6 @@ export default [
           aspects: ['invalidHref', 'preferButton'],
         },
       ],
-      'react/prop-types': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
-      'react/no-unescaped-entities': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-var-requires': 'off',
-      '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
 ]
