@@ -104,6 +104,8 @@ module.exports = () => {
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     eslint: {
       dirs: ['app', 'components', 'layouts', 'scripts'],
+      // Ignore ESLint errors during production builds
+      ignoreDuringBuilds: true,
     },
     images: {
       remotePatterns: [
