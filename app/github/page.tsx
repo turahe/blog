@@ -47,24 +47,53 @@ interface GitHubRepo {
   updated_at: string
   topics: string[]
   default_branch: string
+  fork?: boolean
+  private?: boolean
 }
 
 export const metadata = genPageMetadata({ title: 'GitHub Repositories' })
 
 async function getGitHubRepos() {
   try {
-    // Use absolute URL for server-side rendering
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(`${baseUrl}/api/github-repos`, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    })
+    // Fetch directly from GitHub API during build time
+    const response = await fetch(
+      'https://api.github.com/users/turahe/repos?sort=updated&per_page=100',
+      {
+        headers: {
+          Accept: 'application/vnd.github.v3+json',
+          'User-Agent': 'Wach-Blog-Portfolio',
+        },
+        next: { revalidate: 3600 }, // Cache for 1 hour
+      }
+    )
 
     if (!response.ok) {
       console.error('Failed to fetch GitHub repos:', response.status)
       return []
     }
 
-    return await response.json()
+    const repos = await response.json()
+
+    // Filter and transform repositories
+    const filteredRepos = repos
+      .filter((repo: GitHubRepo) => !repo.fork && !repo.private)
+      .map((repo: GitHubRepo) => ({
+        id: repo.id,
+        name: repo.name,
+        full_name: repo.full_name,
+        description: repo.description,
+        html_url: repo.html_url,
+        homepage: repo.homepage,
+        language: repo.language,
+        stargazers_count: repo.stargazers_count,
+        forks_count: repo.forks_count,
+        updated_at: repo.updated_at,
+        topics: repo.topics || [],
+        default_branch: repo.default_branch,
+      }))
+      .sort((a: GitHubRepo, b: GitHubRepo) => b.stargazers_count - a.stargazers_count)
+
+    return filteredRepos
   } catch (error) {
     console.error('Error fetching GitHub repos:', error)
     return []
