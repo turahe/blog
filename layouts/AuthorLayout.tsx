@@ -104,7 +104,7 @@ export default function AuthorLayout({ children, content }: Props) {
                     Circle Creative
                   </Link>
                 </p>
-              </RoughNotation>
+              </RoughNotationWrapper>
             </div>
             <br />
             <p className="sm:block md:hidden lg:hidden">
