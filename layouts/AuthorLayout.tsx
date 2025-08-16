@@ -78,80 +78,46 @@ export default function AuthorLayout({ children, content }: Props) {
           </div>
           <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
             <div>
-              <RoughNotationWrapper
-                type="bracket"
-                brackets={['left', 'right']}
-                show={true}
-                color="#FF0000"
-                animationDelay={300}
-                animationDuration={3000}
-              >
-                <p>
-                  Experienced programmer with a strong background in software development and a
-                  passion for problem-solving. Proficient in designing, coding, testing, and
-                  maintaining software applications. Adept at collaborating with cross-functional
-                  teams to deliver high-quality solutions. Specialized web development and mobile
-                  app development.
-                </p>
+              <p>
+                Experienced programmer with a strong background in software development and a
+                passion for problem-solving. Proficient in designing, coding, testing, and
+                maintaining software applications. Adept at collaborating with cross-functional
+                teams to deliver high-quality solutions. Specialized web development and mobile
+                app development.
+              </p>
 
-                <p>
-                  I am Currently, I am focused on building Enterprise resource planning (ERP), data
-                  pipelines and automating them at{' '}
-                  <Link
-                    href={'https://www.circlecreative.id'}
-                    className="special-underline no-underline hover:text-gray-100 dark:text-gray-100 hover:dark:text-gray-100"
-                  >
-                    Circle Creative
-                  </Link>
-                </p>
-              </RoughNotationWrapper>
+              <p>
+                I am Currently, I am focused on building Enterprise resource planning (ERP), data
+                pipelines and automating them at{' '}
+                <Link
+                  href={'https://www.circlecreative.id'}
+                  className="special-underline no-underline hover:text-gray-100 dark:text-gray-100 hover:dark:text-gray-100"
+                >
+                  Circle Creative
+                </Link>
+              </p>
             </div>
             <br />
             <p className="sm:block md:hidden lg:hidden">
               I am always looking to learn new things. I am currently working on a few projects
               related to At the same time I am{' '}
-              <RoughNotationWrapper
-                animationDelay={1000}
-                animationDuration={3000}
-                type="box"
-                color="#de1d8d"
-                strokeWidth={1}
-                show={true}
-              >
-                <span className="text-black dark:text-white">
-                  Enterprise resource planning (ERP) adn Machine Learning.{' '}
-                </span>
-              </RoughNotationWrapper>
+              <span className="text-black dark:text-white">
+                Enterprise resource planning (ERP) adn Machine Learning.{' '}
+              </span>
               actively on the wrote books in the fields of programming, data science and
               electricity.
             </p>
             <p className="hidden md:block">
               I am always looking to learn new things. I am currently working on a few projects
               related to{' '}
-              <RoughNotationWrapper
-                animationDelay={1000}
-                animationDuration={3000}
-                type="box"
-                color="#de1d8d"
-                strokeWidth={1}
-                show={true}
-              >
-                <span className="text-black dark:text-white">
-                  Enterprise resource planning (ERP) and Machine Learning.{' '}
-                </span>
-              </RoughNotationWrapper>
+              <span className="text-black dark:text-white">
+                Enterprise resource planning (ERP) and Machine Learning.{' '}
+              </span>
               At the same time I am{' '}
-              <RoughNotationWrapper
-                type="underline"
-                show={true}
-                color="#FBCFE8"
-                animationDelay={1500}
-                animationDuration={3000}
-                multiline={true}
-              >
+              <span className="text-black dark:text-white">
                 actively on the wrote books in the fields of programming, data science and
                 electricity.
-              </RoughNotationWrapper>
+              </span>
             </p>
             <br />
             <p>

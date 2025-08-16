@@ -57,32 +57,16 @@ export default function Home({ posts }) {
             </h2>
             <p className="pt-5 text-lg leading-7 text-slate-600 sm:block md:hidden lg:hidden dark:text-slate-300">
               This is my place for{' '}
-              <RoughNotationWrapper
-                animate={true}
-                type="box"
-                show={true}
-                color="#DE1D8D"
-                animationDelay={1000}
-                animationDuration={2500}
-                customElement="text-slate-200"
-              >
+              <span className="text-slate-200">
                 thoughts, reflections & everything&nbsp;
-              </RoughNotationWrapper>
+              </span>
               in between. Have a good read!
             </p>
             <p className="hidden pt-10 text-lg leading-7 text-slate-600 md:block dark:text-slate-300">
               This is my place for{' '}
-              <RoughNotationWrapper
-                animate={true}
-                type="highlight"
-                show={true}
-                color="#DE1D8D"
-                animationDelay={1000}
-                animationDuration={2500}
-                customElement="text-slate-200"
-              >
+              <span className="text-slate-200">
                 thoughts, reflections & everything&nbsp;
-              </RoughNotationWrapper>
+              </span>
               in between. Have a good read!{' '}
             </p>
             <div className="m-8 text-slate-600 dark:text-slate-400">
