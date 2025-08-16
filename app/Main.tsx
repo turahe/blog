@@ -38,7 +38,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 // @ts-ignore
 import NewsletterForm from 'pliny/ui/NewsletterForm'
-import { RoughNotation } from '@turahe/react-rough-notation'
+import RoughNotationWrapper from '@/components/RoughNotationWrapper'
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
@@ -57,7 +57,7 @@ export default function Home({ posts }) {
             </h2>
             <p className="pt-5 text-lg leading-7 text-slate-600 sm:block md:hidden lg:hidden dark:text-slate-300">
               This is my place for{' '}
-              <RoughNotation
+              <RoughNotationWrapper
                 animate={true}
                 type="box"
                 show={true}
@@ -67,12 +67,12 @@ export default function Home({ posts }) {
                 customElement="text-slate-200"
               >
                 thoughts, reflections & everything&nbsp;
-              </RoughNotation>
+              </RoughNotationWrapper>
               in between. Have a good read!
             </p>
             <p className="hidden pt-10 text-lg leading-7 text-slate-600 md:block dark:text-slate-300">
               This is my place for{' '}
-              <RoughNotation
+              <RoughNotationWrapper
                 animate={true}
                 type="highlight"
                 show={true}
@@ -82,7 +82,7 @@ export default function Home({ posts }) {
                 customElement="text-slate-200"
               >
                 thoughts, reflections & everything&nbsp;
-              </RoughNotation>
+              </RoughNotationWrapper>
               in between. Have a good read!{' '}
             </p>
             <div className="m-8 text-slate-600 dark:text-slate-400">

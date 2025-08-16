@@ -35,7 +35,7 @@ import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
-import { RoughNotation } from '@turahe/react-rough-notation'
+import RoughNotationWrapper from '@/components/RoughNotationWrapper'
 import Link from '@/components/Link'
 import Experience from '@/components/Experience'
 import experienceData from '@/data/experienceData'
@@ -78,7 +78,7 @@ export default function AuthorLayout({ children, content }: Props) {
           </div>
           <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
             <div>
-              <RoughNotation
+              <RoughNotationWrapper
                 type="bracket"
                 brackets={['left', 'right']}
                 show={true}
@@ -110,7 +110,7 @@ export default function AuthorLayout({ children, content }: Props) {
             <p className="sm:block md:hidden lg:hidden">
               I am always looking to learn new things. I am currently working on a few projects
               related to At the same time I am{' '}
-              <RoughNotation
+              <RoughNotationWrapper
                 animationDelay={1000}
                 animationDuration={3000}
                 type="box"
@@ -121,14 +121,14 @@ export default function AuthorLayout({ children, content }: Props) {
                 <span className="text-black dark:text-white">
                   Enterprise resource planning (ERP) adn Machine Learning.{' '}
                 </span>
-              </RoughNotation>
+              </RoughNotationWrapper>
               actively on the wrote books in the fields of programming, data science and
               electricity.
             </p>
             <p className="hidden md:block">
               I am always looking to learn new things. I am currently working on a few projects
               related to{' '}
-              <RoughNotation
+              <RoughNotationWrapper
                 animationDelay={1000}
                 animationDuration={3000}
                 type="box"
@@ -139,9 +139,9 @@ export default function AuthorLayout({ children, content }: Props) {
                 <span className="text-black dark:text-white">
                   Enterprise resource planning (ERP) and Machine Learning.{' '}
                 </span>
-              </RoughNotation>
+              </RoughNotationWrapper>
               At the same time I am{' '}
-              <RoughNotation
+              <RoughNotationWrapper
                 type="underline"
                 show={true}
                 color="#FBCFE8"
@@ -151,7 +151,7 @@ export default function AuthorLayout({ children, content }: Props) {
               >
                 actively on the wrote books in the fields of programming, data science and
                 electricity.
-              </RoughNotation>
+              </RoughNotationWrapper>
             </p>
             <br />
             <p>
