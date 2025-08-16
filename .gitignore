@@ -386,3 +386,5 @@ Icon
 # Project Specific
 # ===========================================
 # Add any project-specific files here
+
+.vercel

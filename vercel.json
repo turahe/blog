@@ -1,10 +1,15 @@
 {
   "buildCommand": "yarn build",
-  "installCommand": "yarn install",
+  "installCommand": "git config --global url.\"https://github.com/\".insteadOf git@github.com: && yarn install",
   "framework": "nextjs",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30
+    }
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=4096"
     }
   }
 } 

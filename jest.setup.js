@@ -33,6 +33,8 @@
 
 import '@testing-library/jest-dom'
 
+/* eslint-env jest */
+
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
   useRouter() {
@@ -78,8 +80,8 @@ jest.mock('framer-motion', () => ({
   AnimatePresence: ({ children }) => children,
 }))
 
-// Mock react-rough-notation
-jest.mock('react-rough-notation', () => ({
+// Mock @turahe/react-rough-notation
+jest.mock('@turahe/react-rough-notation', () => ({
   __esModule: true,
   default: ({ children, ...props }) => require('react').createElement('span', props, children),
 }))
