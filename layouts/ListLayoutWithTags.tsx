@@ -154,7 +154,7 @@ export default function ListLayoutWithTags({
           <div>
             <ul>
               {displayPosts.map((post) => {
-                const { path, date, title, summary, tags } = post
+                const { path, date, title, summary, tags, readingTime, wordCount } = post
                 return (
                   <li key={path} className="py-5">
                     <article className="flex flex-col space-y-2 xl:space-y-0">
@@ -162,6 +162,12 @@ export default function ListLayoutWithTags({
                         <dt className="sr-only">Published on</dt>
                         <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                           <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                          {wordCount && (
+                            <span className="ml-2">• {wordCount.toLocaleString()} words</span>
+                          )}
+                          {readingTime && (
+                            <span className="ml-2">• {readingTime.minutes} min read</span>
+                          )}
                         </dd>
                       </dl>
                       <div className="space-y-3">

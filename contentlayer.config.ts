@@ -77,6 +77,21 @@ const icon = fromHtmlIsomorphic(
 
 const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
+  wordCount: {
+    type: 'number',
+    resolve: (doc) => {
+      // Remove markdown syntax and count words
+      const text = doc.body.raw
+        .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+        .replace(/`[^`]*`/g, '') // Remove inline code
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // Remove links but keep text
+        .replace(/[#*_~`]/g, '') // Remove markdown formatting
+        .replace(/\n+/g, ' ') // Replace newlines with spaces
+        .trim()
+
+      return text.split(/\s+/).filter((word) => word.length > 0).length
+    },
+  },
   slug: {
     type: 'string',
     resolve: (doc) => doc._raw.flattenedPath.replace(/^.+?(\/)/, ''),

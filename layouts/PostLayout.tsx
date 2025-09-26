@@ -63,7 +63,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags, readingTime, images } = content
+  const { filePath, path, slug, date, title, tags, readingTime, wordCount, images } = content
   const basePath = path.split('/')[0]
   const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`
 
@@ -81,6 +81,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     <time dateTime={date}>
                       {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                     </time>
+                    {wordCount && (
+                      <span className="ml-2">• {wordCount.toLocaleString()} words</span>
+                    )}
                     {readingTime && <span className="ml-2">• {readingTime.minutes} min read</span>}
                   </dd>
                 </div>

@@ -51,7 +51,7 @@ interface LayoutProps {
 }
 
 export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
-  const { slug, title, images, date, readingTime } = content
+  const { slug, title, images, date, readingTime, wordCount } = content
   const displayImage =
     images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
 
@@ -79,6 +79,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
                     day: 'numeric',
                   })}
                 </time>
+                {wordCount && <span className="ml-2">• {wordCount.toLocaleString()} words</span>}
                 {readingTime && <span className="ml-2">• {readingTime.minutes} min read</span>}
               </div>
             </div>

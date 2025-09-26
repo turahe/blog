@@ -50,7 +50,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, slug, date, title, readingTime } = content
+  const { path, slug, date, title, readingTime, wordCount } = content
 
   return (
     <SectionContainer>
@@ -64,6 +64,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                    {wordCount && (
+                      <span className="ml-2">• {wordCount.toLocaleString()} words</span>
+                    )}
                     {readingTime && <span className="ml-2">• {readingTime.minutes} min read</span>}
                   </dd>
                 </div>
