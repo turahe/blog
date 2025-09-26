@@ -1,6 +1,7 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "yarn build",
-  "installCommand": "git config --global url.\"https://github.com/\".insteadOf git@github.com: && yarn install",
+  "installCommand": "yarn install",
   "framework": "nextjs",
   "functions": {
     "app/api/**/*.ts": {
@@ -12,4 +13,4 @@
       "NODE_OPTIONS": "--max-old-space-size=4096"
     }
   }
-} 
+}

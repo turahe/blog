@@ -103,6 +103,9 @@ export async function generateMetadata(props: {
       description: post.summary,
       images: imageList,
     },
+    other: {
+      'article:reading_time': post.readingTime.minutes,
+    },
   }
 }
 
@@ -136,6 +139,7 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
       name: author.name,
     }
   })
+  jsonLd['timeRequired'] = `PT${post.readingTime.minutes}M`
 
   const Layout = layouts[post.layout || defaultLayout]
 

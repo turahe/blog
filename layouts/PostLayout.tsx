@@ -63,7 +63,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags } = content
+  const { filePath, path, slug, date, title, tags, readingTime, images } = content
   const basePath = path.split('/')[0]
   const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`
 
@@ -81,11 +81,23 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     <time dateTime={date}>
                       {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                     </time>
+                    {readingTime && <span className="ml-2">• {readingTime.minutes} min read</span>}
                   </dd>
                 </div>
               </dl>
               <div>
                 <PageTitle>{title}</PageTitle>
+                {images && images.length > 0 && (
+                  <div className="mt-6">
+                    <Image
+                      src={images[0].trim()}
+                      alt={title}
+                      width={800}
+                      height={400}
+                      className="mx-auto rounded-lg"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </header>

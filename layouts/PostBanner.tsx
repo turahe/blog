@@ -51,7 +51,7 @@ interface LayoutProps {
 }
 
 export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
-  const { slug, title, images } = content
+  const { slug, title, images, date, readingTime } = content
   const displayImage =
     images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
 
@@ -70,6 +70,17 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
             </div>
             <div className="relative pt-10">
               <PageTitle>{title}</PageTitle>
+              <div className="pt-4 text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
+                <time dateTime={date}>
+                  {new Date(date).toLocaleDateString(siteMetadata.locale, {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+                {readingTime && <span className="ml-2">• {readingTime.minutes} min read</span>}
+              </div>
             </div>
           </div>
           <div className="prose dark:prose-invert max-w-none py-4">{children}</div>

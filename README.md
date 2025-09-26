@@ -292,9 +292,105 @@ canonicalUrl: https://wach.id/blog/your-post-url
 
 The easiest way to deploy is using [Vercel](https://vercel.com):
 
-1. Push your code to GitHub
-2. Import your repository to Vercel
-3. Deploy automatically
+#### Quick Deploy
+
+1. **Push your code to GitHub**
+2. **Import your repository to Vercel**
+3. **Deploy automatically**
+
+#### Manual Deployment
+
+1. **Install Vercel CLI:**
+
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Login to Vercel:**
+
+   ```bash
+   vercel login
+   ```
+
+3. **Link your project:**
+
+   ```bash
+   vercel link
+   ```
+
+4. **Deploy:**
+   ```bash
+   vercel --prod
+   ```
+
+#### Vercel Configuration
+
+The project includes optimized Vercel configuration in `vercel.json`:
+
+- **Build Command:** `yarn build`
+- **Install Command:** `yarn install`
+- **Framework:** Next.js
+- **Memory:** 4GB allocation for builds
+- **API Functions:** 30-second timeout
+
+#### Environment Variables
+
+Configure these environment variables in your Vercel dashboard:
+
+**Analytics:**
+
+- `NEXT_UMAMI_ID` - Umami website ID
+- `NEXT_UMAMI_SRC` - Umami script source
+
+**Comments:**
+
+- `NEXT_PUBLIC_GISCUS_REPO` - Giscus repository
+- `NEXT_PUBLIC_GISCUS_REPOSITORY_ID` - Giscus repository ID
+- `NEXT_PUBLIC_GISCUS_CATEGORY_ID` - Giscus category ID
+
+**Newsletter:**
+
+- `NEXT_PUBLIC_MAILCHIMP_ENDPOINT` - Mailchimp endpoint
+- `NEXT_PUBLIC_BUTTONDOWN_API_KEY` - Buttondown API key
+
+**GitHub Integration:**
+
+- `GITHUB_TOKEN` - GitHub personal access token
+
+#### Build Optimization
+
+The Vercel configuration includes:
+
+- **Memory allocation:** 4GB for complex builds
+- **Frozen lockfile:** Ensures consistent dependency versions
+- **Node.js optimization:** Optimized for Next.js 15 and Contentlayer2
+
+#### Troubleshooting
+
+**Common issues and solutions:**
+
+1. **Build timeout:**
+   - Increase memory allocation in `vercel.json`
+   - Optimize build process
+
+2. **Dependency conflicts:**
+   - Use `yarn install` (Yarn v3 compatible)
+   - Clear Vercel build cache
+
+3. **Contentlayer2 errors:**
+   - Ensure esbuild version compatibility
+   - Check Node.js version (22.x required)
+
+4. **Memory issues:**
+   - Increase `NODE_OPTIONS` memory limit
+   - Optimize image processing
+
+#### Performance Monitoring
+
+- **Vercel Analytics:** Built-in performance monitoring
+- **Speed Insights:** Core Web Vitals tracking
+- **Build logs:** Detailed build information
+- **Function logs:** API endpoint monitoring
 
 ### Netlify
 
@@ -418,25 +514,21 @@ This project uses GitHub Actions for continuous integration and deployment:
 ### Workflows
 
 - **CI** (`ci.yml`) - Runs on every push and PR
-
   - Linting and type checking
   - Building the project
   - Security audits
   - Performance analysis
 
 - **Deploy** (`deploy.yml`) - Deploys to Vercel on main branch
-
   - Automatic deployment to production
   - Requires Vercel secrets configuration
 
 - **Static Export** (`static-export.yml`) - Creates static build
-
   - Exports static files for hosting
   - Deploys to GitHub Pages
   - Uploads build artifacts
 
 - **Dependency Review** (`dependency-review.yml`) - Security checks
-
   - Reviews dependencies for vulnerabilities
   - Runs on every PR
 
@@ -457,11 +549,54 @@ For deployment workflows, you'll need to configure these secrets in your GitHub 
 
 #### How to get Vercel secrets:
 
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run `vercel login`
-3. Run `vercel link` in your project
-4. Check `.vercel/project.json` for org and project IDs
-5. Get token from [Vercel dashboard](https://vercel.com/account/tokens)
+1. **Install Vercel CLI:**
+
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Login to Vercel:**
+
+   ```bash
+   vercel login
+   ```
+
+3. **Link your project:**
+
+   ```bash
+   vercel link
+   ```
+
+4. **Get project information:**
+
+   ```bash
+   # Check .vercel/project.json for org and project IDs
+   cat .vercel/project.json
+   ```
+
+5. **Get API token:**
+   - Go to [Vercel dashboard](https://vercel.com/account/tokens)
+   - Create a new token with appropriate permissions
+   - Copy the token for use in GitHub secrets
+
+#### Vercel CLI Commands
+
+```bash
+# Deploy to preview
+vercel
+
+# Deploy to production
+vercel --prod
+
+# Check deployment status
+vercel ls
+
+# View deployment logs
+vercel logs [deployment-url]
+
+# Remove deployment
+vercel rm [deployment-url]
+```
 
 ### Status Badges
 
