@@ -64,34 +64,14 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
 
   if (!mounted) return null
 
-  const isDark = theme === 'dark' || resolvedTheme === 'dark'
   const shareUrl = typeof window !== 'undefined' ? window.location.href : url
   const shareTitle = title
   const shareDescription = description || title
 
-  const iconSize = 32
-  const iconStyle = {
-    borderRadius: '50%',
-    transition: 'transform 0.2s ease-in-out',
-  }
-
-  const buttonStyle = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '0 4px',
-    padding: '8px',
-    borderRadius: '50%',
-    backgroundColor: isDark ? '#374151' : '#f3f4f6',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease-in-out',
-  }
-
   return (
     <div className="my-6">
       <div className="flex items-center justify-center space-x-2">
-        <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           Share this post:
         </span>
         
@@ -100,83 +80,43 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
             url={shareUrl}
             quote={shareTitle}
             hashtag={hashtags.length > 0 ? hashtags[0] : undefined}
-            style={buttonStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1)'
-              e.currentTarget.style.backgroundColor = '#1877f2'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'
-              e.currentTarget.style.backgroundColor = isDark ? '#374151' : '#f3f4f6'
-            }}
+            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1877f2] focus:outline-none focus:ring-2 focus:ring-[#1877f2] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
-            <FacebookIcon size={iconSize} round style={iconStyle} />
+            <FacebookIcon size={32} round className="transition-transform duration-200 ease-in-out" />
           </FacebookShareButton>
 
           <TwitterShareButton
             url={shareUrl}
             title={shareTitle}
             hashtags={hashtags}
-            style={buttonStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1)'
-              e.currentTarget.style.backgroundColor = '#1da1f2'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'
-              e.currentTarget.style.backgroundColor = isDark ? '#374151' : '#f3f4f6'
-            }}
+            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1da1f2] focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
-            <TwitterIcon size={iconSize} round style={iconStyle} />
+            <TwitterIcon size={32} round className="transition-transform duration-200 ease-in-out" />
           </TwitterShareButton>
 
           <LinkedinShareButton
             url={shareUrl}
             title={shareTitle}
             summary={shareDescription}
-            style={buttonStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1)'
-              e.currentTarget.style.backgroundColor = '#0077b5'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'
-              e.currentTarget.style.backgroundColor = isDark ? '#374151' : '#f3f4f6'
-            }}
+            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0077b5] focus:outline-none focus:ring-2 focus:ring-[#0077b5] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
-            <LinkedinIcon size={iconSize} round style={iconStyle} />
+            <LinkedinIcon size={32} round className="transition-transform duration-200 ease-in-out" />
           </LinkedinShareButton>
 
           <WhatsappShareButton
             url={shareUrl}
             title={shareTitle}
-            style={buttonStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1)'
-              e.currentTarget.style.backgroundColor = '#25d366'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'
-              e.currentTarget.style.backgroundColor = isDark ? '#374151' : '#f3f4f6'
-            }}
+            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#25d366] focus:outline-none focus:ring-2 focus:ring-[#25d366] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
-            <WhatsappIcon size={iconSize} round style={iconStyle} />
+            <WhatsappIcon size={32} round className="transition-transform duration-200 ease-in-out" />
           </WhatsappShareButton>
 
           <TelegramShareButton
             url={shareUrl}
             title={shareTitle}
-            style={buttonStyle}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1)'
-              e.currentTarget.style.backgroundColor = '#0088cc'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'
-              e.currentTarget.style.backgroundColor = isDark ? '#374151' : '#f3f4f6'
-            }}
+            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0088cc] focus:outline-none focus:ring-2 focus:ring-[#0088cc] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
-            <TelegramIcon size={iconSize} round style={iconStyle} />
+            <TelegramIcon size={32} round className="transition-transform duration-200 ease-in-out" />
           </TelegramShareButton>
         </div>
       </div>
