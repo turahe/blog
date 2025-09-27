@@ -39,6 +39,7 @@ import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
+import PlayMusic from '@/components/PlayMusic'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
@@ -47,9 +48,10 @@ interface LayoutProps {
   children: ReactNode
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
+  musicFile?: string
 }
 
-export default function PostLayout({ content, next, prev, children }: LayoutProps) {
+export default function PostLayout({ content, next, prev, children, musicFile }: LayoutProps) {
   const { path, slug, date, title, readingTime, wordCount } = content
 
   return (
@@ -78,6 +80,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 xl:divide-y-0 dark:divide-gray-700">
             <div className="divide-y divide-gray-200 xl:col-span-3 xl:row-span-2 xl:pb-0 dark:divide-gray-700">
+              {musicFile && <PlayMusic musicFile={musicFile} />}
               <div className="prose dark:prose-invert max-w-none pt-10 pb-8">{children}</div>
             </div>
             {siteMetadata.comments && (

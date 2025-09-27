@@ -40,6 +40,7 @@ import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
+import PlayMusic from '@/components/PlayMusic'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
@@ -48,9 +49,10 @@ interface LayoutProps {
   children: ReactNode
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
+  musicFile?: string
 }
 
-export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
+export default function PostMinimal({ content, next, prev, children, musicFile }: LayoutProps) {
   const { slug, title, images, date, readingTime, wordCount } = content
   const displayImage =
     images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
@@ -64,7 +66,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
             <div className="w-full">
               <Bleed>
                 <div className="relative aspect-[2/1] w-full">
-                  <Image src={displayImage} alt={title} fill className="object-cover" />
+                  <Image src={displayImage} alt={title} fill priority className="object-cover" />
                 </div>
               </Bleed>
             </div>
@@ -84,6 +86,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
               </div>
             </div>
           </div>
+          {musicFile && <PlayMusic musicFile={musicFile} />}
           <div className="prose dark:prose-invert max-w-none py-4">{children}</div>
           {siteMetadata.comments && (
             <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300" id="comment">

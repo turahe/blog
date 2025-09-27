@@ -40,6 +40,7 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import Image from '@/components/Image'
 import Tag from '@/components/Tag'
+import PlayMusic from '@/components/PlayMusic'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
@@ -60,9 +61,10 @@ interface LayoutProps {
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
   children: ReactNode
+  musicFile?: string
 }
 
-export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
+export default function PostLayout({ content, authorDetails, next, prev, children, musicFile }: LayoutProps) {
   const { filePath, path, slug, date, title, tags, readingTime, wordCount, images } = content
   const basePath = path.split('/')[0]
   const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`
@@ -97,6 +99,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       alt={title}
                       width={800}
                       height={400}
+                      priority
                       className="mx-auto rounded-lg"
                     />
                   </div>
@@ -141,6 +144,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               </dd>
             </dl>
             <div className="divide-y divide-gray-200 xl:col-span-3 xl:row-span-2 xl:pb-0 dark:divide-gray-700">
+              {musicFile && <PlayMusic musicFile={musicFile} />}
               <div className="prose dark:prose-invert max-w-none pt-10 pb-8">{children}</div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
                 <Link href={discussUrl(path)} rel="nofollow">
