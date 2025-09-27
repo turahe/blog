@@ -44,6 +44,7 @@ import PostSimple from '@/layouts/PostSimple'
 import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
 import PlayMusic from '@/components/PlayMusic'
+import SocialShare from '@/components/SocialShare'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
 import { notFound } from 'next/navigation'
@@ -152,6 +153,12 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
       />
       <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev} musicFile={post.music}>
         <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
+        <SocialShare 
+          url={`${siteMetadata.siteUrl}/blog/${post.slug}`}
+          title={post.title}
+          description={post.summary}
+          hashtags={post.tags || []}
+        />
       </Layout>
     </>
   )
