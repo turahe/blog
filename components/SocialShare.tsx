@@ -55,28 +55,58 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
   const shareTitle = title
   const shareDescription = description || title
 
-  const handleShare = (platform: string, shareData: { url: string; title: string; description?: string; hashtags?: string[] }) => {
-    const { url: shareUrl, title: shareTitle, description: shareDescription, hashtags: shareHashtags } = shareData
-    
+  const handleShare = (
+    platform: string,
+    shareData: { url: string; title: string; description?: string; hashtags?: string[] }
+  ) => {
+    const {
+      url: shareUrl,
+      title: shareTitle,
+      description: shareDescription,
+      hashtags: shareHashtags,
+    } = shareData
+
     switch (platform) {
       case 'facebook':
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareTitle)}`, '_blank', 'width=600,height=400')
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareTitle)}`,
+          '_blank',
+          'width=600,height=400'
+        )
         break
-      case 'twitter':
-        const twitterText = `${shareTitle}${shareHashtags?.length ? ` ${shareHashtags.map(tag => `#${tag}`).join(' ')}` : ''}`
-        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(twitterText)}`, '_blank', 'width=600,height=400')
+      case 'twitter': {
+        const twitterText = `${shareTitle}${shareHashtags?.length ? ` ${shareHashtags.map((tag) => `#${tag}`).join(' ')}` : ''}`
+        window.open(
+          `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(twitterText)}`,
+          '_blank',
+          'width=600,height=400'
+        )
         break
+      }
       case 'linkedin':
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}&summary=${encodeURIComponent(shareDescription || '')}`, '_blank', 'width=600,height=400')
+        window.open(
+          `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}&summary=${encodeURIComponent(shareDescription || '')}`,
+          '_blank',
+          'width=600,height=400'
+        )
         break
-      case 'whatsapp':
+      case 'whatsapp': {
         const whatsappText = `${shareTitle} - ${shareUrl}`
-        window.open(`https://wa.me/?text=${encodeURIComponent(whatsappText)}`, '_blank', 'width=600,height=400')
+        window.open(
+          `https://wa.me/?text=${encodeURIComponent(whatsappText)}`,
+          '_blank',
+          'width=600,height=400'
+        )
         break
-      case 'telegram':
-        const telegramText = `${shareTitle} - ${shareUrl}`
-        window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`, '_blank', 'width=600,height=400')
+      }
+      case 'telegram': {
+        window.open(
+          `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`,
+          '_blank',
+          'width=600,height=400'
+        )
         break
+      }
     }
   }
 
@@ -86,51 +116,86 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           Share this post:
         </span>
-        
+
         <div className="flex items-center space-x-1">
           <button
-            onClick={() => handleShare('facebook', { url: shareUrl, title: shareTitle, description: shareDescription, hashtags })}
-            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1877f2] focus:outline-none focus:ring-2 focus:ring-[#1877f2] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            onClick={() =>
+              handleShare('facebook', {
+                url: shareUrl,
+                title: shareTitle,
+                description: shareDescription,
+                hashtags,
+              })
+            }
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on Facebook"
             aria-label="Share on Facebook"
           >
-            <Facebook className="w-8 h-8 text-gray-600 dark:text-gray-300 hover:text-white transition-colors duration-200" />
+            <Facebook className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
-            onClick={() => handleShare('twitter', { url: shareUrl, title: shareTitle, description: shareDescription, hashtags })}
-            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1da1f2] focus:outline-none focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            onClick={() =>
+              handleShare('twitter', {
+                url: shareUrl,
+                title: shareTitle,
+                description: shareDescription,
+                hashtags,
+              })
+            }
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1da1f2] focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on Twitter"
             aria-label="Share on Twitter"
           >
-            <Twitter className="w-8 h-8 text-gray-600 dark:text-gray-300 hover:text-white transition-colors duration-200" />
+            <Twitter className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
-            onClick={() => handleShare('linkedin', { url: shareUrl, title: shareTitle, description: shareDescription, hashtags })}
-            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0077b5] focus:outline-none focus:ring-2 focus:ring-[#0077b5] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            onClick={() =>
+              handleShare('linkedin', {
+                url: shareUrl,
+                title: shareTitle,
+                description: shareDescription,
+                hashtags,
+              })
+            }
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0077b5] focus:ring-2 focus:ring-[#0077b5] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on LinkedIn"
             aria-label="Share on LinkedIn"
           >
-            <Linkedin className="w-8 h-8 text-gray-600 dark:text-gray-300 hover:text-white transition-colors duration-200" />
+            <Linkedin className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
-            onClick={() => handleShare('whatsapp', { url: shareUrl, title: shareTitle, description: shareDescription, hashtags })}
-            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#25d366] focus:outline-none focus:ring-2 focus:ring-[#25d366] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            onClick={() =>
+              handleShare('whatsapp', {
+                url: shareUrl,
+                title: shareTitle,
+                description: shareDescription,
+                hashtags,
+              })
+            }
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#25d366] focus:ring-2 focus:ring-[#25d366] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on WhatsApp"
             aria-label="Share on WhatsApp"
           >
-            <Whatsapp className="w-8 h-8 text-gray-600 dark:text-gray-300 hover:text-white transition-colors duration-200" />
+            <Whatsapp className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
-            onClick={() => handleShare('telegram', { url: shareUrl, title: shareTitle, description: shareDescription, hashtags })}
-            className="inline-flex items-center justify-center p-2 mx-1 rounded-full bg-gray-100 dark:bg-gray-700 border-none cursor-pointer transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0088cc] focus:outline-none focus:ring-2 focus:ring-[#0088cc] focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            onClick={() =>
+              handleShare('telegram', {
+                url: shareUrl,
+                title: shareTitle,
+                description: shareDescription,
+                hashtags,
+              })
+            }
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0088cc] focus:ring-2 focus:ring-[#0088cc] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on Telegram"
             aria-label="Share on Telegram"
           >
-            <Telegram className="w-8 h-8 text-gray-600 dark:text-gray-300 hover:text-white transition-colors duration-200" />
+            <Telegram className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
         </div>
       </div>

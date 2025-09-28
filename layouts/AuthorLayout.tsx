@@ -82,8 +82,8 @@ export default function AuthorLayout({ children, content }: Props) {
                 Experienced programmer with a strong background in software development and a
                 passion for problem-solving. Proficient in designing, coding, testing, and
                 maintaining software applications. Adept at collaborating with cross-functional
-                teams to deliver high-quality solutions. Specialized web development and mobile
-                app development.
+                teams to deliver high-quality solutions. Specialized web development and mobile app
+                development.
               </p>
 
               <p>

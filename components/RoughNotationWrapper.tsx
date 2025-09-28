@@ -32,8 +32,27 @@ export default function RoughNotationWrapper({
 }: RoughNotationWrapperProps) {
   return (
     <RoughNotation
-      type={type as any}
-      brackets={brackets as any}
+      type={
+        type as
+          | 'underline'
+          | 'box'
+          | 'circle'
+          | 'highlight'
+          | 'strike-through'
+          | 'crossed-off'
+          | 'bracket'
+      }
+      brackets={
+        brackets as
+          | 'left'
+          | 'right'
+          | 'top'
+          | 'bottom'
+          | 'leftTop'
+          | 'rightTop'
+          | 'leftBottom'
+          | 'rightBottom'
+      }
       show={show}
       color={color}
       animationDelay={animationDelay}

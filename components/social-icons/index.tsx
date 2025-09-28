@@ -31,7 +31,17 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import { Mail, Github, Facebook, Youtube, Linkedin, Twitter, Mastodon, Whatsapp, Telegram } from './icons'
+import {
+  Mail,
+  Github,
+  Facebook,
+  Youtube,
+  Linkedin,
+  Twitter,
+  Mastodon,
+  Whatsapp,
+  Telegram,
+} from './icons'
 
 const components = {
   mail: Mail,

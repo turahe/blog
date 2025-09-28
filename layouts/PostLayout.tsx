@@ -64,7 +64,14 @@ interface LayoutProps {
   musicFile?: string
 }
 
-export default function PostLayout({ content, authorDetails, next, prev, children, musicFile }: LayoutProps) {
+export default function PostLayout({
+  content,
+  authorDetails,
+  next,
+  prev,
+  children,
+  musicFile,
+}: LayoutProps) {
   const { filePath, path, slug, date, title, tags, readingTime, wordCount, images } = content
   const basePath = path.split('/')[0]
   const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`

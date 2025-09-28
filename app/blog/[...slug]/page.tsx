@@ -34,7 +34,6 @@
 import 'css/prism.css'
 import 'katex/dist/katex.css'
 
-import PageTitle from '@/components/PageTitle'
 import { components } from '@/components/MDXComponents'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { sortPosts, coreContent, allCoreContent } from 'pliny/utils/contentlayer'
@@ -43,7 +42,6 @@ import type { Authors, Blog } from 'contentlayer/generated'
 import PostSimple from '@/layouts/PostSimple'
 import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
-import PlayMusic from '@/components/PlayMusic'
 import SocialShare from '@/components/SocialShare'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
@@ -151,9 +149,15 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev} musicFile={post.music}>
+      <Layout
+        content={mainContent}
+        authorDetails={authorDetails}
+        next={next}
+        prev={prev}
+        musicFile={post.music}
+      >
         <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
-        <SocialShare 
+        <SocialShare
           url={`${siteMetadata.siteUrl}/blog/${post.slug}`}
           title={post.title}
           description={post.summary}

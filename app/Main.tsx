@@ -57,16 +57,12 @@ export default function Home({ posts }) {
             </h2>
             <p className="pt-5 text-lg leading-7 text-slate-600 sm:block md:hidden lg:hidden dark:text-slate-300">
               This is my place for{' '}
-              <span className="text-slate-200">
-                thoughts, reflections & everything&nbsp;
-              </span>
+              <span className="text-slate-200">thoughts, reflections & everything&nbsp;</span>
               in between. Have a good read!
             </p>
             <p className="hidden pt-10 text-lg leading-7 text-slate-600 md:block dark:text-slate-300">
               This is my place for{' '}
-              <span className="text-slate-200">
-                thoughts, reflections & everything&nbsp;
-              </span>
+              <span className="text-slate-200">thoughts, reflections & everything&nbsp;</span>
               in between. Have a good read!{' '}
             </p>
             <div className="m-8 text-slate-600 dark:text-slate-400">
