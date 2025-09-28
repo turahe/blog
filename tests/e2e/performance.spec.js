@@ -146,6 +146,9 @@ test.describe('Performance Tests', () => {
 
   test('should handle concurrent user interactions', async ({ page }) => {
     await page.goto('/')
+    
+    // Set desktop viewport for navigation links to be visible
+    await page.setViewportSize({ width: 1024, height: 768 })
 
     // Simulate rapid user interactions
     const interactions = [

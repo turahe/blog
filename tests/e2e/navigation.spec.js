@@ -61,6 +61,9 @@ test.describe('Navigation', () => {
   })
 
   test('should have working header navigation links', async ({ page }) => {
+    // Set desktop viewport for navigation links to be visible
+    await page.setViewportSize({ width: 1024, height: 768 })
+    
     const navLinks = [
       { text: 'Blog', expectedPath: '/blog' },
       { text: 'About', expectedPath: '/about' },

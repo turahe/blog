@@ -51,7 +51,8 @@ test.describe('Home Page', () => {
     const header = page.locator('header')
     await expect(header).toBeVisible()
 
-    // Check navigation links - use more specific selectors
+    // Check navigation links (only visible on desktop)
+    await page.setViewportSize({ width: 1024, height: 768 })
     const navLinks = ['Blog', 'About', 'Projects', 'Tags']
     for (const link of navLinks) {
       const navLink = page.locator(`a:has-text("${link}")`).first()
@@ -60,11 +61,14 @@ test.describe('Home Page', () => {
   })
 
   test('should display logo with current path', async ({ page }) => {
-    const logo = page.locator('text=/~\\/$/')
+    const logo = page.locator('text=/~\\/ /')
     await expect(logo).toBeVisible()
   })
 
   test('should have working navigation links', async ({ page }) => {
+    // Set desktop viewport for navigation links to be visible
+    await page.setViewportSize({ width: 1024, height: 768 })
+    
     // Test navigation to different pages
     const navigationTests = [
       { link: 'Blog', expectedPath: '/blog' },
