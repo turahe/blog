@@ -70,7 +70,7 @@ async function readCache(): Promise<CachedData | null> {
       console.log('Serving GitHub repos from cache')
       return parsed
     }
-  } catch (error) {
+  } catch {
     // Cache file doesn't exist or is invalid
     console.log('No valid cache found, fetching fresh data')
   }

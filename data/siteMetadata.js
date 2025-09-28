@@ -43,10 +43,10 @@ const siteMetadata = {
   siteUrl: 'https://wach.id',
   siteRepo: 'https://github.com/turahe/blog',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/logo.png',
   // mastodon: 'https://mastodon.social/@mastodonuser',
 
-  email: 'wachid@outlook.com',
+  email: 'nur@wach.id',
   github: 'https://github.com/turahe',
   twitter: 'https://twitter.com/wach_1',
   facebook: 'https://facebook.com/nur.wachid',

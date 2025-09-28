@@ -52,7 +52,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, next, prev, children, musicFile }: LayoutProps) {
-  const { path, slug, date, title, readingTime, wordCount } = content
+  const { slug, date, title, readingTime, wordCount } = content
 
   return (
     <SectionContainer>

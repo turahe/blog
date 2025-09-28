@@ -38,7 +38,6 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 // @ts-ignore
 import NewsletterForm from 'pliny/ui/NewsletterForm'
-import RoughNotationWrapper from '@/components/RoughNotationWrapper'
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
