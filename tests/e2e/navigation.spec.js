@@ -75,6 +75,9 @@ test.describe('Navigation', () => {
       // Click navigation link
       await page.locator(`a:has-text("${text}")`).first().click()
 
+      // Wait for navigation to complete
+      await page.waitForLoadState('networkidle')
+
       // Verify URL changes
       await expect(page).toHaveURL(new RegExp(expectedPath))
 
@@ -83,17 +86,20 @@ test.describe('Navigation', () => {
 
       // Go back to home
       await page.goto('/')
+      await page.waitForLoadState('networkidle')
     }
   })
 
   test('should have working logo link', async ({ page }) => {
     // Navigate to a different page first
     await page.goto('/blog')
+    await page.waitForLoadState('networkidle')
 
     // Click logo
-    await page.click('a:has-text("~/")')
+    await page.locator('text=/~\\/ /').click()
 
     // Should return to home page
+    await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL('/')
   })
 

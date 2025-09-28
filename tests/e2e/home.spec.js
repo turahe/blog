@@ -79,17 +79,18 @@ test.describe('Home Page', () => {
     ]
 
     for (const { link, expectedPath } of navigationTests) {
+      // Click the navigation link
+      await page.locator(`a:has-text("${link}")`).first().click()
+      
       // Wait for navigation to complete
-      await Promise.all([
-        page.waitForURL(new RegExp(expectedPath)),
-        page.locator(`a:has-text("${link}")`).first().click()
-      ])
+      await page.waitForLoadState('networkidle')
       
       // Verify we're on the correct page
       await expect(page).toHaveURL(new RegExp(expectedPath))
       
       // Go back to home
       await page.goto('/')
+      await page.waitForLoadState('networkidle')
     }
   })
 
