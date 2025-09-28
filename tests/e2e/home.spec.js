@@ -51,10 +51,10 @@ test.describe('Home Page', () => {
     const header = page.locator('header')
     await expect(header).toBeVisible()
 
-    // Check navigation links
+    // Check navigation links - use more specific selectors
     const navLinks = ['Blog', 'About', 'Projects', 'Tags']
     for (const link of navLinks) {
-      const navLink = page.locator(`a:has-text("${link}")`)
+      const navLink = page.locator(`a:has-text("${link}")`).first()
       await expect(navLink).toBeVisible()
     }
   })
@@ -74,14 +74,14 @@ test.describe('Home Page', () => {
     ]
 
     for (const { link, expectedPath } of navigationTests) {
-      await page.click(`a:has-text("${link}")`)
+      await page.locator(`a:has-text("${link}")`).first().click()
       await expect(page).toHaveURL(new RegExp(expectedPath))
       await page.goBack()
     }
   })
 
   test('should display theme switch button', async ({ page }) => {
-    const themeSwitch = page.locator('button[aria-label*="theme" i]')
+    const themeSwitch = page.locator('button[aria-label="Toggle Dark Mode"]')
     await expect(themeSwitch).toBeVisible()
   })
 
@@ -91,7 +91,9 @@ test.describe('Home Page', () => {
   })
 
   test('should display mobile navigation menu', async ({ page }) => {
-    const mobileNav = page.locator('button[aria-label*="menu" i]')
+    // Set mobile viewport to make mobile nav visible
+    await page.setViewportSize({ width: 375, height: 667 })
+    const mobileNav = page.locator('button[aria-label="Toggle Menu"]').first()
     await expect(mobileNav).toBeVisible()
   })
 
@@ -100,17 +102,17 @@ test.describe('Home Page', () => {
     const metaDescription = page.locator('meta[name="description"]')
     await expect(metaDescription).toHaveAttribute('content', /.*/)
 
-    // Check viewport meta tag
-    const viewport = page.locator('meta[name="viewport"]')
-    await expect(viewport).toBeVisible()
+    // Check viewport meta tag exists (not visible, just exists)
+    const viewport = page.locator('meta[name="viewport"]').first()
+    await expect(viewport).toHaveAttribute('content', /.*/)
   })
 
   test('should have proper favicon links', async ({ page }) => {
-    const favicon = page.locator('link[rel="icon"]')
-    await expect(favicon).toBeVisible()
+    const favicon = page.locator('link[rel="icon"]').first()
+    await expect(favicon).toHaveAttribute('href', /.*/)
 
     const appleTouchIcon = page.locator('link[rel="apple-touch-icon"]')
-    await expect(appleTouchIcon).toBeVisible()
+    await expect(appleTouchIcon).toHaveAttribute('href', /.*/)
   })
 
   test('should be accessible', async ({ page }) => {
@@ -120,7 +122,8 @@ test.describe('Home Page', () => {
 
     // Check for proper ARIA labels
     const elementsWithAria = page.locator('[aria-label]')
-    await expect(elementsWithAria.count()).toBeGreaterThan(0)
+    const count = await elementsWithAria.count()
+    expect(count).toBeGreaterThan(0)
   })
 
   test('should work on mobile viewport', async ({ page }) => {
@@ -131,12 +134,12 @@ test.describe('Home Page', () => {
     await expect(page.locator('body')).toBeVisible()
 
     // Check mobile navigation is accessible
-    const mobileNav = page.locator('button[aria-label*="menu" i]')
+    const mobileNav = page.locator('button[aria-label="Toggle Menu"]').first()
     await expect(mobileNav).toBeVisible()
   })
 
   test('should handle theme switching', async ({ page }) => {
-    const themeSwitch = page.locator('button[aria-label*="theme" i]')
+    const themeSwitch = page.locator('button[aria-label="Toggle Dark Mode"]')
 
     // Click theme switch
     await themeSwitch.click()

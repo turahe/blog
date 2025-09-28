@@ -40,7 +40,7 @@ test.describe('Navigation', () => {
 
   test('should navigate between all main pages', async ({ page }) => {
     const pages = [
-      { name: 'Home', path: '/' },
+      { name: 'Wach Blog', path: '/' },
       { name: 'Blog', path: '/blog' },
       { name: 'About', path: '/about' },
       { name: 'Projects', path: '/projects' },
@@ -70,7 +70,7 @@ test.describe('Navigation', () => {
 
     for (const { text, expectedPath } of navLinks) {
       // Click navigation link
-      await page.click(`a:has-text("${text}")`)
+      await page.locator(`a:has-text("${text}")`).first().click()
 
       // Verify URL changes
       await expect(page).toHaveURL(new RegExp(expectedPath))
@@ -99,9 +99,7 @@ test.describe('Navigation', () => {
     await page.setViewportSize({ width: 375, height: 667 })
 
     // Find mobile menu button
-    const mobileMenuButton = page.locator(
-      'button[aria-label*="menu" i], button[aria-label*="open" i]'
-    )
+    const mobileMenuButton = page.locator('button[aria-label="Toggle Menu"]').first()
     await expect(mobileMenuButton).toBeVisible()
 
     // Click mobile menu
@@ -113,9 +111,7 @@ test.describe('Navigation', () => {
 
   test('should handle theme switching', async ({ page }) => {
     // Find theme switch button
-    const themeSwitch = page.locator(
-      'button[aria-label*="theme" i], button[aria-label*="toggle" i]'
-    )
+    const themeSwitch = page.locator('button[aria-label="Toggle Dark Mode"]')
     await expect(themeSwitch).toBeVisible()
 
     // Click theme switch
@@ -155,7 +151,7 @@ test.describe('Navigation', () => {
       // Verify navigation links are present
       const navLinks = ['Blog', 'About', 'Projects', 'Tags']
       for (const link of navLinks) {
-        const navLink = page.locator(`a:has-text("${link}")`)
+        const navLink = page.locator(`a:has-text("${link}")`).first()
         await expect(navLink).toBeVisible()
       }
     }
