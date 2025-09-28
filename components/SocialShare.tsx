@@ -112,7 +112,7 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
 
   return (
     <div className="my-6">
-      <div className="flex items-center justify-center space-x-2">
+      <div className="flex flex-col items-center justify-center space-y-3 sm:flex-row sm:space-x-2 sm:space-y-0">
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           Share this post:
         </span>
@@ -127,11 +127,11 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
                 hashtags,
               })
             }
-            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-1.5 sm:p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on Facebook"
             aria-label="Share on Facebook"
           >
-            <Facebook className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
+            <Facebook className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
@@ -143,11 +143,11 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
                 hashtags,
               })
             }
-            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1da1f2] focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-1.5 sm:p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#1da1f2] focus:ring-2 focus:ring-[#1da1f2] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on Twitter"
             aria-label="Share on Twitter"
           >
-            <Twitter className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
+            <Twitter className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
@@ -159,11 +159,11 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
                 hashtags,
               })
             }
-            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0077b5] focus:ring-2 focus:ring-[#0077b5] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-1.5 sm:p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0077b5] focus:ring-2 focus:ring-[#0077b5] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on LinkedIn"
             aria-label="Share on LinkedIn"
           >
-            <Linkedin className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
+            <Linkedin className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
@@ -175,11 +175,11 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
                 hashtags,
               })
             }
-            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#25d366] focus:ring-2 focus:ring-[#25d366] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-1.5 sm:p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#25d366] focus:ring-2 focus:ring-[#25d366] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on WhatsApp"
             aria-label="Share on WhatsApp"
           >
-            <Whatsapp className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
+            <Whatsapp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
 
           <button
@@ -191,11 +191,11 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
                 hashtags,
               })
             }
-            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0088cc] focus:ring-2 focus:ring-[#0088cc] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
+            className="mx-1 inline-flex cursor-pointer items-center justify-center rounded-full border-none bg-gray-100 p-1.5 sm:p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:bg-[#0088cc] focus:ring-2 focus:ring-[#0088cc] focus:ring-offset-2 focus:outline-none dark:bg-gray-700 dark:focus:ring-offset-gray-800"
             title="Share on Telegram"
             aria-label="Share on Telegram"
           >
-            <Telegram className="h-5 w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
+            <Telegram className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 transition-colors duration-200 hover:text-white dark:text-gray-300" />
           </button>
         </div>
       </div>
