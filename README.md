@@ -9,7 +9,7 @@
 [![GitHub Repositories](https://img.shields.io/badge/GitHub-Repositories-181717?style=for-the-badge&logo=github)](https://github.com/turahe)
 [![Make](https://img.shields.io/badge/Make-Automation-FF6B6B?style=for-the-badge&logo=gnu)](https://www.gnu.org/software/make/)
 [![Node.js](https://img.shields.io/badge/Node.js-22+-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
-[![Yarn](https://img.shields.io/badge/Yarn-Package%20Manager-2C8EBB?style=for-the-badge&logo=yarn)](https://yarnpkg.com/)
+[![npm](https://img.shields.io/badge/npm-Package%20Manager-CB3837?style=for-the-badge&logo=npm)](https://npmjs.com/)
 [![Jest](https://img.shields.io/badge/Jest-Testing-C21325?style=for-the-badge&logo=jest)](https://jestjs.io/)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-2EAD33?style=for-the-badge&logo=playwright)](https://playwright.dev/)
 [![ESLint](https://img.shields.io/badge/ESLint-Linting-4B32C3?style=for-the-badge&logo=eslint)](https://eslint.org/)
@@ -66,7 +66,7 @@ cd blog
 2. Install dependencies:
 
 ```bash
-yarn install
+npm install
 # or with Makefile
 make install
 ```
@@ -82,7 +82,7 @@ $env:PWD = $(Get-Location).Path
 Start the development server:
 
 ```bash
-yarn dev
+npm run dev
 # or with Makefile
 make dev
 ```
@@ -96,7 +96,7 @@ The pages auto-update as you edit them with live reloading.
 ### Build for Production
 
 ```bash
-yarn build
+npm run build
 # or with Makefile
 make build
 ```
@@ -104,7 +104,7 @@ make build
 ### Start Production Server
 
 ```bash
-yarn serve
+npm run serve
 # or with Makefile
 make serve
 ```
@@ -114,7 +114,7 @@ make serve
 For static hosting services (GitHub Pages, S3, Firebase, etc.):
 
 ```bash
-EXPORT=1 UNOPTIMIZED=1 yarn build
+EXPORT=1 UNOPTIMIZED=1 npm run build
 # or with Makefile
 make build-static
 ```
@@ -122,7 +122,7 @@ make build-static
 **For URL base path deployment** (e.g., `https://example.org/myblog`):
 
 ```bash
-EXPORT=1 UNOPTIMIZED=1 BASE_PATH=/myblog yarn build
+EXPORT=1 UNOPTIMIZED=1 BASE_PATH=/myblog npm run build
 ```
 
 ## 🐙 GitHub Integration
@@ -327,8 +327,8 @@ The easiest way to deploy is using [Vercel](https://vercel.com):
 
 The project includes optimized Vercel configuration in `vercel.json`:
 
-- **Build Command:** `yarn build`
-- **Install Command:** `yarn install`
+- **Build Command:** `npm run build`
+- **Install Command:** `npm install`
 - **Framework:** Next.js
 - **Memory:** 4GB allocation for builds
 - **API Functions:** 30-second timeout
@@ -374,7 +374,7 @@ The Vercel configuration includes:
    - Optimize build process
 
 2. **Dependency conflicts:**
-   - Use `yarn install` (Yarn v3 compatible)
+   - Use `npm install` (Yarn v3 compatible)
    - Clear Vercel build cache
 
 3. **Contentlayer2 errors:**
@@ -397,7 +397,7 @@ The Vercel configuration includes:
 [Netlify](https://www.netlify.com/) provides excellent Next.js support:
 
 1. Connect your repository
-2. Build command: `yarn build`
+2. Build command: `npm run build`
 3. Publish directory: `.next`
 
 ### GitHub Pages
@@ -413,7 +413,7 @@ Use the provided GitHub Actions workflow:
 For static hosting services:
 
 ```bash
-EXPORT=1 UNOPTIMIZED=1 yarn build
+EXPORT=1 UNOPTIMIZED=1 npm run build
 ```
 
 Then deploy the generated `out` folder.
@@ -476,21 +476,21 @@ newsletter: {
 
 ### Yarn Scripts
 
-- `yarn dev` - Start development server
-- `yarn build` - Build for production
-- `yarn serve` - Start production server
-- `yarn lint` - Run ESLint
-- `yarn analyze` - Analyze bundle size
-- `yarn test` - Run tests
-- `yarn test:watch` - Run tests in watch mode
-- `yarn test:coverage` - Run tests with coverage report
-- `yarn test:ci` - Run tests for CI environment
-- `yarn test:e2e` - Run E2E tests with Playwright
-- `yarn test:e2e:ui` - Run E2E tests with UI mode
-- `yarn test:e2e:headed` - Run E2E tests in headed mode
-- `yarn test:e2e:debug` - Run E2E tests in debug mode
-- `yarn test:e2e:install` - Install Playwright browsers
-- `yarn test:e2e:report` - Show E2E test report
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run serve` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run analyze` - Analyze bundle size
+- `npm test` - Run tests
+- `npm test:watch` - Run tests in watch mode
+- `npm test:coverage` - Run tests with coverage report
+- `npm test:ci` - Run tests for CI environment
+- `npm test:e2e` - Run E2E tests with Playwright
+- `npm test:e2e:ui` - Run E2E tests with UI mode
+- `npm test:e2e:headed` - Run E2E tests in headed mode
+- `npm test:e2e:debug` - Run E2E tests in debug mode
+- `npm test:e2e:install` - Install Playwright browsers
+- `npm test:e2e:report` - Show E2E test report
 
 ### Makefile Commands
 
@@ -636,22 +636,22 @@ The test suite covers:
 
 ```bash
 # Run all tests
-yarn test
+npm test
 # or
 make test
 
 # Run tests in watch mode
-yarn test:watch
+npm test:watch
 # or
 make test-watch
 
 # Run tests with coverage
-yarn test:coverage
+npm test:coverage
 # or
 make test-coverage
 
 # Run tests for CI
-yarn test:ci
+npm test:ci
 ```
 
 ### Test Configuration
