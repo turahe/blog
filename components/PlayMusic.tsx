@@ -100,7 +100,6 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
 
     // Handle autoplay policy - browsers require user interaction
     const handleUserInteraction = () => {
-      setHasUserInteracted(true)
       if (!isPlaying && audio.paused) {
         audio.play().catch(console.error)
       }

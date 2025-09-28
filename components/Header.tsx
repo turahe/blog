@@ -33,6 +33,7 @@
 
 'use client'
 
+import React from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Link from './Link'

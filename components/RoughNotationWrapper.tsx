@@ -42,17 +42,7 @@ export default function RoughNotationWrapper({
           | 'crossed-off'
           | 'bracket'
       }
-      brackets={
-        brackets as
-          | 'left'
-          | 'right'
-          | 'top'
-          | 'bottom'
-          | 'leftTop'
-          | 'rightTop'
-          | 'leftBottom'
-          | 'rightBottom'
-      }
+      brackets={brackets as any} // eslint-disable-line @typescript-eslint/no-explicit-any
       show={show}
       color={color}
       animationDelay={animationDelay}
