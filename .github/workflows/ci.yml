@@ -22,28 +22,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run ESLint
-        run: yarn lint
+        run: npm run lint
 
       - name: Type check
         run: npx tsc --noEmit
 
       - name: Run tests
-        run: yarn test:ci
+        run: npm run test:ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: Run E2E tests
-        run: yarn test:e2e
+        run: npm run test:e2e
 
       - name: Build project
-        run: yarn build
+        run: npm run build
 
       - name: Check build output
         run: |
@@ -66,17 +66,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run security audit
-        run: yarn audit --audit-level moderate
+        run: npm audit --audit-level moderate
 
       - name: Check for vulnerabilities
         run: |
-          if yarn audit --audit-level high; then
+          if npm audit --audit-level high; then
             echo "✅ No high severity vulnerabilities found"
           else
             echo "❌ High severity vulnerabilities detected"
@@ -95,12 +95,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Analyze bundle size
-        run: yarn analyze
+        run: npm run analyze
         env:
           ANALYZE: true

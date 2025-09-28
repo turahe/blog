@@ -17,16 +17,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run tests
-        run: yarn lint
+        run: npm run lint
 
       - name: Build static export
-        run: EXPORT=1 UNOPTIMIZED=1 yarn build
+        run: EXPORT=1 UNOPTIMIZED=1 npm run build
         env:
           EXPORT: 1
           UNOPTIMIZED: 1
