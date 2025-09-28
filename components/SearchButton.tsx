@@ -31,6 +31,7 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
+import React from 'react'
 import { AlgoliaButton } from 'pliny/search/AlgoliaButton'
 import { KBarButton } from 'pliny/search/KBarButton'
 import siteMetadata from '@/data/siteMetadata'

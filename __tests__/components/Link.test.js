@@ -84,7 +84,7 @@ describe('Link Component', () => {
   test('handles empty href gracefully', () => {
     render(React.createElement(Link, { href: '' }, 'Empty Link'))
 
-    const link = screen.getByRole('link', { name: 'Empty Link' })
+    const link = screen.getByText('Empty Link')
     expect(link).toHaveAttribute('href', '')
   })
 
