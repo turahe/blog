@@ -36,6 +36,7 @@ const { test, expect } = require('@playwright/test')
 test.describe('Home Page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
+    await page.waitForLoadState('networkidle')
   })
 
   test('should load home page successfully', async ({ page }) => {
@@ -78,9 +79,17 @@ test.describe('Home Page', () => {
     ]
 
     for (const { link, expectedPath } of navigationTests) {
-      await page.locator(`a:has-text("${link}")`).first().click()
+      // Wait for navigation to complete
+      await Promise.all([
+        page.waitForURL(new RegExp(expectedPath)),
+        page.locator(`a:has-text("${link}")`).first().click()
+      ])
+      
+      // Verify we're on the correct page
       await expect(page).toHaveURL(new RegExp(expectedPath))
-      await page.goBack()
+      
+      // Go back to home
+      await page.goto('/')
     }
   })
 
@@ -97,6 +106,10 @@ test.describe('Home Page', () => {
   test('should display mobile navigation menu', async ({ page }) => {
     // Set mobile viewport to make mobile nav visible
     await page.setViewportSize({ width: 375, height: 667 })
+    
+    // Wait for page to load completely
+    await page.waitForLoadState('networkidle')
+    
     const mobileNav = page.locator('button[aria-label="Toggle Menu"]').first()
     await expect(mobileNav).toBeVisible()
   })
