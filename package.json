@@ -45,7 +45,7 @@
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:install": "playwright install",
     "test:e2e:report": "playwright show-report",
-    "prepare": "husky"
+    "prepare": "node -e \"if (process.env.CI || process.env.VERCEL) process.exit(0); try { require('husky').install() } catch(e) { process.exit(0) }\""
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.4.0",
