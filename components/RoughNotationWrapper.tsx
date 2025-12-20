@@ -1,6 +1,6 @@
 'use client'
 
-import { annotate, Annotation } from 'rough-notation'
+import { annotate } from 'rough-notation'
 import { ReactNode, useEffect, useRef } from 'react'
 
 interface RoughNotationWrapperProps {
@@ -31,7 +31,7 @@ export default function RoughNotationWrapper({
   customElement,
 }: RoughNotationWrapperProps) {
   const elementRef = useRef<HTMLSpanElement>(null)
-  const annotationRef = useRef<Annotation | null>(null)
+  const annotationRef = useRef<ReturnType<typeof annotate> | null>(null)
 
   useEffect(() => {
     if (!elementRef.current) return
