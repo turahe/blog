@@ -1,7 +1,7 @@
 'use client'
 
-import { RoughNotation } from '@turahe/react-rough-notation'
-import { ReactNode } from 'react'
+import { annotate, Annotation } from 'rough-notation'
+import { ReactNode, useEffect, useRef } from 'react'
 
 interface RoughNotationWrapperProps {
   children: ReactNode
@@ -30,29 +30,63 @@ export default function RoughNotationWrapper({
   animate,
   customElement,
 }: RoughNotationWrapperProps) {
-  return (
-    <RoughNotation
-      type={
-        type as
-          | 'underline'
-          | 'box'
-          | 'circle'
-          | 'highlight'
-          | 'strike-through'
-          | 'crossed-off'
-          | 'bracket'
+  const elementRef = useRef<HTMLSpanElement>(null)
+  const annotationRef = useRef<Annotation | null>(null)
+
+  useEffect(() => {
+    if (!elementRef.current) return
+
+    const element = customElement
+      ? (elementRef.current.querySelector(customElement) as HTMLElement)
+      : elementRef.current
+
+    if (!element) return
+
+    annotationRef.current = annotate(element, {
+      type: type as
+        | 'underline'
+        | 'box'
+        | 'circle'
+        | 'highlight'
+        | 'strike-through'
+        | 'crossed-off'
+        | 'bracket',
+      brackets: brackets as ['left' | 'right', 'left' | 'right'],
+      color,
+      strokeWidth,
+      multiline,
+      animate: animate ?? true,
+      animationDuration,
+    })
+
+    if (show) {
+      const timeoutId = setTimeout(() => {
+        annotationRef.current?.show()
+      }, animationDelay)
+
+      return () => {
+        clearTimeout(timeoutId)
+        annotationRef.current?.hide()
+        annotationRef.current?.remove()
       }
-      brackets={brackets as any} // eslint-disable-line @typescript-eslint/no-explicit-any
-      show={show}
-      color={color}
-      animationDelay={animationDelay}
-      animationDuration={animationDuration}
-      strokeWidth={strokeWidth}
-      multiline={multiline}
-      animate={animate}
-      customElement={customElement}
-    >
-      {children}
-    </RoughNotation>
-  )
+    }
+
+    return () => {
+      annotationRef.current?.hide()
+      annotationRef.current?.remove()
+    }
+  }, [
+    type,
+    brackets,
+    show,
+    color,
+    animationDelay,
+    animationDuration,
+    strokeWidth,
+    multiline,
+    animate,
+    customElement,
+  ])
+
+  return <span ref={elementRef}>{children}</span>
 }

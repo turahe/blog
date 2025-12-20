@@ -37,6 +37,7 @@ import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import Experience from '@/components/Experience'
+import RoughNotationWrapper from '@/components/RoughNotationWrapper'
 import experienceData from '@/data/experienceData'
 interface Props {
   children: ReactNode
@@ -78,45 +79,45 @@ export default function AuthorLayout({ content }: Props) {
           <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
             <div>
               <p>
+                Building products at the intersection of AI and fintech has been my recent focus—
+                from deploying ML-powered risk engines to experimenting with LLM-assisted onboarding
+                flows that improve compliance and reduce friction for users.
+              </p>
+              <p>
                 Experienced programmer with a strong background in software development and a
                 passion for problem-solving. Proficient in designing, coding, testing, and
                 maintaining software applications. Adept at collaborating with cross-functional
                 teams to deliver high-quality solutions. Specialized web development and mobile app
                 development.
               </p>
-
-              <p>
-                I am Currently, I am focused on building Enterprise resource planning (ERP), data
-                pipelines and automating them at{' '}
-                <Link
-                  href={'https://www.circlecreative.id'}
-                  className="special-underline no-underline hover:text-gray-100 dark:text-gray-100 hover:dark:text-gray-100"
-                >
-                  Circle Creative
-                </Link>
-              </p>
             </div>
             <br />
             <p className="sm:block md:hidden lg:hidden">
               I am always looking to learn new things. I am currently working on a few projects
               related to At the same time I am{' '}
-              <span className="text-black dark:text-white">
-                Enterprise resource planning (ERP) adn Machine Learning.{' '}
-              </span>
+              <RoughNotationWrapper type="box" color="#ec4899" animationDelay={500}>
+                <span className="text-black dark:text-white">
+                  Enterprise resource planning (ERP) adn Machine Learning.{' '}
+                </span>
+              </RoughNotationWrapper>
               actively on the wrote books in the fields of programming, data science and
               electricity.
             </p>
             <p className="hidden md:block">
               I am always looking to learn new things. I am currently working on a few projects
               related to{' '}
-              <span className="text-black dark:text-white">
-                Enterprise resource planning (ERP) and Machine Learning.{' '}
-              </span>
+              <RoughNotationWrapper type="box" color="#ec4899" animationDelay={500}>
+                <span className="text-black dark:text-white">
+                  Enterprise resource planning (ERP) and Machine Learning.{' '}
+                </span>
+              </RoughNotationWrapper>
               At the same time I am{' '}
-              <span className="text-black dark:text-white">
-                actively on the wrote books in the fields of programming, data science and
-                electricity.
-              </span>
+              <RoughNotationWrapper type="box" color="#ec4899" animationDelay={500}>
+                <span className="text-black dark:text-white">
+                  actively on the wrote books in the fields of programming, data science and
+                  electricity.
+                </span>
+              </RoughNotationWrapper>
             </p>
             <br />
             <p>

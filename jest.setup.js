@@ -59,7 +59,6 @@ jest.mock('next/navigation', () => ({
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props) => {
-    // eslint-disable-next-line @next/next/no-img-element
     return require('react').createElement('img', props)
   },
 }))
@@ -71,25 +70,31 @@ jest.mock('use-sound', () => ({
 }))
 
 // Mock framer-motion
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }) => require('react').createElement('div', props, children),
-    span: ({ children, ...props }) => require('react').createElement('span', props, children),
-    button: ({ children, ...props }) => require('react').createElement('button', props, children),
-  },
-  AnimatePresence: ({ children }) => children,
-}))
+jest.mock('framer-motion', () => {
+  const React = require('react')
+  return {
+    motion: {
+      div: ({ children, ...props }) => React.createElement('div', props, children),
+      span: ({ children, ...props }) => React.createElement('span', props, children),
+      button: ({ children, ...props }) => React.createElement('button', props, children),
+    },
+    AnimatePresence: ({ children }) => children,
+  }
+})
 
-// Mock @turahe/react-rough-notation
-jest.mock('@turahe/react-rough-notation', () => ({
-  __esModule: true,
-  default: ({ children, ...props }) => require('react').createElement('span', props, children),
+// Mock rough-notation
+jest.mock('rough-notation', () => ({
+  annotate: jest.fn(() => ({
+    show: jest.fn(),
+    hide: jest.fn(),
+    remove: jest.fn(),
+  })),
 }))
 
 // Mock typewriter-effect
 jest.mock('typewriter-effect', () => ({
   __esModule: true,
-  default: ({ onInit, options }) => {
+  default: ({ onInit }) => {
     const React = require('react')
     React.useEffect(() => {
       if (onInit) {
@@ -101,16 +106,21 @@ jest.mock('typewriter-effect', () => ({
 }))
 
 // Mock pliny modules
-jest.mock('pliny/search/AlgoliaButton', () => ({
-  __esModule: true,
-  AlgoliaButton: ({ children, ...props }) =>
-    require('react').createElement('button', props, children),
-}))
+jest.mock('pliny/search/AlgoliaButton', () => {
+  const React = require('react')
+  return {
+    __esModule: true,
+    AlgoliaButton: ({ children, ...props }) => React.createElement('button', props, children),
+  }
+})
 
-jest.mock('pliny/search/KBarButton', () => ({
-  __esModule: true,
-  KBarButton: ({ children, ...props }) => require('react').createElement('button', props, children),
-}))
+jest.mock('pliny/search/KBarButton', () => {
+  const React = require('react')
+  return {
+    __esModule: true,
+    KBarButton: ({ children, ...props }) => React.createElement('button', props, children),
+  }
+})
 
 // Global test utilities
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
