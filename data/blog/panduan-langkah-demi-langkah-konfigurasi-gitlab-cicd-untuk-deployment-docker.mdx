@@ -3,7 +3,7 @@ title: Panduan Langkah demi Langkah Konfigurasi GitLab CI/CD untuk Deployment Do
 author: Nur Wachid
 date: '2025-05-30'
 tags: ['gitlab', 'docker', 'ci/cd', 'pipeline', 'deployment']
-draft: true
+draft: false
 summary: Artikel ini akan memandu Anda melalui proses konfigurasi pipeline Continuous Integration/Continuous Delivery (CI/CD) di GitLab, menggunakan contoh kode .gitlab-ci.yml yang telah kita bahas sebelumnya. Pipeline ini akan mengotomatisasi proses build Docker image, deployment ke lingkungan development dan production, serta pengiriman notifikasi.
 ---
 
@@ -183,7 +183,6 @@ Berikut ini merupakan langkah **KRUSIAL** untuk memungkinkan GitLab Runner terhu
 3. Perluas bagian **Variables**.
 4. Klik **Add variable**.
 5. Buat dua variabel baru:
-
    - **Variabel 1 (untuk Development):**
      - **Key**: `SSH_DEV_PRIVATE_KEY`
      - **Value**: Salin dan tempel seluruh isi kunci SSH privat untuk server development (termasuk baris `-----BEGIN OPENSSH PRIVATE KEY-----` dan `-----END OPENSSH PRIVATE KEY-----`).
@@ -219,7 +218,6 @@ Kedua job ini bertanggung jawab untuk mendeploy Docker image yang telah dibangun
   1. **SSH Setup (`before_script`)**: Menginstal `openssh`, memulai `ssh-agent`, menambahkan kunci SSH privat dari variabel `SSH_DEV_PRIVATE_KEY`, dan menambahkan host key server ke `known_hosts`.
   2. **Simpan & Salin Image (`script`)**: Image Docker `golang-docker:latest` disimpan ke file `.tar` dan disalin ke server development menggunakan `scp`.
   3. **Deployment Docker di Server (`script`)**: Melalui SSH, perintah Docker dijalankan di server development untuk:
-
      - Menghapus image lama (`docker rmi -f`).
      - Memuat image baru dari file `.tar` (`docker load`).
      - Menghapus container lama (`docker rm -f`).
@@ -241,7 +239,6 @@ Kedua job ini bertanggung jawab untuk mendeploy Docker image yang telah dibangun
 - **Langkah-langkah Kunci**:
   1. **Instal `curl` (`before_script`)**: Memastikan `curl` tersedia untuk mengirim permintaan HTTP.
   2. **Kirim Notifikasi (`script`)**: Menggunakan `curl` untuk mengirim permintaan POST ke endpoint API notifikasi.
-
      - **`http://192.168.111.2:4000/api/sendText`**: Ganti alamat IP dan port ini dengan alamat server notifikasi yang sebenarnya.
      - **`chatId`: `120363304496648883@g.us`**: Ganti ini dengan ID chat grup atau individu yang ingin kirimi notifikasi.
      - Pesan notifikasi akan mencakup status pipeline (`$CI_PIPELINE_STATUS`), nama proyek (`$CI_PROJECT_NAME`), dan URL pipeline (`$CI_PIPELINE_URL`).
@@ -251,7 +248,6 @@ Kedua job ini bertanggung jawab untuk mendeploy Docker image yang telah dibangun
 Setelah semua konfigurasi selesai, saatnya menguji pipeline:
 
 1. **Untuk Deployment Development**:
-
    - Lakukan perubahan pada kode.
    - Commit perubahan tersebut dan push ke branch `dev`.
    - Buka proyek GitLab, navigasi ke **CI/CD > Pipelines**. Anda akan melihat pipeline baru berjalan.
@@ -259,7 +255,6 @@ Setelah semua konfigurasi selesai, saatnya menguji pipeline:
    - Akses aplikasi di server development (`http://<DEV_SERVER_IP>:8080`) untuk memverifikasi deployment.
 
 2. **Untuk Deployment Production & Notifikasi**:
-
    - Pastikan semua perubahan yang ingin dirilis sudah ada di branch yang relevan (misalnya, `main` atau `master`, lalu merge `dev` ke sana jika alur Anda seperti itu).
    - Buat tag baru di GitLab (misalnya, `v1.0.0`). Anda bisa melakukannya dari UI GitLab (**Repository > Tags > New tag**) atau dari baris perintah (`git tag v1.0.0 && git push origin v1.0.0`).
      ![gitlab tag](/static/images/gitlab-tag.png)
