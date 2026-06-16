@@ -69,19 +69,6 @@ jest.mock('use-sound', () => ({
   default: () => [jest.fn(), { sound: null }],
 }))
 
-// Mock framer-motion
-jest.mock('framer-motion', () => {
-  const React = require('react')
-  return {
-    motion: {
-      div: ({ children, ...props }) => React.createElement('div', props, children),
-      span: ({ children, ...props }) => React.createElement('span', props, children),
-      button: ({ children, ...props }) => React.createElement('button', props, children),
-    },
-    AnimatePresence: ({ children }) => children,
-  }
-})
-
 // Mock rough-notation
 jest.mock('rough-notation', () => ({
   annotate: jest.fn(() => ({
@@ -89,20 +76,6 @@ jest.mock('rough-notation', () => ({
     hide: jest.fn(),
     remove: jest.fn(),
   })),
-}))
-
-// Mock typewriter-effect
-jest.mock('typewriter-effect', () => ({
-  __esModule: true,
-  default: ({ onInit }) => {
-    const React = require('react')
-    React.useEffect(() => {
-      if (onInit) {
-        onInit({ typeString: jest.fn() })
-      }
-    }, [onInit])
-    return React.createElement('div', { 'data-testid': 'typewriter' })
-  },
 }))
 
 // Mock pliny modules

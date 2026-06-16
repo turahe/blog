@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id                 String     @id @default(cuid())
+  slug               String     @unique
+  title              String
+  date               DateTime
+  lastmod            DateTime?
+  draft              Boolean    @default(false)
+  summary            String?    @db.Text
+  body               String     @db.LongText
+  layout             String?    @default("PostLayout")
+  music              String?
+  bibliography       String?
+  canonicalUrl       String?
+  images             Json?
+  readingTimeMinutes Float?
+  wordCount          Int?
+  toc                Json?
+  path               String
+  filePath           String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  authors            PostAuthor[]
+  tags               PostTag[]
+
+  @@index([date])
+  @@index([draft])
+}
+
+model Author {
+  id         String       @id @default(cuid())
+  slug       String       @unique
+  name       String
+  avatar     String?
+  occupation String?
+  company    String?
+  email      String?
+  twitter    String?
+  bluesky    String?
+  linkedin   String?
+  github     String?
+  body       String       @db.LongText
+  layout     String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  posts      PostAuthor[]
+}
+
+model PostAuthor {
+  postId   String
+  authorId String
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author   Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@id([postId, authorId])
+}
+
+model Tag {
+  id    String    @id @default(cuid())
+  slug  String    @unique
+  name  String
+  posts PostTag[]
+}
+
+model PostTag {
+  postId String
+  tagId  String
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@index([tagId])
+}
+
+model Project {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text
+  imgSrc      String
+  href        String
+  sortOrder   Int    @default(0)
+}
+
+model Experience {
+  id        String @id @default(cuid())
+  title     String
+  company   String
+  location  String
+  range     String
+  url       String?
+  text      Json
+  sortOrder Int    @default(0)
+}
+
+model GitHubRepoCache {
+  id        String   @id @default("default")
+  data      Json
+  fetchedAt DateTime @default(now())
+}
