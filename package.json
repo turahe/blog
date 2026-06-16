@@ -34,7 +34,7 @@
     "build": "next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
+    "lint": "eslint app components layouts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",

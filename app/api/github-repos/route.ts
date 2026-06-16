@@ -35,6 +35,10 @@ import { NextResponse } from 'next/server'
 import { promises as fs } from 'fs'
 import path from 'path'
 
+// Required for Next.js `output: 'export'` mode (static HTML export).
+export const dynamic = 'force-static'
+export const revalidate = 3600 // 1 hour
+
 const CACHE_FILE = path.join(process.cwd(), 'cache', 'github-repos-cache.json')
 const CACHE_DURATION = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
 
@@ -141,8 +145,12 @@ export async function GET() {
       }))
       .sort((a: GitHubRepo, b: GitHubRepo) => b.stargazers_count - a.stargazers_count)
 
-    // Cache the filtered data
-    await writeCache(filteredRepos)
+    // Cache the filtered data.
+    // During `output: 'export'` builds (EXPORT=1) we skip writing to avoid
+    // dirty/generated cache files in CI and to keep exports deterministic.
+    if (!process.env.EXPORT) {
+      await writeCache(filteredRepos)
+    }
 
     return NextResponse.json(filteredRepos)
   } catch (error) {

@@ -35,6 +35,10 @@ import { MetadataRoute } from 'next'
 import { allBlogs } from 'contentlayer/generated'
 import siteMetadata from '@/data/siteMetadata'
 
+// Required for Next.js `output: 'export'` mode (static HTML export).
+export const dynamic = 'force-static'
+export const revalidate = 3600 // 1 hour
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = siteMetadata.siteUrl
   const blogRoutes = allBlogs.map((post) => ({

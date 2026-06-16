@@ -34,6 +34,10 @@
 import { MetadataRoute } from 'next'
 import siteMetadata from '@/data/siteMetadata'
 
+// Required for Next.js `output: 'export'` mode (static HTML export).
+export const dynamic = 'force-static'
+export const revalidate = 3600 // 1 hour
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
