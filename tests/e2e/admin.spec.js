@@ -47,6 +47,6 @@ test.describe('Admin area', () => {
   test('view site link returns to public homepage', async ({ page }) => {
     await page.getByRole('link', { name: 'View site' }).click()
     await expect(page).toHaveURL('/')
-    await expect(page.locator('main')).toBeVisible()
+    await expect(page.locator('main.mb-auto')).toBeVisible()
   })
 })

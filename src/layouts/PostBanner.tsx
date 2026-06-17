@@ -74,7 +74,14 @@ export default async function PostMinimal({
             <div className="w-full">
               <Bleed>
                 <div className="relative aspect-[2/1] w-full">
-                  <Image src={displayImage} alt={title} fill priority className="object-cover" />
+                  <Image
+                    src={displayImage}
+                    alt={title}
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="100vw"
+                  />
                 </div>
               </Bleed>
             </div>

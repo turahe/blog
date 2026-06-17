@@ -52,6 +52,9 @@ module.exports = {
   trailingSlash: false,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   images: {
+    // Required for Docker/local MinIO (private IPs) during development and E2E.
+    dangerouslyAllowLocalIP:
+      process.env.NODE_ENV === 'development' || process.env.ALLOW_LOCAL_IMAGE_IP === 'true',
     remotePatterns: [
       {
         protocol: 'https',

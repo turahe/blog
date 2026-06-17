@@ -37,7 +37,6 @@
  * Wait for page to be fully loaded
  */
 export async function waitForPageLoad(page) {
-  await page.waitForLoadState('networkidle')
   await page.waitForLoadState('domcontentloaded')
 }
 

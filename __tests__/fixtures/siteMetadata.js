@@ -33,9 +33,6 @@ const mockSiteMetadata = {
   },
   search: {
     provider: 'cmdk',
-    searchConfig: {
-      searchDocumentsPath: 'search.json',
-    },
   },
 }
 

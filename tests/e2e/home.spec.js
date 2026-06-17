@@ -32,11 +32,18 @@
  */
 
 const { test, expect } = require('@playwright/test')
+const {
+  waitForPageReady,
+  siteHeader,
+  siteMain,
+  homeLogoLink,
+  mobileMenuButton,
+} = require('./utils/page')
 
 test.describe('Home Page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
+    await waitForPageReady(page)
   })
 
   test('should load home page successfully', async ({ page }) => {
@@ -49,7 +56,7 @@ test.describe('Home Page', () => {
 
   test('should display header with navigation', async ({ page }) => {
     // Check header is visible
-    const header = page.locator('header')
+    const header = siteHeader(page)
     await expect(header).toBeVisible()
 
     // Check navigation links (only visible on desktop)
@@ -62,14 +69,14 @@ test.describe('Home Page', () => {
   })
 
   test('should display logo with current path', async ({ page }) => {
-    const logo = page.locator('text=/~\\/ /')
+    const logo = homeLogoLink(page)
     await expect(logo).toBeVisible()
   })
 
   test('should have working navigation links', async ({ page }) => {
     // Set desktop viewport for navigation links to be visible
     await page.setViewportSize({ width: 1024, height: 768 })
-    
+
     // Test navigation to different pages
     const navigationTests = [
       { link: 'Blog', expectedPath: '/blog' },
@@ -81,16 +88,16 @@ test.describe('Home Page', () => {
     for (const { link, expectedPath } of navigationTests) {
       // Click the navigation link
       await page.locator(`a:has-text("${link}")`).first().click()
-      
-      // Wait for navigation to complete
-      await page.waitForLoadState('networkidle')
-      
+
+      await page.waitForURL(new RegExp(expectedPath))
+      await waitForPageReady(page)
+
       // Verify we're on the correct page
       await expect(page).toHaveURL(new RegExp(expectedPath))
-      
+
       // Go back to home
       await page.goto('/')
-      await page.waitForLoadState('networkidle')
+      await waitForPageReady(page)
     }
   })
 
@@ -107,11 +114,9 @@ test.describe('Home Page', () => {
   test('should display mobile navigation menu', async ({ page }) => {
     // Set mobile viewport to make mobile nav visible
     await page.setViewportSize({ width: 375, height: 667 })
-    
-    // Wait for page to load completely
-    await page.waitForLoadState('networkidle')
-    
-    const mobileNav = page.locator('button[aria-label="Toggle Menu"]').first()
+    await waitForPageReady(page)
+
+    const mobileNav = mobileMenuButton(page)
     await expect(mobileNav).toBeVisible()
   })
 
@@ -152,7 +157,7 @@ test.describe('Home Page', () => {
     await expect(page.locator('body')).toBeVisible()
 
     // Check mobile navigation is accessible
-    const mobileNav = page.locator('button[aria-label="Toggle Menu"]').first()
+    const mobileNav = mobileMenuButton(page)
     await expect(mobileNav).toBeVisible()
   })
 
@@ -168,7 +173,7 @@ test.describe('Home Page', () => {
 
   test('should have proper page structure', async ({ page }) => {
     // Check main content area
-    const main = page.locator('main')
+    const main = siteMain(page)
     await expect(main).toBeVisible()
 
     // Check footer

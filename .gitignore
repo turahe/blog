@@ -31,7 +31,6 @@ next-env.d.ts
 *.xml
 public/sitemap.xml
 public/feed.xml
-public/search.json
 public/robots.txt
 
 # ===========================================

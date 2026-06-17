@@ -9,6 +9,7 @@ import {
   REMEMBER_TTL_MS,
   SESSION_REFRESH_THRESHOLD_MS,
 } from './constants'
+import { useSecureCookies } from './cookie-options'
 import type { User, UserStatus } from '@/lib/db/prisma'
 
 export type SessionUser = Pick<User, 'id' | 'email' | 'fullName' | 'avatar' | 'status'>
@@ -55,7 +56,7 @@ export async function createSession(
   const cookieStore = await cookies()
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: useSecureCookies(),
     sameSite: 'lax',
     path: '/',
     maxAge: Math.floor(ttl / 1000),
@@ -129,7 +130,7 @@ export async function refreshSessionIfNeeded(session: AuthSession, token: string
   const cookieStore = await cookies()
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: useSecureCookies(),
     sameSite: 'lax',
     path: '/',
     maxAge: Math.floor(SESSION_TTL_MS / 1000),

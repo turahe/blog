@@ -63,7 +63,6 @@ export const getSiteMetadata = cache(async (): Promise<SiteMetadata> => {
       normalizedProvider === 'cmdk'
         ? {
             provider: 'cmdk',
-            searchConfig: { searchDocumentsPath: 'search.json' },
           }
         : { provider: normalizedProvider },
   }

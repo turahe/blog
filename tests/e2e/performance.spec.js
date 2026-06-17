@@ -1,37 +1,5 @@
-/**
- * PROPRIETARY LICENSE
- *
- * Copyright (c) 2024 Nur Wachid. All rights reserved.
- *
- * This software and associated documentation files (the "Software") are the
- * proprietary and confidential information of Nur Wachid ("Licensor").
- * The Software is protected by copyright laws and international copyright
- * treaties, as well as other intellectual property laws and treaties.
- *
- * RESTRICTIONS:
- * - NO REDISTRIBUTION: You may not redistribute, sell, lease, rent,
- *   lend, or otherwise transfer the Software to any third party without
- *   the express written consent of Nur Wachid.
- * - NO MODIFICATION: You may not modify, adapt, alter, translate, or
- *   create derivative works based on the Software without the express
- *   written consent of Nur Wachid.
- * - NO REVERSE ENGINEERING: You may not reverse engineer, decompile,
- *   disassemble, or otherwise attempt to derive the source code of the
- *   Software.
- * - NO COMMERCIAL USE: You may not use the Software for any commercial
- *   purpose without the express written consent of Nur Wachid.
- * - PERSONAL USE ONLY: This Software is provided for personal,
- *   non-commercial use only.
- *
- * For licensing inquiries, commercial use, or other permissions, please
- * contact: Nur Wachid (wachid@outlook.com)
- *
- * @license PROPRIETARY
- * @author Nur Wachid <wachid@outlook.com>
- * @copyright 2024 Nur Wachid. All rights reserved.
- */
-
 const { test, expect } = require('@playwright/test')
+const { waitForPageReady, siteHeader } = require('./utils/page')
 
 test.describe('Performance Tests', () => {
   test('should load home page within acceptable time', async ({ page }) => {
@@ -86,7 +54,7 @@ test.describe('Performance Tests', () => {
     await page.goto('/')
 
     // Wait for all images to load
-    await page.waitForLoadState('networkidle')
+    await waitForPageReady(page)
 
     // Check if images are loaded
     const images = page.locator('img')
@@ -102,7 +70,7 @@ test.describe('Performance Tests', () => {
     await page.goto('/blog')
 
     // Wait for content to load
-    await page.waitForLoadState('networkidle')
+    await waitForPageReady(page)
 
     // Verify page remains responsive
     await expect(page.locator('body')).toBeVisible()
@@ -128,7 +96,7 @@ test.describe('Performance Tests', () => {
     })
 
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
+    await waitForPageReady(page)
 
     // Check for excessive resource requests
     expect(resources.length).toBeLessThan(100)
@@ -146,7 +114,7 @@ test.describe('Performance Tests', () => {
 
   test('should handle concurrent user interactions', async ({ page }) => {
     await page.goto('/')
-    
+
     // Set desktop viewport for navigation links to be visible
     await page.setViewportSize({ width: 1024, height: 768 })
 
@@ -184,7 +152,7 @@ test.describe('Performance Tests', () => {
       await expect(page.locator('body')).toBeVisible()
 
       // Check that layout is responsive
-      const header = page.locator('header')
+      const header = siteHeader(page)
       await expect(header).toBeVisible()
     }
   })
@@ -197,7 +165,7 @@ test.describe('Performance Tests', () => {
 
     for (const path of pages) {
       await page.goto(path)
-      await page.waitForLoadState('networkidle')
+      await waitForPageReady(page)
 
       // Verify page loads without memory issues
       await expect(page.locator('body')).toBeVisible()

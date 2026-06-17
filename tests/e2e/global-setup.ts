@@ -47,7 +47,7 @@ async function globalSetup(config: FullConfig) {
   await page.goto(baseURL || 'http://localhost:3000')
 
   // Wait for the page to load completely
-  await page.waitForLoadState('networkidle')
+  await page.waitForLoadState('domcontentloaded')
 
   // Verify the page is accessible
   const title = await page.title()

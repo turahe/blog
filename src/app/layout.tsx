@@ -98,13 +98,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Analytics analyticsConfig={siteMetadata.analytics} />
             <SectionContainer>
               <div className="flex h-screen flex-col justify-between font-sans">
-                <SearchProvider
-                  searchConfig={
-                    siteMetadata.search?.provider === 'cmdk'
-                      ? siteMetadata.search.searchConfig
-                      : undefined
-                  }
-                >
+                <SearchProvider enabled={siteMetadata.search?.provider === 'cmdk'}>
                   <Header />
                   <main className="mb-auto">{children}</main>
                 </SearchProvider>

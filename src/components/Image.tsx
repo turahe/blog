@@ -31,8 +31,19 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import NextImage, { ImageProps } from 'next/image'
+import NextImage, { type ImageProps } from 'next/image'
 
-const Image = ({ ...rest }: ImageProps) => <NextImage {...rest} />
-
-export default Image
+/**
+ * Wraps next/image with LCP-friendly defaults when `priority` is set:
+ * eager loading, high fetch priority, and preload.
+ */
+export default function Image({ priority, fetchPriority, loading, ...rest }: ImageProps) {
+  return (
+    <NextImage
+      {...rest}
+      priority={priority}
+      loading={priority ? 'eager' : loading}
+      fetchPriority={priority ? (fetchPriority ?? 'high') : fetchPriority}
+    />
+  )
+}

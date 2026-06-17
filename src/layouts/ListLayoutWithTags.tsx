@@ -55,8 +55,8 @@ export default function ListLayoutWithTags({
         <BlogEmptyState title="No articles yet" description="Check back soon for new content." />
       ) : (
         <div className="divide-y divide-gray-200 dark:divide-gray-800">
-          {displayPosts.map((post) => (
-            <ArticleCard key={post.slug} post={post} />
+          {displayPosts.map((post, index) => (
+            <ArticleCard key={post.slug} post={post} priority={index === 0} />
           ))}
         </div>
       )}

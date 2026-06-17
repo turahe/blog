@@ -3,6 +3,10 @@ import { LOGIN_RATE_LIMIT } from './constants'
 import { emitFailedLoginAttempt } from '@/modules/notifications/events'
 
 export async function isLoginRateLimited(email: string, ip?: string): Promise<boolean> {
+  if (process.env.AUTH_DISABLE_RATE_LIMIT === 'true') {
+    return false
+  }
+
   const since = new Date(Date.now() - LOGIN_RATE_LIMIT.windowMs)
 
   const [emailCount, ipCount] = await Promise.all([

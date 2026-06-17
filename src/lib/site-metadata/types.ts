@@ -34,8 +34,5 @@ export type SiteMetadata = {
   }
   search: {
     provider?: string
-    searchConfig?: {
-      searchDocumentsPath: string
-    }
   }
 }

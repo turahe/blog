@@ -10,9 +10,11 @@ import { AuthorByline } from '@/components/blog/AuthorCard'
 interface ArticleCardProps {
   post: PostCore
   featured?: boolean
+  /** Eager-load hero image for LCP (use on at most one card per page). */
+  priority?: boolean
 }
 
-export async function ArticleCard({ post, featured = false }: ArticleCardProps) {
+export async function ArticleCard({ post, featured = false, priority = false }: ArticleCardProps) {
   const siteMetadata = await getSiteMetadata()
   const image = getPostFeaturedImage(post.images)
   const href = `/blog/${post.slug}`
@@ -29,6 +31,7 @@ export async function ArticleCard({ post, featured = false }: ArticleCardProps) 
               src={image}
               alt={post.title}
               fill
+              priority={priority}
               className="object-cover transition duration-300 group-hover:scale-[1.02]"
               sizes="(max-width: 768px) 100vw, 66vw"
             />
@@ -75,8 +78,11 @@ export async function ArticleCard({ post, featured = false }: ArticleCardProps) 
               src={image}
               alt={post.title}
               fill
+              priority={priority}
               className="object-cover transition duration-300 group-hover:scale-[1.02]"
-              sizes="(max-width: 640px) 100vw, 224px"
+              sizes={
+                priority ? '(max-width: 640px) 100vw, 560px' : '(max-width: 640px) 100vw, 224px'
+              }
             />
           </Link>
         )}

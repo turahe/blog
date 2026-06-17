@@ -33,6 +33,16 @@
 
 import { defineConfig, devices } from '@playwright/test'
 
+const playwrightWorkers = process.env.PLAYWRIGHT_WORKERS
+  ? process.env.PLAYWRIGHT_WORKERS === 'auto'
+    ? undefined
+    : Number.isNaN(Number(process.env.PLAYWRIGHT_WORKERS))
+      ? process.env.PLAYWRIGHT_WORKERS
+      : Number(process.env.PLAYWRIGHT_WORKERS)
+  : process.env.CI
+    ? 1
+    : undefined
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -44,8 +54,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: playwrightWorkers,
   /* Global test timeout */
   timeout: 60000,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -112,23 +121,27 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-    env: {
-      DATABASE_URL:
-        process.env.DATABASE_URL || 'postgresql://blog:blogpassword@localhost:5432/blog',
-      AUTH_TRUST_HOST: process.env.AUTH_TRUST_HOST || 'true',
-      MINIO_ENDPOINT: process.env.MINIO_ENDPOINT || 'http://localhost:9000',
-      MINIO_PUBLIC_URL: process.env.MINIO_PUBLIC_URL || 'http://localhost:9000',
-      MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY || 'minioadmin',
-      MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || 'minioadmin',
-      MINIO_BUCKET: process.env.MINIO_BUCKET || 'blog-media',
-      MINIO_REGION: process.env.MINIO_REGION || 'us-east-1',
-    },
-  },
+  webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER
+    ? undefined
+    : {
+        command: 'npm run dev',
+        url: 'http://localhost:3000',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120 * 1000,
+        env: {
+          DATABASE_URL:
+            process.env.DATABASE_URL || 'postgresql://blog:blogpassword@localhost:5432/blog',
+          AUTH_TRUST_HOST: process.env.AUTH_TRUST_HOST || 'true',
+          AUTH_DISABLE_RATE_LIMIT: process.env.AUTH_DISABLE_RATE_LIMIT || 'true',
+          AUTH_COOKIE_SECURE: process.env.AUTH_COOKIE_SECURE || 'false',
+          MINIO_ENDPOINT: process.env.MINIO_ENDPOINT || 'http://localhost:9000',
+          MINIO_PUBLIC_URL: process.env.MINIO_PUBLIC_URL || 'http://localhost:9000',
+          MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY || 'minioadmin',
+          MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || 'minioadmin',
+          MINIO_BUCKET: process.env.MINIO_BUCKET || 'blog-media',
+          MINIO_REGION: process.env.MINIO_REGION || 'us-east-1',
+        },
+      },
 
   /* Global setup and teardown */
   globalSetup: require.resolve('./tests/e2e/global-setup.ts'),
