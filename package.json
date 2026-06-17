@@ -47,7 +47,7 @@
     "test:docker:unit": "docker compose --profile test run --rm --build test",
     "test:docker:down": "docker compose --profile test down",
     "test:docker:e2e": "node scripts/docker-e2e-test.js",
-    "test:docker:e2e:run": "docker compose --profile e2e run --rm e2e",
+    "test:docker:e2e:run": "node scripts/docker-e2e-run.js",
     "test:docker:e2e:down": "docker compose --profile e2e down",
     "test": "jest",
     "test:watch": "jest --watch",

@@ -1,2 +1,2 @@
 npx lint-staged
-npm run test:docker:e2e -- --workers=50%
+npm run test:docker:e2e:run -- --workers=50%
