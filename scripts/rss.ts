@@ -1,6 +1,6 @@
 import { writeFileSync, mkdirSync } from 'fs'
 import path from 'path'
-import { slug } from 'github-slugger'
+import { slugify } from '@/lib/slug'
 import { escape } from '@/lib/htmlEscaper'
 import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import type { SiteMetadata } from '@/lib/site-metadata/types'
@@ -55,7 +55,7 @@ async function generateRSS() {
   }
 
   for (const tag of Object.keys(tagCounts)) {
-    const filteredPosts = allPosts.filter((post) => post.tags.map((t) => slug(t)).includes(tag))
+    const filteredPosts = allPosts.filter((post) => post.tags.map((t) => slugify(t)).includes(tag))
     if (filteredPosts.length === 0) continue
     const rss = generateRss(siteMetadata, filteredPosts, `tags/${tag}/feed.xml`)
     const rssPath = path.join(outputFolder, 'tags', tag)

@@ -15,7 +15,6 @@ import {
   RectangleStackIcon,
   PhotoIcon,
   ChatBubbleLeftRightIcon,
-  GlobeAltIcon,
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   EllipsisHorizontalIcon,

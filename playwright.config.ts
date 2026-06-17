@@ -117,6 +117,17 @@ export default defineConfig({
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
+    env: {
+      DATABASE_URL:
+        process.env.DATABASE_URL || 'postgresql://blog:blogpassword@localhost:5432/blog',
+      AUTH_TRUST_HOST: process.env.AUTH_TRUST_HOST || 'true',
+      MINIO_ENDPOINT: process.env.MINIO_ENDPOINT || 'http://localhost:9000',
+      MINIO_PUBLIC_URL: process.env.MINIO_PUBLIC_URL || 'http://localhost:9000',
+      MINIO_ACCESS_KEY: process.env.MINIO_ACCESS_KEY || 'minioadmin',
+      MINIO_SECRET_KEY: process.env.MINIO_SECRET_KEY || 'minioadmin',
+      MINIO_BUCKET: process.env.MINIO_BUCKET || 'blog-media',
+      MINIO_REGION: process.env.MINIO_REGION || 'us-east-1',
+    },
   },
 
   /* Global setup and teardown */

@@ -1,12 +1,12 @@
 import { remark } from 'remark'
 import { visit } from 'unist-util-visit'
-import GithubSlugger from 'github-slugger'
+import { createSlugger } from '@/lib/slug'
 import type { Root } from 'mdast'
 import type { VFile } from 'vfile'
 import type { TocHeading } from '@/types/post'
 
 function remarkTocHeadings() {
-  const slugger = new GithubSlugger()
+  const slugger = createSlugger()
   return (tree: Root, file: VFile) => {
     const toc: TocHeading[] = []
     visit(tree, 'heading', (node) => {
