@@ -8,6 +8,7 @@ export const SETTINGS_SECTIONS = [
   'users',
   'integrations',
   'security',
+  'storage',
   'advanced',
 ] as const
 

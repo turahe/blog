@@ -1,4 +1,9 @@
-const { getStorageConfig, getPublicObjectUrl, getStorageDriver } = require('@/lib/storage/config')
+const {
+  getStorageConfig,
+  getPublicObjectUrl,
+  getStorageDriver,
+  buildStorageConfig,
+} = require('@/lib/storage/config')
 
 describe('storage config', () => {
   const originalEnv = process.env
@@ -20,6 +25,9 @@ describe('storage config', () => {
     delete process.env.R2_PUBLIC_URL
     delete process.env.R2_REGION
     delete process.env.R2_ENDPOINT
+    delete process.env.MOCK_STORAGE_DIR
+    delete process.env.MOCK_STORAGE_PUBLIC_URL
+    delete process.env.MOCK_STORAGE_BUCKET
   })
 
   afterAll(() => {
@@ -74,7 +82,7 @@ describe('storage config', () => {
     )
   })
 
-  test('getStorageConfig returns R2 settings', () => {
+  test('buildStorageConfig returns R2 settings from env', () => {
     process.env.STORAGE_DRIVER = 'r2'
     process.env.R2_ACCOUNT_ID = 'abc123'
     process.env.R2_ACCESS_KEY_ID = 'r2-key'
@@ -82,11 +90,34 @@ describe('storage config', () => {
     process.env.R2_BUCKET = 'assets'
     process.env.R2_PUBLIC_URL = 'https://cdn.example.com/'
 
-    expect(getStorageConfig()).toEqual({
+    expect(buildStorageConfig()).toEqual({
       driver: 'r2',
       bucket: 'assets',
       endpoint: 'https://abc123.r2.cloudflarestorage.com',
       publicUrl: 'https://cdn.example.com',
+      accessKey: 'r2-key',
+      secretKey: 'r2-secret',
+      region: 'auto',
+      forcePathStyle: false,
+      publicUrlIncludesBucket: false,
+    })
+  })
+
+  test('buildStorageConfig reads R2 settings from database map', () => {
+    expect(
+      buildStorageConfig({
+        'storage.driver': 'r2',
+        'storage.r2.account_id': 'abc123',
+        'storage.r2.access_key_id': 'r2-key',
+        'storage.r2.secret_access_key': 'r2-secret',
+        'storage.r2.bucket': 'assets',
+        'storage.r2.public_url': 'https://storage.wach.id',
+      })
+    ).toEqual({
+      driver: 'r2',
+      bucket: 'assets',
+      endpoint: 'https://abc123.r2.cloudflarestorage.com',
+      publicUrl: 'https://storage.wach.id',
       accessKey: 'r2-key',
       secretKey: 'r2-secret',
       region: 'auto',
@@ -107,8 +138,41 @@ describe('storage config', () => {
     )
   })
 
-  test('getStorageConfig throws when R2 env is incomplete', () => {
+  test('buildStorageConfig throws when R2 env is incomplete', () => {
     process.env.STORAGE_DRIVER = 'r2'
-    expect(() => getStorageConfig()).toThrow('R2_ACCOUNT_ID is required')
+    expect(() => buildStorageConfig()).toThrow('R2 account ID is required')
+  })
+
+  test('buildStorageConfig returns mock settings', () => {
+    process.env.STORAGE_DRIVER = 'mock'
+    process.env.MOCK_STORAGE_DIR = '.ci-storage'
+    process.env.MOCK_STORAGE_PUBLIC_URL = 'https://storage.ci.test'
+    process.env.MOCK_STORAGE_BUCKET = 'blog-media'
+
+    expect(buildStorageConfig()).toEqual({
+      driver: 'mock',
+      bucket: 'blog-media',
+      endpoint: 'mock://local',
+      publicUrl: 'https://storage.ci.test',
+      accessKey: 'mock',
+      secretKey: 'mock',
+      region: 'mock',
+      forcePathStyle: true,
+      publicUrlIncludesBucket: false,
+      mockDirectory: '.ci-storage',
+    })
+  })
+
+  test('getPublicObjectUrl omits bucket for mock public URLs', () => {
+    process.env.STORAGE_DRIVER = 'mock'
+    process.env.MOCK_STORAGE_PUBLIC_URL = 'https://storage.ci.test'
+
+    expect(getPublicObjectUrl('ci/2026/06/file.txt')).toBe(
+      'https://storage.ci.test/ci/2026/06/file.txt'
+    )
+  })
+
+  test('local driver maps to mock storage', () => {
+    expect(getStorageDriver({ 'storage.driver': 'local' })).toBe('mock')
   })
 })

@@ -21,6 +21,7 @@ import { CommentsSettingsPanel } from './sections/CommentsSettingsPanel'
 import { UsersRolesSettingsPanel } from './sections/UsersRolesSettingsPanel'
 import { IntegrationsSettingsPanel } from './sections/IntegrationsSettingsPanel'
 import { SecuritySettingsPanel } from './sections/SecuritySettingsPanel'
+import { StorageSettingsPanel } from './sections/StorageSettingsPanel'
 import { AdvancedSettingsPanel } from './sections/AdvancedSettingsPanel'
 
 interface SettingsAppProps {
@@ -63,6 +64,8 @@ function SectionContent({
       return <IntegrationsSettingsPanel initialValues={sectionValues} />
     case 'security':
       return <SecuritySettingsPanel initialValues={sectionValues} sessions={sessions} />
+    case 'storage':
+      return <StorageSettingsPanel initialValues={sectionValues} systemInfo={systemInfo} />
     case 'advanced':
       return <AdvancedSettingsPanel initialValues={sectionValues} systemInfo={systemInfo} />
     default:

@@ -131,10 +131,43 @@ export const SETTINGS_DEFAULTS: SettingRecord[] = [
   { key: 'advanced.footer_scripts', value: '', type: 'string', group: 'advanced' },
   { key: 'advanced.custom_css', value: '', type: 'string', group: 'advanced' },
 
+  // Storage
+  { key: 'storage.driver', value: 'minio', type: 'string', group: 'storage' },
+  {
+    key: 'storage.minio.endpoint',
+    value: 'http://localhost:9000',
+    type: 'string',
+    group: 'storage',
+  },
+  {
+    key: 'storage.minio.public_url',
+    value: 'http://localhost:9000',
+    type: 'string',
+    group: 'storage',
+  },
+  { key: 'storage.minio.bucket', value: 'blog-media', type: 'string', group: 'storage' },
+  { key: 'storage.minio.region', value: 'us-east-1', type: 'string', group: 'storage' },
+  { key: 'storage.minio.access_key', value: 'minioadmin', type: 'string', group: 'storage' },
+  { key: 'storage.minio.secret_key', value: 'minioadmin', type: 'string', group: 'storage' },
+  { key: 'storage.r2.account_id', value: '', type: 'string', group: 'storage' },
+  { key: 'storage.r2.access_key_id', value: '', type: 'string', group: 'storage' },
+  { key: 'storage.r2.secret_access_key', value: '', type: 'string', group: 'storage' },
+  { key: 'storage.r2.bucket', value: 'blog-media', type: 'string', group: 'storage' },
+  { key: 'storage.r2.public_url', value: '', type: 'string', group: 'storage' },
+  { key: 'storage.r2.region', value: 'auto', type: 'string', group: 'storage' },
+  { key: 'storage.r2.endpoint', value: '', type: 'string', group: 'storage' },
+  { key: 'storage.mock.directory', value: '.mock-storage', type: 'string', group: 'storage' },
+  {
+    key: 'storage.mock.public_url',
+    value: 'https://storage.mock.test',
+    type: 'string',
+    group: 'storage',
+  },
+  { key: 'storage.mock.bucket', value: 'blog-media', type: 'string', group: 'storage' },
+
   // Legacy keys (backward compatibility)
   { key: 'branding.logo', value: '/static/images/logo.png', type: 'string', group: 'appearance' },
   { key: 'email.from', value: 'noreply@example.com', type: 'string', group: 'integrations' },
-  { key: 'storage.driver', value: 'minio', type: 'string', group: 'advanced' },
   { key: 'features.comments', value: 'true', type: 'boolean', group: 'comments' },
 ]
 
@@ -160,7 +193,11 @@ export const SETTINGS_SECTION_META: Record<
     description: 'Analytics, email, and third-party services.',
   },
   security: { label: 'Security', description: 'Authentication policies and active sessions.' },
-  advanced: { label: 'Advanced', description: 'Custom scripts, system info, and storage.' },
+  storage: {
+    label: 'Storage',
+    description: 'Media upload driver and object storage configuration.',
+  },
+  advanced: { label: 'Advanced', description: 'Custom scripts and system information.' },
 }
 
 export const SETTINGS_NAV: { id: SettingsSection; label: string }[] = [
@@ -173,5 +210,6 @@ export const SETTINGS_NAV: { id: SettingsSection; label: string }[] = [
   { id: 'users', label: 'Users & Roles' },
   { id: 'integrations', label: 'Integrations' },
   { id: 'security', label: 'Security' },
+  { id: 'storage', label: 'Storage' },
   { id: 'advanced', label: 'Advanced' },
 ]

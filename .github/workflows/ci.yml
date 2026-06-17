@@ -12,12 +12,10 @@ concurrency:
 
 env:
   DATABASE_URL: postgresql://blog:blogpassword@localhost:5432/blog
-  MINIO_ENDPOINT: http://localhost:9000
-  MINIO_PUBLIC_URL: http://localhost:9000
-  MINIO_ACCESS_KEY: minioadmin
-  MINIO_SECRET_KEY: minioadmin
-  MINIO_BUCKET: blog-media
-  MINIO_REGION: us-east-1
+  STORAGE_DRIVER: mock
+  MOCK_STORAGE_DIR: .ci-storage
+  MOCK_STORAGE_PUBLIC_URL: https://storage.ci.test
+  MOCK_STORAGE_BUCKET: blog-media
   AUTH_TRUST_HOST: 'true'
   AUTH_DISABLE_RATE_LIMIT: 'true'
   AUTH_COOKIE_SECURE: 'false'
@@ -40,14 +38,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      minio:
-        image: minio/minio:latest
-        command: server /data --console-address ":9001"
-        env:
-          MINIO_ROOT_USER: minioadmin
-          MINIO_ROOT_PASSWORD: minioadmin
-        ports:
-          - 9000:9000
 
     strategy:
       matrix:
@@ -66,27 +56,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Initialize MinIO bucket
-        run: |
-          for attempt in $(seq 1 30); do
-            if curl -sf http://localhost:9000/minio/health/live >/dev/null; then
-              echo "MinIO is ready"
-              break
-            fi
-            if [ "$attempt" -eq 30 ]; then
-              echo "MinIO did not become ready in time"
-              exit 1
-            fi
-            echo "Waiting for MinIO... (${attempt}/30)"
-            sleep 2
-          done
-          docker run --rm --network host minio/mc:latest /bin/sh -c "
-            until mc alias set local http://localhost:9000 minioadmin minioadmin 2>/dev/null; do sleep 1; done
-            mc mb local/blog-media --ignore-existing
-            mc anonymous set download local/blog-media
-          "
-
-      - name: Setup database and storage
+      - name: Setup database
         uses: ./.github/actions/setup-database-storage
 
       - name: Run ESLint
@@ -97,6 +67,16 @@ jobs:
 
       - name: Run tests
         run: npm run test:ci
+
+      - name: Test storage upload (mock)
+        run: npm run test:storage:ci
+
+      - name: Upload mock storage artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: mock-storage-upload
+          path: .ci-storage/
+          retention-days: 7
 
       - name: Run integration tests
         run: npm run test:integration:ci
@@ -176,14 +156,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      minio:
-        image: minio/minio:latest
-        command: server /data --console-address ":9001"
-        env:
-          MINIO_ROOT_USER: minioadmin
-          MINIO_ROOT_PASSWORD: minioadmin
-        ports:
-          - 9000:9000
 
     steps:
       - name: Checkout code
@@ -198,27 +170,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Initialize MinIO bucket
-        run: |
-          for attempt in $(seq 1 30); do
-            if curl -sf http://localhost:9000/minio/health/live >/dev/null; then
-              echo "MinIO is ready"
-              break
-            fi
-            if [ "$attempt" -eq 30 ]; then
-              echo "MinIO did not become ready in time"
-              exit 1
-            fi
-            echo "Waiting for MinIO... (${attempt}/30)"
-            sleep 2
-          done
-          docker run --rm --network host minio/mc:latest /bin/sh -c "
-            until mc alias set local http://localhost:9000 minioadmin minioadmin 2>/dev/null; do sleep 1; done
-            mc mb local/blog-media --ignore-existing
-            mc anonymous set download local/blog-media
-          "
-
-      - name: Setup database and storage
+      - name: Setup database
         uses: ./.github/actions/setup-database-storage
 
       - name: Analyze bundle size

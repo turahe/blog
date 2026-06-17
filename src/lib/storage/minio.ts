@@ -6,7 +6,9 @@ import {
   CopyObjectCommand,
 } from '@aws-sdk/client-s3'
 import imageSize from 'image-size'
-import { getPublicObjectUrl, getStorageConfig } from '@/lib/storage/config'
+import { getPublicObjectUrl, type StorageConfig } from '@/lib/storage/config'
+import { getResolvedStorageConfig } from '@/lib/storage/resolve-storage-config'
+import { deleteMockObject, moveMockObject, writeMockObject } from '@/lib/storage/mock'
 import { ALLOWED_MIME_TYPES, MAX_FILE_BYTES, getExtension } from '@/modules/media/constants'
 import type { MediaVariants } from '@/modules/media/types'
 
@@ -18,13 +20,12 @@ const LEGACY_IMAGE_TYPES = new Set([
   'image/avif',
 ])
 
-function getClient() {
-  const { endpoint, accessKey, secretKey, region, forcePathStyle } = getStorageConfig()
+function getClient(config: StorageConfig) {
   return new S3Client({
-    endpoint,
-    region,
-    credentials: { accessKeyId: accessKey, secretAccessKey: secretKey },
-    forcePathStyle,
+    endpoint: config.endpoint,
+    region: config.region,
+    credentials: { accessKeyId: config.accessKey, secretAccessKey: config.secretKey },
+    forcePathStyle: config.forcePathStyle,
   })
 }
 
@@ -47,29 +48,38 @@ function buildVariantKey(baseKey: string, size: string) {
   return `${baseKey.slice(0, dot)}-${size}${baseKey.slice(dot)}`
 }
 
-async function putObject(key: string, buffer: Buffer, contentType: string) {
-  const { bucket } = getStorageConfig()
-  const client = getClient()
+async function putObject(key: string, buffer: Buffer, contentType: string, config: StorageConfig) {
+  if (config.driver === 'mock') {
+    await writeMockObject(key, buffer, config)
+    return getPublicObjectUrl(key, config)
+  }
+
+  const client = getClient(config)
   await client.send(
     new PutObjectCommand({
-      Bucket: bucket,
+      Bucket: config.bucket,
       Key: key,
       Body: buffer,
       ContentType: contentType,
       ContentLength: buffer.length,
     })
   )
-  return getPublicObjectUrl(key)
+  return getPublicObjectUrl(key, config)
 }
 
-function buildVariants(baseKey: string, baseUrl: string, mimeType: string): MediaVariants {
+function buildVariants(
+  baseKey: string,
+  baseUrl: string,
+  mimeType: string,
+  config: StorageConfig
+): MediaVariants {
   if (!mimeType.startsWith('image/')) {
     return { thumbnail: baseUrl, small: baseUrl, medium: baseUrl, large: baseUrl }
   }
   return {
-    thumbnail: getPublicObjectUrl(buildVariantKey(baseKey, 'thumb')),
-    small: getPublicObjectUrl(buildVariantKey(baseKey, 'sm')),
-    medium: getPublicObjectUrl(buildVariantKey(baseKey, 'md')),
+    thumbnail: getPublicObjectUrl(buildVariantKey(baseKey, 'thumb'), config),
+    small: getPublicObjectUrl(buildVariantKey(baseKey, 'sm'), config),
+    medium: getPublicObjectUrl(buildVariantKey(baseKey, 'md'), config),
     large: baseUrl,
   }
 }
@@ -88,6 +98,8 @@ export async function uploadBufferToMinio(
     throw new Error('File must be 25MB or smaller')
   }
 
+  const config = await getResolvedStorageConfig()
+
   let width: number | undefined
   let height: number | undefined
   if (mimeType.startsWith('image/') && mimeType !== 'image/svg+xml') {
@@ -100,13 +112,13 @@ export async function uploadBufferToMinio(
     }
   }
 
-  const url = await putObject(objectKey, buffer, mimeType)
-  const variants = buildVariants(objectKey, url, mimeType)
+  const url = await putObject(objectKey, buffer, mimeType, config)
+  const variants = buildVariants(objectKey, url, mimeType, config)
 
   if (mimeType.startsWith('image/') && mimeType !== 'image/svg+xml') {
     for (const suffix of ['thumb', 'sm', 'md']) {
       const variantKey = buildVariantKey(objectKey, suffix)
-      await putObject(variantKey, buffer, mimeType)
+      await putObject(variantKey, buffer, mimeType, config)
     }
   }
 
@@ -139,8 +151,9 @@ export async function uploadFileToMinio(file: File, folderPath = 'media') {
 }
 
 export async function replaceFileInMinio(key: string, file: File) {
+  const config = await getResolvedStorageConfig()
   const buffer = Buffer.from(await file.arrayBuffer())
-  const url = await putObject(key, buffer, file.type)
+  const url = await putObject(key, buffer, file.type, config)
   let width: number | undefined
   let height: number | undefined
   if (file.type.startsWith('image/') && file.type !== 'image/svg+xml') {
@@ -158,26 +171,36 @@ export async function replaceFileInMinio(key: string, file: File) {
     size: file.size,
     width,
     height,
-    variants: buildVariants(key, url, file.type),
+    variants: buildVariants(key, url, file.type, config),
   }
 }
 
 export async function deleteObjectFromMinio(key: string) {
-  const { bucket } = getStorageConfig()
-  const client = getClient()
-  await client.send(new DeleteObjectCommand({ Bucket: bucket, Key: key }))
+  const config = await getResolvedStorageConfig()
+  if (config.driver === 'mock') {
+    await deleteMockObject(key, config)
+    return
+  }
+
+  const client = getClient(config)
+  await client.send(new DeleteObjectCommand({ Bucket: config.bucket, Key: key }))
 }
 
 export async function moveObjectInMinio(oldKey: string, newKey: string) {
-  const { bucket } = getStorageConfig()
-  const client = getClient()
+  const config = await getResolvedStorageConfig()
+  if (config.driver === 'mock') {
+    await moveMockObject(oldKey, newKey, config)
+    return getPublicObjectUrl(newKey, config)
+  }
+
+  const client = getClient(config)
   await client.send(
     new CopyObjectCommand({
-      Bucket: bucket,
-      CopySource: `${bucket}/${oldKey}`,
+      Bucket: config.bucket,
+      CopySource: `${config.bucket}/${oldKey}`,
       Key: newKey,
     })
   )
   await deleteObjectFromMinio(oldKey)
-  return getPublicObjectUrl(newKey)
+  return getPublicObjectUrl(newKey, config)
 }

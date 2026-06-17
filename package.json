@@ -53,6 +53,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --watchAll=false",
+    "test:storage:ci": "tsx scripts/test-storage-upload.ts",
     "test:integration": "node --import tsx --import ./tests/integration/setup/register.ts --test tests/integration/comments.integration.test.ts tests/integration/notifications.integration.test.ts",
     "test:integration:ci": "node --import tsx --import ./tests/integration/setup/register.ts --test tests/integration/comments.integration.test.ts tests/integration/notifications.integration.test.ts",
     "test:e2e": "playwright test",

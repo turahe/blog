@@ -13,12 +13,10 @@ concurrency:
 
 env:
   DATABASE_URL: postgresql://blog:blogpassword@localhost:5432/blog
-  MINIO_ENDPOINT: http://localhost:9000
-  MINIO_PUBLIC_URL: http://localhost:9000
-  MINIO_ACCESS_KEY: minioadmin
-  MINIO_SECRET_KEY: minioadmin
-  MINIO_BUCKET: blog-media
-  MINIO_REGION: us-east-1
+  STORAGE_DRIVER: mock
+  MOCK_STORAGE_DIR: .ci-storage
+  MOCK_STORAGE_PUBLIC_URL: https://storage.ci.test
+  MOCK_STORAGE_BUCKET: blog-media
   AUTH_TRUST_HOST: 'true'
 
 jobs:
@@ -40,13 +38,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      minio:
-        image: minio/minio:latest
-        env:
-          MINIO_ROOT_USER: minioadmin
-          MINIO_ROOT_PASSWORD: minioadmin
-        ports:
-          - 9000:9000
 
     steps:
       - name: Checkout code
@@ -63,7 +54,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Setup database and storage
+      - name: Setup database
         uses: ./.github/actions/setup-database-storage
 
       - name: Run tests

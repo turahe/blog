@@ -8,12 +8,6 @@ import { sendTestNotificationAction } from '@/modules/notifications/actions'
 import { useSettingsSection } from '@/modules/settings/hooks/useSettingsSection'
 import type { AdvancedSystemInfo, SettingsMap } from '@/modules/settings/types'
 
-function formatBytes(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-}
-
 export function AdvancedSettingsPanel({
   initialValues,
   systemInfo,
@@ -65,23 +59,6 @@ export function AdvancedSettingsPanel({
             value={values['advanced.custom_css'] ?? ''}
             onChange={(e) => update('advanced.custom_css', e.target.value)}
           />
-        </SettingsField>
-      </SettingsCard>
-
-      <SettingsCard title="Storage">
-        <SettingsField
-          label="Storage driver"
-          hint="Configured via STORAGE_DRIVER and related env vars at deploy time."
-        >
-          <select
-            className="admin-select max-w-xs"
-            value={values['storage.driver'] ?? 'minio'}
-            onChange={(e) => update('storage.driver', e.target.value)}
-          >
-            <option value="minio">MinIO (S3-compatible)</option>
-            <option value="r2">Cloudflare R2</option>
-            <option value="local">Local filesystem</option>
-          </select>
         </SettingsField>
       </SettingsCard>
 
@@ -137,12 +114,6 @@ export function AdvancedSettingsPanel({
             <dt className="text-xs text-gray-500 uppercase">Settings stored</dt>
             <dd className="mt-1 font-medium text-gray-900 dark:text-white/90">
               {systemInfo.settingsCount}
-            </dd>
-          </div>
-          <div className="rounded-xl border border-gray-200 p-4 sm:col-span-2 dark:border-gray-800">
-            <dt className="text-xs text-gray-500 uppercase">Media storage</dt>
-            <dd className="mt-1 font-medium text-gray-900 dark:text-white/90">
-              {systemInfo.mediaCount} files · {formatBytes(systemInfo.mediaBytes)}
             </dd>
           </div>
         </dl>

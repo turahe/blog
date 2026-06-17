@@ -12,6 +12,7 @@ export function useSettingsSection(
 ) {
   const { setSaveStatus, setHasUnsavedChanges, showToast } = useSettingsContext()
   const [values, setValues] = useState<SettingsMap>(initialValues)
+  const valuesRef = useRef<SettingsMap>(initialValues)
   const [error, setError] = useState<string | null>(null)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const autoSave = options?.autoSave ?? true
@@ -19,6 +20,7 @@ export function useSettingsSection(
 
   useEffect(() => {
     setValues(initialValues)
+    valuesRef.current = initialValues
     setHasUnsavedChanges(false)
     setSaveStatus('idle')
   }, [initialValues, setHasUnsavedChanges, setSaveStatus])
@@ -46,18 +48,17 @@ export function useSettingsSection(
 
   const update = useCallback(
     (key: string, value: string) => {
-      setValues((prev) => {
-        const next = { ...prev, [key]: value }
-        setHasUnsavedChanges(true)
-        setSaveStatus('dirty')
-        if (autoSave) {
-          if (debounceRef.current) clearTimeout(debounceRef.current)
-          debounceRef.current = setTimeout(() => {
-            void save(next)
-          }, debounceMs)
-        }
-        return next
-      })
+      const next = { ...valuesRef.current, [key]: value }
+      valuesRef.current = next
+      setValues(next)
+      setHasUnsavedChanges(true)
+      setSaveStatus('dirty')
+      if (autoSave) {
+        if (debounceRef.current) clearTimeout(debounceRef.current)
+        debounceRef.current = setTimeout(() => {
+          void save(valuesRef.current)
+        }, debounceMs)
+      }
     },
     [autoSave, debounceMs, save, setHasUnsavedChanges, setSaveStatus]
   )

@@ -40,8 +40,8 @@ jest.mock('@aws-sdk/client-s3', () => {
   }
 })
 
-jest.mock('@/lib/storage/config', () => ({
-  getStorageConfig: jest.fn(() => ({
+jest.mock('@/lib/storage/resolve-storage-config', () => ({
+  getResolvedStorageConfig: jest.fn(async () => ({
     driver: 'minio',
     bucket: 'blog-media',
     endpoint: 'http://localhost:9000',
@@ -52,6 +52,9 @@ jest.mock('@/lib/storage/config', () => ({
     forcePathStyle: true,
     publicUrlIncludesBucket: true,
   })),
+}))
+
+jest.mock('@/lib/storage/config', () => ({
   getPublicObjectUrl: jest.fn((key) => `http://cdn.local/blog-media/${key}`),
 }))
 

@@ -128,8 +128,48 @@ export const advancedSettingsSchema = z.object({
   'advanced.header_scripts': z.string().max(50000),
   'advanced.footer_scripts': z.string().max(50000),
   'advanced.custom_css': z.string().max(50000),
-  'storage.driver': z.enum(['minio', 'r2', 'local']),
 })
+
+const storageField = z.string().max(500)
+
+export const storageSettingsSchema = z
+  .object({
+    'storage.driver': z.enum(['minio', 'r2', 'mock', 'local']),
+    'storage.minio.endpoint': storageField,
+    'storage.minio.public_url': storageField,
+    'storage.minio.bucket': storageField,
+    'storage.minio.region': storageField,
+    'storage.minio.access_key': storageField,
+    'storage.minio.secret_key': storageField,
+    'storage.r2.account_id': storageField,
+    'storage.r2.access_key_id': storageField,
+    'storage.r2.secret_access_key': storageField,
+    'storage.r2.bucket': storageField,
+    'storage.r2.public_url': storageField,
+    'storage.r2.region': storageField,
+    'storage.r2.endpoint': storageField,
+    'storage.mock.directory': storageField,
+    'storage.mock.public_url': storageField,
+    'storage.mock.bucket': storageField,
+  })
+  .superRefine((data, ctx) => {
+    if (data['storage.driver'] === 'r2') {
+      if (!data['storage.r2.account_id']?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'R2 account ID is required',
+          path: ['storage.r2.account_id'],
+        })
+      }
+      if (!data['storage.r2.public_url']?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'R2 public URL is required',
+          path: ['storage.r2.public_url'],
+        })
+      }
+    }
+  })
 
 export const SECTION_SCHEMAS = {
   general: generalSettingsSchema,
@@ -140,6 +180,7 @@ export const SECTION_SCHEMAS = {
   comments: commentsSettingsSchema,
   integrations: integrationsSettingsSchema,
   security: securitySettingsSchema,
+  storage: storageSettingsSchema,
   advanced: advancedSettingsSchema,
 } as const
 
