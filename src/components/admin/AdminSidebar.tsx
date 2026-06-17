@@ -19,6 +19,13 @@ import {
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   EllipsisHorizontalIcon,
+  UsersIcon,
+  TagIcon,
+  RocketLaunchIcon,
+  ShieldCheckIcon,
+  KeyIcon,
+  ClipboardDocumentListIcon,
+  BuildingOffice2Icon,
 } from '@heroicons/react/24/outline'
 import type { ComponentType } from 'react'
 
@@ -42,55 +49,127 @@ interface NavLogoutItem {
 
 type NavItem = NavLinkItem | NavDividerItem | NavLogoutItem
 
-const mainMenuItems: NavLinkItem[] = [
+interface NavSection {
+  title: string
+  items: NavLinkItem[]
+}
+
+const navSections: NavSection[] = [
   {
-    href: '/admin',
-    label: 'Dashboard',
-    icon: Squares2X2Icon,
-    type: 'link',
-    match: (pathname) => pathname === '/admin',
+    title: 'Overview',
+    items: [
+      {
+        href: '/admin',
+        label: 'Dashboard',
+        icon: Squares2X2Icon,
+        type: 'link',
+        match: (pathname) => pathname === '/admin',
+      },
+    ],
   },
   {
-    href: '/admin/posts',
-    label: 'Posts',
-    icon: DocumentTextIcon,
-    type: 'link',
-    match: (pathname) => pathname.startsWith('/admin/posts'),
+    title: 'Content',
+    items: [
+      {
+        href: '/admin/posts',
+        label: 'Posts',
+        icon: DocumentTextIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/posts'),
+      },
+      {
+        href: '/admin/categories',
+        label: 'Categories',
+        icon: RectangleStackIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/categories'),
+      },
+      {
+        href: '/admin/tags',
+        label: 'Tags',
+        icon: TagIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/tags'),
+      },
+      {
+        href: '/admin/media',
+        label: 'Media Library',
+        icon: PhotoIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/media'),
+      },
+      {
+        href: '/admin/comments',
+        label: 'Comments',
+        icon: ChatBubbleLeftRightIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/comments'),
+      },
+    ],
   },
   {
-    href: '/admin/categories',
-    label: 'Categories',
-    icon: RectangleStackIcon,
-    type: 'link',
-    match: (pathname) => pathname.startsWith('/admin/categories'),
+    title: 'Portfolio',
+    items: [
+      {
+        href: '/admin/projects',
+        label: 'Projects',
+        icon: RocketLaunchIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/projects'),
+      },
+      {
+        href: '/admin/experience',
+        label: 'Experience',
+        icon: BuildingOffice2Icon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/experience'),
+      },
+    ],
   },
   {
-    href: '/admin/media',
-    label: 'Media Library',
-    icon: PhotoIcon,
-    type: 'link',
-    match: (pathname) => pathname.startsWith('/admin/media'),
+    title: 'Users & Access',
+    items: [
+      {
+        href: '/admin/users',
+        label: 'Users',
+        icon: UsersIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/users'),
+      },
+      {
+        href: '/admin/roles',
+        label: 'Roles',
+        icon: ShieldCheckIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/roles'),
+      },
+      {
+        href: '/admin/permissions',
+        label: 'Permissions',
+        icon: KeyIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/permissions'),
+      },
+    ],
   },
   {
-    href: '/admin/comments',
-    label: 'Comments',
-    icon: ChatBubbleLeftRightIcon,
-    type: 'link',
-    match: (pathname) => pathname.startsWith('/admin/comments'),
-  },
-  {
-    href: '/admin/settings?tab=seo',
-    label: 'SEO',
-    icon: GlobeAltIcon,
-    type: 'link',
-    match: (pathname, tab) => pathname === '/admin/settings' && tab === 'seo',
-  },
-  {
-    href: '/admin/settings',
-    label: 'Settings',
-    icon: Cog6ToothIcon,
-    type: 'link',
-    match: (pathname, tab) => pathname === '/admin/settings' && (!tab || tab === 'general'),
+    title: 'System',
+    items: [
+      {
+        href: '/admin/audit-logs',
+        label: 'Audit Logs',
+        icon: ClipboardDocumentListIcon,
+        type: 'link',
+        match: (pathname) => pathname.startsWith('/admin/audit-logs'),
+      },
+      {
+        href: '/admin/settings',
+        label: 'Settings',
+        icon: Cog6ToothIcon,
+        type: 'link',
+        match: (pathname, tab) => pathname === '/admin/settings' && (!tab || tab === 'general'),
+      },
+    ],
   },
 ]
 
@@ -230,7 +309,20 @@ export function AdminSidebar() {
             {showLabels ? 'Menu' : <EllipsisHorizontalIcon className="h-4 w-4" />}
           </h2>
 
-          <ul className="flex flex-col gap-1">{mainMenuItems.map((item) => renderLink(item))}</ul>
+          <div className="flex flex-col gap-6">
+            {navSections.map((section) => (
+              <div key={section.title}>
+                {showLabels ? (
+                  <h3 className="mb-2 px-3 text-[11px] font-semibold tracking-wide text-gray-400 uppercase">
+                    {section.title}
+                  </h3>
+                ) : null}
+                <ul className="flex flex-col gap-1">
+                  {section.items.map((item) => renderLink(item))}
+                </ul>
+              </div>
+            ))}
+          </div>
 
           <ul className="mt-auto flex flex-col gap-1 pt-4 pb-6">
             {footerMenuItems.map((item, index) => renderFooterItem(item, index))}

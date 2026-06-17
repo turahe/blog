@@ -1,0 +1,58 @@
+name: Setup database and storage
+description: Wait for PostgreSQL and MinIO, create the media bucket, and apply Prisma schema.
+
+inputs:
+  skip-seed:
+    description: Skip `prisma db seed`
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Wait for PostgreSQL
+      shell: bash
+      run: |
+        for attempt in $(seq 1 30); do
+          if docker run --rm --network host postgres:17-alpine \
+            pg_isready -h localhost -p 5432 -U blog -d blog >/dev/null 2>&1; then
+            echo "PostgreSQL is ready"
+            exit 0
+          fi
+          echo "Waiting for PostgreSQL... (${attempt}/30)"
+          sleep 2
+        done
+        echo "PostgreSQL did not become ready in time"
+        exit 1
+
+    - name: Wait for MinIO
+      shell: bash
+      run: |
+        for attempt in $(seq 1 30); do
+          if curl -sf http://localhost:9000/minio/health/live >/dev/null; then
+            echo "MinIO is ready"
+            exit 0
+          fi
+          echo "Waiting for MinIO... (${attempt}/30)"
+          sleep 2
+        done
+        echo "MinIO did not become ready in time"
+        exit 1
+
+    - name: Initialize MinIO bucket
+      shell: bash
+      run: |
+        docker run --rm --network host minio/mc:latest /bin/sh -c "
+          mc alias set local http://localhost:9000 minioadmin minioadmin &&
+          mc mb local/${MINIO_BUCKET:-blog-media} --ignore-existing &&
+          mc anonymous set download local/${MINIO_BUCKET:-blog-media}
+        "
+
+    - name: Apply database schema
+      shell: bash
+      run: npx prisma db push
+
+    - name: Seed database
+      if: inputs.skip-seed != 'true'
+      shell: bash
+      run: npx prisma db seed

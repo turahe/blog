@@ -36,8 +36,15 @@ import globals from 'globals'
 import tsParser from '@typescript-eslint/parser'
 import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-const compat = new FlatCompat()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+})
 
 export default [
   {
@@ -50,11 +57,12 @@ export default [
       'coverage/**',
       '__tests__/**',
       'tests/**',
+      'src/generated/**',
       '*.config.js',
       '*.config.mjs',
       '*.config.ts',
       'scripts/**',
-      'cache/**'
+      'cache/**',
     ],
   },
   js.configs.recommended,

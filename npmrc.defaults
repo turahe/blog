@@ -1,0 +1,2 @@
+# Default npm config for Docker builds when no host .npmrc is provided.
+# Override with NPMRC_PATH pointing at your local or remote npmrc file.

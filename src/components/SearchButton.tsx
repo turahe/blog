@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { useSiteMetadata } from '@/lib/site-metadata/provider'
-import { KBarButton } from '@/components/search/KBarButton'
+import { SearchTrigger } from '@/components/search/SearchTrigger'
 
 const SearchButton = () => {
   const siteMetadata = useSiteMetadata()
-  if (siteMetadata.search?.provider === 'kbar') {
+  if (siteMetadata.search?.provider === 'cmdk') {
     return (
-      <KBarButton aria-label="Search">
+      <SearchTrigger aria-label="Search">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -23,7 +23,7 @@ const SearchButton = () => {
             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
           />
         </svg>
-      </KBarButton>
+      </SearchTrigger>
     )
   }
 

@@ -161,6 +161,18 @@ export async function bulkModerateCommentsAction(
   return { success: true, data: { count: result.count } }
 }
 
+export async function bulkApproveCommentsAction(
+  ids: string[]
+): Promise<CrudActionResult<{ count: number }>> {
+  return bulkModerateCommentsAction(ids, 'APPROVED')
+}
+
+export async function bulkMarkSpamCommentsAction(
+  ids: string[]
+): Promise<CrudActionResult<{ count: number }>> {
+  return bulkModerateCommentsAction(ids, 'SPAM')
+}
+
 export async function bulkDeleteCommentsAction(
   ids: string[]
 ): Promise<CrudActionResult<{ count: number }>> {

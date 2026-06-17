@@ -99,9 +99,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <SectionContainer>
               <div className="flex h-screen flex-col justify-between font-sans">
                 <SearchProvider
-                  kbarConfig={
-                    siteMetadata.search?.provider === 'kbar'
-                      ? siteMetadata.search.kbarConfig
+                  searchConfig={
+                    siteMetadata.search?.provider === 'cmdk'
+                      ? siteMetadata.search.searchConfig
                       : undefined
                   }
                 >

@@ -109,7 +109,7 @@ export const SETTINGS_DEFAULTS: SettingRecord[] = [
     type: 'string',
     group: 'integrations',
   },
-  { key: 'integrations.search_provider', value: 'kbar', type: 'string', group: 'integrations' },
+  { key: 'integrations.search_provider', value: 'cmdk', type: 'string', group: 'integrations' },
   { key: 'integrations.gsc_verification', value: '', type: 'string', group: 'integrations' },
   { key: 'integrations.gtm_id', value: '', type: 'string', group: 'integrations' },
   { key: 'integrations.turnstile_site_key', value: '', type: 'string', group: 'integrations' },

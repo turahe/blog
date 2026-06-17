@@ -1,18 +1,25 @@
+# syntax=docker/dockerfile:1
+
 FROM node:lts-alpine AS base
 RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 FROM base AS deps
-COPY package.json package-lock.json .npmrc ./
-RUN npm ci --ignore-scripts
+COPY package.json package-lock.json ./
+RUN --mount=type=secret,id=npmrc,target=/tmp/npmrc,required=false \
+  if [ -s /tmp/npmrc ]; then cp /tmp/npmrc /root/.npmrc; fi && \
+  npm ci --ignore-scripts
 
 FROM base AS dev
 WORKDIR /app
-COPY package.json package-lock.json .npmrc ./
-RUN npm ci --ignore-scripts
+COPY package.json package-lock.json ./
+RUN --mount=type=secret,id=npmrc,target=/tmp/npmrc,required=false \
+  if [ -s /tmp/npmrc ]; then cp /tmp/npmrc /root/.npmrc && cp /tmp/npmrc .npmrc; fi && \
+  npm ci --ignore-scripts
 COPY . .
+RUN chmod +x scripts/docker-entrypoint.sh
 EXPOSE 3000
-CMD ["npm", "run", "docker:dev"]
+CMD ["npm", "run", "docker:start"]
 
 FROM base AS builder
 WORKDIR /app

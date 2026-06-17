@@ -12,9 +12,56 @@ import experienceData from '../data/experienceData'
 import { hashPassword } from '../lib/auth/password'
 import { PERMISSIONS, ROLES } from '../lib/rbac/permissions-list'
 import { SETTINGS_DEFAULTS } from '../modules/settings/config/defaults'
+import { uploadBufferToMinio } from '../lib/storage/minio'
+import { getExtension } from '../modules/media/constants'
 
 const blogDir = path.join(process.cwd(), 'src/data/blog')
 const authorsDir = path.join(process.cwd(), 'src/data/authors')
+const publicDir = path.join(process.cwd(), 'public')
+
+const MIME_BY_EXTENSION: Record<string, string> = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  webp: 'image/webp',
+  gif: 'image/gif',
+  avif: 'image/avif',
+  svg: 'image/svg+xml',
+}
+
+type SeedImageRef = {
+  path: string
+  kind: 'post' | 'project'
+  label: string
+}
+
+interface PostFrontmatter {
+  title: string
+  date: string
+  lastmod?: string
+  draft?: boolean
+  summary?: string
+  layout?: string
+  music?: string
+  bibliography?: string
+  canonicalUrl?: string
+  images?: string | string[]
+  tags?: string[]
+  authors?: string[]
+}
+
+interface AuthorFrontmatter {
+  name: string
+  email?: string
+  avatar?: string
+  occupation?: string
+  company?: string
+  twitter?: string
+  bluesky?: string
+  linkedin?: string
+  github?: string
+  layout?: string
+}
 
 function parseMdxFile(raw: string) {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/)
@@ -40,7 +87,7 @@ function parseMdxFile(raw: string) {
     })
     .join('\n')
   const { data } = matter(`---\n${fixedFrontmatter}\n---\n`)
-  return { data, content }
+  return { data: data as unknown as PostFrontmatter, content }
 }
 
 function computeWordCount(text: string): number {
@@ -62,6 +109,166 @@ function authorPlaceholderPassword() {
   return createHash('sha256').update('author-profile-no-login').digest('hex')
 }
 
+function guessMimeType(filename: string) {
+  const extension = getExtension(filename)
+  return MIME_BY_EXTENSION[extension] ?? 'application/octet-stream'
+}
+
+function normalizeImagePaths(images: unknown): string[] {
+  if (!images) return []
+  if (typeof images === 'string') {
+    const trimmed = images.trim()
+    return trimmed ? [trimmed] : []
+  }
+  if (!Array.isArray(images)) return []
+  return images.filter(
+    (value): value is string => typeof value === 'string' && value.trim().length > 0
+  )
+}
+
+function toSeedObjectKey(staticPath: string) {
+  return `seed${staticPath}`
+}
+
+function resolveImageUrl(staticPath: string, urlMap: Map<string, string>) {
+  return urlMap.get(staticPath) ?? staticPath
+}
+
+function resolveImageList(images: unknown, urlMap: Map<string, string>) {
+  const paths = normalizeImagePaths(images)
+  if (!paths.length) return null
+  return paths.map((imagePath) => resolveImageUrl(imagePath, urlMap))
+}
+
+async function collectSeedImages(): Promise<SeedImageRef[]> {
+  const seen = new Set<string>()
+  const images: SeedImageRef[] = []
+
+  const addImage = (imagePath: string, kind: SeedImageRef['kind'], label: string) => {
+    if (!imagePath.startsWith('/static/images/') || seen.has(imagePath)) return
+    seen.add(imagePath)
+    images.push({ path: imagePath, kind, label })
+  }
+
+  for (const project of projectsData) {
+    addImage(project.imgSrc, 'project', project.title)
+  }
+
+  const blogFiles = await fs.readdir(blogDir)
+  for (const file of blogFiles) {
+    if (!file.endsWith('.mdx')) continue
+    const raw = await fs.readFile(path.join(blogDir, file), 'utf-8')
+    const { data } = parseMdxFile(raw)
+    const postSlug = file.replace(/\.mdx$/, '')
+    for (const imagePath of normalizeImagePaths(data.images)) {
+      addImage(imagePath, 'post', data.title || postSlug)
+    }
+  }
+
+  return images
+}
+
+async function upsertRootMediaFolder(name: string) {
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+  const existing = await prisma.mediaFolder.findFirst({
+    where: { slug, parentId: null },
+  })
+  if (existing) return existing
+  return prisma.mediaFolder.create({ data: { name, slug } })
+}
+
+async function seedMedia(uploadedById?: string) {
+  const images = await collectSeedImages()
+  if (!images.length) {
+    console.log('No seed images found for posts or projects.')
+    return new Map<string, string>()
+  }
+
+  const postsFolder = await upsertRootMediaFolder('Posts')
+  const projectsFolder = await upsertRootMediaFolder('Projects')
+  const urlMap = new Map<string, string>()
+
+  for (const image of images) {
+    const filename = path.basename(image.path)
+    const absPath = path.join(publicDir, image.path.replace(/^\//, ''))
+    const folder = image.kind === 'project' ? projectsFolder : postsFolder
+    const folderPath = image.kind === 'project' ? 'seed/projects' : 'seed/posts'
+    const objectKey = toSeedObjectKey(image.path)
+
+    let buffer: Buffer | null = null
+    try {
+      buffer = await fs.readFile(absPath)
+    } catch {
+      console.warn(`Seed image file missing: ${image.path}`)
+    }
+
+    let mediaUrl = image.path
+    let mediaData: Prisma.MediaCreateInput = {
+      key: objectKey,
+      url: image.path,
+      filename,
+      originalName: filename,
+      mimeType: guessMimeType(filename),
+      extension: getExtension(filename),
+      size: buffer?.length ?? 0,
+      altText: image.label,
+      title: image.label,
+      folder: folderPath,
+      folderRef: { connect: { id: folder.id } },
+      uploadedBy: uploadedById ? { connect: { id: uploadedById } } : undefined,
+    }
+
+    if (buffer) {
+      try {
+        const uploaded = await uploadBufferToMinio(
+          buffer,
+          filename,
+          guessMimeType(filename),
+          objectKey
+        )
+        mediaUrl = uploaded.url
+        mediaData = {
+          ...mediaData,
+          url: uploaded.url,
+          mimeType: uploaded.mimeType,
+          extension: uploaded.extension,
+          size: uploaded.size,
+          width: uploaded.width,
+          height: uploaded.height,
+          variants: uploaded.variants as Prisma.InputJsonValue,
+        }
+      } catch (error) {
+        console.warn(`MinIO upload failed for ${image.path}; keeping static URL.`, error)
+      }
+    }
+
+    await prisma.media.upsert({
+      where: { key: objectKey },
+      create: mediaData,
+      update: {
+        url: mediaData.url,
+        filename: mediaData.filename,
+        originalName: mediaData.originalName,
+        mimeType: mediaData.mimeType,
+        extension: mediaData.extension,
+        size: mediaData.size,
+        width: mediaData.width,
+        height: mediaData.height,
+        variants: mediaData.variants,
+        altText: image.label,
+        title: image.label,
+        folder: folderPath,
+        folderRef: { connect: { id: folder.id } },
+        uploadedBy: uploadedById ? { connect: { id: uploadedById } } : undefined,
+      },
+    })
+
+    urlMap.set(image.path, mediaUrl)
+  }
+
+  return urlMap
+}
+
 async function seedAuthorProfiles() {
   const files = await fs.readdir(authorsDir)
   const placeholderHash = await hashPassword(authorPlaceholderPassword())
@@ -71,7 +278,8 @@ async function seedAuthorProfiles() {
     const raw = await fs.readFile(path.join(authorsDir, file), 'utf-8')
     const { data, content } = parseMdxFile(raw)
     const authorSlug = file.replace(/\.mdx$/, '')
-    const email = (data.email as string) || `${authorSlug}@authors.local`
+    const authorData = data as unknown as AuthorFrontmatter
+    const email = authorData.email || `${authorSlug}@authors.local`
 
     const existing = await prisma.user.findFirst({
       where: { OR: [{ slug: authorSlug }, { email }] },
@@ -79,16 +287,16 @@ async function seedAuthorProfiles() {
 
     const profile = {
       slug: authorSlug,
-      fullName: data.name as string,
-      avatar: (data.avatar as string) || null,
-      occupation: (data.occupation as string) || null,
-      company: (data.company as string) || null,
-      twitter: (data.twitter as string) || null,
-      bluesky: (data.bluesky as string) || null,
-      linkedin: (data.linkedin as string) || null,
-      github: (data.github as string) || null,
+      fullName: authorData.name,
+      avatar: authorData.avatar || null,
+      occupation: authorData.occupation || null,
+      company: authorData.company || null,
+      twitter: authorData.twitter || null,
+      bluesky: authorData.bluesky || null,
+      linkedin: authorData.linkedin || null,
+      github: authorData.github || null,
       bio: content,
-      layout: (data.layout as string) || null,
+      layout: authorData.layout || null,
     }
 
     if (existing) {
@@ -109,7 +317,7 @@ async function seedAuthorProfiles() {
   }
 }
 
-async function seedPosts() {
+async function seedPosts(urlMap: Map<string, string>) {
   const files = await fs.readdir(blogDir)
   const defaultAuthor = await prisma.user.findFirst({ where: { slug: 'default' } })
 
@@ -119,7 +327,8 @@ async function seedPosts() {
     const { data, content } = parseMdxFile(raw)
     const postSlug = file.replace(/\.mdx$/, '')
     const rt = readingTime(content)
-    const tags: string[] = data.tags || []
+    const tags = data.tags || []
+    const images = resolveImageList(data.images, urlMap) as Prisma.InputJsonValue | undefined
 
     const post = await prisma.post.upsert({
       where: { slug: postSlug },
@@ -135,7 +344,7 @@ async function seedPosts() {
         music: data.music,
         bibliography: data.bibliography,
         canonicalUrl: data.canonicalUrl,
-        images: data.images ?? null,
+        images,
         readingTimeMinutes: rt.minutes,
         wordCount: computeWordCount(content),
         toc: (await getToc(content)) as unknown as Prisma.InputJsonValue,
@@ -153,7 +362,7 @@ async function seedPosts() {
         music: data.music,
         bibliography: data.bibliography,
         canonicalUrl: data.canonicalUrl,
-        images: data.images ?? null,
+        images,
         readingTimeMinutes: rt.minutes,
         wordCount: computeWordCount(content),
         toc: (await getToc(content)) as unknown as Prisma.InputJsonValue,
@@ -192,7 +401,7 @@ async function seedPosts() {
   }
 }
 
-async function seedProjects() {
+async function seedProjects(urlMap: Map<string, string>) {
   await prisma.project.deleteMany()
   for (let i = 0; i < projectsData.length; i++) {
     const p = projectsData[i]
@@ -200,7 +409,7 @@ async function seedProjects() {
       data: {
         title: p.title,
         description: p.description,
-        imgSrc: p.imgSrc,
+        imgSrc: resolveImageUrl(p.imgSrc, urlMap),
         href: p.href,
         sortOrder: i,
       },
@@ -322,19 +531,23 @@ async function seedAuth() {
       update: { value: s.value, type: s.type, group: s.group },
     })
   }
+
+  return superadmin.id
 }
 
 async function main() {
   console.log('Seeding author profiles (users)...')
   await seedAuthorProfiles()
+  console.log('Seeding auth & RBAC...')
+  const superadminId = await seedAuth()
+  console.log('Seeding media...')
+  const imageUrlMap = await seedMedia(superadminId)
   console.log('Seeding posts...')
-  await seedPosts()
+  await seedPosts(imageUrlMap)
   console.log('Seeding projects...')
-  await seedProjects()
+  await seedProjects(imageUrlMap)
   console.log('Seeding experience...')
   await seedExperience()
-  console.log('Seeding auth & RBAC...')
-  await seedAuth()
   console.log('Seed completed.')
 }
 

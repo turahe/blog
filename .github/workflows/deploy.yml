@@ -11,10 +11,42 @@ concurrency:
   group: post-ci-${{ github.ref }}
   cancel-in-progress: false
 
+env:
+  DATABASE_URL: postgresql://blog:blogpassword@localhost:5432/blog
+  MINIO_ENDPOINT: http://localhost:9000
+  MINIO_PUBLIC_URL: http://localhost:9000
+  MINIO_ACCESS_KEY: minioadmin
+  MINIO_SECRET_KEY: minioadmin
+  MINIO_BUCKET: blog-media
+  MINIO_REGION: us-east-1
+  AUTH_TRUST_HOST: 'true'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: blog
+          POSTGRES_PASSWORD: blogpassword
+          POSTGRES_DB: blog
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U blog -d blog"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      minio:
+        image: minio/minio:latest
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        ports:
+          - 9000:9000
 
     steps:
       - name: Checkout code
@@ -30,6 +62,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Setup database and storage
+        uses: ./.github/actions/setup-database-storage
 
       - name: Run tests
         run: npm run lint

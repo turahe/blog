@@ -48,6 +48,8 @@ services:
       context: ./
       target: dev
       dockerfile: Dockerfile
+      secrets:
+        - npmrc
     depends_on:
       db:
         condition: service_healthy
@@ -66,3 +68,7 @@ services:
       - ./.docker/node_modules:/app/node_modules
     ports:
       - '3000:3000'
+
+secrets:
+  npmrc:
+    file: ${NPMRC_PATH:-./npmrc.defaults}

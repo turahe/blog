@@ -34,7 +34,7 @@ export type SiteMetadata = {
   }
   search: {
     provider?: string
-    kbarConfig?: {
+    searchConfig?: {
       searchDocumentsPath: string
     }
   }

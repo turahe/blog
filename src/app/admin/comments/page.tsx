@@ -5,7 +5,11 @@ import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
 import { DataTable } from '@/components/admin/DataTable'
 import { TableSkeleton } from '@/components/admin/Skeleton'
 import { listCommentsAdmin } from '@/modules/comments/services'
-import { bulkDeleteCommentsAction, bulkModerateCommentsAction } from '@/modules/comments/actions'
+import {
+  bulkApproveCommentsAction,
+  bulkDeleteCommentsAction,
+  bulkMarkSpamCommentsAction,
+} from '@/modules/comments/actions'
 import { can } from '@/lib/rbac'
 import { getSession } from '@/lib/auth/session'
 
@@ -59,14 +63,8 @@ async function CommentsTable({
       bulkActions={[
         ...(canModerate
           ? [
-              {
-                label: 'Approve Selected',
-                action: (ids: string[]) => bulkModerateCommentsAction(ids, 'APPROVED'),
-              },
-              {
-                label: 'Mark Spam',
-                action: (ids: string[]) => bulkModerateCommentsAction(ids, 'SPAM'),
-              },
+              { label: 'Approve Selected', action: bulkApproveCommentsAction },
+              { label: 'Mark Spam', action: bulkMarkSpamCommentsAction },
             ]
           : []),
         ...(canDelete ? [{ label: 'Delete Selected', action: bulkDeleteCommentsAction }] : []),

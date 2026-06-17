@@ -79,10 +79,10 @@ jest.mock('rough-notation', () => ({
 }))
 
 // Mock search components
-jest.mock('@/components/search/KBarButton', () => {
+jest.mock('@/components/search/SearchTrigger', () => {
   const React = require('react')
   return {
-    KBarButton: ({ children, ...props }) => React.createElement('button', props, children),
+    SearchTrigger: ({ children, ...props }) => React.createElement('button', props, children),
   }
 })
 

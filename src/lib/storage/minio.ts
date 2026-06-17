@@ -74,6 +74,56 @@ function buildVariants(baseKey: string, baseUrl: string, mimeType: string): Medi
   }
 }
 
+export async function uploadBufferToMinio(
+  buffer: Buffer,
+  filename: string,
+  mimeType: string,
+  objectKey: string
+) {
+  const allowed = new Set<string>([...ALLOWED_MIME_TYPES, ...LEGACY_IMAGE_TYPES])
+  if (!allowed.has(mimeType)) {
+    throw new Error('File type is not allowed')
+  }
+  if (buffer.length > MAX_FILE_BYTES) {
+    throw new Error('File must be 25MB or smaller')
+  }
+
+  let width: number | undefined
+  let height: number | undefined
+  if (mimeType.startsWith('image/') && mimeType !== 'image/svg+xml') {
+    try {
+      const dims = imageSize(buffer)
+      width = dims.width
+      height = dims.height
+    } catch {
+      /* ignore */
+    }
+  }
+
+  const url = await putObject(objectKey, buffer, mimeType)
+  const variants = buildVariants(objectKey, url, mimeType)
+
+  if (mimeType.startsWith('image/') && mimeType !== 'image/svg+xml') {
+    for (const suffix of ['thumb', 'sm', 'md']) {
+      const variantKey = buildVariantKey(objectKey, suffix)
+      await putObject(variantKey, buffer, mimeType)
+    }
+  }
+
+  return {
+    key: objectKey,
+    url,
+    filename,
+    originalName: filename,
+    mimeType,
+    extension: getExtension(filename),
+    size: buffer.length,
+    width,
+    height,
+    variants,
+  }
+}
+
 export async function uploadFileToMinio(file: File, folderPath = 'media') {
   const allowed = new Set<string>([...ALLOWED_MIME_TYPES, ...LEGACY_IMAGE_TYPES])
   if (!allowed.has(file.type)) {
@@ -84,43 +134,8 @@ export async function uploadFileToMinio(file: File, folderPath = 'media') {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer())
-  let width: number | undefined
-  let height: number | undefined
-  if (file.type.startsWith('image/') && file.type !== 'image/svg+xml') {
-    try {
-      const dims = imageSize(buffer)
-      width = dims.width
-      height = dims.height
-    } catch {
-      /* ignore */
-    }
-  }
-
   const key = buildObjectKey(file.name, folderPath)
-  const url = await putObject(key, buffer, file.type)
-
-  const variants = buildVariants(key, url, file.type)
-
-  // Store variant keys (same file for now; wire sharp later for true resizing)
-  if (file.type.startsWith('image/') && file.type !== 'image/svg+xml') {
-    for (const suffix of ['thumb', 'sm', 'md']) {
-      const variantKey = buildVariantKey(key, suffix)
-      await putObject(variantKey, buffer, file.type)
-    }
-  }
-
-  return {
-    key,
-    url,
-    filename: file.name,
-    originalName: file.name,
-    mimeType: file.type,
-    extension: getExtension(file.name),
-    size: file.size,
-    width,
-    height,
-    variants,
-  }
+  return uploadBufferToMinio(buffer, file.name, file.type, key)
 }
 
 export async function replaceFileInMinio(key: string, file: File) {
