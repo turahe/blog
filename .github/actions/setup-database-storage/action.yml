@@ -1,5 +1,5 @@
-name: Setup database and storage
-description: Wait for PostgreSQL and MinIO, create the media bucket, and apply Prisma schema.
+name: Setup database
+description: Wait for PostgreSQL and apply Prisma schema.
 
 inputs:
   skip-seed:
@@ -24,29 +24,6 @@ runs:
         done
         echo "PostgreSQL did not become ready in time"
         exit 1
-
-    - name: Wait for MinIO
-      shell: bash
-      run: |
-        for attempt in $(seq 1 30); do
-          if curl -sf http://localhost:9000/minio/health/live >/dev/null; then
-            echo "MinIO is ready"
-            exit 0
-          fi
-          echo "Waiting for MinIO... (${attempt}/30)"
-          sleep 2
-        done
-        echo "MinIO did not become ready in time"
-        exit 1
-
-    - name: Initialize MinIO bucket
-      shell: bash
-      run: |
-        docker run --rm --network host minio/mc:latest /bin/sh -c "
-          mc alias set local http://localhost:9000 minioadmin minioadmin &&
-          mc mb local/${MINIO_BUCKET:-blog-media} --ignore-existing &&
-          mc anonymous set download local/${MINIO_BUCKET:-blog-media}
-        "
 
     - name: Apply database schema
       shell: bash
