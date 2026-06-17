@@ -69,13 +69,17 @@ export function AdvancedSettingsPanel({
       </SettingsCard>
 
       <SettingsCard title="Storage">
-        <SettingsField label="Storage driver">
+        <SettingsField
+          label="Storage driver"
+          hint="Configured via STORAGE_DRIVER and related env vars at deploy time."
+        >
           <select
             className="admin-select max-w-xs"
             value={values['storage.driver'] ?? 'minio'}
             onChange={(e) => update('storage.driver', e.target.value)}
           >
             <option value="minio">MinIO (S3-compatible)</option>
+            <option value="r2">Cloudflare R2</option>
             <option value="local">Local filesystem</option>
           </select>
         </SettingsField>

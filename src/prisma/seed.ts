@@ -13,6 +13,7 @@ import { hashPassword } from '../lib/auth/password'
 import { PERMISSIONS, ROLES } from '../lib/rbac/permissions-list'
 import { SETTINGS_DEFAULTS } from '../modules/settings/config/defaults'
 import { uploadBufferToMinio } from '../lib/storage/minio'
+import { getStorageDriver } from '../lib/storage/config'
 import { getExtension } from '../modules/media/constants'
 
 const blogDir = path.join(process.cwd(), 'src/data/blog')
@@ -184,6 +185,8 @@ async function seedMedia(uploadedById?: string) {
     return new Map<string, string>()
   }
 
+  console.log(`Uploading ${images.length} seed images to ${getStorageDriver()}...`)
+
   const postsFolder = await upsertRootMediaFolder('Posts')
   const projectsFolder = await upsertRootMediaFolder('Projects')
   const urlMap = new Map<string, string>()
@@ -238,7 +241,7 @@ async function seedMedia(uploadedById?: string) {
           variants: uploaded.variants as Prisma.InputJsonValue,
         }
       } catch (error) {
-        console.warn(`MinIO upload failed for ${image.path}; keeping static URL.`, error)
+        console.warn(`Storage upload failed for ${image.path}; keeping static URL.`, error)
       }
     }
 

@@ -43,6 +43,24 @@ const securityHeaders = [
 
 const basePath = process.env.BASE_PATH || undefined
 
+function getR2ImagePattern() {
+  const publicUrl = process.env.R2_PUBLIC_URL
+  if (!publicUrl) return null
+
+  try {
+    const { protocol, hostname } = new URL(publicUrl)
+    return {
+      protocol: protocol.replace(':', ''),
+      hostname,
+      pathname: '/**',
+    }
+  } catch {
+    return null
+  }
+}
+
+const r2ImagePattern = getR2ImagePattern()
+
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
@@ -72,6 +90,17 @@ module.exports = {
         port: '9000',
         pathname: '/blog-media/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.r2.dev',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.wach.id',
+        pathname: '/**',
+      },
+      ...(r2ImagePattern ? [r2ImagePattern] : []),
     ],
   },
   async headers() {

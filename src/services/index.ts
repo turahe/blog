@@ -1,5 +1,6 @@
 import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
+import { withDatabaseFallback } from '@/lib/db/fallback'
 import {
   postRepository,
   tagRepository,
@@ -14,14 +15,15 @@ import type { PostCore, GitHubRepo, ProjectItem, ExperienceItem, CategoryItem } 
 const isProduction = process.env.NODE_ENV === 'production'
 
 export const getPublishedPosts = cache(async (): Promise<PostCore[]> => {
-  return postRepository.findAllPublished()
+  return withDatabaseFallback(() => postRepository.findAllPublished(), [])
 })
 
 export const getAllPosts = cache(async (): Promise<PostCore[]> => {
-  if (isProduction) {
-    return postRepository.findAllPublished()
-  }
-  return postRepository.findAllIncludingDrafts()
+  return withDatabaseFallback(
+    () =>
+      isProduction ? postRepository.findAllPublished() : postRepository.findAllIncludingDrafts(),
+    []
+  )
 })
 
 export function sortPosts(posts: PostCore[]): PostCore[] {
@@ -34,39 +36,39 @@ export function coreContent<T extends PostCore>(post: T): Omit<T, 'body'> {
 }
 
 export const getPostBySlug = cache(async (slug: string) => {
-  return postRepository.findBySlug(slug)
+  return withDatabaseFallback(() => postRepository.findBySlug(slug), null)
 })
 
 export const getPostsByTag = cache(async (tagSlug: string) => {
-  return postRepository.findByTagSlug(tagSlug)
+  return withDatabaseFallback(() => postRepository.findByTagSlug(tagSlug), [])
 })
 
 export const getPostsByCategory = cache(async (categorySlug: string) => {
-  return postRepository.findByCategorySlug(categorySlug)
+  return withDatabaseFallback(() => postRepository.findByCategorySlug(categorySlug), [])
 })
 
 export const getPostsByAuthor = cache(async (authorSlug: string) => {
-  return postRepository.findByAuthorSlug(authorSlug)
+  return withDatabaseFallback(() => postRepository.findByAuthorSlug(authorSlug), [])
 })
 
 export const searchPosts = cache(async (query: string) => {
-  return postRepository.searchPublished(query)
+  return withDatabaseFallback(() => postRepository.searchPublished(query), [])
 })
 
 export const getRelatedPosts = cache(async (slug: string) => {
-  return postRepository.findRelated(slug)
+  return withDatabaseFallback(() => postRepository.findRelated(slug), [])
 })
 
 export const getCategoryBySlug = cache(async (slug: string) => {
-  return categoryRepository.findBySlug(slug)
+  return withDatabaseFallback(() => categoryRepository.findBySlug(slug), null)
 })
 
 export const getCategoriesWithCounts = cache(async (): Promise<CategoryItem[]> => {
-  return categoryRepository.findAllWithCounts()
+  return withDatabaseFallback(() => categoryRepository.findAllWithCounts(), [])
 })
 
 export const getAuthorsWithPosts = cache(async () => {
-  return authorRepository.findAllWithPosts()
+  return withDatabaseFallback(() => authorRepository.findAllWithPosts(), [])
 })
 
 export const getRecentPosts = cache(async (limit = 5) => {
@@ -80,19 +82,19 @@ export const getPopularPosts = cache(async (limit = 5) => {
 })
 
 export const getTagCounts = cache(async () => {
-  return tagRepository.getCounts()
+  return withDatabaseFallback(() => tagRepository.getCounts(), {})
 })
 
 export const getPostAuthors = cache(async (slug: string) => {
-  return postRepository.findAuthorsByPostSlug(slug)
+  return withDatabaseFallback(() => postRepository.findAuthorsByPostSlug(slug), [])
 })
 
 export const getAuthorBySlug = cache(async (slug: string) => {
-  return authorRepository.findBySlug(slug)
+  return withDatabaseFallback(() => authorRepository.findBySlug(slug), null)
 })
 
 export const getProjects = cache(async (): Promise<ProjectItem[]> => {
-  const projects = await projectRepository.findAll()
+  const projects = await withDatabaseFallback(() => projectRepository.findAll(), [])
   return projects.map((p) => ({
     id: p.id,
     title: p.title,
@@ -103,7 +105,7 @@ export const getProjects = cache(async (): Promise<ProjectItem[]> => {
 })
 
 export const getExperience = cache(async (): Promise<ExperienceItem[]> => {
-  const items = await experienceRepository.findAll()
+  const items = await withDatabaseFallback(() => experienceRepository.findAll(), [])
   return items.map((e) => ({
     id: e.id,
     title: e.title,
@@ -159,17 +161,17 @@ async function fetchGitHubReposFromApi(): Promise<GitHubRepo[]> {
 export const getGitHubRepos = unstable_cache(
   async (): Promise<GitHubRepo[]> => {
     try {
-      const cached = await githubCacheRepository.get()
+      const cached = await withDatabaseFallback(() => githubCacheRepository.get(), null)
       if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_DURATION_MS) {
         return cached.data as GitHubRepo[]
       }
 
       const repos = await fetchGitHubReposFromApi()
-      await githubCacheRepository.set(repos)
+      await withDatabaseFallback(() => githubCacheRepository.set(repos), undefined)
       return repos
     } catch (error) {
       console.error('Error fetching GitHub repositories:', error)
-      const cached = await githubCacheRepository.get()
+      const cached = await withDatabaseFallback(() => githubCacheRepository.get(), null)
       if (cached) {
         return cached.data as GitHubRepo[]
       }

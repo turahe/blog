@@ -19,12 +19,12 @@ const LEGACY_IMAGE_TYPES = new Set([
 ])
 
 function getClient() {
-  const { endpoint, accessKey, secretKey, region } = getStorageConfig()
+  const { endpoint, accessKey, secretKey, region, forcePathStyle } = getStorageConfig()
   return new S3Client({
     endpoint,
     region,
     credentials: { accessKeyId: accessKey, secretAccessKey: secretKey },
-    forcePathStyle: true,
+    forcePathStyle,
   })
 }
 

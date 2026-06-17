@@ -128,7 +128,7 @@ export const advancedSettingsSchema = z.object({
   'advanced.header_scripts': z.string().max(50000),
   'advanced.footer_scripts': z.string().max(50000),
   'advanced.custom_css': z.string().max(50000),
-  'storage.driver': z.enum(['minio', 'local']),
+  'storage.driver': z.enum(['minio', 'r2', 'local']),
 })
 
 export const SECTION_SCHEMAS = {

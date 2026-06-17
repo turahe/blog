@@ -62,7 +62,7 @@
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:install": "playwright install",
     "test:e2e:report": "playwright show-report",
-    "prepare": "node -e \"if (process.env.CI || process.env.VERCEL) process.exit(0)\" && husky"
+    "prepare": "node -e \"process.exit(process.env.CI || process.env.VERCEL || process.env.HUSKY === '0' ? 0 : 1)\" || husky"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1069.0",

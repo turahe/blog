@@ -1,5 +1,6 @@
 import { cache } from 'react'
 import prisma from '@/lib/db/prisma'
+import { withDatabaseFallback } from '@/lib/db/fallback'
 import { settingRepository } from '../repositories'
 import type {
   AdvancedSystemInfo,
@@ -10,8 +11,15 @@ import type {
 
 import { SETTINGS_DEFAULTS } from '../config/defaults'
 
+function getDefaultSettingsMap(): SettingsMap {
+  return Object.fromEntries(SETTINGS_DEFAULTS.map((def) => [def.key, def.value]))
+}
+
 export const getSettingsMap = cache(async (): Promise<SettingsMap> => {
-  const map = await settingRepository.findAllMap()
+  const map = await withDatabaseFallback(
+    () => settingRepository.findAllMap(),
+    getDefaultSettingsMap()
+  )
   for (const def of SETTINGS_DEFAULTS) {
     if (!(def.key in map)) map[def.key] = def.value
   }
