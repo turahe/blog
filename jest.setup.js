@@ -35,6 +35,36 @@ import '@testing-library/jest-dom'
 
 /* eslint-env jest */
 
+// Mock Next.js Link — prevent jsdom navigation errors on click
+jest.mock('next/link', () => {
+  const React = require('react')
+
+  function MockLink({ href, onClick, children, ...rest }) {
+    const resolvedHref =
+      typeof href === 'object' && href !== null
+        ? `${href.pathname ?? ''}${href.search ?? ''}${href.hash ?? ''}`
+        : href
+
+    return React.createElement(
+      'a',
+      {
+        ...rest,
+        href: resolvedHref,
+        onClick: (event) => {
+          event.preventDefault()
+          onClick?.(event)
+        },
+      },
+      children
+    )
+  }
+
+  return {
+    __esModule: true,
+    default: MockLink,
+  }
+})
+
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
   useRouter() {

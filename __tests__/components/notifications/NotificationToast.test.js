@@ -32,7 +32,7 @@ describe('NotificationToast', () => {
   })
 
   test('uses link for view when href is set', async () => {
-    const onView = jest.fn((event) => event.preventDefault())
+    const onView = jest.fn()
     render(
       React.createElement(NotificationToast, {
         item: baseItem,
@@ -41,9 +41,7 @@ describe('NotificationToast', () => {
       })
     )
 
-    const viewLink = screen.getByRole('link', { name: 'View' })
-    viewLink.addEventListener('click', (event) => event.preventDefault())
-    await userEvent.click(viewLink)
+    await userEvent.click(screen.getByRole('link', { name: 'View' }))
     expect(onView).toHaveBeenCalledTimes(1)
   })
 
