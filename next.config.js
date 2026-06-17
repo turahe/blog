@@ -1,17 +1,13 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is analytics.wach.id va.vercel-scripts.com;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' analytics.umami.is analytics.wach.id va.vercel-scripts.com;
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   media-src 'self' data: blob: *.s3.amazonaws.com;
   connect-src *;
   font-src 'self';
-  frame-src giscus.app
+  frame-src 'self'
 `
 
 const securityHeaders = [
@@ -50,36 +46,37 @@ const basePath = process.env.BASE_PATH || undefined
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
-module.exports = () => {
-  const plugins = [withBundleAnalyzer]
-  return plugins.reduce((acc, next) => next(acc), {
-    basePath,
-    reactStrictMode: true,
-    trailingSlash: false,
-    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: 'picsum.photos',
-        },
-      ],
-    },
-    async headers() {
-      return [
-        {
-          source: '/(.*)',
-          headers: securityHeaders,
-        },
-      ]
-    },
-    turbopack: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+module.exports = {
+  basePath,
+  reactStrictMode: true,
+  trailingSlash: false,
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
       },
-    },
-  })
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '9000',
+        pathname: '/blog-media/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'minio',
+        port: '9000',
+        pathname: '/blog-media/**',
+      },
+    ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: securityHeaders,
+      },
+    ]
+  },
 }

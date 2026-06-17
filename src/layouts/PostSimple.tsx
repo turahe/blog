@@ -32,25 +32,34 @@
  */
 
 import { ReactNode } from 'react'
-import { formatDate } from 'pliny/utils/formatDate'
-import type { PostCore } from '@/types/post'
-import Comments from '@/components/Comments'
+import { formatDate } from '@/lib/formatDate'
+import type { PostCore, AuthorCore } from '@/types/post'
+import { CommentSection } from '@/components/comments/CommentSection'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import PlayMusic from '@/components/PlayMusic'
-import siteMetadata from '@/data/siteMetadata'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 interface LayoutProps {
   content: PostCore
+  authorDetails?: AuthorCore[]
   children: ReactNode
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
   musicFile?: string
+  shareUrl?: string
 }
 
-export default function PostLayout({ content, next, prev, children, musicFile }: LayoutProps) {
+export default async function PostLayout({
+  content,
+  next,
+  prev,
+  children,
+  musicFile,
+}: LayoutProps) {
+  const siteMetadata = await getSiteMetadata()
   const { slug, date, title, readingTime, wordCount } = content
 
   return (
@@ -82,9 +91,9 @@ export default function PostLayout({ content, next, prev, children, musicFile }:
               {musicFile && <PlayMusic musicFile={musicFile} />}
               <div className="prose dark:prose-invert max-w-none pt-10 pb-8">{children}</div>
             </div>
-            {siteMetadata.comments && (
+            {siteMetadata.comments.enabled && (
               <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-                <Comments slug={slug} />
+                <CommentSection postSlug={slug} />
               </div>
             )}
             <footer>

@@ -1,7 +1,6 @@
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import { remarkAlert } from 'remark-github-blockquote-alert'
-import { remarkCodeTitles, remarkImgToJsx } from 'pliny/mdx-plugins/index.js'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
@@ -10,7 +9,7 @@ import rehypePrismPlus from 'rehype-prism-plus'
 
 export function getMdxOptions() {
   return {
-    remarkPlugins: [remarkGfm, remarkCodeTitles, remarkMath, remarkImgToJsx, remarkAlert],
+    remarkPlugins: [remarkGfm, remarkMath, remarkAlert],
     rehypePlugins: [
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: 'wrap' }],

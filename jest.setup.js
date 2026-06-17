@@ -78,20 +78,27 @@ jest.mock('rough-notation', () => ({
   })),
 }))
 
-// Mock pliny modules
-jest.mock('pliny/search/AlgoliaButton', () => {
+// Mock search components
+jest.mock('@/components/search/KBarButton', () => {
   const React = require('react')
   return {
-    __esModule: true,
-    AlgoliaButton: ({ children, ...props }) => React.createElement('button', props, children),
+    KBarButton: ({ children, ...props }) => React.createElement('button', props, children),
   }
 })
 
-jest.mock('pliny/search/KBarButton', () => {
-  const React = require('react')
+// Mock site metadata from database layer
+jest.mock('@/lib/site-metadata/get-site-metadata', () => {
+  const { mockSiteMetadata } = require('./__tests__/fixtures/siteMetadata')
   return {
-    __esModule: true,
-    KBarButton: ({ children, ...props }) => React.createElement('button', props, children),
+    getSiteMetadata: jest.fn(async () => mockSiteMetadata),
+  }
+})
+
+jest.mock('@/lib/site-metadata/provider', () => {
+  const { mockSiteMetadata } = require('./__tests__/fixtures/siteMetadata')
+  return {
+    useSiteMetadata: jest.fn(() => mockSiteMetadata),
+    SiteMetadataProvider: ({ children }) => children,
   }
 })
 

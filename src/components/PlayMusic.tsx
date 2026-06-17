@@ -34,7 +34,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { useTheme } from 'next-themes'
+import { useTheme } from '@/lib/theme/theme-provider'
 
 interface PlayMusicProps {
   musicFile: string

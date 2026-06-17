@@ -33,7 +33,7 @@
 
 const React = require('react')
 const { render, screen } = require('@testing-library/react')
-const siteMetadata = require('@/data/siteMetadata')
+const { mockSiteMetadata: siteMetadata } = require('../fixtures/siteMetadata')
 
 // Mock the main page component
 const MockHomePage = () => {

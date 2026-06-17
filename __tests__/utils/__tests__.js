@@ -31,7 +31,7 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import siteMetadata from '@/data/siteMetadata'
+import { mockSiteMetadata as siteMetadata } from '../fixtures/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 
 describe('Site Metadata', () => {
@@ -82,7 +82,11 @@ describe('Site Metadata', () => {
 
   test('should have valid comments configuration', () => {
     expect(siteMetadata).toHaveProperty('comments')
-    expect(typeof siteMetadata.comments).toBe('object')
+    expect(siteMetadata.comments).toMatchObject({
+      enabled: expect.any(Boolean),
+      requireApproval: expect.any(Boolean),
+      guestEnabled: expect.any(Boolean),
+    })
   })
 
   test('should have valid search configuration', () => {

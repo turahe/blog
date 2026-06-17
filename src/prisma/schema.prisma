@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
 }
 
 model Post {
@@ -15,7 +15,7 @@ model Post {
   lastmod            DateTime?
   draft              Boolean    @default(false)
   summary            String?    @db.Text
-  body               String     @db.LongText
+  body               String     @db.Text
   layout             String?    @default("PostLayout")
   music              String?
   bibliography       String?
@@ -26,67 +26,77 @@ model Post {
   toc                Json?
   path               String
   filePath           String?
+  categoryId         String?    @map("category_id")
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
+  category           Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   authors            PostAuthor[]
   tags               PostTag[]
+  comments           Comment[]
 
   @@index([date])
   @@index([draft])
-}
-
-model Author {
-  id         String       @id @default(cuid())
-  slug       String       @unique
-  name       String
-  avatar     String?
-  occupation String?
-  company    String?
-  email      String?
-  twitter    String?
-  bluesky    String?
-  linkedin   String?
-  github     String?
-  body       String       @db.LongText
-  layout     String?
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  posts      PostAuthor[]
+  @@index([categoryId])
+  @@map("posts")
 }
 
 model PostAuthor {
-  postId   String
-  authorId String
-  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author   Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  postId String @map("post_id")
+  userId String @map("user_id")
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([postId, authorId])
+  @@id([postId, userId])
+  @@map("post_authors")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?  @db.Text
+  imageUrl    String?  @map("image_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  posts       Post[]
+
+  @@map("categories")
 }
 
 model Tag {
-  id    String    @id @default(cuid())
-  slug  String    @unique
-  name  String
-  posts PostTag[]
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?   @db.Text
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  posts       PostTag[]
+
+  @@map("tags")
 }
 
 model PostTag {
-  postId String
-  tagId  String
-  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  postId String @map("post_id")
+  tagId  String @map("tag_id")
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@id([postId, tagId])
   @@index([tagId])
+  @@map("post_tags")
 }
 
 model Project {
-  id          String @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String
-  description String @db.Text
-  imgSrc      String
+  description String   @db.Text
+  imgSrc      String   @map("img_src")
   href        String
-  sortOrder   Int    @default(0)
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("projects")
 }
 
 model Experience {
@@ -98,10 +108,387 @@ model Experience {
   url       String?
   text      Json
   sortOrder Int    @default(0)
+
+  @@map("experiences")
 }
 
 model GitHubRepoCache {
   id        String   @id @default("default")
   data      Json
   fetchedAt DateTime @default(now())
+
+  @@map("github_repo_cache")
+}
+
+// ─── Auth & RBAC ───────────────────────────────────────────────────────────
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String     @map("password_hash")
+  fullName     String     @map("full_name")
+  avatar       String?
+  slug         String?    @unique
+  occupation   String?
+  company      String?
+  twitter      String?
+  bluesky      String?
+  linkedin     String?
+  github       String?
+  bio          String?    @db.Text
+  website      String?
+  location     String?
+  layout       String?
+  status       UserStatus @default(ACTIVE)
+  lastLoginAt  DateTime?  @map("last_login_at")
+  passwordChangedAt DateTime? @map("password_changed_at")
+  mfaEnabled   Boolean    @default(false) @map("mfa_enabled")
+  mfaSecret    String?    @map("mfa_secret")
+  mfaRecoveryCodes Json?  @map("mfa_recovery_codes")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  createdById  String?    @map("created_by_id")
+  updatedById  String?    @map("updated_by_id")
+  deletedAt    DateTime?  @map("deleted_at")
+
+  createdBy User?  @relation("UserCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy User?  @relation("UserUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  created   User[] @relation("UserCreatedBy")
+  updated   User[] @relation("UserUpdatedBy")
+
+  sessions    Session[]
+  userRoles   UserRole[]
+  auditLogs   AuditLog[] @relation("AuditActor")
+  failedLogins FailedLogin[]
+  postAuthors PostAuthor[]
+  media       Media[]
+  comments    Comment[]
+  preferences UserPreference?
+  securityLogs UserSecurityLog[]
+  notifications Notification[]
+
+  @@index([status])
+  @@index([deletedAt])
+  @@index([slug])
+  @@map("users")
+}
+
+model Role {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?   @db.Text
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  createdById String?   @map("created_by_id")
+  updatedById String?   @map("updated_by_id")
+  deletedAt   DateTime? @map("deleted_at")
+
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+
+  @@index([deletedAt])
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?  @db.Text
+  group       String   @default("general")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  rolePermissions RolePermission[]
+
+  @@index([group])
+  @@map("permissions")
+}
+
+model UserRole {
+  userId String @map("user_id")
+  roleId String @map("role_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  roleId       String @map("role_id")
+  permissionId String @map("permission_id")
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  tokenHash    String   @unique @map("token_hash")
+  expiresAt    DateTime @map("expires_at")
+  remember     Boolean  @default(false)
+  ip           String?
+  userAgent    String?  @map("user_agent") @db.Text
+  deviceLabel  String?  @map("device_label")
+  browser      String?
+  os           String?
+  location     String?
+  lastActiveAt DateTime @default(now()) @map("last_active_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([lastActiveAt])
+  @@map("sessions")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?  @map("actor_id")
+  entity    String
+  entityId  String?  @map("entity_id")
+  action    String
+  before    Json?
+  after     Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  actor User? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entity, entityId])
+  @@index([actorId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  type      String   @default("string")
+  group     String   @default("general")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([group])
+  @@map("settings")
+}
+
+model FailedLogin {
+  id        String   @id @default(cuid())
+  email     String
+  ip        String?
+  userAgent String?  @map("user_agent") @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  userId    String?  @map("user_id")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([email, createdAt])
+  @@index([ip, createdAt])
+  @@map("failed_logins")
+}
+
+model RequestLog {
+  id         String   @id @default(cuid())
+  method     String
+  path       String
+  statusCode Int      @map("status_code")
+  durationMs Int      @map("duration_ms")
+  ip         String?
+  userAgent  String?  @map("user_agent") @db.Text
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@index([path])
+  @@map("request_logs")
+}
+
+model MediaFolder {
+  id        String        @id @default(cuid())
+  name      String
+  slug      String
+  parentId  String?       @map("parent_id")
+  parent    MediaFolder?  @relation("MediaFolderTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children  MediaFolder[] @relation("MediaFolderTree")
+  media     Media[]
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@unique([parentId, slug])
+  @@index([parentId])
+  @@map("media_folders")
+}
+
+model MediaTag {
+  id        String            @id @default(cuid())
+  name      String            @unique
+  slug      String            @unique
+  createdAt DateTime          @default(now()) @map("created_at")
+  media     MediaTagOnMedia[]
+
+  @@map("media_tags")
+}
+
+model MediaTagOnMedia {
+  mediaId String @map("media_id")
+  tagId   String @map("tag_id")
+  media   Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  tag     MediaTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([mediaId, tagId])
+  @@map("media_tag_assignments")
+}
+
+model Media {
+  id           String            @id @default(cuid())
+  key          String            @unique
+  url          String
+  filename     String
+  originalName String?           @map("original_name")
+  mimeType     String            @map("mime_type")
+  extension    String?
+  size         Int
+  width        Int?
+  height       Int?
+  alt          String?
+  altText      String?           @map("alt_text")
+  title        String?
+  caption      String?           @db.Text
+  description  String?           @db.Text
+  folder       String            @default("media")
+  folderId     String?           @map("folder_id")
+  variants     Json?
+  uploadedById String?           @map("uploaded_by_id")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  folderRef  MediaFolder?      @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  uploadedBy User?             @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  tags       MediaTagOnMedia[]
+
+  @@index([createdAt])
+  @@index([folderId])
+  @@index([mimeType])
+  @@index([uploadedById])
+  @@map("media")
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  SPAM
+  TRASH
+}
+
+model Comment {
+  id          String        @id @default(cuid())
+  postId      String        @map("post_id")
+  parentId    String?       @map("parent_id")
+  userId      String?       @map("user_id")
+  authorName  String        @map("author_name")
+  authorEmail String?       @map("author_email")
+  content     String        @db.Text
+  status      CommentStatus @default(PENDING)
+  ip          String?
+  userAgent   String?       @map("user_agent") @db.Text
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  post    Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parent  Comment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+  user    User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([postId, status, createdAt])
+  @@index([parentId])
+  @@index([userId])
+  @@index([status, createdAt])
+  @@map("comments")
+}
+
+enum SecurityEventType {
+  PASSWORD_CHANGE
+  MFA_ENABLED
+  MFA_DISABLED
+  EMAIL_CHANGE
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  SESSION_REVOKED
+  ACCOUNT_EXPORT
+  ACCOUNT_DELETE
+}
+
+model UserPreference {
+  id                 String   @id @default(cuid())
+  userId             String   @unique @map("user_id")
+  appearance         String   @default("system")
+  editorMode         String   @default("markdown") @map("editor_mode")
+  defaultLandingPage String   @default("/admin") @map("default_landing_page")
+  sidebarCollapsed   Boolean  @default(false) @map("sidebar_collapsed")
+  autosaveInterval   Int      @default(60) @map("autosave_interval")
+  defaultPostStatus  String   @default("draft") @map("default_post_status")
+  emailNotifications Json     @default("{}") @map("email_notifications")
+  inAppNotifications Json     @default("{}") @map("in_app_notifications")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
+
+model UserSecurityLog {
+  id        String            @id @default(cuid())
+  userId    String            @map("user_id")
+  eventType SecurityEventType @map("event_type")
+  ip        String?
+  userAgent String?           @map("user_agent") @db.Text
+  metadata  Json?
+  createdAt DateTime          @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([eventType])
+  @@map("user_security_logs")
+}
+
+enum NotificationCategory {
+  content
+  user
+  security
+  system
+}
+
+model Notification {
+  id        String               @id @default(cuid())
+  userId    String               @map("user_id")
+  type      String
+  category  NotificationCategory
+  title     String
+  message   String               @db.Text
+  data      Json?
+  readAt    DateTime?            @map("read_at")
+  createdAt DateTime             @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt, createdAt])
+  @@index([userId, category, createdAt])
+  @@index([userId, createdAt])
+  @@map("notifications")
 }

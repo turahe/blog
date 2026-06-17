@@ -4,7 +4,9 @@ import { getAuthorBySlug, getExperience } from '@/services'
 import { genPageMetadata } from '@/app/seo'
 import { notFound } from 'next/navigation'
 
-export const metadata = genPageMetadata({ title: 'About' })
+export async function generateMetadata() {
+  return genPageMetadata({ title: 'About' })
+}
 export const revalidate = 3600
 
 export default async function Page() {

@@ -1,42 +1,39 @@
-FROM node:22-alpine AS base
-ENV YARN_VERSION=4.9.1
-RUN apk add --no-cache libc6-compat
+FROM node:lts-alpine AS base
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
-RUN corepack enable && corepack prepare yarn@${YARN_VERSION} --activate
-# add the user and group we'll need in our final image
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+FROM base AS deps
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci --ignore-scripts
 
-COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn ./.yarn
-RUN yarn install --immutable
+FROM base AS dev
+WORKDIR /app
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci --ignore-scripts
+COPY . .
 EXPOSE 3000
+CMD ["npm", "run", "docker:dev"]
 
 FROM base AS builder
 WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN yarn build
+ENV DATABASE_URL="postgresql://blog:blogpassword@db:5432/blog"
+RUN npx prisma generate
+RUN npm run build
 
 FROM base AS production
 WORKDIR /app
-
 ENV NODE_ENV=production
-RUN yarn install --frozen-lockfile
 
-# RUN addgroup -g 1001 -S nodejs
-# RUN adduser -S nextjs -u 1001
-# USER nextjs
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/package.json /app/package-lock.json ./
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/src/generated ./src/generated
+COPY --from=builder /app/src/prisma ./src/prisma
+COPY --from=builder /app/prisma.config.ts ./
+COPY --from=builder /app/next.config.js ./
 
-CMD ["yarn", "start"]
-
-FROM base AS dev
-ENV NODE_ENV=development
-RUN yarn install
-COPY . .
-CMD ["yarn", "dev"]
+EXPOSE 3000
+CMD ["npm", "run", "serve"]

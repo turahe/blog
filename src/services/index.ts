@@ -3,12 +3,13 @@ import { unstable_cache } from 'next/cache'
 import {
   postRepository,
   tagRepository,
+  categoryRepository,
   authorRepository,
   projectRepository,
   experienceRepository,
   githubCacheRepository,
 } from '@/repositories'
-import type { PostCore, GitHubRepo, ProjectItem, ExperienceItem } from '@/types/post'
+import type { PostCore, GitHubRepo, ProjectItem, ExperienceItem, CategoryItem } from '@/types/post'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -40,8 +41,50 @@ export const getPostsByTag = cache(async (tagSlug: string) => {
   return postRepository.findByTagSlug(tagSlug)
 })
 
+export const getPostsByCategory = cache(async (categorySlug: string) => {
+  return postRepository.findByCategorySlug(categorySlug)
+})
+
+export const getPostsByAuthor = cache(async (authorSlug: string) => {
+  return postRepository.findByAuthorSlug(authorSlug)
+})
+
+export const searchPosts = cache(async (query: string) => {
+  return postRepository.searchPublished(query)
+})
+
+export const getRelatedPosts = cache(async (slug: string) => {
+  return postRepository.findRelated(slug)
+})
+
+export const getCategoryBySlug = cache(async (slug: string) => {
+  return categoryRepository.findBySlug(slug)
+})
+
+export const getCategoriesWithCounts = cache(async (): Promise<CategoryItem[]> => {
+  return categoryRepository.findAllWithCounts()
+})
+
+export const getAuthorsWithPosts = cache(async () => {
+  return authorRepository.findAllWithPosts()
+})
+
+export const getRecentPosts = cache(async (limit = 5) => {
+  const posts = await getPublishedPosts()
+  return sortPosts(posts).slice(0, limit)
+})
+
+export const getPopularPosts = cache(async (limit = 5) => {
+  const posts = await getPublishedPosts()
+  return sortPosts(posts).slice(0, limit)
+})
+
 export const getTagCounts = cache(async () => {
   return tagRepository.getCounts()
+})
+
+export const getPostAuthors = cache(async (slug: string) => {
+  return postRepository.findAuthorsByPostSlug(slug)
 })
 
 export const getAuthorBySlug = cache(async (slug: string) => {

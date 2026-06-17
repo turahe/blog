@@ -33,25 +33,34 @@
 
 import { ReactNode } from 'react'
 import Image from '@/components/Image'
-import Bleed from 'pliny/ui/Bleed'
-import type { PostCore } from '@/types/post'
-import Comments from '@/components/Comments'
+import Bleed from '@/components/ui/Bleed'
+import type { PostCore, AuthorCore } from '@/types/post'
+import { CommentSection } from '@/components/comments/CommentSection'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import PlayMusic from '@/components/PlayMusic'
-import siteMetadata from '@/data/siteMetadata'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 interface LayoutProps {
   content: PostCore
+  authorDetails?: AuthorCore[]
   children: ReactNode
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
   musicFile?: string
+  shareUrl?: string
 }
 
-export default function PostMinimal({ content, next, prev, children, musicFile }: LayoutProps) {
+export default async function PostMinimal({
+  content,
+  next,
+  prev,
+  children,
+  musicFile,
+}: LayoutProps) {
+  const siteMetadata = await getSiteMetadata()
   const { slug, title, images, date, readingTime, wordCount } = content
   const displayImage =
     images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
@@ -87,9 +96,9 @@ export default function PostMinimal({ content, next, prev, children, musicFile }
           </div>
           {musicFile && <PlayMusic musicFile={musicFile} />}
           <div className="prose dark:prose-invert max-w-none py-4">{children}</div>
-          {siteMetadata.comments && (
+          {siteMetadata.comments.enabled && (
             <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-              <Comments slug={slug} />
+              <CommentSection postSlug={slug} />
             </div>
           )}
           <footer>

@@ -212,6 +212,8 @@ lighthouse-report.json
 # ===========================================
 # Docker
 # ===========================================
+.docker/*
+!.docker/.gitkeep
 .dockerignore
 docker-compose.override.yml
 
@@ -382,8 +384,9 @@ Icon
 .nfs*
 
 # ===========================================
-# Project Specific
+# Prisma generated client
 # ===========================================
+src/generated/
 # Add any project-specific files here
 
 .vercel

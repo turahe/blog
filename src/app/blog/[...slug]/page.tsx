@@ -3,15 +3,18 @@ import 'katex/dist/katex.css'
 
 import { components } from '@/components/MDXComponents'
 import { MdxContent } from '@/components/MdxContent'
-import { sortPosts, getAllPosts, getPostBySlug, getAuthorBySlug } from '@/services'
-import type { AuthorCore, PostCore } from '@/types/post'
+import { sortPosts, getAllPosts, getPostBySlug, getPostAuthors, getRelatedPosts } from '@/services'
+import type { PostCore } from '@/types/post'
 import PostSimple from '@/layouts/PostSimple'
 import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
 import SocialShare from '@/components/SocialShare'
+import { RelatedPosts } from '@/components/blog/RelatedPosts'
+import { BreadcrumbJsonLd } from '@/components/blog/BreadcrumbJsonLd'
 import { Metadata } from 'next'
-import siteMetadata from '@/data/siteMetadata'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import { notFound } from 'next/navigation'
+import { getPostFeaturedImage } from '@/lib/blog/post-images'
 
 const defaultLayout = 'PostLayout' as const
 const layouts = {
@@ -32,16 +35,13 @@ export async function generateMetadata(props: {
   const post = await getPostBySlug(slug)
   if (!post) return
 
-  const authorList = post.tags ? ['default'] : ['default']
-  const authorDetails: AuthorCore[] = []
-  for (const authorSlug of authorList) {
-    const author = await getAuthorBySlug(authorSlug)
-    if (author) authorDetails.push(author)
-  }
-
+  const siteMetadata = await getSiteMetadata()
+  const authorDetails = await getPostAuthors(slug)
   const publishedAt = new Date(post.date).toISOString()
   const modifiedAt = new Date(post.lastmod || post.date).toISOString()
   const authors = authorDetails.map((author) => author.name)
+  const canonical = post.canonicalUrl ?? `${siteMetadata.siteUrl}/blog/${post.slug}`
+
   let imageList = [siteMetadata.socialBanner]
   if (post.images) {
     imageList = typeof post.images === 'string' ? [post.images] : post.images
@@ -53,15 +53,16 @@ export async function generateMetadata(props: {
   return {
     title: post.title,
     description: post.summary,
+    alternates: { canonical },
     openGraph: {
       title: post.title,
       description: post.summary,
       siteName: siteMetadata.title,
-      locale: 'en_US',
+      locale: siteMetadata.locale?.replace('-', '_') ?? 'en_US',
       type: 'article',
       publishedTime: publishedAt,
       modifiedTime: modifiedAt,
-      url: './',
+      url: canonical,
       images: ogImages,
       authors: authors.length > 0 ? authors : [siteMetadata.author],
     },
@@ -91,9 +92,14 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
   const post = await getPostBySlug(slug)
   if (!post) return notFound()
 
-  const authorDetails: AuthorCore[] = []
-  const defaultAuthor = await getAuthorBySlug('default')
-  if (defaultAuthor) authorDetails.push(defaultAuthor)
+  const siteMetadata = await getSiteMetadata()
+  const [authorDetails, relatedPosts] = await Promise.all([
+    getPostAuthors(slug),
+    getRelatedPosts(slug),
+  ])
+
+  const shareUrl = `${siteMetadata.siteUrl}/blog/${post.slug}`
+  const featuredImage = getPostFeaturedImage(post.images)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -102,17 +108,26 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
     datePublished: post.date,
     dateModified: post.lastmod || post.date,
     description: post.summary,
-    image: post.images
-      ? Array.isArray(post.images)
-        ? post.images[0]
-        : post.images
+    image: featuredImage
+      ? featuredImage.includes('http')
+        ? featuredImage
+        : `${siteMetadata.siteUrl}${featuredImage}`
       : siteMetadata.socialBanner,
-    url: `${siteMetadata.siteUrl}/${post.path}`,
+    url: post.canonicalUrl ?? shareUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': post.canonicalUrl ?? shareUrl },
     author: authorDetails.map((author) => ({
       '@type': 'Person',
       name: author.name,
+      url: `${siteMetadata.siteUrl}/author/${author.slug}`,
     })),
+    articleSection: post.category,
+    keywords: post.tags?.join(', '),
+    wordCount: post.wordCount,
     timeRequired: `PT${post.readingTime.minutes}M`,
+    publisher: {
+      '@type': 'Organization',
+      name: siteMetadata.title,
+    },
   }
 
   const layoutName = (post.layout || defaultLayout) as LayoutName
@@ -124,20 +139,31 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <BreadcrumbJsonLd
+        items={[
+          { label: 'Blog', href: '/blog' },
+          ...(post.category && post.categorySlug
+            ? [{ label: post.category, href: `/category/${post.categorySlug}` }]
+            : []),
+          { label: post.title },
+        ]}
+      />
       <Layout
         content={post}
         authorDetails={authorDetails}
         next={next}
         prev={prev}
         musicFile={post.music}
+        shareUrl={shareUrl}
       >
         <MdxContent source={post.body} components={components} />
         <SocialShare
-          url={`${siteMetadata.siteUrl}/blog/${post.slug}`}
+          url={shareUrl}
           title={post.title}
           description={post.summary}
           hashtags={post.tags || []}
         />
+        <RelatedPosts posts={relatedPosts} />
       </Layout>
     </>
   )

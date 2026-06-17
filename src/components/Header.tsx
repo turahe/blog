@@ -34,7 +34,7 @@
 'use client'
 
 import React from 'react'
-import siteMetadata from '@/data/siteMetadata'
+import { useSiteMetadata } from '@/lib/site-metadata/provider'
 import headerNavLinks from '@/data/headerNavLinks'
 import Link from './Link'
 import MobileNav from './MobileNav'
@@ -44,6 +44,7 @@ import SearchButton from './SearchButton'
 import { usePathname } from 'next/navigation'
 
 const Header = () => {
+  const siteMetadata = useSiteMetadata()
   const pathname = usePathname()
   return (
     <header className="flex items-center justify-between py-10">

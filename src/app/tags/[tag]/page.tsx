@@ -1,7 +1,7 @@
-import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayoutWithTagsWrapper'
 import { getPostsByTag } from '@/services'
 import { genPageMetadata } from '@/app/seo'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import { Metadata } from 'next'
 
 const POSTS_PER_PAGE = 5
@@ -13,6 +13,7 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
   const params = await props.params
   const tag = decodeURI(params.tag)
+  const siteMetadata = await getSiteMetadata()
   return genPageMetadata({
     title: tag,
     description: `${siteMetadata.title} ${tag} tagged content`,
@@ -43,6 +44,8 @@ export default async function TagPage(props: { params: Promise<{ tag: string }> 
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
       title={title}
+      basePath={`/tags/${tag}`}
+      activeTag={tag}
     />
   )
 }

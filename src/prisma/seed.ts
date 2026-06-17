@@ -1,4 +1,6 @@
-import { PrismaClient, Prisma } from '@prisma/client'
+import { createHash } from 'crypto'
+import type { Prisma } from '@/lib/db/prisma'
+import prisma from '@/lib/db/prisma'
 import { promises as fs } from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -7,8 +9,9 @@ import { slug as slugify } from 'github-slugger'
 import { extractToc } from '../lib/mdx/toc'
 import projectsData from '../data/projectsData'
 import experienceData from '../data/experienceData'
-
-const prisma = new PrismaClient()
+import { hashPassword } from '../lib/auth/password'
+import { PERMISSIONS, ROLES } from '../lib/rbac/permissions-list'
+import { SETTINGS_DEFAULTS } from '../modules/settings/config/defaults'
 
 const blogDir = path.join(process.cwd(), 'src/data/blog')
 const authorsDir = path.join(process.cwd(), 'src/data/authors')
@@ -55,50 +58,60 @@ async function getToc(content: string) {
   return extractToc(content)
 }
 
-async function seedAuthors() {
+function authorPlaceholderPassword() {
+  return createHash('sha256').update('author-profile-no-login').digest('hex')
+}
+
+async function seedAuthorProfiles() {
   const files = await fs.readdir(authorsDir)
+  const placeholderHash = await hashPassword(authorPlaceholderPassword())
+
   for (const file of files) {
     if (!file.endsWith('.mdx')) continue
     const raw = await fs.readFile(path.join(authorsDir, file), 'utf-8')
     const { data, content } = parseMdxFile(raw)
     const authorSlug = file.replace(/\.mdx$/, '')
+    const email = (data.email as string) || `${authorSlug}@authors.local`
 
-    await prisma.author.upsert({
-      where: { slug: authorSlug },
-      create: {
-        slug: authorSlug,
-        name: data.name,
-        avatar: data.avatar,
-        occupation: data.occupation,
-        company: data.company,
-        email: data.email,
-        twitter: data.twitter,
-        bluesky: data.bluesky,
-        linkedin: data.linkedin,
-        github: data.github,
-        body: content,
-        layout: data.layout,
-      },
-      update: {
-        name: data.name,
-        avatar: data.avatar,
-        occupation: data.occupation,
-        company: data.company,
-        email: data.email,
-        twitter: data.twitter,
-        bluesky: data.bluesky,
-        linkedin: data.linkedin,
-        github: data.github,
-        body: content,
-        layout: data.layout,
-      },
+    const existing = await prisma.user.findFirst({
+      where: { OR: [{ slug: authorSlug }, { email }] },
     })
+
+    const profile = {
+      slug: authorSlug,
+      fullName: data.name as string,
+      avatar: (data.avatar as string) || null,
+      occupation: (data.occupation as string) || null,
+      company: (data.company as string) || null,
+      twitter: (data.twitter as string) || null,
+      bluesky: (data.bluesky as string) || null,
+      linkedin: (data.linkedin as string) || null,
+      github: (data.github as string) || null,
+      bio: content,
+      layout: (data.layout as string) || null,
+    }
+
+    if (existing) {
+      await prisma.user.update({
+        where: { id: existing.id },
+        data: profile,
+      })
+    } else {
+      await prisma.user.create({
+        data: {
+          email,
+          passwordHash: placeholderHash,
+          status: 'ACTIVE',
+          ...profile,
+        },
+      })
+    }
   }
 }
 
 async function seedPosts() {
   const files = await fs.readdir(blogDir)
-  const defaultAuthor = await prisma.author.findUnique({ where: { slug: 'default' } })
+  const defaultAuthor = await prisma.user.findFirst({ where: { slug: 'default' } })
 
   for (const file of files) {
     if (!file.endsWith('.mdx')) continue
@@ -152,14 +165,14 @@ async function seedPosts() {
     const authorSlugs: string[] = data.authors || ['default']
     await prisma.postAuthor.deleteMany({ where: { postId: post.id } })
     for (const authorSlug of authorSlugs) {
-      const author = await prisma.author.findUnique({ where: { slug: authorSlug } })
-      if (author) {
+      const user = await prisma.user.findFirst({ where: { slug: authorSlug } })
+      if (user) {
         await prisma.postAuthor.create({
-          data: { postId: post.id, authorId: author.id },
+          data: { postId: post.id, userId: user.id },
         })
       } else if (defaultAuthor) {
         await prisma.postAuthor.create({
-          data: { postId: post.id, authorId: defaultAuthor.id },
+          data: { postId: post.id, userId: defaultAuthor.id },
         })
       }
     }
@@ -213,15 +226,115 @@ async function seedExperience() {
   }
 }
 
+async function seedAuth() {
+  console.log('Seeding permissions...')
+  const permissionRecords = await Promise.all(
+    PERMISSIONS.map((p) =>
+      prisma.permission.upsert({
+        where: { slug: p.slug },
+        create: { slug: p.slug, name: p.name, group: p.group },
+        update: { name: p.name, group: p.group },
+      })
+    )
+  )
+
+  console.log('Seeding roles...')
+  const roleRecords = await Promise.all(
+    ROLES.map((r) =>
+      prisma.role.upsert({
+        where: { slug: r.slug },
+        create: { slug: r.slug, name: r.name, description: r.description },
+        update: { name: r.name, description: r.description },
+      })
+    )
+  )
+
+  const superadminRole = roleRecords.find((r) => r.slug === 'superadmin')!
+  const adminRole = roleRecords.find((r) => r.slug === 'admin')!
+  const operatorRole = roleRecords.find((r) => r.slug === 'operator')!
+
+  const allPermissionIds = permissionRecords.map((p) => p.id)
+  const adminPermissionIds = permissionRecords
+    .filter(
+      (p) =>
+        ![
+          'users.delete',
+          'roles.delete',
+          'posts.delete',
+          'projects.delete',
+          'tags.delete',
+          'categories.delete',
+        ].includes(p.slug)
+    )
+    .map((p) => p.id)
+  const operatorPermissionIds = permissionRecords
+    .filter((p) =>
+      [
+        'dashboard.view',
+        'users.view',
+        'audit.view',
+        'posts.view',
+        'projects.view',
+        'tags.view',
+        'categories.view',
+        'media.view',
+      ].includes(p.slug)
+    )
+    .map((p) => p.id)
+
+  for (const [role, permIds] of [
+    [superadminRole, allPermissionIds],
+    [adminRole, adminPermissionIds],
+    [operatorRole, operatorPermissionIds],
+  ] as const) {
+    await prisma.rolePermission.deleteMany({ where: { roleId: role.id } })
+    if (permIds.length > 0) {
+      await prisma.rolePermission.createMany({
+        data: permIds.map((permissionId) => ({ roleId: role.id, permissionId })),
+      })
+    }
+  }
+
+  console.log('Seeding superadmin user...')
+  const passwordHash = await hashPassword('ChangeMe123!')
+  const superadmin = await prisma.user.upsert({
+    where: { email: 'admin@example.com' },
+    create: {
+      email: 'admin@example.com',
+      passwordHash,
+      fullName: 'Super Admin',
+      status: 'ACTIVE',
+    },
+    update: { passwordHash, fullName: 'Super Admin', status: 'ACTIVE', deletedAt: null },
+  })
+
+  await prisma.userRole.upsert({
+    where: { userId_roleId: { userId: superadmin.id, roleId: superadminRole.id } },
+    create: { userId: superadmin.id, roleId: superadminRole.id },
+    update: {},
+  })
+
+  console.log('Seeding default settings...')
+  for (const s of SETTINGS_DEFAULTS) {
+    await prisma.setting.upsert({
+      where: { key: s.key },
+      create: { key: s.key, value: s.value, type: s.type, group: s.group },
+      update: { value: s.value, type: s.type, group: s.group },
+    })
+  }
+}
+
 async function main() {
-  console.log('Seeding authors...')
-  await seedAuthors()
+  console.log('Seeding author profiles (users)...')
+  await seedAuthorProfiles()
   console.log('Seeding posts...')
   await seedPosts()
   console.log('Seeding projects...')
   await seedProjects()
   console.log('Seeding experience...')
   await seedExperience()
+  console.log('Seeding auth & RBAC...')
+  await seedAuth()
   console.log('Seed completed.')
 }
 

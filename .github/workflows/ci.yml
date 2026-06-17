@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [24.x]
+        node-version: ['lts/*']
 
     steps:
       - name: Checkout code
@@ -69,7 +69,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '24.x'
+          node-version: 'lts/*'
           cache: 'npm'
 
       - name: Install dependencies
@@ -98,7 +98,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '24.x'
+          node-version: 'lts/*'
           cache: 'npm'
 
       - name: Install dependencies
@@ -106,5 +106,3 @@ jobs:
 
       - name: Analyze bundle size
         run: npm run analyze
-        env:
-          ANALYZE: true

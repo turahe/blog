@@ -34,7 +34,7 @@
 const React = require('react')
 const { render, screen } = require('@testing-library/react')
 const Header = require('@/components/Header').default
-const siteMetadata = require('@/data/siteMetadata')
+const { mockSiteMetadata: siteMetadata } = require('../fixtures/siteMetadata')
 
 // Mock the usePathname hook
 jest.mock('next/navigation', () => ({

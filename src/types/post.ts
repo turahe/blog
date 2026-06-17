@@ -20,6 +20,10 @@ export interface PostCore {
   draft?: boolean
   summary?: string
   tags: string[]
+  category?: string
+  categorySlug?: string
+  authorName?: string
+  authorSlug?: string
   layout?: string
   music?: string
   images?: string | string[]
@@ -52,6 +56,13 @@ export interface AuthorCore {
 
 export interface AuthorWithBody extends AuthorCore {
   body: string
+}
+
+export interface CategoryItem {
+  slug: string
+  name: string
+  description?: string
+  postCount: number
 }
 
 export interface PaginationMeta {

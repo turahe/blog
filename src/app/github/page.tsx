@@ -3,7 +3,9 @@ import { getGitHubRepos } from '@/services'
 import { genPageMetadata } from '@/app/seo'
 import type { GitHubRepo } from '@/types/post'
 
-export const metadata = genPageMetadata({ title: 'GitHub Repositories' })
+export async function generateMetadata() {
+  return genPageMetadata({ title: 'GitHub Repositories' })
+}
 export const revalidate = 3600
 
 export default async function GitHubRepositories() {

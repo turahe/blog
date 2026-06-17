@@ -1,0 +1,92 @@
+/* TailAdmin tokens + utilities — imported from css/tailwind.css */
+
+@theme {
+  --font-outfit: Outfit, sans-serif;
+
+  --breakpoint-2xsm: 375px;
+  --breakpoint-xsm: 425px;
+  --breakpoint-3xl: 2000px;
+
+  --text-title-sm: 1.875rem;
+  --text-title-sm--line-height: 2.375rem;
+
+  --color-brand-25: #f2f7ff;
+  --color-brand-50: #ecf3ff;
+  --color-brand-100: #dde9ff;
+  --color-brand-200: #c2d6ff;
+  --color-brand-300: #9cb9ff;
+  --color-brand-400: #7592ff;
+  --color-brand-500: #465fff;
+  --color-brand-600: #3641f5;
+  --color-brand-700: #2a31d8;
+  --color-brand-800: #252dae;
+  --color-brand-900: #262e89;
+  --color-brand-950: #161950;
+
+  --color-gray-dark: #1a2231;
+
+  --color-success-500: #12b76a;
+  --color-success-600: #039855;
+
+  --color-error-300: #fda29b;
+  --color-error-500: #f04438;
+  --color-error-600: #d92d20;
+
+  --text-theme-xs: 0.75rem;
+  --text-theme-xs--line-height: 1.125rem;
+  --text-theme-sm: 0.875rem;
+  --text-theme-sm--line-height: 1.25rem;
+  --text-theme-xl: 1.25rem;
+  --text-theme-xl--line-height: 1.875rem;
+
+  --shadow-theme-xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  --shadow-theme-sm: 0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+  --shadow-theme-md:
+    0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+
+  --z-index-99999: 99999;
+}
+
+@utility menu-item {
+  @apply text-theme-sm relative flex w-full items-center gap-3 rounded-lg px-3 py-2 font-medium;
+}
+
+@utility menu-item-active {
+  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/12 dark:text-brand-400;
+}
+
+@utility menu-item-inactive {
+  @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
+}
+
+@utility menu-item-icon-active {
+  @apply text-brand-500 dark:text-brand-400;
+}
+
+@utility menu-item-icon-inactive {
+  @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@utility custom-scrollbar {
+  &::-webkit-scrollbar {
+    @apply size-1.5;
+  }
+  &::-webkit-scrollbar-track {
+    @apply rounded-full;
+  }
+  &::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-200 dark:bg-gray-700;
+  }
+}
+
+[data-admin-theme] {
+  @apply font-outfit text-gray-900 antialiased dark:text-gray-100;
+}

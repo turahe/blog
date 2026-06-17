@@ -1,21 +1,47 @@
 services:
   db:
-    image: mysql:8.4
+    image: postgres:17-alpine
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: blog
-      MYSQL_USER: blog
-      MYSQL_PASSWORD: blogpassword
+      POSTGRES_USER: blog
+      POSTGRES_PASSWORD: blogpassword
+      POSTGRES_DB: blog
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./.docker/postgres:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      test: ['CMD-SHELL', 'pg_isready -U blog -d blog']
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 30s
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - ./.docker/minio:/data
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_started
+    entrypoint: >
+      /bin/sh -c "
+      until mc alias set local http://minio:9000 minioadmin minioadmin 2>/dev/null; do sleep 1; done;
+      mc mb local/blog-media --ignore-existing;
+      mc anonymous set download local/blog-media;
+      exit 0;
+      "
 
   app:
     build:
@@ -25,14 +51,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
     environment:
-      DATABASE_URL: mysql://blog:blogpassword@db:3306/blog
+      DATABASE_URL: postgresql://blog:blogpassword@db:5432/blog
+      NODE_ENV: development
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_PUBLIC_URL: http://localhost:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: blog-media
     volumes:
       - .:/app
-      - /app/node_modules
-      - /app/.next
+      - ./.docker/node_modules:/app/node_modules
     ports:
       - '3000:3000'
-
-volumes:
-  mysql_data:

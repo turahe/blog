@@ -16,8 +16,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "pliny/*": ["node_modules/pliny/*"]
+      "@/*": ["src/*"]
     },
     "plugins": [
       {
@@ -31,6 +30,7 @@
     "src/**/*.tsx",
     "src/**/*.js",
     "scripts/**/*.mjs",
+    "scripts/**/*.ts",
     "__tests__/**/*.js",
     "__tests__/**/*.ts",
     "tests/**/*.ts",

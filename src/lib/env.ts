@@ -14,6 +14,7 @@ const envSchema = z.object({
   MAILCHIMP_AUDIENCE_ID: z.string().optional(),
   ANALYZE: z.string().optional(),
   BASE_PATH: z.string().optional(),
+  AUTH_TRUST_HOST: z.string().optional(),
 })
 
 export type Env = z.infer<typeof envSchema>

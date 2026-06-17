@@ -45,7 +45,8 @@ interface Props {
   experience: ExperienceItem[]
 }
 
-export default function AuthorLayout({ content, children, experience }: Props) {
+export default function AuthorLayout({ content, children: _children, experience }: Props) {
+  void _children
   const { name, avatar, occupation, company, email, twitter, linkedin, github } = content
 
   return (

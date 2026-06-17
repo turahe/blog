@@ -33,10 +33,11 @@
 
 'use client'
 
-import siteMetadata from '@/data/siteMetadata'
+import { useSiteMetadata } from '@/lib/site-metadata/provider'
 import { useEffect, useState } from 'react'
 
 const ScrollTopAndComment = () => {
+  const siteMetadata = useSiteMetadata()
   const [show, setShow] = useState(false)
 
   useEffect(() => {
@@ -59,7 +60,7 @@ const ScrollTopAndComment = () => {
     <div
       className={`fixed right-8 bottom-8 hidden flex-col gap-3 ${show ? 'md:flex' : 'md:hidden'}`}
     >
-      {siteMetadata.comments?.provider && (
+      {siteMetadata.comments.enabled && (
         <button
           aria-label="Scroll To Comment"
           onClick={handleScrollToComment}

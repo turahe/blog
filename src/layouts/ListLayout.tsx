@@ -35,11 +35,11 @@
 
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { formatDate } from 'pliny/utils/formatDate'
+import { formatDate } from '@/lib/formatDate'
 import type { PostCore } from '@/types/post'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
+import { useSiteMetadata } from '@/lib/site-metadata/provider'
 
 interface PaginationProps {
   totalPages: number
@@ -98,6 +98,7 @@ export default function ListLayout({
   initialDisplayPosts = [],
   pagination,
 }: ListLayoutProps) {
+  const siteMetadata = useSiteMetadata()
   const [searchValue, setSearchValue] = useState('')
   const filteredBlogPosts = posts.filter((post) => {
     const searchContent = post.title + post.summary + post.tags?.join(' ')

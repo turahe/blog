@@ -1,0 +1,46 @@
+export const PERMISSIONS = [
+  { slug: 'dashboard.view', name: 'View Dashboard', group: 'dashboard' },
+  { slug: 'users.view', name: 'View Users', group: 'users' },
+  { slug: 'users.create', name: 'Create Users', group: 'users' },
+  { slug: 'users.update', name: 'Update Users', group: 'users' },
+  { slug: 'users.delete', name: 'Delete Users', group: 'users' },
+  { slug: 'roles.view', name: 'View Roles', group: 'roles' },
+  { slug: 'roles.create', name: 'Create Roles', group: 'roles' },
+  { slug: 'roles.update', name: 'Update Roles', group: 'roles' },
+  { slug: 'roles.delete', name: 'Delete Roles', group: 'roles' },
+  { slug: 'permissions.view', name: 'View Permissions', group: 'permissions' },
+  { slug: 'settings.update', name: 'Update Settings', group: 'settings' },
+  { slug: 'audit.view', name: 'View Audit Logs', group: 'audit' },
+  { slug: 'posts.view', name: 'View Posts', group: 'posts' },
+  { slug: 'posts.create', name: 'Create Posts', group: 'posts' },
+  { slug: 'posts.update', name: 'Update Posts', group: 'posts' },
+  { slug: 'posts.delete', name: 'Delete Posts', group: 'posts' },
+  { slug: 'projects.view', name: 'View Projects', group: 'projects' },
+  { slug: 'projects.create', name: 'Create Projects', group: 'projects' },
+  { slug: 'projects.update', name: 'Update Projects', group: 'projects' },
+  { slug: 'projects.delete', name: 'Delete Projects', group: 'projects' },
+  { slug: 'tags.view', name: 'View Tags', group: 'tags' },
+  { slug: 'tags.create', name: 'Create Tags', group: 'tags' },
+  { slug: 'tags.update', name: 'Update Tags', group: 'tags' },
+  { slug: 'tags.delete', name: 'Delete Tags', group: 'tags' },
+  { slug: 'categories.view', name: 'View Categories', group: 'categories' },
+  { slug: 'categories.create', name: 'Create Categories', group: 'categories' },
+  { slug: 'categories.update', name: 'Update Categories', group: 'categories' },
+  { slug: 'categories.delete', name: 'Delete Categories', group: 'categories' },
+  { slug: 'media.view', name: 'View Media', group: 'media' },
+  { slug: 'media.upload', name: 'Upload Media', group: 'media' },
+  { slug: 'media.delete', name: 'Delete Media', group: 'media' },
+  { slug: 'comments.view', name: 'View Comments', group: 'comments' },
+  { slug: 'comments.moderate', name: 'Moderate Comments', group: 'comments' },
+  { slug: 'comments.delete', name: 'Delete Comments', group: 'comments' },
+] as const
+
+export const ROLES = [
+  { slug: 'superadmin', name: 'Super Admin', description: 'Full system access' },
+  { slug: 'admin', name: 'Admin', description: 'Administrative access' },
+  { slug: 'operator', name: 'Operator', description: 'Limited operational access' },
+  { slug: 'user', name: 'User', description: 'Standard user access' },
+] as const
+
+// Default settings are defined in src/modules/settings/config/defaults.ts
+export { SETTINGS_DEFAULTS as DEFAULT_SETTINGS } from '@/modules/settings/config/defaults'

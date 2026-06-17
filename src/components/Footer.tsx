@@ -32,10 +32,11 @@
  */
 
 import Link from './Link'
-import siteMetadata from '@/data/siteMetadata'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import SocialIcon from '@/components/social-icons'
 
-export default function Footer() {
+export default async function Footer() {
+  const siteMetadata = await getSiteMetadata()
   return (
     <footer>
       <div className="mt-16 flex flex-col items-center">

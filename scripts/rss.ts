@@ -1,14 +1,15 @@
 import { writeFileSync, mkdirSync } from 'fs'
 import path from 'path'
 import { slug } from 'github-slugger'
-import { escape } from 'pliny/utils/htmlEscaper.js'
-import siteMetadata from '../src/data/siteMetadata.js'
-import { getAllPosts, getTagCounts, sortPosts } from '../src/services/index.ts'
+import { escape } from '@/lib/htmlEscaper'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
+import type { SiteMetadata } from '@/lib/site-metadata/types'
+import { getAllPosts, getTagCounts, sortPosts } from '@/services'
 
 const outputFolder = 'public'
 
 const generateRssItem = (
-  config: typeof siteMetadata,
+  config: SiteMetadata,
   post: { slug: string; title: string; summary?: string; date: string; tags: string[] }
 ) => `
   <item>
@@ -23,7 +24,7 @@ const generateRssItem = (
 `
 
 const generateRss = (
-  config: typeof siteMetadata,
+  config: SiteMetadata,
   posts: { date: string; slug: string; title: string; summary?: string; tags: string[] }[],
   page = 'feed.xml'
 ) => `
@@ -43,6 +44,7 @@ const generateRss = (
 `
 
 async function generateRSS() {
+  const siteMetadata = await getSiteMetadata()
   const allPosts = sortPosts(await getAllPosts())
   const publishPosts = allPosts.filter((post) => post.draft !== true)
   const tagCounts = await getTagCounts()
