@@ -148,6 +148,8 @@ export function PostCreateForm({ authors, tags, categories }: PostFormProps) {
             authors={authors}
             tags={tags}
             categories={categories}
+            tagIds={watch('tagIds') ?? []}
+            onTagIdsChange={(ids) => setValue('tagIds', ids, { shouldDirty: true })}
             featuredImage={watch('featuredImage') ?? ''}
             onFeaturedImageChange={(url) => setValue('featuredImage', url, { shouldDirty: true })}
           />

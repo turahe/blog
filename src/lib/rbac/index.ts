@@ -22,22 +22,44 @@ export async function hasRole(role: string, userId?: string): Promise<boolean> {
 }
 
 export async function requirePermission(permission: string): Promise<void> {
-  const allowed = await can(permission)
+  const session = await getSession()
+  if (!session) {
+    throw new Error('FORBIDDEN')
+  }
+
+  const allowed = await can(permission, session.user.id)
   if (!allowed) {
     throw new Error('FORBIDDEN')
   }
 }
 
 export async function requireRole(role: string): Promise<void> {
-  const allowed = await hasRole(role)
+  const session = await getSession()
+  if (!session) {
+    throw new Error('FORBIDDEN')
+  }
+
+  const allowed = await hasRole(role, session.user.id)
   if (!allowed) {
     throw new Error('FORBIDDEN')
   }
 }
 
 export async function requireAnyPermission(...permissions: string[]): Promise<void> {
-  for (const p of permissions) {
-    if (await can(p)) return
+  const session = await getSession()
+  if (!session) {
+    throw new Error('FORBIDDEN')
   }
+
+  const userId = session.user.id
+  const userPermissions = await getUserPermissions(userId)
+
+  for (const permission of permissions) {
+    if (userPermissions.has(permission)) return
+  }
+
+  const roles = await getUserRoles(userId)
+  if (roles.has('superadmin')) return
+
   throw new Error('FORBIDDEN')
 }

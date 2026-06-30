@@ -1,7 +1,6 @@
 import { Outfit } from 'next/font/google'
 import { redirect } from 'next/navigation'
-import { getSession } from '@/lib/auth/session'
-import { getAdminHeaderUser } from '@/lib/admin/get-header-user'
+import { getAuthenticatedShellContext } from '@/lib/admin/get-admin-shell-context'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { getAccountHeader } from '@/modules/account/services'
 
@@ -13,23 +12,19 @@ const outfit = Outfit({
 export const dynamic = 'force-dynamic'
 
 export default async function AccountLayout({ children }: { children: React.ReactNode }) {
-  const session = await getSession()
-  if (!session) {
+  const shell = await getAuthenticatedShellContext()
+  if (!shell) {
     redirect('/login')
   }
 
-  const [headerUser, accountHeader] = await Promise.all([
-    getAdminHeaderUser(session.user.id),
-    getAccountHeader(session.user.id),
-  ])
-
-  if (!headerUser || !accountHeader) {
+  const accountHeader = await getAccountHeader(shell.session.user.id)
+  if (!accountHeader) {
     redirect('/login')
   }
 
   return (
     <div className={outfit.className}>
-      <AdminShell user={headerUser}>
+      <AdminShell user={shell.headerUser}>
         <div data-account-layout>{children}</div>
       </AdminShell>
     </div>

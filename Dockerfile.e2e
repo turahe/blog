@@ -1,0 +1,14 @@
+# syntax=docker/dockerfile:1
+
+FROM mcr.microsoft.com/playwright:v1.61.0-noble
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN --mount=type=secret,id=npmrc,target=/tmp/npmrc,required=false \
+  if [ -s /tmp/npmrc ]; then cp /tmp/npmrc /root/.npmrc; fi && \
+  npm ci --ignore-scripts
+
+COPY . .
+
+CMD ["npm", "run", "test:e2e:ci"]

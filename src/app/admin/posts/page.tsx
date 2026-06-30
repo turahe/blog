@@ -34,10 +34,16 @@ async function PostsTable({ searchParams }: { searchParams: Record<string, strin
     id: row.id,
     title: row.title,
     slug: row.slug,
-    draft: row.draft ? 'Yes' : 'No',
+    draft: row.draft ? 'Draft' : 'Published',
     date: formatDate(row.date.toISOString()),
     category: row.category ?? '—',
-    tags: String(row.tagCount),
+    tags: row.tagNames.map((name) => ({
+      id: name,
+      label: name,
+      variant: 'category' as const,
+      tone: 'neutral' as const,
+      title: row.tagCount > row.tagNames.length ? `${row.tagCount} tags total` : name,
+    })),
     editHref: `/admin/posts/${row.id}`,
   }))
 
@@ -54,10 +60,10 @@ async function PostsTable({ searchParams }: { searchParams: Record<string, strin
         columns={[
           { key: 'title', label: 'Title', sortable: true },
           { key: 'slug', label: 'Slug', sortable: true },
-          { key: 'draft', label: 'Draft', variant: 'badge' },
+          { key: 'draft', label: 'Status', variant: 'badge' },
           { key: 'date', label: 'Date', sortable: true },
           { key: 'category', label: 'Category' },
-          { key: 'tags', label: 'Tags' },
+          { key: 'tags', label: 'Tags', variant: 'tags' },
         ]}
         data={rows}
         total={result.total}

@@ -115,7 +115,15 @@ export default [
     },
   },
   {
-    files: ['jest.setup.js', '**/*.test.js', '**/*.test.ts', '**/*.test.tsx', '**/*.spec.js', '**/*.spec.ts', '**/*.spec.tsx'],
+    files: [
+      'jest.setup.js',
+      '**/*.test.js',
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.js',
+      '**/*.spec.ts',
+      '**/*.spec.tsx',
+    ],
     languageOptions: {
       globals: {
         ...globals.browser,

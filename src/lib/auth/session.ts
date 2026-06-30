@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { cookies } from 'next/headers'
 import { randomBytes } from 'crypto'
 import prisma from '@/lib/db/prisma'
@@ -19,6 +20,8 @@ export interface AuthSession {
   sessionId: string
   expiresAt: Date
 }
+
+const SESSION_ACTIVITY_TOUCH_MS = 5 * 60 * 1000
 
 function generateSessionToken(): string {
   return randomBytes(48).toString('base64url')
@@ -94,7 +97,9 @@ async function findSessionByToken(token: string): Promise<AuthSession | null> {
 
   if (!session || session.expiresAt < new Date()) {
     if (session) {
-      await prisma.session.delete({ where: { id: session.id } }).catch(() => {})
+      await prisma.session.delete({ where: { id: session.id } }).catch((err) => {
+        console.warn('[auth] Failed to delete expired session', { sessionId: session.id, err })
+      })
     }
     return null
   }
@@ -137,7 +142,7 @@ export async function refreshSessionIfNeeded(session: AuthSession, token: string
   })
 }
 
-export async function getSession(): Promise<AuthSession | null> {
+export const getSession = cache(async (): Promise<AuthSession | null> => {
   const cookieStore = await cookies()
   const token = cookieStore.get(SESSION_COOKIE)?.value
   if (!token) return null
@@ -148,19 +153,12 @@ export async function getSession(): Promise<AuthSession | null> {
     await touchSessionActivity(session.sessionId)
   }
   return session
-}
+})
 
 async function touchSessionActivity(sessionId: string): Promise<void> {
-  const fiveMinutes = 5 * 60 * 1000
-  const session = await prisma.session.findUnique({
-    where: { id: sessionId },
-    select: { lastActiveAt: true },
-  })
-  if (!session) return
-  if (Date.now() - session.lastActiveAt.getTime() < fiveMinutes) return
-
-  await prisma.session.update({
-    where: { id: sessionId },
+  const threshold = new Date(Date.now() - SESSION_ACTIVITY_TOUCH_MS)
+  await prisma.session.updateMany({
+    where: { id: sessionId, lastActiveAt: { lt: threshold } },
     data: { lastActiveAt: new Date() },
   })
 }

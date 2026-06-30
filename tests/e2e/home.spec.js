@@ -31,13 +31,14 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./fixtures')
 const {
   waitForPageReady,
   siteHeader,
   siteMain,
   homeLogoLink,
   mobileMenuButton,
+  desktopNavLink,
 } = require('./utils/page')
 
 test.describe('Home Page', () => {
@@ -86,8 +87,7 @@ test.describe('Home Page', () => {
     ]
 
     for (const { link, expectedPath } of navigationTests) {
-      // Click the navigation link
-      await page.locator(`a:has-text("${link}")`).first().click()
+      await desktopNavLink(page, link).click()
 
       await page.waitForURL(new RegExp(expectedPath))
       await waitForPageReady(page)
@@ -106,9 +106,9 @@ test.describe('Home Page', () => {
     await expect(themeSwitch).toBeVisible()
   })
 
-  test('should display search button', async ({ page }) => {
-    const searchButton = page.locator('button[aria-label*="search" i]')
-    await expect(searchButton).toBeVisible()
+  test('should display search navigation link', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await expect(desktopNavLink(page, 'Search')).toBeVisible()
   })
 
   test('should display mobile navigation menu', async ({ page }) => {

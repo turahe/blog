@@ -208,7 +208,7 @@
 }
 
 @utility admin-badge {
-  @apply text-theme-xs inline-flex rounded-full bg-gray-100 px-2.5 py-0.5 font-medium text-gray-700 dark:bg-white/10 dark:text-gray-300;
+  @apply text-theme-xs inline-flex max-w-full items-center truncate rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-medium text-gray-700 dark:border-gray-700 dark:bg-gray-800/80 dark:text-gray-300;
 }
 
 @utility admin-skeleton {

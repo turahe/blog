@@ -2,16 +2,18 @@
 
 import type { UseFormRegister, FieldErrors } from 'react-hook-form'
 import { MediaImageField } from '@/components/admin/media/MediaImageField'
+import { FormTagInput } from '@/components/admin/tags'
 
 interface PostSettingsPanelProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
   errors: FieldErrors
   authors: { id: string; fullName: string }[]
-  tags: { id: string; name: string }[]
+  tags: { id: string; name: string; slug?: string }[]
   categories: { id: string; name: string }[]
+  tagIds: string[]
+  onTagIdsChange: (ids: string[]) => void
   defaultAuthorIds?: string[]
-  defaultTagIds?: string[]
   featuredImage: string
   onFeaturedImageChange: (url: string) => void
 }
@@ -22,8 +24,9 @@ export function PostSettingsPanel({
   authors,
   tags,
   categories,
+  tagIds,
+  onTagIdsChange,
   defaultAuthorIds = [],
-  defaultTagIds = [],
   featuredImage,
   onFeaturedImageChange,
 }: PostSettingsPanelProps) {
@@ -92,23 +95,14 @@ export function PostSettingsPanel({
             ))}
           </div>
         </fieldset>
-        <fieldset className="admin-field">
-          <legend className="admin-label">Tags</legend>
-          <div className="flex max-h-40 flex-col gap-2 overflow-y-auto">
-            {tags.map((t) => (
-              <label key={t.id} className="admin-checkbox-label">
-                <input
-                  type="checkbox"
-                  value={t.id}
-                  defaultChecked={defaultTagIds.includes(t.id)}
-                  {...register('tagIds')}
-                  className="admin-checkbox"
-                />
-                {t.name}
-              </label>
-            ))}
-          </div>
-        </fieldset>
+
+        <FormTagInput
+          label="Tags"
+          value={tagIds}
+          options={tags}
+          onChange={onTagIdsChange}
+          placeholder="Search or add tags…"
+        />
       </section>
 
       <section className="space-y-3">

@@ -181,15 +181,3 @@ export const getGitHubRepos = unstable_cache(
   ['github-repos'],
   { revalidate: 3600, tags: ['github-repos'] }
 )
-
-export const getSearchDocuments = cache(async () => {
-  const posts = await getPublishedPosts()
-  return sortPosts(posts).map((post) => ({
-    id: post.slug,
-    name: post.title,
-    keywords: post.tags?.join(' ') || '',
-    section: 'Blog',
-    subtitle: post.summary,
-    url: `/blog/${post.slug}`,
-  }))
-})

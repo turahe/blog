@@ -31,9 +31,6 @@ const mockSiteMetadata = {
     requireApproval: true,
     guestEnabled: false,
   },
-  search: {
-    provider: 'cmdk',
-  },
 }
 
 module.exports = { mockSiteMetadata }

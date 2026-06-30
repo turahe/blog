@@ -3,8 +3,10 @@
 import Link from 'next/link'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { useCallback, useState, useTransition } from 'react'
+import { FilterTags, StatusTag, TagGroup } from '@/components/admin/tags'
+import type { AdminTagItem } from '@/components/admin/tags'
 
-export type DataTableCellVariant = 'text' | 'badge' | 'link'
+export type DataTableCellVariant = 'text' | 'badge' | 'link' | 'tags'
 
 export interface DataTableColumn {
   key: string
@@ -13,9 +15,11 @@ export interface DataTableColumn {
   variant?: DataTableCellVariant
 }
 
+export type DataTableCellValue = string | number | null | undefined | AdminTagItem[]
+
 export interface DataTableRow {
   id: string
-  [key: string]: string | number | null | undefined
+  [key: string]: DataTableCellValue
 }
 
 interface DataTableProps {
@@ -26,7 +30,11 @@ interface DataTableProps {
   pageSize: number
   searchPlaceholder?: string
   rowHrefKey?: string
+  rowLinkKey?: string
   rowLinkLabel?: string
+  emptyMessage?: string
+  showFilterTags?: boolean
+  toolbarExtra?: React.ReactNode
   bulkActions?: {
     label: string
     action: (ids: string[]) => Promise<void | unknown>
@@ -34,14 +42,28 @@ interface DataTableProps {
   exportCsv?: () => void
 }
 
-function renderCell(
-  value: string | number | null | undefined,
-  variant: DataTableCellVariant = 'text'
-) {
+function renderCell(value: DataTableCellValue, variant: DataTableCellVariant = 'text') {
+  if (variant === 'tags') {
+    if (!Array.isArray(value)) {
+      return <span className="text-theme-xs text-gray-400">—</span>
+    }
+    return <TagGroup items={value} maxVisible={2} size="sm" />
+  }
+
   const display = value === null || value === undefined || value === '' ? '—' : String(value)
 
   if (variant === 'badge') {
-    return <span className="admin-badge">{display}</span>
+    if (display === '—') return display
+    return <StatusTag label={display} />
+  }
+
+  if (variant === 'link') {
+    if (display === '—') return display
+    return (
+      <Link href={display} className="admin-link">
+        {display}
+      </Link>
+    )
   }
 
   return display
@@ -55,7 +77,11 @@ export function DataTable({
   pageSize,
   searchPlaceholder = 'Search...',
   rowHrefKey,
+  rowLinkKey,
   rowLinkLabel = 'Edit',
+  emptyMessage = 'No records found',
+  showFilterTags = true,
+  toolbarExtra,
   bulkActions,
   exportCsv,
 }: DataTableProps) {
@@ -68,6 +94,16 @@ export function DataTable({
 
   const totalPages = Math.ceil(total / pageSize) || 1
   const showActions = Boolean(rowHrefKey)
+
+  const navigateToRow = useCallback(
+    (row: DataTableRow) => {
+      const hrefKey = rowLinkKey ?? rowHrefKey
+      if (!hrefKey) return
+      const href = row[hrefKey]
+      if (href) router.push(String(href))
+    },
+    [router, rowHrefKey, rowLinkKey]
+  )
 
   const updateParams = useCallback(
     (updates: Record<string, string | null>) => {
@@ -115,18 +151,22 @@ export function DataTable({
 
   return (
     <div className={`space-y-4 ${isPending ? 'opacity-60' : ''}`}>
+      {showFilterTags && <FilterTags />}
+
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <form onSubmit={handleSearch} className="flex gap-2">
+        <form onSubmit={handleSearch} className="flex flex-wrap gap-2">
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={searchPlaceholder}
             className="admin-input max-w-xs"
+            aria-label="Search table"
           />
           <button type="submit" className="admin-btn-primary">
             Search
           </button>
+          {toolbarExtra}
         </form>
 
         <div className="flex gap-2">
@@ -152,16 +192,17 @@ export function DataTable({
         </div>
       </div>
 
-      <div className="admin-table-wrap overflow-x-auto">
+      <div className="admin-table-wrap max-h-[calc(100vh-16rem)] overflow-auto">
         <table className="min-w-full">
-          <thead>
-            <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900/50">
+          <thead className="sticky top-0 z-10">
+            <tr className="border-b border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900/95">
               {bulkActions && (
                 <th className="px-4 py-3">
                   <input
                     type="checkbox"
                     checked={selected.size === data.length && data.length > 0}
                     onChange={toggleAll}
+                    aria-label="Select all rows"
                   />
                 </th>
               )}
@@ -193,42 +234,70 @@ export function DataTable({
                   colSpan={columns.length + (bulkActions ? 1 : 0) + (showActions ? 1 : 0)}
                   className="text-theme-sm px-4 py-10 text-center text-gray-500"
                 >
-                  No records found
+                  {emptyMessage}
                 </td>
               </tr>
             ) : (
-              data.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-white/2">
-                  {bulkActions && (
-                    <td className="px-4 py-3">
-                      <input
-                        type="checkbox"
-                        checked={selected.has(row.id)}
-                        onChange={() => toggleOne(row.id)}
-                      />
-                    </td>
-                  )}
-                  {columns.map((col) => (
-                    <td
-                      key={col.key}
-                      className="text-theme-sm px-4 py-3 text-gray-800 dark:text-gray-200"
-                    >
-                      {renderCell(row[col.key], col.variant)}
-                    </td>
-                  ))}
-                  {showActions && rowHrefKey && (
-                    <td className="px-4 py-3 text-right text-sm">
-                      {row[rowHrefKey] ? (
-                        <Link href={String(row[rowHrefKey])} className="admin-link">
-                          {rowLinkLabel}
-                        </Link>
-                      ) : (
-                        '—'
-                      )}
-                    </td>
-                  )}
-                </tr>
-              ))
+              data.map((row) => {
+                const isRowClickable = Boolean(rowLinkKey ?? rowHrefKey)
+                return (
+                  <tr
+                    key={row.id}
+                    className={`hover:bg-gray-50 dark:hover:bg-white/2 ${isRowClickable ? 'cursor-pointer' : ''}`}
+                    onClick={isRowClickable ? () => navigateToRow(row) : undefined}
+                    onKeyDown={
+                      isRowClickable
+                        ? (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              navigateToRow(row)
+                            }
+                          }
+                        : undefined
+                    }
+                    tabIndex={isRowClickable ? 0 : undefined}
+                    role={isRowClickable ? 'link' : undefined}
+                    aria-label={
+                      isRowClickable ? `Open ${row.name ?? row.slug ?? row.id}` : undefined
+                    }
+                  >
+                    {bulkActions && (
+                      <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="checkbox"
+                          checked={selected.has(row.id)}
+                          onChange={() => toggleOne(row.id)}
+                          aria-label={`Select row ${row.id}`}
+                        />
+                      </td>
+                    )}
+                    {columns.map((col) => (
+                      <td
+                        key={col.key}
+                        className={`text-theme-sm px-4 py-3 text-gray-800 dark:text-gray-200 ${
+                          col.variant === 'tags' ? 'max-w-[14rem]' : ''
+                        }`}
+                      >
+                        {renderCell(row[col.key], col.variant)}
+                      </td>
+                    ))}
+                    {showActions && rowHrefKey && (
+                      <td
+                        className="px-4 py-3 text-right text-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {row[rowHrefKey] ? (
+                          <Link href={String(row[rowHrefKey])} className="admin-link">
+                            {rowLinkLabel}
+                          </Link>
+                        ) : (
+                          '—'
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                )
+              })
             )}
           </tbody>
         </table>

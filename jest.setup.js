@@ -108,14 +108,6 @@ jest.mock('rough-notation', () => ({
   })),
 }))
 
-// Mock search components
-jest.mock('@/components/search/SearchTrigger', () => {
-  const React = require('react')
-  return {
-    SearchTrigger: ({ children, ...props }) => React.createElement('button', props, children),
-  }
-})
-
 // Mock site metadata from database layer
 jest.mock('@/lib/site-metadata/get-site-metadata', () => {
   const { mockSiteMetadata } = require('./__tests__/fixtures/siteMetadata')

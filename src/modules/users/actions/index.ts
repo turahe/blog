@@ -7,6 +7,7 @@ import { getSession } from '@/lib/auth/session'
 import { requirePermission } from '@/lib/rbac'
 import { invalidatePermissionCache } from '@/lib/rbac/cache'
 import { logAudit } from '@/lib/audit'
+import { validateSelfRoleChangeAction } from '@/modules/roles/actions'
 import { emitNewUserRegistered, emitRoleChanged } from '@/modules/notifications/events'
 import { sanitizeEmail, sanitizeString } from '@/lib/security/sanitize'
 import { userRepository } from '../repositories'
@@ -84,6 +85,11 @@ export async function updateUserAction(id: string, input: unknown): Promise<Crud
   await userRepository.update(id, data)
 
   if (parsed.data.roleIds) {
+    const selfCheck = await validateSelfRoleChangeAction(id, parsed.data.roleIds)
+    if (!selfCheck.success) {
+      return { success: false, error: selfCheck.error }
+    }
+
     await userRepository.setRoles(id, parsed.data.roleIds)
     invalidatePermissionCache(id)
 

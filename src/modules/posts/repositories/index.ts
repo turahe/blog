@@ -11,10 +11,15 @@ export type PostListItem = {
   date: Date
   category: string | null
   tagCount: number
+  tagNames: string[]
 }
 
 const listInclude = {
   category: { select: { name: true } },
+  tags: {
+    take: 10,
+    include: { tag: { select: { name: true } } },
+  },
   _count: { select: { tags: true } },
 } as const
 
@@ -60,6 +65,7 @@ export const postAdminRepository = {
       date: row.date,
       category: row.category?.name ?? null,
       tagCount: row._count.tags,
+      tagNames: row.tags.map((t) => t.tag.name),
     }))
 
     return paginate(data, total, q.page, q.pageSize)

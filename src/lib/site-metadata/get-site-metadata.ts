@@ -24,8 +24,6 @@ export const getSiteMetadata = cache(async (): Promise<SiteMetadata> => {
 
   const title = pick(settings, 'site.name', 'Wach Blog')
   const commentsEnabled = asBool(settings, 'comments.enabled', true)
-  const searchProvider = pick(settings, 'integrations.search_provider', 'cmdk')
-  const normalizedProvider = searchProvider === 'kbar' ? 'cmdk' : searchProvider
 
   return {
     title,
@@ -59,11 +57,5 @@ export const getSiteMetadata = cache(async (): Promise<SiteMetadata> => {
       requireApproval: asBool(settings, 'comments.require_approval', true),
       guestEnabled: asBool(settings, 'comments.guest_enabled', false),
     },
-    search:
-      normalizedProvider === 'cmdk'
-        ? {
-            provider: 'cmdk',
-          }
-        : { provider: normalizedProvider },
   }
 })

@@ -32,7 +32,15 @@ async function TagsTable({ searchParams }: { searchParams: Record<string, string
     id: row.id,
     name: row.name,
     slug: row.slug,
-    posts: String(row.postCount),
+    posts: [
+      {
+        id: `${row.id}-posts`,
+        label: String(row.postCount),
+        variant: 'metadata' as const,
+        tone: 'neutral' as const,
+        title: `${row.postCount} post${row.postCount === 1 ? '' : 's'}`,
+      },
+    ],
     editHref: `/admin/tags/${row.id}`,
   }))
 
@@ -49,7 +57,7 @@ async function TagsTable({ searchParams }: { searchParams: Record<string, string
         columns={[
           { key: 'name', label: 'Name', sortable: true },
           { key: 'slug', label: 'Slug', sortable: true },
-          { key: 'posts', label: 'Posts' },
+          { key: 'posts', label: 'Posts', variant: 'tags' },
         ]}
         data={rows}
         total={result.total}

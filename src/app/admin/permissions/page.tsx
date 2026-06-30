@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Suspense } from 'react'
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
@@ -49,6 +50,11 @@ export default async function PermissionsPage({ searchParams }: PageProps) {
       <AdminPageHeader
         title="Permissions"
         description="Browse the permission catalog used by RBAC."
+        actions={
+          <Link href="/admin/roles/matrix" className="admin-btn-secondary">
+            Permission matrix
+          </Link>
+        }
       />
       <Suspense fallback={<TableSkeleton />}>
         <PermissionsTable searchParams={params} />

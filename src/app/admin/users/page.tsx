@@ -35,7 +35,12 @@ async function UsersTable({ searchParams }: { searchParams: Record<string, strin
     email: row.email,
     fullName: row.fullName,
     status: row.status,
-    roles: row.roles.join(', ') || '—',
+    roles: row.roles.map((slug) => ({
+      id: slug,
+      label: slug,
+      variant: 'role' as const,
+      tone: slug === 'admin' || slug === 'superadmin' ? ('info' as const) : ('neutral' as const),
+    })),
     lastLoginAt: row.lastLoginAt ? formatDate(row.lastLoginAt.toISOString()) : '—',
     editHref: `/admin/users/${row.id}`,
   }))
@@ -54,7 +59,7 @@ async function UsersTable({ searchParams }: { searchParams: Record<string, strin
           { key: 'email', label: 'Email', sortable: true },
           { key: 'fullName', label: 'Name', sortable: true },
           { key: 'status', label: 'Status', sortable: true, variant: 'badge' },
-          { key: 'roles', label: 'Roles' },
+          { key: 'roles', label: 'Roles', variant: 'tags' },
           { key: 'lastLoginAt', label: 'Last Login' },
         ]}
         data={rows}

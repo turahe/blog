@@ -33,8 +33,8 @@ export function UsersRolesSettingsPanel({ roles }: { roles: RolePermissionMatrix
           <Link href="/admin/roles" className="admin-btn-secondary">
             Manage roles
           </Link>
-          <Link href="/admin/permissions" className="admin-btn-secondary">
-            View permissions
+          <Link href="/admin/roles/matrix" className="admin-btn-secondary">
+            Permission matrix
           </Link>
         </div>
 

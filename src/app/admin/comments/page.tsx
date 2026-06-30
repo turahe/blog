@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
-import Link from 'next/link'
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
 import { DataTable } from '@/components/admin/DataTable'
 import { TableSkeleton } from '@/components/admin/Skeleton'
+import { CommentStatusFilter } from '@/modules/comments/components/CommentStatusFilter'
 import { listCommentsAdmin } from '@/modules/comments/services'
 import {
   bulkApproveCommentsAction,
@@ -87,22 +87,7 @@ export default async function CommentsPage({ searchParams }: PageProps) {
         title="Comments"
         description="Moderate reader comments stored in the database."
       />
-      {canModerate && (
-        <div className="mb-4 flex flex-wrap gap-2">
-          <Link href="/admin/comments?status=PENDING" className="admin-btn-secondary">
-            Pending
-          </Link>
-          <Link href="/admin/comments?status=APPROVED" className="admin-btn-secondary">
-            Approved
-          </Link>
-          <Link href="/admin/comments?status=SPAM" className="admin-btn-secondary">
-            Spam
-          </Link>
-          <Link href="/admin/comments" className="admin-btn-secondary">
-            All
-          </Link>
-        </div>
-      )}
+      {canModerate && <CommentStatusFilter />}
       <Suspense fallback={<TableSkeleton />}>
         <CommentsTable searchParams={params} />
       </Suspense>

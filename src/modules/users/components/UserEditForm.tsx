@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { updateUserSchema, type UpdateUserInput } from '@/modules/users/validators'
 import { updateUserAction, deleteUserAction } from '@/modules/users/actions'
+import { UserRoleAssignmentPanel } from './UserRoleAssignmentPanel'
 
 interface UserEditFormProps {
   user: {
@@ -14,7 +15,7 @@ interface UserEditFormProps {
     status: string
     roleIds: string[]
   }
-  roles: { id: string; name: string }[]
+  roles: { id: string; name: string; slug: string }[]
   canDelete: boolean
 }
 
@@ -23,7 +24,9 @@ export function UserEditForm({ user, roles, canDelete }: UserEditFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    watch,
+    setValue,
+    formState: { errors, isSubmitting, isDirty },
     setError,
   } = useForm<UpdateUserInput>({
     resolver: zodResolver(updateUserSchema),
@@ -34,6 +37,8 @@ export function UserEditForm({ user, roles, canDelete }: UserEditFormProps) {
       roleIds: user.roleIds,
     },
   })
+
+  const roleIds = watch('roleIds') ?? []
 
   const onSubmit = async (data: UpdateUserInput) => {
     const result = await updateUserAction(user.id, data)
@@ -56,7 +61,7 @@ export function UserEditForm({ user, roles, canDelete }: UserEditFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="admin-form max-w-lg">
+    <form onSubmit={handleSubmit(onSubmit)} className="admin-form max-w-2xl">
       {errors.root && <p className="admin-error">{errors.root.message}</p>}
 
       <div className="admin-field">
@@ -97,23 +102,13 @@ export function UserEditForm({ user, roles, canDelete }: UserEditFormProps) {
         </select>
       </div>
 
-      <fieldset className="admin-field">
-        <legend className="admin-label">Roles</legend>
-        <div className="space-y-2">
-          {roles.map((role) => (
-            <label key={role.id} className="admin-checkbox-label">
-              <input
-                type="checkbox"
-                value={role.id}
-                defaultChecked={user.roleIds.includes(role.id)}
-                {...register('roleIds')}
-                className="admin-checkbox"
-              />
-              {role.name}
-            </label>
-          ))}
-        </div>
-      </fieldset>
+      <UserRoleAssignmentPanel
+        userId={user.id}
+        roles={roles}
+        initialRoleIds={user.roleIds}
+        value={roleIds}
+        onChange={(next) => setValue('roleIds', next, { shouldDirty: true, shouldValidate: true })}
+      />
 
       <div className="admin-form-actions">
         <button type="submit" disabled={isSubmitting} className="admin-btn-primary">
@@ -125,6 +120,12 @@ export function UserEditForm({ user, roles, canDelete }: UserEditFormProps) {
           </button>
         )}
       </div>
+
+      {isDirty && (
+        <p className="text-theme-xs mt-2 text-amber-700 dark:text-amber-300" role="status">
+          You have unsaved changes.
+        </p>
+      )}
     </form>
   )
 }

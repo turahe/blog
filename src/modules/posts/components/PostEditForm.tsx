@@ -186,8 +186,9 @@ export function PostEditForm({ post, authors, tags, categories, canDelete }: Pos
             authors={authors}
             tags={tags}
             categories={categories}
+            tagIds={watch('tagIds') ?? []}
+            onTagIdsChange={(ids) => setValue('tagIds', ids, { shouldDirty: true })}
             defaultAuthorIds={post.authorIds}
-            defaultTagIds={post.tagIds}
             featuredImage={watch('featuredImage') ?? ''}
             onFeaturedImageChange={(url) => setValue('featuredImage', url, { shouldDirty: true })}
           />

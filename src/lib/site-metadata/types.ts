@@ -32,7 +32,4 @@ export type SiteMetadata = {
     requireApproval: boolean
     guestEnabled: boolean
   }
-  search: {
-    provider?: string
-  }
 }

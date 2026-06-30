@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./fixtures')
 const { waitForPageReady, siteHeader } = require('./utils/page')
 
 test.describe('Performance Tests', () => {
@@ -144,14 +144,16 @@ test.describe('Performance Tests', () => {
       { width: 375, height: 667 },
     ]
 
+    await page.setViewportSize(viewports[0])
+    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await waitForPageReady(page)
+
     for (const viewport of viewports) {
       await page.setViewportSize(viewport)
-      await page.goto('/')
 
-      // Verify page loads correctly at each viewport
+      // Verify page stays responsive at each viewport without full reloads
       await expect(page.locator('body')).toBeVisible()
 
-      // Check that layout is responsive
       const header = siteHeader(page)
       await expect(header).toBeVisible()
     }

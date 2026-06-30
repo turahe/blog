@@ -172,6 +172,8 @@ services:
     volumes:
       - ./playwright-report:/app/playwright-report
       - ./test-results:/app/test-results
+      - ./tests:/app/tests:ro
+      - ./playwright.config.ts:/app/playwright.config.ts:ro
 
 secrets:
   npmrc:

@@ -1,42 +1,48 @@
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./fixtures')
+const { desktopNavLink } = require('./utils/page')
 
-async function openSearchPalette(page) {
-  const searchButton = page.getByRole('button', { name: 'Search' })
-  await expect(searchButton).toBeVisible()
-  await searchButton.click()
-
-  const input = page.locator('input[placeholder="Search articles..."]')
-  await expect(input).toBeVisible({ timeout: 15000 })
-  return input
+function searchForm(page) {
+  return page.locator('form[action="/search"]')
 }
 
-test.describe('Search command palette', () => {
+function searchInput(page) {
+  return searchForm(page).getByPlaceholder('Search articles…')
+}
+
+function searchSubmitButton(page) {
+  return searchForm(page).getByRole('button', { name: 'Search' })
+}
+
+test.describe('Search page', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 })
+  })
+
+  test('loads from header navigation link', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('button', { name: 'Search' }).waitFor({ state: 'visible' })
+    const searchLink = desktopNavLink(page, 'Search')
+    await expect(searchLink).toBeVisible({ timeout: 15_000 })
+    await Promise.all([page.waitForURL(/\/search/), searchLink.click()])
+    await expect(page.getByRole('heading', { name: 'Search', level: 1 })).toBeVisible()
   })
 
-  test('opens from header search button', async ({ page }) => {
-    const input = await openSearchPalette(page)
-    await expect(input).toHaveAttribute('placeholder', 'Search articles...')
+  test('shows search form', async ({ page }) => {
+    await page.goto('/search')
+    await expect(searchInput(page)).toBeVisible()
+    await expect(searchSubmitButton(page)).toBeVisible()
   })
 
-  test('opens with keyboard shortcut', async ({ page }) => {
-    await page.keyboard.press('Control+KeyK')
-    const input = page.locator('input[placeholder="Search articles..."]')
-    await expect(input).toBeVisible({ timeout: 15000 })
-  })
-
-  test('closes with Escape', async ({ page }) => {
-    const input = await openSearchPalette(page)
-    await page.keyboard.press('Escape')
-    await expect(input).toHaveCount(0)
-  })
-
-  test('accepts search input', async ({ page }) => {
-    const input = await openSearchPalette(page)
+  test('accepts search query', async ({ page }) => {
+    await page.goto('/search')
+    const input = searchInput(page)
     await input.fill('blog')
+    await searchSubmitButton(page).click()
+    await expect(page).toHaveURL(/\/search\?q=blog/)
     await expect(input).toHaveValue('blog')
+  })
+
+  test('shows empty state for unknown query', async ({ page }) => {
+    await page.goto('/search?q=zzzznotarealquery99999')
+    await expect(page.getByText(/No results for/)).toBeVisible()
   })
 })

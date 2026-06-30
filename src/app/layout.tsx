@@ -4,7 +4,6 @@ import { Space_Grotesk } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { Analytics } from '@/components/analytics/Analytics'
-import { SearchProvider } from '@/components/search/SearchProvider'
 import Header from '@/components/Header'
 import SectionContainer from '@/components/SectionContainer'
 import Footer from '@/components/Footer'
@@ -98,10 +97,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Analytics analyticsConfig={siteMetadata.analytics} />
             <SectionContainer>
               <div className="flex h-screen flex-col justify-between font-sans">
-                <SearchProvider enabled={siteMetadata.search?.provider === 'cmdk'}>
-                  <Header />
-                  <main className="mb-auto">{children}</main>
-                </SearchProvider>
+                <Header />
+                <main className="mb-auto">{children}</main>
                 <Footer />
               </div>
             </SectionContainer>

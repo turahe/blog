@@ -44,7 +44,10 @@ async function globalSetup(config: FullConfig) {
   const page = await context.newPage()
 
   // Navigate to the base URL to ensure the app is running
-  await page.goto(baseURL || 'http://localhost:3000')
+  await page.goto(baseURL || 'http://localhost:3000', {
+    waitUntil: 'domcontentloaded',
+    timeout: 60_000,
+  })
 
   // Wait for the page to load completely
   await page.waitForLoadState('domcontentloaded')

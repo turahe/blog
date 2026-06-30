@@ -88,11 +88,6 @@ describe('Site Metadata', () => {
       guestEnabled: expect.any(Boolean),
     })
   })
-
-  test('should have valid search configuration', () => {
-    expect(siteMetadata).toHaveProperty('search')
-    expect(typeof siteMetadata.search).toBe('object')
-  })
 })
 
 describe('Header Navigation Links', () => {

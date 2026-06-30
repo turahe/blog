@@ -33,7 +33,7 @@ export default async function EditUserPage({ params }: PageProps) {
           status: user.status,
           roleIds: user.userRoles.map((ur) => ur.role.id),
         }}
-        roles={roles}
+        roles={roles.map((r) => ({ id: r.id, name: r.name, slug: r.slug }))}
         canDelete={canDelete}
       />
     </div>

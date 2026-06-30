@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./fixtures')
 const { loginAsAdmin } = require('./utils/admin-auth')
 
 test.describe('Admin area', () => {

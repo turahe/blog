@@ -39,7 +39,6 @@ import headerNavLinks from '@/data/headerNavLinks'
 import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-import SearchButton from './SearchButton'
 // import Typewriter from 'typewriter-effect'
 import { usePathname } from 'next/navigation'
 
@@ -67,7 +66,6 @@ const Header = () => {
               {link.title}
             </Link>
           ))}
-        <SearchButton />
         <ThemeSwitch />
         <MobileNav />
       </div>

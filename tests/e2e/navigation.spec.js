@@ -1,10 +1,11 @@
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./fixtures')
 const {
   waitForPageReady,
   siteHeader,
   siteMain,
   homeLogoLink,
   mobileMenuButton,
+  desktopNavLink,
 } = require('./utils/page')
 
 test.describe('Navigation', () => {
@@ -46,8 +47,7 @@ test.describe('Navigation', () => {
     ]
 
     for (const { text, expectedPath } of navLinks) {
-      // Click navigation link
-      await page.locator(`a:has-text("${text}")`).first().click()
+      await desktopNavLink(page, text).click()
 
       await page.waitForURL(new RegExp(expectedPath))
       await waitForPageReady(page)
@@ -107,34 +107,28 @@ test.describe('Navigation', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('should have working search functionality', async ({ page }) => {
-    // Find search button
-    const searchButton = page.locator('button[aria-label*="search" i]')
-    await expect(searchButton).toBeVisible()
-
-    // Click search button
-    await searchButton.click()
-
-    // Verify search interface appears (this might need adjustment)
-    await expect(page.locator('body')).toBeVisible()
+  test('should have working search page link', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await desktopNavLink(page, 'Search').click()
+    await expect(page).toHaveURL(/\/search/)
+    await expect(page.getByRole('heading', { name: 'Search' })).toBeVisible()
   })
 
   test('should maintain navigation state across pages', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 })
+
     // Navigate to different pages and verify header remains consistent
     const pages = ['/blog', '/about', '/projects', '/tags']
 
     for (const path of pages) {
       await page.goto(path)
 
-      // Verify header is present
       const header = siteHeader(page)
       await expect(header).toBeVisible()
 
-      // Verify navigation links are present
       const navLinks = ['Blog', 'About', 'Projects', 'Tags']
       for (const link of navLinks) {
-        const navLink = page.locator(`a:has-text("${link}")`).first()
-        await expect(navLink).toBeVisible()
+        await expect(desktopNavLink(page, link)).toBeVisible()
       }
     }
   })

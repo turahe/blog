@@ -7,8 +7,56 @@ const permissionCache = new Map<
 >()
 const CACHE_TTL_MS = 5 * 60 * 1000
 
+export type UserRoleRbacRow = {
+  role: {
+    slug: string
+    deletedAt: Date | null
+    rolePermissions: { permission: { slug: string } }[]
+  }
+}
+
 function getCacheKey(userId: string): string {
   return `rbac:${userId}`
+}
+
+function buildRbacSetsFromUserRoles(userRoles: UserRoleRbacRow[]): {
+  permissions: Set<string>
+  roles: Set<string>
+} {
+  const roles = new Set<string>()
+  const permissions = new Set<string>()
+
+  for (const ur of userRoles) {
+    if (ur.role.deletedAt) continue
+    roles.add(ur.role.slug)
+    for (const rp of ur.role.rolePermissions) {
+      permissions.add(rp.permission.slug)
+    }
+  }
+
+  return { permissions, roles }
+}
+
+function storeUserRbacCache(
+  userId: string,
+  permissions: Set<string>,
+  roles: Set<string>
+): { permissions: Set<string>; roles: Set<string> } {
+  permissionCache.set(getCacheKey(userId), {
+    permissions,
+    roles,
+    expires: Date.now() + CACHE_TTL_MS,
+  })
+  return { permissions, roles }
+}
+
+/** Prime the in-memory RBAC cache from data already loaded for layout/shell. */
+export function primeUserRbacCache(
+  userId: string,
+  userRoles: UserRoleRbacRow[]
+): { permissions: Set<string>; roles: Set<string> } {
+  const { permissions, roles } = buildRbacSetsFromUserRoles(userRoles)
+  return storeUserRbacCache(userId, permissions, roles)
 }
 
 async function loadUserRbac(
@@ -32,24 +80,8 @@ async function loadUserRbac(
     },
   })
 
-  const roles = new Set<string>()
-  const permissions = new Set<string>()
-
-  for (const ur of userRoles) {
-    if (ur.role.deletedAt) continue
-    roles.add(ur.role.slug)
-    for (const rp of ur.role.rolePermissions) {
-      permissions.add(rp.permission.slug)
-    }
-  }
-
-  permissionCache.set(getCacheKey(userId), {
-    permissions,
-    roles,
-    expires: Date.now() + CACHE_TTL_MS,
-  })
-
-  return { permissions, roles }
+  const { permissions, roles } = buildRbacSetsFromUserRoles(userRoles)
+  return storeUserRbacCache(userId, permissions, roles)
 }
 
 export function invalidatePermissionCache(userId: string): void {
