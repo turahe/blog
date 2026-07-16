@@ -57,6 +57,7 @@ public/robots.txt
 # ===========================================
 # IDE & Editor Files
 # ===========================================
+.worktrees/
 .idea/
 .vscode/
 *.swp
