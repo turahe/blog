@@ -61,6 +61,7 @@ jest.mock('@/lib/storage/config', () => ({
 const {
   buildObjectKey,
   uploadBufferToMinio,
+  replaceFileInMinio,
   deleteObjectFromMinio,
   moveObjectInMinio,
 } = require('@/lib/storage/minio')
@@ -131,6 +132,16 @@ describe('minio storage helpers', () => {
         'media/x.exe'
       )
     ).rejects.toThrow('Executable files are not allowed')
+  })
+
+  test('replaceFileInMinio rejects blocked executables', async () => {
+    const file = new File([Buffer.from('x')], 'malware.exe', {
+      type: 'application/x-msdownload',
+    })
+    await expect(replaceFileInMinio('media/x.exe', file)).rejects.toThrow(
+      'Executable files are not allowed'
+    )
+    expect(mockSend).not.toHaveBeenCalled()
   })
 
   test('uploadBufferToMinio allows previously unsupported non-executables', async () => {

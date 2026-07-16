@@ -142,6 +142,13 @@ export async function uploadFileToMinio(file: File, folderPath = 'media') {
 }
 
 export async function replaceFileInMinio(key: string, file: File) {
+  if (isBlockedExecutable(file.name, file.type)) {
+    throw new Error('Executable files are not allowed')
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    throw new Error('File must be 25MB or smaller')
+  }
+
   const config = await getResolvedStorageConfig()
   const buffer = Buffer.from(await file.arrayBuffer())
   const url = await putObject(key, buffer, file.type, config)

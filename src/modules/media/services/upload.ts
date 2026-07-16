@@ -72,7 +72,10 @@ export async function processMediaUpload(
     height: uploaded.height,
     folder: folderPath,
     variants: uploaded.variants,
-    folderRef: input.folderId ? { connect: { id: input.folderId } } : undefined,
+    folderRef:
+      purpose !== 'avatar' && input.folderId
+        ? { connect: { id: input.folderId } }
+        : undefined,
     uploadedBy: actorId ? { connect: { id: actorId } } : undefined,
   })
 
