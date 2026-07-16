@@ -35,6 +35,19 @@ export const MIME_FILTER_MAP: Record<string, string[] | undefined> = {
 
 export const MAX_FILE_BYTES = 25 * 1024 * 1024
 
+export const AVATAR_ALLOWED_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+] as const
+
+export const AVATAR_MAX_BYTES = 5 * 1024 * 1024
+
+export function isAllowedAvatarMime(mime: string) {
+  return (AVATAR_ALLOWED_MIME_TYPES as readonly string[]).includes(mime)
+}
+
 export function getExtension(filename: string) {
   const parts = filename.split('.')
   return parts.length > 1 ? parts.pop()!.toLowerCase() : ''
