@@ -42,8 +42,8 @@ export function MediaPickerGrid({
   if (!loading && items.length === 0) {
     return (
       <div className="flex h-full min-h-[240px] flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50/50 p-8 text-center dark:border-gray-700 dark:bg-gray-900/30">
-        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">No images found</p>
-        <p className="mt-1 text-xs text-gray-500">Upload a new image or try a different search.</p>
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">No files found</p>
+        <p className="mt-1 text-xs text-gray-500">Upload a new file or try a different search.</p>
       </div>
     )
   }

@@ -37,14 +37,3 @@ export function toPickerResult(item: MediaItem, draft?: PickerSidebarDraft): Med
     height: item.height,
   }
 }
-
-export const PICKER_IMAGE_ACCEPT = [
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-  'image/svg+xml',
-  'image/avif',
-].join(',')
-
-export const PICKER_MAX_BYTES = 10 * 1024 * 1024
