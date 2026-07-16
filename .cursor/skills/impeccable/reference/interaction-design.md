@@ -1,5 +1,7 @@
 # Interaction Design
 
+> **This project:** For file upload UX (media library, picker, avatar), follow the project skill `.cursor/skills/media-upload/SKILL.md` (FilePond + `/api/media/upload` + executable deny-list).
+
 ## The Eight Interactive States
 
 Every interactive element needs these states designed:
