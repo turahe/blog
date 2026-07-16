@@ -7,12 +7,14 @@ interface MediaUploadDropzoneProps {
   folderId?: string | null
   folderPath?: string
   onUploadComplete: (uploadedIds: string[]) => void
+  onError?: (message: string) => void
 }
 
 export function MediaUploadDropzone({
   folderId,
   folderPath,
   onUploadComplete,
+  onError,
 }: MediaUploadDropzoneProps) {
   const uploadedIds = useRef<string[]>([])
 
@@ -28,6 +30,7 @@ export function MediaUploadDropzone({
           uploadedIds.current.push(result.id)
           onUploadComplete([...uploadedIds.current])
         }}
+        onError={onError}
       />
     </div>
   )

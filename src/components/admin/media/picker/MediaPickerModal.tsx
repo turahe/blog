@@ -209,6 +209,7 @@ export function MediaPickerModal({
                   folderId={folderId}
                   folderPath={folderPath}
                   onUploadComplete={handleUploadComplete}
+                  onError={showToast}
                 />
               )}
             </div>
