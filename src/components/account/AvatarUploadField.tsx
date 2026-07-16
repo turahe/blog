@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { AdminUserAvatar } from '@/components/admin/header/AdminUserAvatar'
+import { FilePondUpload } from '@/components/media/FilePondUpload'
 
 interface AvatarUploadFieldProps {
   name: string
@@ -11,13 +12,15 @@ interface AvatarUploadFieldProps {
 }
 
 export function AvatarUploadField({ name, avatar, onChange, onRemove }: AvatarUploadFieldProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const browseRef = useRef<(() => void) | null>(null)
   const [cropOpen, setCropOpen] = useState(false)
   const [source, setSource] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const handleFile = (file: File | null) => {
-    if (!file) return
+  const handleLocalFile = (file: File) => {
+    setError(null)
     const reader = new FileReader()
     reader.onload = () => {
       setSource(reader.result as string)
@@ -31,7 +34,7 @@ export function AvatarUploadField({ name, avatar, onChange, onRemove }: AvatarUp
     const image = new Image()
     if (!canvas || !source) return
 
-    image.onload = () => {
+    image.onload = async () => {
       const size = 256
       canvas.width = size
       canvas.height = size
@@ -42,9 +45,36 @@ export function AvatarUploadField({ name, avatar, onChange, onRemove }: AvatarUp
       const sx = (image.width - min) / 2
       const sy = (image.height - min) / 2
       ctx.drawImage(image, sx, sy, min, min, 0, 0, size, size)
-      onChange(canvas.toDataURL('image/jpeg', 0.9))
+
       setCropOpen(false)
       setSource(null)
+      setUploading(true)
+      setError(null)
+
+      try {
+        const blob: Blob = await new Promise((resolve, reject) => {
+          canvas.toBlob(
+            (b) => (b ? resolve(b) : reject(new Error('Crop failed'))),
+            'image/jpeg',
+            0.9
+          )
+        })
+        const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' })
+        const formData = new FormData()
+        formData.append('filepond', file)
+        const res = await fetch('/api/media/upload?purpose=avatar', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error ?? 'Upload failed')
+        onChange(data.url)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Upload failed')
+      } finally {
+        setUploading(false)
+      }
     }
     image.src = source
   }
@@ -52,26 +82,38 @@ export function AvatarUploadField({ name, avatar, onChange, onRemove }: AvatarUp
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
       <AdminUserAvatar name={name} avatar={avatar} size="lg" />
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          className="admin-btn-secondary"
-          onClick={() => inputRef.current?.click()}
-        >
-          Upload avatar
-        </button>
-        {avatar && (
-          <button type="button" className="admin-btn-secondary" onClick={onRemove}>
-            Remove
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            className="admin-btn-secondary"
+            disabled={uploading}
+            onClick={() => browseRef.current?.()}
+          >
+            {uploading ? 'Uploading…' : 'Upload avatar'}
           </button>
-        )}
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
-        />
+          {avatar && (
+            <button
+              type="button"
+              className="admin-btn-secondary"
+              disabled={uploading}
+              onClick={onRemove}
+            >
+              Remove
+            </button>
+          )}
+        </div>
+        {error && <p className="text-theme-sm text-error-600 dark:text-error-400">{error}</p>}
+        <div className="hidden">
+          <FilePondUpload
+            purpose="avatar"
+            instantUpload={false}
+            allowMultiple={false}
+            browseRef={browseRef}
+            onLocalFile={handleLocalFile}
+            onError={setError}
+          />
+        </div>
       </div>
 
       {cropOpen && source && (
