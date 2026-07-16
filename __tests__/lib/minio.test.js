@@ -122,7 +122,7 @@ describe('minio storage helpers', () => {
     expect(mockSend).toHaveBeenCalledTimes(1)
   })
 
-  test('uploadBufferToMinio rejects unsupported mime type', async () => {
+  test('uploadBufferToMinio rejects blocked executables', async () => {
     await expect(
       uploadBufferToMinio(
         Buffer.from('x'),
@@ -130,7 +130,19 @@ describe('minio storage helpers', () => {
         'application/x-msdownload',
         'media/x.exe'
       )
-    ).rejects.toThrow('File type is not allowed')
+    ).rejects.toThrow('Executable files are not allowed')
+  })
+
+  test('uploadBufferToMinio allows previously unsupported non-executables', async () => {
+    const buffer = Buffer.from('audio-bytes')
+    const result = await uploadBufferToMinio(
+      buffer,
+      'track.mp3',
+      'audio/mpeg',
+      'media/2026/06/track.mp3'
+    )
+    expect(result.mimeType).toBe('audio/mpeg')
+    expect(mockSend).toHaveBeenCalledTimes(1)
   })
 
   test('deleteObjectFromMinio sends delete command', async () => {

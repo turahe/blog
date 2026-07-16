@@ -9,16 +9,9 @@ import imageSize from 'image-size'
 import { getPublicObjectUrl, type StorageConfig } from '@/lib/storage/config'
 import { getResolvedStorageConfig } from '@/lib/storage/resolve-storage-config'
 import { deleteMockObject, moveMockObject, writeMockObject } from '@/lib/storage/mock'
-import { ALLOWED_MIME_TYPES, MAX_FILE_BYTES, getExtension } from '@/modules/media/constants'
+import { MAX_FILE_BYTES, getExtension } from '@/modules/media/constants'
+import { isBlockedExecutable } from '@/modules/media/executable-policy'
 import type { MediaVariants } from '@/modules/media/types'
-
-const LEGACY_IMAGE_TYPES = new Set([
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-  'image/avif',
-])
 
 function getClient(config: StorageConfig) {
   return new S3Client({
@@ -90,9 +83,8 @@ export async function uploadBufferToMinio(
   mimeType: string,
   objectKey: string
 ) {
-  const allowed = new Set<string>([...ALLOWED_MIME_TYPES, ...LEGACY_IMAGE_TYPES])
-  if (!allowed.has(mimeType)) {
-    throw new Error('File type is not allowed')
+  if (isBlockedExecutable(filename, mimeType)) {
+    throw new Error('Executable files are not allowed')
   }
   if (buffer.length > MAX_FILE_BYTES) {
     throw new Error('File must be 25MB or smaller')
@@ -137,9 +129,8 @@ export async function uploadBufferToMinio(
 }
 
 export async function uploadFileToMinio(file: File, folderPath = 'media') {
-  const allowed = new Set<string>([...ALLOWED_MIME_TYPES, ...LEGACY_IMAGE_TYPES])
-  if (!allowed.has(file.type)) {
-    throw new Error('File type is not allowed')
+  if (isBlockedExecutable(file.name, file.type)) {
+    throw new Error('Executable files are not allowed')
   }
   if (file.size > MAX_FILE_BYTES) {
     throw new Error('File must be 25MB or smaller')
