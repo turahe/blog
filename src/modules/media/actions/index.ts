@@ -4,8 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { getSession } from '@/lib/auth/session'
 import { requirePermission, requireAnyPermission } from '@/lib/rbac'
 import { logAudit } from '@/lib/audit'
-import { uploadFileToMinio, deleteObjectFromMinio, replaceFileInMinio } from '@/lib/storage/minio'
+import { deleteObjectFromMinio, replaceFileInMinio } from '@/lib/storage/minio'
 import { mediaFolderRepository, mediaRepository } from '../repositories'
+import { processMediaUpload } from '../services/upload'
 import type { CrudActionResult } from '@/lib/crud/types'
 import type { MediaItem, MediaListFilters, MediaPickerResult } from '../types'
 
@@ -60,46 +61,14 @@ export async function uploadMediaAction(
   }
 
   try {
-    const folderPath = folderId
-      ? await mediaFolderRepository.resolveStoragePath(folderId)
-      : (folderPathOverride ?? 'media')
-    const uploaded = await uploadFileToMinio(file, folderPath)
-    const media = await mediaRepository.create({
-      key: uploaded.key,
-      url: uploaded.url,
-      filename: uploaded.filename,
-      originalName: uploaded.originalName,
-      mimeType: uploaded.mimeType,
-      extension: uploaded.extension,
-      size: uploaded.size,
-      width: uploaded.width,
-      height: uploaded.height,
-      folder: folderPath,
-      variants: uploaded.variants,
-      folderRef: folderId ? { connect: { id: folderId } } : undefined,
-      uploadedBy: session?.user.id ? { connect: { id: session.user.id } } : undefined,
-    })
-
-    await logAudit({
+    const result = await processMediaUpload({
+      file,
+      folderId,
+      folderPath: folderPathOverride,
+      purpose: 'media',
       actorId: session?.user.id,
-      entity: 'media',
-      entityId: media.id,
-      action: 'create',
-      after: { key: media.key, url: media.url },
     })
-
-    revalidateMedia()
-    return {
-      success: true,
-      data: {
-        id: media.id,
-        url: media.url,
-        filename: media.filename,
-        altText: media.altText,
-        width: media.width,
-        height: media.height,
-      },
-    }
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : 'Upload failed' }
   }
