@@ -17,8 +17,10 @@ RUN --mount=type=secret,id=npmrc,target=/tmp/npmrc,required=false \
   if [ -s /tmp/npmrc ]; then cp /tmp/npmrc /root/.npmrc && cp /tmp/npmrc .npmrc; fi && \
   npm ci --ignore-scripts
 COPY . .
-RUN chmod +x scripts/docker-entrypoint.sh
+RUN chmod +x scripts/docker-entrypoint.sh scripts/docker-ensure-deps.sh scripts/docker-run.sh
 EXPOSE 3000
+# ENTRYPOINT syncs the node_modules volume before any command (dev server or make run).
+ENTRYPOINT ["sh", "scripts/docker-run.sh"]
 # Call the entrypoint directly so a delayed bind mount of /app does not fail
 # before package.json is visible (npm run needs package.json to resolve scripts).
 CMD ["sh", "scripts/docker-entrypoint.sh"]
