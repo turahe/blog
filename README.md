@@ -108,22 +108,6 @@ npm run serve
 make serve
 ```
 
-### Static Export
-
-For static hosting services (GitHub Pages, S3, Firebase, etc.):
-
-```bash
-EXPORT=1 UNOPTIMIZED=1 npm run build
-# or with Makefile
-make build-static
-```
-
-**For URL base path deployment** (e.g., `https://example.org/myblog`):
-
-```bash
-EXPORT=1 UNOPTIMIZED=1 BASE_PATH=/myblog npm run build
-```
-
 ## 🐙 GitHub Integration
 
 ### GitHub Repositories Page
@@ -399,24 +383,6 @@ The Vercel configuration includes:
 2. Build command: `npm run build`
 3. Publish directory: `.next`
 
-### GitHub Pages
-
-Use the provided GitHub Actions workflow:
-
-1. Enable GitHub Actions in your repository
-2. Select "GitHub Actions" in Settings > Pages > Build and deployment > Source
-3. The workflow will automatically build and deploy your site
-
-### Static Hosting
-
-For static hosting services:
-
-```bash
-EXPORT=1 UNOPTIMIZED=1 npm run build
-```
-
-Then deploy the generated `out` folder.
-
 ### Docker Deployment
 
 ```bash
@@ -521,11 +487,6 @@ This project uses GitHub Actions for continuous integration and deployment:
 - **Deploy** (`deploy.yml`) - Deploys to Vercel on main branch
   - Automatic deployment to production
   - Requires Vercel secrets configuration
-
-- **Static Export** (`static-export.yml`) - Creates static build
-  - Exports static files for hosting
-  - Deploys to GitHub Pages
-  - Uploads build artifacts
 
 - **Dependency Review** (`dependency-review.yml`) - Security checks
   - Reviews dependencies for vulnerabilities

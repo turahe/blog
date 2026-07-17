@@ -24,7 +24,7 @@ Remove ESLint and Prettier from the blog repo and use Biome as the single lint +
 - `prettier.config.js` — `semi: false`, `singleQuote: true`, `printWidth: 100`, Tailwind plugin
 - Scripts: `lint`, `lint:fix`, `format`, `format:check`, `format:lint`, `validate`
 - lint-staged: eslint --fix + prettier --write
-- CI workflows call `npm run lint` (`ci.yml`, `deploy.yml`, `static-export.yml`)
+- CI workflows call `npm run lint` (`ci.yml`, `deploy.yml`)
 
 ## Target architecture
 

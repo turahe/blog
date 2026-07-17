@@ -7,8 +7,6 @@ PORT ?= 3000
 BROWSER ?= chrome
 COVERAGE_THRESHOLD ?= 70
 PLAYWRIGHT_WORKERS ?= 50%
-BASE_PATH ?=
-EXPORT ?=
 DOCKER_COMPOSE := docker compose
 APP_SERVICE := app
 IMAGE_TAG := wach-blog
@@ -57,7 +55,6 @@ help: ## Show this help message
 	@echo "  BROWSER               - Browser for E2E tests (default: chrome)"
 	@echo "  COVERAGE_THRESHOLD    - Test coverage threshold (default: 70)"
 	@echo "  PLAYWRIGHT_WORKERS    - E2E parallel workers (default: 50%)"
-	@echo "  BASE_PATH             - Base path for static export (build-static-path)"
 	@echo ""
 
 # Development
@@ -97,20 +94,6 @@ build: ## Build for production
 build-dev: ## Build for development
 	@echo "$(GREEN)Building for development in Docker...$(RESET)"
 	$(call run_app,npm run build)
-
-.PHONY: build-static
-build-static: ## Build static export
-	@echo "$(GREEN)Building static export in Docker...$(RESET)"
-	$(call run_app,sh -c "EXPORT=1 UNOPTIMIZED=1 npm run build")
-
-.PHONY: build-static-path
-build-static-path: ## Build static export with base path (set BASE_PATH=/myblog)
-	@echo "$(GREEN)Building static export with base path in Docker...$(RESET)"
-	@if [ -z "$(BASE_PATH)" ]; then \
-		echo "$(RED)Set BASE_PATH, e.g. make build-static-path BASE_PATH=/myblog$(RESET)"; \
-		exit 1; \
-	fi
-	$(call run_app,sh -c "EXPORT=1 UNOPTIMIZED=1 BASE_PATH=$(BASE_PATH) npm run build")
 
 # Serving
 .PHONY: serve
@@ -393,12 +376,6 @@ deploy-prep: ## Prepare for deployment
 	$(MAKE) test
 	$(MAKE) build
 	@echo "$(GREEN)Deployment preparation complete!$(RESET)"
-
-.PHONY: deploy-static
-deploy-static: ## Deploy static build
-	@echo "$(GREEN)Deploying static build in Docker...$(RESET)"
-	$(MAKE) build-static
-	@echo "$(GREEN)Static build ready in 'out' directory!$(RESET)"
 
 # Monitoring and Logs
 .PHONY: logs
