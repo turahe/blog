@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { AdminTag } from '@/components/admin/tags'
 import { createRoleAction } from '../actions'
-import { PermissionManager } from './PermissionManager'
 import type { PermissionItem } from '../types'
+import { PermissionManager } from './PermissionManager'
 
 export function RoleCreateForm({ catalog }: { catalog: PermissionItem[] }) {
   const router = useRouter()

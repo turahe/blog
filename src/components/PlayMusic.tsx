@@ -33,7 +33,7 @@
 
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/lib/theme/theme-provider'
 
 interface PlayMusicProps {
@@ -126,7 +126,7 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
       document.removeEventListener('touchstart', handleUserInteraction)
       stopProgressTracking()
     }
-  }, [isPlaying])
+  }, [isPlaying, stopProgressTracking, startProgressTracking])
 
   const startProgressTracking = () => {
     if (progressIntervalRef.current) {

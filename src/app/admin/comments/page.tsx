@@ -1,17 +1,17 @@
 import { Suspense } from 'react'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { DataTable } from '@/components/admin/DataTable'
 import { TableSkeleton } from '@/components/admin/Skeleton'
-import { CommentStatusFilter } from '@/modules/comments/components/CommentStatusFilter'
-import { listCommentsAdmin } from '@/modules/comments/services'
+import { getSession } from '@/lib/auth/session'
+import { can } from '@/lib/rbac'
 import {
   bulkApproveCommentsAction,
   bulkDeleteCommentsAction,
   bulkMarkSpamCommentsAction,
 } from '@/modules/comments/actions'
-import { can } from '@/lib/rbac'
-import { getSession } from '@/lib/auth/session'
+import { CommentStatusFilter } from '@/modules/comments/components/CommentStatusFilter'
+import { listCommentsAdmin } from '@/modules/comments/services'
 
 export const dynamic = 'force-dynamic'
 

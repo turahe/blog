@@ -1,6 +1,6 @@
-import { getAllPosts, sortPosts } from '@/services'
 import { genPageMetadata } from '@/app/seo'
 import ListLayout from '@/layouts/ListLayoutWithTagsWrapper'
+import { getAllPosts, sortPosts } from '@/services'
 
 const POSTS_PER_PAGE = 5
 

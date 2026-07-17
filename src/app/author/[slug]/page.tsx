@@ -1,9 +1,9 @@
-import ListLayout from '@/layouts/ListLayoutWithTagsWrapper'
-import { getPostsByAuthor, getAuthorBySlug } from '@/services'
-import { AuthorCard } from '@/components/blog/AuthorCard'
-import { genPageMetadata } from '@/app/seo'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { genPageMetadata } from '@/app/seo'
+import { AuthorCard } from '@/components/blog/AuthorCard'
+import ListLayout from '@/layouts/ListLayoutWithTagsWrapper'
+import { getAuthorBySlug, getPostsByAuthor } from '@/services'
 
 const POSTS_PER_PAGE = 5
 

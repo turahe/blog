@@ -33,13 +33,13 @@
 
 'use client'
 
-import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { formatDate } from '@/lib/formatDate'
-import type { PostCore } from '@/types/post'
+import { useState } from 'react'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
+import { formatDate } from '@/lib/formatDate'
 import { useSiteMetadata } from '@/lib/site-metadata/provider'
+import type { PostCore } from '@/types/post'
 
 interface PaginationProps {
   totalPages: number

@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState, useTransition } from 'react'
-import { FilterTags, StatusTag, TagGroup } from '@/components/admin/tags'
 import type { AdminTagItem } from '@/components/admin/tags'
+import { FilterTags, StatusTag, TagGroup } from '@/components/admin/tags'
 
 export type DataTableCellVariant = 'text' | 'badge' | 'link' | 'tags'
 
@@ -37,7 +37,7 @@ interface DataTableProps {
   toolbarExtra?: React.ReactNode
   bulkActions?: {
     label: string
-    action: (ids: string[]) => Promise<void | unknown>
+    action: (ids: string[]) => Promise<undefined | unknown>
   }[]
   exportCsv?: () => void
 }

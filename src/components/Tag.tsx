@@ -33,6 +33,7 @@
 
 import Link from 'next/link'
 import { slugify } from '@/lib/slug'
+
 interface Props {
   text: string
 }

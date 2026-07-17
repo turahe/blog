@@ -1,5 +1,5 @@
-import prisma from '@/lib/db/prisma'
 import type { Prisma } from '@/lib/db/prisma'
+import prisma from '@/lib/db/prisma'
 
 export interface AuditEntry {
   actorId?: string

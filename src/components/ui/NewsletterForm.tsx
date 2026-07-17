@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, FormEvent } from 'react'
+import { type FormEvent, useRef, useState } from 'react'
 
 export default function NewsletterForm({
   title = 'Subscribe to the newsletter',

@@ -1,8 +1,8 @@
-import ListLayout from '@/layouts/ListLayoutWithTagsWrapper'
-import { getPostsByCategory, getCategoryBySlug } from '@/services'
-import { genPageMetadata } from '@/app/seo'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { genPageMetadata } from '@/app/seo'
+import ListLayout from '@/layouts/ListLayoutWithTagsWrapper'
+import { getCategoryBySlug, getPostsByCategory } from '@/services'
 
 const POSTS_PER_PAGE = 5
 

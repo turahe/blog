@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
+import { getSession } from '@/lib/auth/session'
+import { can } from '@/lib/rbac'
 import { ProjectEditForm } from '@/modules/projects/components/ProjectEditForm'
 import { getProjectById } from '@/modules/projects/services'
-import { can } from '@/lib/rbac'
-import { getSession } from '@/lib/auth/session'
 
 export const dynamic = 'force-dynamic'
 

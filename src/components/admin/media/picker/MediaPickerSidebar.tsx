@@ -3,8 +3,8 @@
 import { ClipboardDocumentIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { formatFileSize } from '@/modules/media/constants'
 import type { MediaItem } from '@/modules/media/types'
-import type { PickerSidebarDraft } from './types'
 import { MediaPreview } from './MediaPreview'
+import type { PickerSidebarDraft } from './types'
 
 interface MediaPickerSidebarProps {
   item: MediaItem | null

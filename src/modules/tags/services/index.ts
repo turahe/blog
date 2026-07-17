@@ -1,6 +1,6 @@
 import { cache } from 'react'
-import { tagAdminRepository } from '../repositories'
 import type { ListQueryParams } from '@/lib/crud/types'
+import { tagAdminRepository } from '../repositories'
 
 export const listTags = cache(async (params: ListQueryParams) => {
   return tagAdminRepository.findMany(params)

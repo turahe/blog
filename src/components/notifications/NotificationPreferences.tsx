@@ -1,15 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { AccountCard } from '@/components/account/AccountCard'
+import { useAccountUi } from '@/components/account/AccountUiContext'
+import { ToggleRow } from '@/components/account/ToggleRow'
 import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import { updateNotificationPrefsAction } from '@/modules/notifications/actions'
 import type {
   EmailNotificationPrefsExtended,
   InAppNotificationPrefs,
 } from '@/modules/notifications/types'
-import { AccountCard } from '@/components/account/AccountCard'
-import { ToggleRow } from '@/components/account/ToggleRow'
-import { useAccountUi } from '@/components/account/AccountUiContext'
 
 interface NotificationPreferencesProps {
   initialEmail: EmailNotificationPrefsExtended

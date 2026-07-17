@@ -1,16 +1,16 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
+import { getSession } from '@/lib/auth/session'
+import { formatDate } from '@/lib/formatDate'
+import { can } from '@/lib/rbac'
 import { RoleEditor } from '@/modules/roles/components/RoleEditor'
 import {
   getAllPermissionsCatalog,
   getRoleAuditTimeline,
   getRoleDetail,
 } from '@/modules/roles/services'
-import { can } from '@/lib/rbac'
-import { getSession } from '@/lib/auth/session'
-import { formatDate } from '@/lib/formatDate'
 
 export const dynamic = 'force-dynamic'
 

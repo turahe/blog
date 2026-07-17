@@ -1,6 +1,6 @@
+import { notFound } from 'next/navigation'
 import ListLayout from '@/layouts/ListLayoutWithTagsWrapper'
 import { getPostsByTag } from '@/services'
-import { notFound } from 'next/navigation'
 
 const POSTS_PER_PAGE = 5
 
@@ -10,11 +10,11 @@ export default async function TagPage(props: { params: Promise<{ tag: string; pa
   const params = await props.params
   const tag = decodeURI(params.tag)
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
-  const pageNumber = parseInt(params.page)
+  const pageNumber = parseInt(params.page, 10)
   const filteredPosts = await getPostsByTag(tag)
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE)
 
-  if (pageNumber <= 0 || pageNumber > totalPages || isNaN(pageNumber)) {
+  if (pageNumber <= 0 || pageNumber > totalPages || Number.isNaN(pageNumber)) {
     return notFound()
   }
   const initialDisplayPosts = filteredPosts.slice(

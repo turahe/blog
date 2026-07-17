@@ -1,9 +1,9 @@
 import prisma from '@/lib/db/prisma'
 import {
-  DEFAULT_EMAIL_NOTIFICATIONS,
-  DEFAULT_IN_APP_NOTIFICATIONS,
   type AccountNotificationsData,
   type AccountPreferencesData,
+  DEFAULT_EMAIL_NOTIFICATIONS,
+  DEFAULT_IN_APP_NOTIFICATIONS,
   type EmailNotificationPrefs,
   type InAppNotificationPrefs,
 } from '../types'

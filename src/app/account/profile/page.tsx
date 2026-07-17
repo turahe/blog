@@ -1,10 +1,10 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
+import { AccountShell } from '@/components/account/AccountShell'
+import { DangerZone } from '@/components/account/DangerZone'
+import { ProfileForm } from '@/components/account/ProfileForm'
 import { getSession } from '@/lib/auth/session'
 import { getAccountHeader, getAccountProfile } from '@/modules/account/services'
-import { AccountShell } from '@/components/account/AccountShell'
-import { ProfileForm } from '@/components/account/ProfileForm'
-import { DangerZone } from '@/components/account/DangerZone'
 
 function ProfileSkeleton() {
   return <div className="h-96 animate-pulse rounded-2xl bg-gray-100 dark:bg-gray-800" />

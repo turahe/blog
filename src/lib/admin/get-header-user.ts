@@ -1,6 +1,6 @@
+import type { SessionUser } from '@/lib/auth/session'
 import prisma from '@/lib/db/prisma'
 import { formatDateUtc } from '@/lib/formatDate'
-import type { SessionUser } from '@/lib/auth/session'
 
 export interface AdminHeaderUser {
   id: string

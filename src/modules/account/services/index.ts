@@ -1,6 +1,6 @@
 import prisma from '@/lib/db/prisma'
-import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import { formatDateUtc } from '@/lib/formatDate'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import { ensureUserPreferences, getPrimaryRoleName, mapPreferences } from '../repositories'
 import type {
   AccountHeaderData,

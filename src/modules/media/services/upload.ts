@@ -1,7 +1,7 @@
 import { revalidatePath } from 'next/cache'
 import { logAudit } from '@/lib/audit'
-import { uploadFileToMinio, deleteObjectFromMinio } from '@/lib/storage/minio'
-import { AVATAR_MAX_BYTES, MAX_FILE_BYTES, isAllowedAvatarMime } from '@/modules/media/constants'
+import { deleteObjectFromMinio, uploadFileToMinio } from '@/lib/storage/minio'
+import { AVATAR_MAX_BYTES, isAllowedAvatarMime, MAX_FILE_BYTES } from '@/modules/media/constants'
 import { isBlockedExecutable } from '@/modules/media/executable-policy'
 import { mediaFolderRepository, mediaRepository } from '@/modules/media/repositories'
 
@@ -73,9 +73,7 @@ export async function processMediaUpload(
     folder: folderPath,
     variants: uploaded.variants,
     folderRef:
-      purpose !== 'avatar' && input.folderId
-        ? { connect: { id: input.folderId } }
-        : undefined,
+      purpose !== 'avatar' && input.folderId ? { connect: { id: input.folderId } } : undefined,
     uploadedBy: actorId ? { connect: { id: actorId } } : undefined,
   })
 

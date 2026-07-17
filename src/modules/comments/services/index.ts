@@ -1,9 +1,9 @@
 import { cache } from 'react'
-import { getSettingsMap } from '@/modules/settings/services'
+import type { ListQueryParams } from '@/lib/crud/types'
 import prisma from '@/lib/db/prisma'
+import { getSettingsMap } from '@/modules/settings/services'
 import { commentRepository } from '../repositories'
 import type { CommentItem, CommentSettings } from '../types'
-import type { ListQueryParams } from '@/lib/crud/types'
 
 function mapComment(row: {
   id: string

@@ -1,7 +1,7 @@
 import { Outfit } from 'next/font/google'
 import { redirect } from 'next/navigation'
-import { getAuthenticatedShellContext } from '@/lib/admin/get-admin-shell-context'
 import { AdminShell } from '@/components/admin/AdminShell'
+import { getAuthenticatedShellContext } from '@/lib/admin/get-admin-shell-context'
 import { getAccountHeader } from '@/modules/account/services'
 
 const outfit = Outfit({

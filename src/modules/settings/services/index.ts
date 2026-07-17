@@ -1,6 +1,7 @@
 import { cache } from 'react'
-import prisma from '@/lib/db/prisma'
 import { withDatabaseFallback } from '@/lib/db/fallback'
+import prisma from '@/lib/db/prisma'
+import { SETTINGS_DEFAULTS } from '../config/defaults'
 import { settingRepository } from '../repositories'
 import type {
   AdvancedSystemInfo,
@@ -8,8 +9,6 @@ import type {
   SessionListItem,
   SettingsMap,
 } from '../types'
-
-import { SETTINGS_DEFAULTS } from '../config/defaults'
 
 function getDefaultSettingsMap(): SettingsMap {
   return Object.fromEntries(SETTINGS_DEFAULTS.map((def) => [def.key, def.value]))

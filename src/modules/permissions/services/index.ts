@@ -1,6 +1,6 @@
 import { cache } from 'react'
-import { permissionRepository } from '../repositories'
 import type { ListQueryParams } from '@/lib/crud/types'
+import { permissionRepository } from '../repositories'
 
 export const listPermissions = cache(async (params: ListQueryParams) => {
   return permissionRepository.findMany(params)

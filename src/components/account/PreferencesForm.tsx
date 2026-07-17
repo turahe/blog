@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { SaveIndicator } from '@/components/admin/settings/SaveIndicator'
 import { useTheme } from '@/lib/theme/theme-provider'
-import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import { updatePreferencesAction } from '@/modules/account/actions'
 import type { AccountPreferencesData } from '@/modules/account/types'
+import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import { AccountCard } from './AccountCard'
 import { useAccountUi } from './AccountUiContext'
-import { SaveIndicator } from '@/components/admin/settings/SaveIndicator'
 
 interface PreferencesFormProps {
   preferences: AccountPreferencesData

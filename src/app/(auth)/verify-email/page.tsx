@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { LoginCard } from '@/components/auth/LoginCard'
 import { AuthAlert } from '@/components/auth/AuthAlert'
+import { LoginCard } from '@/components/auth/LoginCard'
 
 export const metadata = {
   title: 'Verify email',

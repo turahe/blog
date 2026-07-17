@@ -1,6 +1,6 @@
+import type { Category, Post, Prisma, Tag, User } from '@/lib/db/prisma'
 import prisma from '@/lib/db/prisma'
-import type { Prisma, Post, User, Tag, Category } from '@/lib/db/prisma'
-import type { PostCore, PostWithBody, AuthorCore, AuthorWithBody, CategoryItem } from '@/types/post'
+import type { AuthorCore, AuthorWithBody, CategoryItem, PostCore, PostWithBody } from '@/types/post'
 
 type PostWithRelations = Post & {
   tags: { tag: Tag }[]

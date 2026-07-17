@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
+import { useEffect, useState } from 'react'
 import { deleteAccountAction, exportAccountDataAction } from '@/modules/account/actions'
+import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import { AccountCard } from './AccountCard'
 import { useAccountUi } from './AccountUiContext'
 

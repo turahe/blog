@@ -1,6 +1,6 @@
 import { AdminTag } from './AdminTag'
-import type { AdminTagVariant } from './types'
 import { resolveTagTone } from './semantic'
+import type { AdminTagVariant } from './types'
 
 /** Backward-compatible helper for status strings in tables */
 export function StatusTag({

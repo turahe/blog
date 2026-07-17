@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react'
 import type { MediaItem } from '@/modules/media/types'
-import { MediaPickerCard } from './MediaPickerCard'
 import { MediaSkeleton } from '../MediaEmptyState'
+import { MediaPickerCard } from './MediaPickerCard'
 
 interface MediaPickerGridProps {
   items: MediaItem[]

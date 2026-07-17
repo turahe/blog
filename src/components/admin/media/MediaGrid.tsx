@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { MediaCard } from './MediaCard'
-import { MediaEmptyState, MediaSkeleton } from './MediaEmptyState'
-import { useMediaContext } from './MediaContext'
 import type { MediaItem } from '@/modules/media/types'
+import { MediaCard } from './MediaCard'
+import { useMediaContext } from './MediaContext'
+import { MediaEmptyState, MediaSkeleton } from './MediaEmptyState'
 
 interface MediaGridProps {
   items: MediaItem[]

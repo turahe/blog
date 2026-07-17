@@ -1,6 +1,6 @@
 import prisma from '@/lib/db/prisma'
-import { LOGIN_RATE_LIMIT } from './constants'
 import { emitFailedLoginAttempt } from '@/modules/notifications/events'
+import { LOGIN_RATE_LIMIT } from './constants'
 
 export async function isLoginRateLimited(email: string, ip?: string): Promise<boolean> {
   if (process.env.AUTH_DISABLE_RATE_LIMIT === 'true') {

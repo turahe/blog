@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useEffect } from 'react'
 
 const SHORTCUTS = [
   { keys: ['⌘', 'K'], label: 'Open command palette', note: 'Coming soon' },

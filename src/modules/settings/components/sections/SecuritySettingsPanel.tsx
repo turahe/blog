@@ -1,15 +1,15 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { ConfirmDialog } from '@/components/admin/settings/ConfirmDialog'
 import { SettingsCard } from '@/components/admin/settings/SettingsCard'
+import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 import { SettingsField } from '@/components/admin/settings/SettingsField'
 import { ToggleSwitch } from '@/components/admin/settings/ToggleSwitch'
-import { ConfirmDialog } from '@/components/admin/settings/ConfirmDialog'
 import { revokeSessionAction } from '@/modules/settings/actions'
 import { useSettingsSection } from '@/modules/settings/hooks/useSettingsSection'
-import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 import type { SessionListItem, SettingsMap } from '@/modules/settings/types'
-import { useState } from 'react'
 
 export function SecuritySettingsPanel({
   initialValues,

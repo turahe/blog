@@ -1,4 +1,4 @@
-import { getAllPosts, sortPosts, getCategoriesWithCounts } from '@/services'
+import { getAllPosts, getCategoriesWithCounts, sortPosts } from '@/services'
 import Main from './Main'
 
 export const revalidate = 60

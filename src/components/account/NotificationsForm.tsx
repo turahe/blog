@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { SaveIndicator } from '@/components/admin/settings/SaveIndicator'
 import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import { updateNotificationPrefsAction } from '@/modules/notifications/actions'
 import type {
@@ -8,9 +9,8 @@ import type {
   InAppNotificationPrefs,
 } from '@/modules/notifications/types'
 import { AccountCard } from './AccountCard'
-import { ToggleRow } from './ToggleRow'
 import { useAccountUi } from './AccountUiContext'
-import { SaveIndicator } from '@/components/admin/settings/SaveIndicator'
+import { ToggleRow } from './ToggleRow'
 
 interface NotificationsFormProps {
   email: EmailNotificationPrefsExtended

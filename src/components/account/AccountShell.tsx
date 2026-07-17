@@ -1,10 +1,10 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import type { AccountHeaderData } from '@/modules/account/types'
 import { AccountHeaderCard } from './AccountHeaderCard'
 import { AccountSidebar } from './AccountSidebar'
 import { AccountUiProvider } from './AccountUiContext'
-import type { AccountHeaderData } from '@/modules/account/types'
 
 interface AccountShellProps {
   header: AccountHeaderData

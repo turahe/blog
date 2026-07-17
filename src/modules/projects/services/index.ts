@@ -1,6 +1,6 @@
 import { cache } from 'react'
-import { projectRepository } from '../repositories'
 import type { ListQueryParams } from '@/lib/crud/types'
+import { projectRepository } from '../repositories'
 
 export const listProjects = cache(async (params: ListQueryParams) => {
   return projectRepository.findMany(params)

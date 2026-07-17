@@ -1,9 +1,9 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
-import { getSession } from '@/lib/auth/session'
-import { getAccountHeader, getAccountNotifications } from '@/modules/account/services'
+import { Suspense } from 'react'
 import { AccountShell } from '@/components/account/AccountShell'
 import { NotificationsForm } from '@/components/account/NotificationsForm'
+import { getSession } from '@/lib/auth/session'
+import { getAccountHeader, getAccountNotifications } from '@/modules/account/services'
 
 async function NotificationsPageContent() {
   const session = await getSession()

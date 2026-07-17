@@ -1,7 +1,7 @@
 import { cache } from 'react'
+import type { ListQueryParams } from '@/lib/crud/types'
 import prisma from '@/lib/db/prisma'
 import { mediaFolderRepository, mediaRepository } from '../repositories'
-import type { ListQueryParams } from '@/lib/crud/types'
 import type { MediaFolderItem, MediaListFilters } from '../types'
 
 export const listMedia = cache(async (params: ListQueryParams & { filters?: MediaListFilters }) => {

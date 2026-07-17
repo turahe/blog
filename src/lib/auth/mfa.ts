@@ -1,4 +1,4 @@
-import { createHmac, randomBytes } from 'crypto'
+import { createHmac, randomBytes } from 'node:crypto'
 import { generateSecret, generateURI } from 'otplib'
 
 const APP_NAME = 'Wach Blog'

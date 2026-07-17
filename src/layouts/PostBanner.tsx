@@ -31,17 +31,17 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import { ReactNode } from 'react'
-import Image from '@/components/Image'
-import Bleed from '@/components/ui/Bleed'
-import type { PostCore, AuthorCore } from '@/types/post'
+import type { ReactNode } from 'react'
 import { CommentSection } from '@/components/comments/CommentSection'
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
-import SectionContainer from '@/components/SectionContainer'
 import PlayMusic from '@/components/PlayMusic'
-import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import SectionContainer from '@/components/SectionContainer'
+import Bleed from '@/components/ui/Bleed'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
+import type { AuthorCore, PostCore } from '@/types/post'
 
 interface LayoutProps {
   content: PostCore
@@ -110,7 +110,7 @@ export default async function PostMinimal({
           )}
           <footer>
             <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
-              {prev && prev.path && (
+              {prev?.path && (
                 <div className="pt-4 xl:pt-8">
                   <Link
                     href={`/${prev.path}`}
@@ -121,7 +121,7 @@ export default async function PostMinimal({
                   </Link>
                 </div>
               )}
-              {next && next.path && (
+              {next?.path && (
                 <div className="pt-4 xl:pt-8">
                   <Link
                     href={`/${next.path}`}

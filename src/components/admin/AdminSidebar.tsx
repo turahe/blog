@@ -1,32 +1,31 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useSiteMetadata } from '@/lib/site-metadata/provider'
-import { useSidebar } from '@/components/admin/context/SidebarContext'
-import { logoutAction } from '@/modules/auth/actions/login'
-import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import {
-  Squares2X2Icon,
+  ArrowRightOnRectangleIcon,
+  BuildingOffice2Icon,
+  ChatBubbleLeftRightIcon,
+  ClipboardDocumentListIcon,
   Cog6ToothIcon,
   DocumentTextIcon,
-  RectangleStackIcon,
-  PhotoIcon,
-  ChatBubbleLeftRightIcon,
-  UserCircleIcon,
-  ArrowRightOnRectangleIcon,
   EllipsisHorizontalIcon,
-  UsersIcon,
-  TagIcon,
+  KeyIcon,
+  PhotoIcon,
+  RectangleStackIcon,
   RocketLaunchIcon,
   ShieldCheckIcon,
-  KeyIcon,
-  ClipboardDocumentListIcon,
-  BuildingOffice2Icon,
+  Squares2X2Icon,
+  TagIcon,
+  UserCircleIcon,
+  UsersIcon,
 } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import type { ComponentType } from 'react'
+import { useEffect, useState } from 'react'
+import { useSidebar } from '@/components/admin/context/SidebarContext'
+import { useSiteMetadata } from '@/lib/site-metadata/provider'
+import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
+import { logoutAction } from '@/modules/auth/actions/login'
 
 interface NavLinkItem {
   type: 'link'

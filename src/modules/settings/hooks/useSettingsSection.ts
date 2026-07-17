@@ -1,9 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 import { saveSettingsSectionAction } from '@/modules/settings/actions'
 import type { SettingsMap, SettingsSection } from '@/modules/settings/types'
-import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 
 export function useSettingsSection(
   section: SettingsSection,

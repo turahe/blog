@@ -1,12 +1,12 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { getSession } from '@/lib/auth/session'
-import { requirePermission } from '@/lib/rbac'
 import { logAudit } from '@/lib/audit'
+import { getSession } from '@/lib/auth/session'
+import type { CrudActionResult } from '@/lib/crud/types'
+import { requirePermission } from '@/lib/rbac'
 import { projectRepository } from '../repositories'
 import { createProjectSchema, updateProjectSchema } from '../validators'
-import type { CrudActionResult } from '@/lib/crud/types'
 
 export async function createProjectAction(
   input: unknown

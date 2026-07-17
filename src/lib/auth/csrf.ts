@@ -1,7 +1,7 @@
+import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
 import { cookies } from 'next/headers'
-import { createHash, randomBytes, timingSafeEqual } from 'crypto'
 import { CSRF_COOKIE } from './constants'
-import { useSecureCookies } from './cookie-options'
+import { shouldUseSecureCookies } from './cookie-options'
 
 export function generateCsrfToken(): string {
   return randomBytes(32).toString('hex')
@@ -11,7 +11,7 @@ export async function setCsrfCookie(token: string): Promise<void> {
   const cookieStore = await cookies()
   cookieStore.set(CSRF_COOKIE, token, {
     httpOnly: false,
-    secure: useSecureCookies(),
+    secure: shouldUseSecureCookies(),
     sameSite: 'lax',
     path: '/',
     maxAge: 60 * 60 * 24,

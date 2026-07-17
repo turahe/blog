@@ -2,13 +2,13 @@
 
 import {
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
-  type ReactNode,
 } from 'react'
 import {
   fetchNotificationsAction,
@@ -122,7 +122,7 @@ export function NotificationProvider({
     }
 
     return () => source.close()
-  }, [prependItems, userId])
+  }, [prependItems])
 
   useEffect(() => {
     if (toasts.length === 0) return

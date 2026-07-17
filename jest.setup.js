@@ -33,8 +33,6 @@
 
 import '@testing-library/jest-dom'
 
-/* eslint-env jest */
-
 // Mock Next.js Link — prevent jsdom navigation errors on click
 jest.mock('next/link', () => {
   const React = require('react')

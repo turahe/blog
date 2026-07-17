@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { DataTable } from '@/components/admin/DataTable'
 import { TableSkeleton } from '@/components/admin/Skeleton'
+import { paginate, parseListQuery } from '@/lib/crud/types'
 import prisma from '@/lib/db/prisma'
-import { parseListQuery, paginate } from '@/lib/crud/types'
 import { formatDate } from '@/lib/formatDate'
 
 export const dynamic = 'force-dynamic'

@@ -2,13 +2,10 @@
 
 import { revalidatePath } from 'next/cache'
 import { requireSession } from '@/lib/auth/session'
-import { can } from '@/lib/rbac'
 import type { CrudActionResult } from '@/lib/crud/types'
-import {
-  broadcastNotificationSchema,
-  notificationQuerySchema,
-  notificationPrefsSchema,
-} from '../validators'
+import prisma from '@/lib/db/prisma'
+import { can } from '@/lib/rbac'
+import { ensureUserPreferences } from '@/modules/account/repositories'
 import { broadcastNotification, notifyUser } from '../services/notify'
 import {
   deleteNotification,
@@ -17,9 +14,12 @@ import {
   markAllNotificationsRead,
   markNotificationRead,
 } from '../services/query'
-import { ensureUserPreferences } from '@/modules/account/repositories'
-import prisma from '@/lib/db/prisma'
 import type { NotificationListResult, NotificationQuery } from '../types'
+import {
+  broadcastNotificationSchema,
+  notificationPrefsSchema,
+  notificationQuerySchema,
+} from '../validators'
 
 const PATHS = ['/notifications', '/admin', '/account/notifications']
 

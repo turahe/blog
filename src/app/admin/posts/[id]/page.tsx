@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation'
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
+import { getSession } from '@/lib/auth/session'
+import { can } from '@/lib/rbac'
 import { PostEditForm } from '@/modules/posts/components/PostEditForm'
 import {
-  getPostById,
   getAuthorOptions,
   getCategoryOptions,
+  getPostById,
   getTagOptions,
 } from '@/modules/posts/services'
-import { can } from '@/lib/rbac'
-import { getSession } from '@/lib/auth/session'
 
 export const dynamic = 'force-dynamic'
 

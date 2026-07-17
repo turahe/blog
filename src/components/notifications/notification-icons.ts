@@ -1,16 +1,16 @@
 'use client'
 
 import {
+  BellAlertIcon,
   ChatBubbleLeftRightIcon,
   DocumentTextIcon,
+  MegaphoneIcon,
   ShieldCheckIcon,
   UserPlusIcon,
   WrenchScrewdriverIcon,
-  MegaphoneIcon,
-  BellAlertIcon,
 } from '@heroicons/react/24/outline'
-import type { NotificationCategory } from '@/generated/prisma/client'
 import type { ComponentType } from 'react'
+import type { NotificationCategory } from '@/generated/prisma/client'
 
 const TYPE_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   new_comment: ChatBubbleLeftRightIcon,

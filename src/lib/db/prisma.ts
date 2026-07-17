@@ -26,18 +26,18 @@ if (process.env.NODE_ENV !== 'production') {
 
 export default prisma
 
-export type { Prisma } from '@/generated/prisma/client'
 export type {
+  AuditLog,
+  Category,
+  Experience,
+  Permission,
+  Post,
+  Prisma,
+  Project,
+  Role,
+  Session,
+  Setting,
+  Tag,
   User,
   UserStatus,
-  Post,
-  Tag,
-  Category,
-  Project,
-  Experience,
-  Role,
-  Permission,
-  Session,
-  AuditLog,
-  Setting,
 } from '@/generated/prisma/client'

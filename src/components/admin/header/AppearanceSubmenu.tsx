@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { ComputerDesktopIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline'
-import { useTheme } from '@/lib/theme/theme-provider'
+import { useState } from 'react'
 import type { ThemeMode } from '@/lib/theme/constants'
+import { useTheme } from '@/lib/theme/theme-provider'
 
 const APPEARANCE_OPTIONS: {
   value: ThemeMode

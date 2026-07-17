@@ -1,7 +1,7 @@
 import { Outfit } from 'next/font/google'
 import { redirect } from 'next/navigation'
-import { getAdminLayoutContext } from '@/lib/admin/get-admin-shell-context'
 import { AdminShell } from '@/components/admin/AdminShell'
+import { getAdminLayoutContext } from '@/lib/admin/get-admin-shell-context'
 
 const outfit = Outfit({
   subsets: ['latin'],

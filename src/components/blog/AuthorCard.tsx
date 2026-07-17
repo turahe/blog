@@ -1,5 +1,5 @@
-import Link from '@/components/Link'
 import Image from '@/components/Image'
+import Link from '@/components/Link'
 import type { AuthorCore } from '@/types/post'
 
 interface AuthorBylineProps {

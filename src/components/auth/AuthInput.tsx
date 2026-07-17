@@ -1,7 +1,7 @@
 'use client'
 
-import { forwardRef, useId, useState, type InputHTMLAttributes, type ReactNode } from 'react'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
+import { forwardRef, type InputHTMLAttributes, type ReactNode, useId, useState } from 'react'
 
 export interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string

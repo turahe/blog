@@ -1,6 +1,6 @@
+import type { NotificationCategory } from '@/generated/prisma/client'
 import prisma from '@/lib/db/prisma'
 import { ensureUserPreferences } from '@/modules/account/repositories'
-import type { NotificationCategory } from '@/generated/prisma/client'
 import { NOTIFICATION_TYPE_CATEGORY } from '../constants'
 import { createManyNotificationRecords, createNotificationRecord } from '../repository'
 import type {

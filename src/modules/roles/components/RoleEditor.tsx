@@ -9,13 +9,13 @@ import {
   previewRolePermissionChangesAction,
   updateRoleAction,
 } from '../actions'
-import { RoleInfoPanel } from './RoleInfoPanel'
+import type { PermissionItem, RbacAuditEntry } from '../types'
+import { diffPermissionIds } from '../utils/permissions'
 import { PermissionManager } from './PermissionManager'
-import { UnsavedChangesBar } from './UnsavedChangesBar'
 import { PreviewChangesModal } from './PreviewChangesModal'
 import { RbacAuditTimeline } from './RbacAuditTimeline'
-import { diffPermissionIds } from '../utils/permissions'
-import type { PermissionItem, RbacAuditEntry } from '../types'
+import { RoleInfoPanel } from './RoleInfoPanel'
+import { UnsavedChangesBar } from './UnsavedChangesBar'
 
 interface RoleEditorProps {
   role: {

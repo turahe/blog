@@ -31,12 +31,13 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import { Inter } from 'next/font/google'
-import SectionContainer from './SectionContainer'
-import Footer from './Footer'
-import { ReactNode } from 'react'
-import Header from './Header'
 import { Analytics } from '@vercel/analytics/react'
+import { Inter } from 'next/font/google'
+import type { ReactNode } from 'react'
+import Footer from './Footer'
+import Header from './Header'
+import SectionContainer from './SectionContainer'
+
 interface Props {
   children: ReactNode
 }

@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { SettingsCard } from '@/components/admin/settings/SettingsCard'
-import { SettingsField } from '@/components/admin/settings/SettingsField'
-import { ImageUploader } from '@/components/admin/settings/ImageUploader'
 import { ColorPicker } from '@/components/admin/settings/ColorPicker'
 import { ConfirmDialog } from '@/components/admin/settings/ConfirmDialog'
+import { ImageUploader } from '@/components/admin/settings/ImageUploader'
+import { SettingsCard } from '@/components/admin/settings/SettingsCard'
+import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
+import { SettingsField } from '@/components/admin/settings/SettingsField'
 import { resetSettingsSectionAction } from '@/modules/settings/actions'
 import { useSettingsSection } from '@/modules/settings/hooks/useSettingsSection'
-import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 import type { SettingsMap } from '@/modules/settings/types'
 
 const FONTS = ['Inter', 'Outfit', 'Geist', 'System UI']

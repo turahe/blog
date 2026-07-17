@@ -1,16 +1,16 @@
 'use client'
 
-import { useEffect, useCallback, useState } from 'react'
-import Image from 'next/image'
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
 import {
-  XMarkIcon,
+  ArrowPathIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  MagnifyingGlassPlusIcon,
   MagnifyingGlassMinusIcon,
-  ArrowPathIcon,
+  MagnifyingGlassPlusIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline'
+import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
 import { isImageMime } from '@/modules/media/constants'
 import type { MediaItem } from '@/modules/media/types'
 
@@ -49,7 +49,7 @@ export function MediaPreviewModal({ item, items, onClose, onNavigate }: MediaPre
   useEffect(() => {
     setZoom(1)
     setRotation(0)
-  }, [item?.id])
+  }, [])
 
   if (!item) return null
 

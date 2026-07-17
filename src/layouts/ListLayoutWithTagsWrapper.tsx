@@ -1,6 +1,6 @@
-import { getTagCounts, getCategoriesWithCounts, getRecentPosts, getPopularPosts } from '@/services'
+import { getCategoriesWithCounts, getPopularPosts, getRecentPosts, getTagCounts } from '@/services'
+import type { PaginationMeta, PostCore } from '@/types/post'
 import ListLayoutWithTags from './ListLayoutWithTags'
-import type { PostCore, PaginationMeta } from '@/types/post'
 
 interface ListLayoutWithTagsWrapperProps {
   posts: PostCore[]

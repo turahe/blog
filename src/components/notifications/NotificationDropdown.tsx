@@ -1,8 +1,8 @@
 'use client'
 
+import { BellIcon, CheckIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
-import { BellIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { AdminDropdownPanel } from '@/components/admin/header/AdminDropdownPanel'
 import { useAdminDropdown } from '@/components/admin/header/useAdminDropdown'
 import { NotificationBadge } from './NotificationBadge'

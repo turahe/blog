@@ -1,9 +1,9 @@
 'use client'
 
 import { forwardRef, useMemo } from 'react'
-import type { AdminTagSize, AdminTagVariant, TagTone } from './types'
 import { resolveVariantTone } from './semantic'
 import { getTagClassName, truncateLabel } from './tag-styles'
+import type { AdminTagSize, AdminTagVariant, TagTone } from './types'
 
 export interface AdminTagProps extends React.HTMLAttributes<HTMLSpanElement> {
   label: string

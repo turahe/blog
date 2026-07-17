@@ -1,10 +1,10 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { createUserSchema } from '@/modules/users/validators'
 import { createUserAction } from '@/modules/users/actions'
+import { createUserSchema } from '@/modules/users/validators'
 
 interface UserFormProps {
   roles: { id: string; name: string; slug: string }[]

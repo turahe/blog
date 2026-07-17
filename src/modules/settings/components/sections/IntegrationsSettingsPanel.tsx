@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { SettingsCard } from '@/components/admin/settings/SettingsCard'
+import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 import { SettingsField } from '@/components/admin/settings/SettingsField'
 import { sendTestEmailAction } from '@/modules/settings/actions'
 import { useSettingsSection } from '@/modules/settings/hooks/useSettingsSection'
-import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 import type { SettingsMap } from '@/modules/settings/types'
 
 export function IntegrationsSettingsPanel({ initialValues }: { initialValues: SettingsMap }) {

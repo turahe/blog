@@ -1,12 +1,12 @@
 import { cache } from 'react'
-import { getSession, type AuthSession } from '@/lib/auth/session'
-import { can } from '@/lib/rbac'
-import { primeUserRbacCache } from '@/lib/rbac/cache'
 import {
+  type AdminHeaderUser,
   buildAdminHeaderUser,
   loadUserShellProfile,
-  type AdminHeaderUser,
 } from '@/lib/admin/get-header-user'
+import { type AuthSession, getSession } from '@/lib/auth/session'
+import { can } from '@/lib/rbac'
+import { primeUserRbacCache } from '@/lib/rbac/cache'
 
 export type AuthenticatedShellContext = {
   session: AuthSession

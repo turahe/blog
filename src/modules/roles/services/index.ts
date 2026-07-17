@@ -1,10 +1,10 @@
 import { cache } from 'react'
-import { roleRepository } from '../repositories'
+import type { ListQueryParams } from '@/lib/crud/types'
+import { formatDate } from '@/lib/formatDate'
 import { permissionRepository } from '@/modules/permissions/repositories'
 import { isSystemRole } from '../constants'
-import type { ListQueryParams } from '@/lib/crud/types'
-import type { PermissionItem, RoleDetail, RoleMatrixRow, RbacAuditEntry } from '../types'
-import { formatDate } from '@/lib/formatDate'
+import { roleRepository } from '../repositories'
+import type { PermissionItem, RbacAuditEntry, RoleDetail, RoleMatrixRow } from '../types'
 
 export const listRoles = cache(async (params: ListQueryParams) => {
   return roleRepository.findMany(params)

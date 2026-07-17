@@ -1,7 +1,7 @@
 'use client'
 
-import type { ComponentType, ReactNode } from 'react'
 import Link from 'next/link'
+import type { ComponentType, ReactNode } from 'react'
 
 interface AdminMenuItemProps {
   icon: ComponentType<{ className?: string }>

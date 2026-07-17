@@ -1,7 +1,7 @@
 'use client'
 
+import { type ReactNode, useEffect, useRef } from 'react'
 import { annotate } from 'rough-notation'
-import { ReactNode, useEffect, useRef } from 'react'
 
 interface RoughNotationWrapperProps {
   children: ReactNode

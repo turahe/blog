@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useState } from 'react'
 import { Bars3Icon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { useCallback, useState } from 'react'
 import { SettingsCard } from '@/components/admin/settings/SettingsCard'
 import { SettingsField } from '@/components/admin/settings/SettingsField'
 import { useSettingsSection } from '@/modules/settings/hooks/useSettingsSection'

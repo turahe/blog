@@ -33,8 +33,8 @@
 
 'use client'
 
-import { useSiteMetadata } from '@/lib/site-metadata/provider'
 import { useEffect, useState } from 'react'
+import { useSiteMetadata } from '@/lib/site-metadata/provider'
 
 const ScrollTopAndComment = () => {
   const siteMetadata = useSiteMetadata()

@@ -1,14 +1,14 @@
 'use client'
 
-import { useRef } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createPostSchema } from '@/modules/posts/validators'
-import { createPostAction } from '@/modules/posts/actions'
+import { useRouter } from 'next/navigation'
+import { useRef } from 'react'
+import { useForm } from 'react-hook-form'
+import { EditorToolbar } from '@/components/admin/editor/EditorToolbar'
 import { PostEditorShell } from '@/components/admin/editor/PostEditorShell'
 import { PostSettingsPanel } from '@/components/admin/editor/PostSettingsPanel'
-import { EditorToolbar } from '@/components/admin/editor/EditorToolbar'
+import { createPostAction } from '@/modules/posts/actions'
+import { createPostSchema } from '@/modules/posts/validators'
 
 interface PostFormProps {
   authors: { id: string; fullName: string; slug: string | null }[]

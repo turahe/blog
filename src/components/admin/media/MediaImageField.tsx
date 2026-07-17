@@ -1,9 +1,9 @@
 'use client'
 
+import { PencilSquareIcon, PhotoIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
-import Image from 'next/image'
-import { PhotoIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { MediaPickerModal } from '@/components/admin/media/picker'
 import type { MediaPickerResult } from '@/modules/media/types'
 

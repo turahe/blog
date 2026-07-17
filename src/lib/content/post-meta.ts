@@ -1,6 +1,6 @@
 import readingTime from 'reading-time'
-import { extractToc } from '@/lib/mdx/toc'
 import type { Prisma } from '@/lib/db/prisma'
+import { extractToc } from '@/lib/mdx/toc'
 
 export function computeWordCount(text: string): number {
   const cleaned = text

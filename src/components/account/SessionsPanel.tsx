@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { formatDate } from '@/lib/formatDate'
-import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import { revokeOtherSessionsAction, revokeSessionAction } from '@/modules/account/actions'
 import type { AccountSessionView } from '@/modules/account/types'
+import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
 import { AccountCard } from './AccountCard'
 import { useAccountUi } from './AccountUiContext'
 

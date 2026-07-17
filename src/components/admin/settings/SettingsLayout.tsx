@@ -1,8 +1,8 @@
 'use client'
 
 import type { SaveStatus } from '@/modules/settings/types'
-import { useSettingsContext } from './SettingsContext'
 import { SaveIndicator } from './SaveIndicator'
+import { useSettingsContext } from './SettingsContext'
 
 interface SettingsLayoutProps {
   title: string

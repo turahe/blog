@@ -1,11 +1,11 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { updateProjectSchema } from '@/modules/projects/validators'
-import { updateProjectAction, deleteProjectAction } from '@/modules/projects/actions'
 import { MediaImageField } from '@/components/admin/media/MediaImageField'
+import { deleteProjectAction, updateProjectAction } from '@/modules/projects/actions'
+import { updateProjectSchema } from '@/modules/projects/validators'
 
 interface ProjectEditFormProps {
   project: {

@@ -1,8 +1,8 @@
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { MediaLibraryApp } from '@/components/admin/media/MediaLibraryApp'
-import { listMedia, listFoldersWithPaths, listUploadAuthors } from '@/modules/media/services'
-import { mediaFolderRepository } from '@/modules/media/repositories'
 import { requirePermission } from '@/lib/rbac'
+import { mediaFolderRepository } from '@/modules/media/repositories'
+import { listFoldersWithPaths, listMedia, listUploadAuthors } from '@/modules/media/services'
 
 export const dynamic = 'force-dynamic'
 

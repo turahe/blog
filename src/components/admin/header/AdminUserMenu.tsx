@@ -1,28 +1,28 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import {
   ArrowRightOnRectangleIcon,
-  BookOpenIcon,
-  CommandLineIcon,
-  Cog6ToothIcon,
-  UserCircleIcon,
   BellAlertIcon,
+  BookOpenIcon,
+  Cog6ToothIcon,
+  CommandLineIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline'
-import { logoutAction } from '@/modules/auth/actions/login'
-import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
-import type { AdminHeaderUser } from '@/components/admin/header/types'
-import { AdminUserAvatar } from '@/components/admin/header/AdminUserAvatar'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { AdminDropdownPanel } from '@/components/admin/header/AdminDropdownPanel'
 import {
   AdminMenuDivider,
   AdminMenuItem,
   AdminMenuSection,
 } from '@/components/admin/header/AdminMenuItem'
+import { AdminUserAvatar } from '@/components/admin/header/AdminUserAvatar'
 import { AppearanceSubmenu } from '@/components/admin/header/AppearanceSubmenu'
 import { KeyboardShortcutsDialog } from '@/components/admin/header/KeyboardShortcutsDialog'
+import type { AdminHeaderUser } from '@/components/admin/header/types'
 import { useAdminDropdown } from '@/components/admin/header/useAdminDropdown'
+import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
+import { logoutAction } from '@/modules/auth/actions/login'
 
 interface AdminUserMenuProps {
   user: AdminHeaderUser

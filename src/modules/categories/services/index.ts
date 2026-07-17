@@ -1,6 +1,6 @@
 import { cache } from 'react'
-import { categoryRepository } from '../repositories'
 import type { ListQueryParams } from '@/lib/crud/types'
+import { categoryRepository } from '../repositories'
 
 export const listCategories = cache(async (params: ListQueryParams) => {
   return categoryRepository.findMany(params)

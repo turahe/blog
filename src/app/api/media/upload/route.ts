@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { can } from '@/lib/rbac'
-import { isBlockedExecutable } from '@/modules/media/executable-policy'
 import { isAllowedAvatarMime } from '@/modules/media/constants'
+import { isBlockedExecutable } from '@/modules/media/executable-policy'
 import {
   processMediaUpload,
   revertMediaUpload,

@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { SESSION_COOKIE, PROTECTED_PREFIXES } from '@/lib/auth/constants'
+import { NextResponse } from 'next/server'
+import { PROTECTED_PREFIXES, SESSION_COOKIE } from '@/lib/auth/constants'
 
 function isProtected(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix))

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { getHealthStatus, logRequest } from '@/lib/monitoring/health'
 
 export async function GET(request: NextRequest) {

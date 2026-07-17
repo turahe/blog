@@ -1,5 +1,5 @@
-import { compileMDX } from 'next-mdx-remote/rsc'
 import type { MDXComponents } from 'mdx/types'
+import { compileMDX } from 'next-mdx-remote/rsc'
 import { getMdxOptions } from '@/lib/mdx/options'
 
 interface MdxContentProps {

@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 
 export const revalidate = 3600

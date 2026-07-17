@@ -33,9 +33,9 @@
 
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { useTheme } from '@/lib/theme/theme-provider'
+import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
+import { useTheme } from '@/lib/theme/theme-provider'
 
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)

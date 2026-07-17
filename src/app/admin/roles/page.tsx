@@ -1,12 +1,12 @@
 import { Suspense } from 'react'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { TableSkeleton } from '@/components/admin/Skeleton'
-import { RoleListClient, RoleListHeaderActions } from '@/modules/roles/components/RoleListClient'
-import { listRoles } from '@/modules/roles/services'
-import { can } from '@/lib/rbac'
 import { getSession } from '@/lib/auth/session'
 import { formatDate } from '@/lib/formatDate'
+import { can } from '@/lib/rbac'
+import { RoleListClient, RoleListHeaderActions } from '@/modules/roles/components/RoleListClient'
+import { listRoles } from '@/modules/roles/services'
 
 export const dynamic = 'force-dynamic'
 

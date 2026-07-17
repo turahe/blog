@@ -1,9 +1,9 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
-import { getSession } from '@/lib/auth/session'
-import { getAccountHeader, getAccountPreferences } from '@/modules/account/services'
+import { Suspense } from 'react'
 import { AccountShell } from '@/components/account/AccountShell'
 import { PreferencesForm } from '@/components/account/PreferencesForm'
+import { getSession } from '@/lib/auth/session'
+import { getAccountHeader, getAccountPreferences } from '@/modules/account/services'
 
 async function PreferencesPageContent() {
   const session = await getSession()

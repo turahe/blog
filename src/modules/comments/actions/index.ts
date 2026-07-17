@@ -2,15 +2,15 @@
 
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
-import prisma from '@/lib/db/prisma'
-import { getSession } from '@/lib/auth/session'
-import { requirePermission } from '@/lib/rbac'
 import { logAudit } from '@/lib/audit'
-import { commentRepository } from '../repositories'
-import { createCommentSchema, moderateCommentSchema } from '../validators'
-import { getCommentSettings, getPostIdBySlug } from '../services'
-import { emitCommentModerated, emitNewComment } from '@/modules/notifications/events'
+import { getSession } from '@/lib/auth/session'
 import type { CrudActionResult } from '@/lib/crud/types'
+import prisma from '@/lib/db/prisma'
+import { requirePermission } from '@/lib/rbac'
+import { emitCommentModerated, emitNewComment } from '@/modules/notifications/events'
+import { commentRepository } from '../repositories'
+import { getCommentSettings, getPostIdBySlug } from '../services'
+import { createCommentSchema, moderateCommentSchema } from '../validators'
 
 async function getRequestMeta() {
   const headerStore = await headers()

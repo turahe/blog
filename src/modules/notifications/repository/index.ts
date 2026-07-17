@@ -1,5 +1,5 @@
-import prisma from '@/lib/db/prisma'
 import type { NotificationCategory, Prisma } from '@/generated/prisma/client'
+import prisma from '@/lib/db/prisma'
 import { resolveNotificationHref } from '../constants'
 import type { NotificationData, NotificationQuery, NotificationView } from '../types'
 

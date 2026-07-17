@@ -1,7 +1,7 @@
 'use client'
 
-import { useMemo, useTransition } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useMemo, useTransition } from 'react'
 import { AdminTag } from './AdminTag'
 import { FILTER_EXCLUDED_PARAMS, FILTER_PARAM_LABELS } from './semantic'
 import type { FilterTagItem } from './types'

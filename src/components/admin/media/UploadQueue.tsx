@@ -1,6 +1,6 @@
 'use client'
 
-import { XMarkIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
+import { ArrowPathIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { formatFileSize } from '@/modules/media/constants'
 import type { UploadQueueItem } from '@/modules/media/types'
 

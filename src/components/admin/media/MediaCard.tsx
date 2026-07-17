@@ -1,14 +1,14 @@
 'use client'
 
-import Image from 'next/image'
 import {
   ArrowDownTrayIcon,
+  ArrowsRightLeftIcon,
   ClipboardDocumentIcon,
   EyeIcon,
   PencilIcon,
   TrashIcon,
-  ArrowsRightLeftIcon,
 } from '@heroicons/react/24/outline'
+import Image from 'next/image'
 import { formatFileSize, isImageMime } from '@/modules/media/constants'
 import type { MediaItem } from '@/modules/media/types'
 import { useMediaContext } from './MediaContext'

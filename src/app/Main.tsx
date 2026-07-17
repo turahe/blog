@@ -1,11 +1,11 @@
-import Link from '@/components/Link'
-import { FeaturedPost } from '@/components/blog/FeaturedPost'
 import { ArticleCard } from '@/components/blog/ArticleCard'
 import { CategoryPill } from '@/components/blog/CategoryPill'
+import { FeaturedPost } from '@/components/blog/FeaturedPost'
 import { NewsletterCard } from '@/components/blog/NewsletterCard'
-import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
+import Link from '@/components/Link'
 import { getPostFeaturedImage } from '@/lib/blog/post-images'
-import type { PostCore, CategoryItem } from '@/types/post'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
+import type { CategoryItem, PostCore } from '@/types/post'
 
 const LATEST_COUNT = 6
 

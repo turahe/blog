@@ -1,8 +1,8 @@
-import { searchPosts } from '@/services'
+import type { Metadata } from 'next'
+import { genPageMetadata } from '@/app/seo'
 import { ArticleCard } from '@/components/blog/ArticleCard'
 import { BlogEmptyState } from '@/components/blog/BlogEmptyState'
-import { genPageMetadata } from '@/app/seo'
-import type { Metadata } from 'next'
+import { searchPosts } from '@/services'
 
 export const revalidate = 60
 

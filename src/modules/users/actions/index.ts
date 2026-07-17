@@ -1,18 +1,18 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import prisma from '@/lib/db/prisma'
+import { logAudit } from '@/lib/audit'
 import { hashPassword } from '@/lib/auth/password'
 import { getSession } from '@/lib/auth/session'
+import type { CrudActionResult } from '@/lib/crud/types'
+import prisma from '@/lib/db/prisma'
 import { requirePermission } from '@/lib/rbac'
 import { invalidatePermissionCache } from '@/lib/rbac/cache'
-import { logAudit } from '@/lib/audit'
-import { validateSelfRoleChangeAction } from '@/modules/roles/actions'
-import { emitNewUserRegistered, emitRoleChanged } from '@/modules/notifications/events'
 import { sanitizeEmail, sanitizeString } from '@/lib/security/sanitize'
+import { emitNewUserRegistered, emitRoleChanged } from '@/modules/notifications/events'
+import { validateSelfRoleChangeAction } from '@/modules/roles/actions'
 import { userRepository } from '../repositories'
 import { createUserSchema, updateUserSchema } from '../validators'
-import type { CrudActionResult } from '@/lib/crud/types'
 
 export async function createUserAction(input: unknown): Promise<CrudActionResult<{ id: string }>> {
   await requirePermission('users.create')

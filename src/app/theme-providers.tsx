@@ -1,9 +1,9 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { ThemeProvider } from '@/lib/theme/theme-provider'
 import { ThemeScript } from '@/components/theme/ThemeScript'
 import type { ThemeMode } from '@/lib/theme/constants'
+import { ThemeProvider } from '@/lib/theme/theme-provider'
 
 export function ThemeProviders({
   children,

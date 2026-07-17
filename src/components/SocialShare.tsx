@@ -33,8 +33,8 @@
 
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Facebook, Twitter, Linkedin, Whatsapp, Telegram } from './social-icons/icons'
+import { useEffect, useState } from 'react'
+import { Facebook, Linkedin, Telegram, Twitter, Whatsapp } from './social-icons/icons'
 
 interface SocialShareProps {
   url: string

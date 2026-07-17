@@ -32,15 +32,15 @@
  */
 
 import {
-  Mail,
-  Github,
   Facebook,
-  Youtube,
+  Github,
   Linkedin,
-  Twitter,
+  Mail,
   Mastodon,
-  Whatsapp,
   Telegram,
+  Twitter,
+  Whatsapp,
+  Youtube,
 } from './icons'
 
 const components = {

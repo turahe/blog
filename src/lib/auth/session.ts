@@ -1,17 +1,17 @@
-import { cache } from 'react'
+import { randomBytes } from 'node:crypto'
 import { cookies } from 'next/headers'
-import { randomBytes } from 'crypto'
+import { cache } from 'react'
+import type { User, UserStatus } from '@/lib/db/prisma'
 import prisma from '@/lib/db/prisma'
+import {
+  REMEMBER_TTL_MS,
+  SESSION_COOKIE,
+  SESSION_REFRESH_THRESHOLD_MS,
+  SESSION_TTL_MS,
+} from './constants'
+import { shouldUseSecureCookies } from './cookie-options'
 import { hashToken } from './csrf'
 import { buildDeviceLabel, parseUserAgent } from './user-agent'
-import {
-  SESSION_COOKIE,
-  SESSION_TTL_MS,
-  REMEMBER_TTL_MS,
-  SESSION_REFRESH_THRESHOLD_MS,
-} from './constants'
-import { useSecureCookies } from './cookie-options'
-import type { User, UserStatus } from '@/lib/db/prisma'
 
 export type SessionUser = Pick<User, 'id' | 'email' | 'fullName' | 'avatar' | 'status'>
 
@@ -59,7 +59,7 @@ export async function createSession(
   const cookieStore = await cookies()
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: useSecureCookies(),
+    secure: shouldUseSecureCookies(),
     sameSite: 'lax',
     path: '/',
     maxAge: Math.floor(ttl / 1000),
@@ -135,7 +135,7 @@ export async function refreshSessionIfNeeded(session: AuthSession, token: string
   const cookieStore = await cookies()
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: useSecureCookies(),
+    secure: shouldUseSecureCookies(),
     sameSite: 'lax',
     path: '/',
     maxAge: Math.floor(SESSION_TTL_MS / 1000),

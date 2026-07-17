@@ -1,15 +1,15 @@
 'use server'
 
-import prisma from '@/lib/db/prisma'
-import { verifyPassword } from '@/lib/auth/password'
-import { createSession, destroySession } from '@/lib/auth/session'
-import { validateCsrf } from '@/lib/auth/csrf'
-import { isLoginRateLimited, recordFailedLogin } from '@/lib/auth/rate-limit'
-import { sanitizeEmail } from '@/lib/security/sanitize'
-import { loginSchema } from '../validators/login'
 import { logAudit } from '@/lib/audit'
-import { emitNewLogin } from '@/modules/notifications/events'
+import { validateCsrf } from '@/lib/auth/csrf'
+import { verifyPassword } from '@/lib/auth/password'
+import { isLoginRateLimited, recordFailedLogin } from '@/lib/auth/rate-limit'
+import { createSession, destroySession } from '@/lib/auth/session'
 import type { CrudActionResult } from '@/lib/crud/types'
+import prisma from '@/lib/db/prisma'
+import { sanitizeEmail } from '@/lib/security/sanitize'
+import { emitNewLogin } from '@/modules/notifications/events'
+import { loginSchema } from '../validators/login'
 
 export async function loginAction(
   formData: FormData,
@@ -40,7 +40,7 @@ export async function loginAction(
     where: { email, deletedAt: null },
   })
 
-  if (!user || user.status !== 'ACTIVE') {
+  if (user?.status !== 'ACTIVE') {
     await recordFailedLogin(email, meta.ip, meta.userAgent)
     return { success: false, error: 'Invalid email or password' }
   }

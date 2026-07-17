@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { LoginCard } from '@/components/auth/LoginCard'
 import { AuthAlert } from '@/components/auth/AuthAlert'
+import { LoginCard } from '@/components/auth/LoginCard'
 import { AUTH_PAGE_ERRORS } from '@/lib/auth/error-messages'
 
 export const metadata = {

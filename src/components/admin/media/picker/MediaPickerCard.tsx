@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import Image from 'next/image'
 import { formatFileSize } from '@/modules/media/constants'
 import type { MediaItem } from '@/modules/media/types'
 

@@ -1,8 +1,8 @@
-import AuthorLayout from '@/layouts/AuthorLayout'
-import { MdxContent } from '@/components/MdxContent'
-import { getAuthorBySlug, getExperience } from '@/services'
-import { genPageMetadata } from '@/app/seo'
 import { notFound } from 'next/navigation'
+import { genPageMetadata } from '@/app/seo'
+import { MdxContent } from '@/components/MdxContent'
+import AuthorLayout from '@/layouts/AuthorLayout'
+import { getAuthorBySlug, getExperience } from '@/services'
 
 export async function generateMetadata() {
   return genPageMetadata({ title: 'About' })

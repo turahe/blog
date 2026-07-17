@@ -1,19 +1,19 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { logAudit } from '@/lib/audit'
 import { getSession } from '@/lib/auth/session'
+import type { CrudActionResult } from '@/lib/crud/types'
 import { requirePermission } from '@/lib/rbac'
 import { invalidateAllPermissionCache } from '@/lib/rbac/cache'
-import { logAudit } from '@/lib/audit'
 import { sanitizeString } from '@/lib/security/sanitize'
 import { permissionRepository } from '@/modules/permissions/repositories'
-import { roleRepository } from '../repositories'
-import { createRoleSchema, updateRoleSchema } from '../validators'
 import { isSystemRole } from '../constants'
-import { diffPermissionIds } from '../utils/permissions'
+import { roleRepository } from '../repositories'
 import { getPermissionSlugsForRoles } from '../services'
-import type { CrudActionResult } from '@/lib/crud/types'
 import type { PermissionChangePreview, PermissionItem } from '../types'
+import { diffPermissionIds } from '../utils/permissions'
+import { createRoleSchema, updateRoleSchema } from '../validators'
 
 function revalidateRolePaths(roleId?: string) {
   revalidatePath('/admin/roles')

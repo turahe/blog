@@ -31,9 +31,9 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import Link from './Link'
-import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import SocialIcon from '@/components/social-icons'
+import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
+import Link from './Link'
 
 export default async function Footer() {
   const siteMetadata = await getSiteMetadata()

@@ -1,19 +1,19 @@
 'use client'
 
+import {
+  ArrowDownTrayIcon,
+  ArrowPathIcon,
+  ClipboardDocumentIcon,
+  TrashIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import {
-  XMarkIcon,
-  ClipboardDocumentIcon,
-  ArrowDownTrayIcon,
-  TrashIcon,
-  ArrowPathIcon,
-} from '@heroicons/react/24/outline'
-import { formatFileSize, isImageMime } from '@/modules/media/constants'
-import {
-  updateMediaAction,
-  replaceMediaFileAction,
   deleteMediaAction,
+  replaceMediaFileAction,
+  updateMediaAction,
 } from '@/modules/media/actions'
+import { formatFileSize, isImageMime } from '@/modules/media/constants'
 import type { MediaItem } from '@/modules/media/types'
 import { MediaThumbnail } from './MediaCard'
 import { useMediaContext } from './MediaContext'

@@ -1,8 +1,8 @@
+import type { Root } from 'mdast'
 import { remark } from 'remark'
 import { visit } from 'unist-util-visit'
-import { createSlugger } from '@/lib/slug'
-import type { Root } from 'mdast'
 import type { VFile } from 'vfile'
+import { createSlugger } from '@/lib/slug'
 import type { TocHeading } from '@/types/post'
 
 function remarkTocHeadings() {
@@ -13,7 +13,7 @@ function remarkTocHeadings() {
       const text = node.children.map((c) => ('value' in c ? c.value : '')).join('')
       toc.push({
         text,
-        url: '#' + slugger.slug(text),
+        url: `#${slugger.slug(text)}`,
         level: node.depth,
       })
     })

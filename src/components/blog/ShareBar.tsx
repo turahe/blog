@@ -1,7 +1,7 @@
 'use client'
 
+import { ClipboardDocumentCheckIcon, LinkIcon } from '@heroicons/react/24/outline'
 import { useCallback, useState } from 'react'
-import { LinkIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
 
 interface ShareBarProps {
   url: string

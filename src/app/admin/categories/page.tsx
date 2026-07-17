@@ -1,13 +1,13 @@
-import { Suspense } from 'react'
 import Link from 'next/link'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
+import { Suspense } from 'react'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { DataTable } from '@/components/admin/DataTable'
 import { TableSkeleton } from '@/components/admin/Skeleton'
-import { listCategories } from '@/modules/categories/services'
-import { bulkDeleteCategoriesAction } from '@/modules/categories/actions'
-import { can } from '@/lib/rbac'
 import { getSession } from '@/lib/auth/session'
+import { can } from '@/lib/rbac'
+import { bulkDeleteCategoriesAction } from '@/modules/categories/actions'
+import { listCategories } from '@/modules/categories/services'
 
 export const dynamic = 'force-dynamic'
 

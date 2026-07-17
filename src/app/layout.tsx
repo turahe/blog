@@ -1,17 +1,17 @@
 import 'css/tailwind.css'
 
-import { Space_Grotesk } from 'next/font/google'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import type { Metadata } from 'next'
+import { Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@/components/analytics/Analytics'
+import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import SectionContainer from '@/components/SectionContainer'
-import Footer from '@/components/Footer'
-import { ThemeProviders } from './theme-providers'
-import type { ThemeMode } from '@/lib/theme/constants'
 import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import { SiteMetadataProvider } from '@/lib/site-metadata/provider'
-import type { Metadata } from 'next'
+import type { ThemeMode } from '@/lib/theme/constants'
+import { ThemeProviders } from './theme-providers'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],

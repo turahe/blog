@@ -220,11 +220,10 @@ export function FormTagInput({
       {open && !disabled && suggestions.length > 0 && (
         <ul
           id={listboxId}
-          role="listbox"
           className="mt-1 max-h-48 overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-900"
         >
           {suggestions.map((opt, index) => (
-            <li key={opt.id} role="option" aria-selected={index === activeIndex}>
+            <li key={opt.id} aria-selected={index === activeIndex}>
               <button
                 type="button"
                 className={`text-theme-sm flex w-full items-center justify-between px-3 py-1.5 text-left ${

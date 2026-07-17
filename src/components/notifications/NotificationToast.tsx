@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 import { formatNotificationTime } from '@/lib/notifications/format-time'
 import type { NotificationView } from '@/modules/notifications/types'
 import { getNotificationIcon } from './notification-icons'

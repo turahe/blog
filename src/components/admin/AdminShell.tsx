@@ -1,10 +1,10 @@
 'use client'
 
-import { Suspense, type ReactNode } from 'react'
-import { SidebarProvider, useSidebar } from '@/components/admin/context/SidebarContext'
+import { type ReactNode, Suspense } from 'react'
 import { AdminBackdrop } from '@/components/admin/AdminBackdrop'
 import { AdminSidebar } from '@/components/admin/AdminSidebar'
 import { AdminHeader } from '@/components/admin/AdminTopNav'
+import { SidebarProvider, useSidebar } from '@/components/admin/context/SidebarContext'
 import { NotificationProvider } from '@/components/notifications'
 
 import type { AdminHeaderUser } from '@/lib/admin/get-header-user'

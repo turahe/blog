@@ -1,17 +1,17 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { requirePermission } from '@/lib/rbac'
 import { logAudit } from '@/lib/audit'
 import { getSession } from '@/lib/auth/session'
-import { invalidateSettingsCache } from '@/lib/settings/cache'
+import type { CrudActionResult } from '@/lib/crud/types'
 import prisma from '@/lib/db/prisma'
+import { requirePermission } from '@/lib/rbac'
+import { invalidateSettingsCache } from '@/lib/settings/cache'
 import { SETTINGS_DEFAULTS } from '../config/defaults'
 import { SECTION_KEYS } from '../config/keys'
 import { settingRepository } from '../repositories'
-import { SECTION_SCHEMAS, settingSchema, testEmailSchema } from '../validators'
-import type { CrudActionResult } from '@/lib/crud/types'
 import type { SettingsSection } from '../types'
+import { SECTION_SCHEMAS, settingSchema, testEmailSchema } from '../validators'
 
 function toSettingRecords(section: SettingsSection, data: Record<string, string>) {
   return Object.entries(data).map(([key, value]) => {

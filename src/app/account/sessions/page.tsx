@@ -1,9 +1,9 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
-import { getSession } from '@/lib/auth/session'
-import { getAccountHeader, getAccountSessions } from '@/modules/account/services'
+import { Suspense } from 'react'
 import { AccountShell } from '@/components/account/AccountShell'
 import { SessionsPanel } from '@/components/account/SessionsPanel'
+import { getSession } from '@/lib/auth/session'
+import { getAccountHeader, getAccountSessions } from '@/modules/account/services'
 
 async function SessionsPageContent() {
   const session = await getSession()

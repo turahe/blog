@@ -1,5 +1,5 @@
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { CategoryCreateForm } from '@/modules/categories/components/CategoryCreateForm'
 
 export const dynamic = 'force-dynamic'

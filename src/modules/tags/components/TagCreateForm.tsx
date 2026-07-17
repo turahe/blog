@@ -1,10 +1,10 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { createTagSchema } from '@/modules/tags/validators'
 import { createTagAction } from '@/modules/tags/actions'
+import { createTagSchema } from '@/modules/tags/validators'
 
 export function TagCreateForm() {
   const router = useRouter()

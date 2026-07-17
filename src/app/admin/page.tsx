@@ -1,18 +1,18 @@
-import { Suspense } from 'react'
 import {
-  UsersIcon,
-  UserGroupIcon,
   ChartBarIcon,
-  ServerStackIcon,
   CircleStackIcon,
+  ServerStackIcon,
+  UserGroupIcon,
+  UsersIcon,
 } from '@heroicons/react/24/outline'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
+import { Suspense } from 'react'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
-import { StatCard } from '@/components/admin/StatCard'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { CardSkeleton } from '@/components/admin/Skeleton'
-import { getActiveUserCount, getTotalUserCount } from '@/modules/users/services'
-import { getDailyActiveUsers, getRequestCountSince } from '@/lib/monitoring/health'
+import { StatCard } from '@/components/admin/StatCard'
 import prisma from '@/lib/db/prisma'
+import { getDailyActiveUsers, getRequestCountSince } from '@/lib/monitoring/health'
+import { getActiveUserCount, getTotalUserCount } from '@/modules/users/services'
 
 export const dynamic = 'force-dynamic'
 

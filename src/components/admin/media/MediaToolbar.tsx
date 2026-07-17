@@ -1,12 +1,12 @@
 'use client'
 
 import {
-  ArrowUpTrayIcon,
   ArrowPathIcon,
+  ArrowUpTrayIcon,
   FolderPlusIcon,
-  Squares2X2Icon,
   ListBulletIcon,
   MagnifyingGlassIcon,
+  Squares2X2Icon,
 } from '@heroicons/react/24/outline'
 import { MEDIA_TYPE_FILTERS } from '@/modules/media/constants'
 import type { MediaTypeFilter, MediaViewMode } from '@/modules/media/types'

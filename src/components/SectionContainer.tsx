@@ -31,7 +31,7 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode

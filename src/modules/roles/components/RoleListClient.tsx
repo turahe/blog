@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { DataTable } from '@/components/admin/DataTable'
-import { RoleScopeFilter } from './RoleScopeFilter'
 import { bulkDeleteRolesAction } from '../actions'
+import { RoleScopeFilter } from './RoleScopeFilter'
 
 type RoleRow = {
   id: string

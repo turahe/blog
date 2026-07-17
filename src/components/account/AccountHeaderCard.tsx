@@ -1,7 +1,7 @@
 'use client'
 
-import type { AccountHeaderData } from '@/modules/account/types'
 import { AdminUserAvatar } from '@/components/admin/header/AdminUserAvatar'
+import type { AccountHeaderData } from '@/modules/account/types'
 
 export function AccountHeaderCard({ user }: { user: AccountHeaderData }) {
   return (

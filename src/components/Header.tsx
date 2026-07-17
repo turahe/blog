@@ -33,14 +33,13 @@
 
 'use client'
 
-import React from 'react'
-import { useSiteMetadata } from '@/lib/site-metadata/provider'
+// import Typewriter from 'typewriter-effect'
+import { usePathname } from 'next/navigation'
 import headerNavLinks from '@/data/headerNavLinks'
+import { useSiteMetadata } from '@/lib/site-metadata/provider'
 import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-// import Typewriter from 'typewriter-effect'
-import { usePathname } from 'next/navigation'
 
 const Header = () => {
   const siteMetadata = useSiteMetadata()

@@ -1,10 +1,10 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { deleteTagAction, updateTagAction } from '@/modules/tags/actions'
 import { updateTagSchema } from '@/modules/tags/validators'
-import { updateTagAction, deleteTagAction } from '@/modules/tags/actions'
 
 interface TagEditFormProps {
   tag: { id: string; slug: string; name: string; description: string | null }

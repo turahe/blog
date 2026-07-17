@@ -1,14 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
-import { updateProfileAction, removeAvatarAction } from '@/modules/account/actions'
-import type { AccountProfileData } from '@/modules/account/types'
-import { AccountCard } from './AccountCard'
-import { AvatarUploadField } from './AvatarUploadField'
-import { useAccountUi } from './AccountUiContext'
 import { AdminUserAvatar } from '@/components/admin/header/AdminUserAvatar'
 import { SaveIndicator } from '@/components/admin/settings/SaveIndicator'
+import { removeAvatarAction, updateProfileAction } from '@/modules/account/actions'
+import type { AccountProfileData } from '@/modules/account/types'
+import { ensureCsrfTokenAction } from '@/modules/auth/actions/csrf'
+import { AccountCard } from './AccountCard'
+import { useAccountUi } from './AccountUiContext'
+import { AvatarUploadField } from './AvatarUploadField'
 
 interface ProfileFormProps {
   profile: AccountProfileData

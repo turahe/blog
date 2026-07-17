@@ -1,7 +1,7 @@
 import { cache } from 'react'
-import { postAdminRepository } from '../repositories'
 import type { ListQueryParams } from '@/lib/crud/types'
 import prisma from '@/lib/db/prisma'
+import { postAdminRepository } from '../repositories'
 
 export const listPosts = cache(async (params: ListQueryParams) => {
   return postAdminRepository.findMany(params)

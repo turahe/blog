@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { FilePond, registerPlugin } from 'react-filepond'
-import type { FilePond as FilePondInstance } from 'react-filepond'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import { useEffect, useRef } from 'react'
+import type { FilePond as FilePondInstance } from 'react-filepond'
+import { FilePond, registerPlugin } from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import {
@@ -89,7 +89,7 @@ export function FilePondUpload({
           }
           if (onLocalFile) {
             onLocalFile(file)
-            return purpose === 'avatar' ? false : true
+            return purpose !== 'avatar'
           }
           return true
         }}

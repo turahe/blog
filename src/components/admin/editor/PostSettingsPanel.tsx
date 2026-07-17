@@ -1,11 +1,10 @@
 'use client'
 
-import type { UseFormRegister, FieldErrors } from 'react-hook-form'
+import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { MediaImageField } from '@/components/admin/media/MediaImageField'
 import { FormTagInput } from '@/components/admin/tags'
 
 interface PostSettingsPanelProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
   errors: FieldErrors
   authors: { id: string; fullName: string }[]

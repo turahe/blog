@@ -1,6 +1,6 @@
 import { cache } from 'react'
-import { getSettingsMap } from '@/modules/settings/services'
 import type { ThemeMode } from '@/lib/theme/constants'
+import { getSettingsMap } from '@/modules/settings/services'
 import type { SiteMetadata } from './types'
 
 function pick(settings: Record<string, string>, key: string, fallback: string): string {

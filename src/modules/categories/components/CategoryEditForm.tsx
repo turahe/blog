@@ -1,11 +1,11 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { updateCategorySchema } from '@/modules/categories/validators'
-import { updateCategoryAction, deleteCategoryAction } from '@/modules/categories/actions'
 import { MediaImageField } from '@/components/admin/media/MediaImageField'
+import { deleteCategoryAction, updateCategoryAction } from '@/modules/categories/actions'
+import { updateCategorySchema } from '@/modules/categories/validators'
 
 interface CategoryEditFormProps {
   category: {

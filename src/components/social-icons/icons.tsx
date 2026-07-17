@@ -31,7 +31,7 @@
  * @copyright 2024 Nur Wachid. All rights reserved.
  */
 
-import { SVGProps } from 'react'
+import type { SVGProps } from 'react'
 
 // Icons taken from: https://simpleicons.org/
 // To add a new icon, add a new function here and add it to components in social-icons/index.tsx

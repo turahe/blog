@@ -1,11 +1,11 @@
-import Link from '@/components/Link'
+import { AuthorByline } from '@/components/blog/AuthorCard'
+import { CategoryPill } from '@/components/blog/CategoryPill'
 import Image from '@/components/Image'
-import { formatDate } from '@/lib/formatDate'
+import Link from '@/components/Link'
 import { getPostFeaturedImage } from '@/lib/blog/post-images'
+import { formatDate } from '@/lib/formatDate'
 import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
 import type { PostCore } from '@/types/post'
-import { CategoryPill } from '@/components/blog/CategoryPill'
-import { AuthorByline } from '@/components/blog/AuthorCard'
 
 interface ArticleCardProps {
   post: PostCore

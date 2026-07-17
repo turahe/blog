@@ -1,13 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { SettingsCard } from '@/components/admin/settings/SettingsCard'
-import { SettingsField } from '@/components/admin/settings/SettingsField'
 import { ImageUploader } from '@/components/admin/settings/ImageUploader'
+import { SettingsCard } from '@/components/admin/settings/SettingsCard'
+import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
+import { SettingsField } from '@/components/admin/settings/SettingsField'
 import { ToggleSwitch } from '@/components/admin/settings/ToggleSwitch'
 import { generateSitemapAction } from '@/modules/settings/actions'
 import { useSettingsSection } from '@/modules/settings/hooks/useSettingsSection'
-import { useSettingsContext } from '@/components/admin/settings/SettingsContext'
 import type { SettingsMap } from '@/modules/settings/types'
 
 export function SeoSettingsPanel({

@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { SettingsSkeleton } from '@/components/admin/settings/SettingsSkeleton'
+import { getSession } from '@/lib/auth/session'
+import { requirePermission } from '@/lib/rbac'
 import { SettingsApp } from '@/modules/settings/components/SettingsApp'
 import {
   getAdvancedSystemInfo,
@@ -8,11 +10,9 @@ import {
   getSettingsMap,
   getUserSessions,
 } from '@/modules/settings/services'
-import { pickSectionValues } from '@/modules/settings/utils/pickSection'
-import { SETTINGS_SECTIONS } from '@/modules/settings/types'
 import type { SettingsSection } from '@/modules/settings/types'
-import { requirePermission } from '@/lib/rbac'
-import { getSession } from '@/lib/auth/session'
+import { SETTINGS_SECTIONS } from '@/modules/settings/types'
+import { pickSectionValues } from '@/modules/settings/utils/pickSection'
 
 export const dynamic = 'force-dynamic'
 

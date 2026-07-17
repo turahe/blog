@@ -1,10 +1,10 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { updateUserSchema, type UpdateUserInput } from '@/modules/users/validators'
-import { updateUserAction, deleteUserAction } from '@/modules/users/actions'
+import { deleteUserAction, updateUserAction } from '@/modules/users/actions'
+import { type UpdateUserInput, updateUserSchema } from '@/modules/users/validators'
 import { UserRoleAssignmentPanel } from './UserRoleAssignmentPanel'
 
 interface UserEditFormProps {

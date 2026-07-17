@@ -1,8 +1,8 @@
 'use client'
 
 import { Suspense } from 'react'
-import { SettingsLayout } from '@/components/admin/settings/SettingsLayout'
 import { SettingsProvider } from '@/components/admin/settings/SettingsContext'
+import { SettingsLayout } from '@/components/admin/settings/SettingsLayout'
 import { SettingsSidebar } from '@/components/admin/settings/SettingsSidebar'
 import { SETTINGS_SECTION_META } from '@/modules/settings/config/defaults'
 import type {
@@ -12,17 +12,17 @@ import type {
   SettingsMap,
   SettingsSection,
 } from '@/modules/settings/types'
-import { GeneralSettingsPanel } from './sections/GeneralSettingsPanel'
+import { AdvancedSettingsPanel } from './sections/AdvancedSettingsPanel'
 import { AppearanceSettingsPanel } from './sections/AppearanceSettingsPanel'
+import { CommentsSettingsPanel } from './sections/CommentsSettingsPanel'
+import { GeneralSettingsPanel } from './sections/GeneralSettingsPanel'
+import { IntegrationsSettingsPanel } from './sections/IntegrationsSettingsPanel'
+import { NavigationSettingsPanel } from './sections/NavigationSettingsPanel'
+import { SecuritySettingsPanel } from './sections/SecuritySettingsPanel'
 import { SeoSettingsPanel } from './sections/SeoSettingsPanel'
 import { SocialSettingsPanel } from './sections/SocialSettingsPanel'
-import { NavigationSettingsPanel } from './sections/NavigationSettingsPanel'
-import { CommentsSettingsPanel } from './sections/CommentsSettingsPanel'
-import { UsersRolesSettingsPanel } from './sections/UsersRolesSettingsPanel'
-import { IntegrationsSettingsPanel } from './sections/IntegrationsSettingsPanel'
-import { SecuritySettingsPanel } from './sections/SecuritySettingsPanel'
 import { StorageSettingsPanel } from './sections/StorageSettingsPanel'
-import { AdvancedSettingsPanel } from './sections/AdvancedSettingsPanel'
+import { UsersRolesSettingsPanel } from './sections/UsersRolesSettingsPanel'
 
 interface SettingsAppProps {
   tab: SettingsSection

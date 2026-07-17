@@ -1,16 +1,16 @@
 'use client'
 
-import { useEffect } from 'react'
-import { formatFileSize } from '@/modules/media/constants'
-import { MediaThumbnail } from './MediaCard'
-import { useMediaContext } from './MediaContext'
-import type { MediaItem } from '@/modules/media/types'
 import {
   ArrowDownTrayIcon,
   ClipboardDocumentIcon,
   EyeIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline'
+import { useEffect } from 'react'
+import { formatFileSize } from '@/modules/media/constants'
+import type { MediaItem } from '@/modules/media/types'
+import { MediaThumbnail } from './MediaCard'
+import { useMediaContext } from './MediaContext'
 
 interface MediaTableProps {
   items: MediaItem[]

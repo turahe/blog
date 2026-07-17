@@ -1,8 +1,8 @@
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
-import type { PostCore, CategoryItem } from '@/types/post'
 import { formatDate } from '@/lib/formatDate'
 import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
+import type { CategoryItem, PostCore } from '@/types/post'
 
 interface BlogSidebarProps {
   tagCounts: Record<string, number>

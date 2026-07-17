@@ -1,9 +1,9 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
-import { getSession } from '@/lib/auth/session'
-import { getAccountHeader, getAccountSecurityOverview } from '@/modules/account/services'
+import { Suspense } from 'react'
 import { AccountShell } from '@/components/account/AccountShell'
 import { SecurityPanels } from '@/components/account/SecurityPanels'
+import { getSession } from '@/lib/auth/session'
+import { getAccountHeader, getAccountSecurityOverview } from '@/modules/account/services'
 
 async function SecurityPageContent() {
   const session = await getSession()

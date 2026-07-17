@@ -27,4 +27,4 @@ export async function getUnreadCount(userId: string): Promise<number> {
   return countUnread(userId)
 }
 
-export { markNotificationRead, markAllNotificationsRead, deleteNotification }
+export { deleteNotification, markAllNotificationsRead, markNotificationRead }

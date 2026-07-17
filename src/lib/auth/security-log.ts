@@ -1,5 +1,5 @@
-import prisma from '@/lib/db/prisma'
 import type { Prisma, SecurityEventType } from '@/generated/prisma/client'
+import prisma from '@/lib/db/prisma'
 
 interface LogSecurityEventInput {
   userId: string

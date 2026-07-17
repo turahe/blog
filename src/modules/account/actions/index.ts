@@ -2,22 +2,24 @@
 
 import { revalidatePath } from 'next/cache'
 import { verify } from 'otplib'
-import prisma from '@/lib/db/prisma'
 import { Prisma } from '@/generated/prisma/client'
-import { verifyPassword, hashPassword } from '@/lib/auth/password'
+import { logAudit } from '@/lib/audit'
 import { validateCsrf } from '@/lib/auth/csrf'
-import { requireSession, destroySession } from '@/lib/auth/session'
 import {
-  createMfaSecret,
   buildOtpAuthUrl,
+  createMfaSecret,
   generateRecoveryCodes,
   hashRecoveryCodes,
 } from '@/lib/auth/mfa'
+import { hashPassword, verifyPassword } from '@/lib/auth/password'
 import { logSecurityEvent } from '@/lib/auth/security-log'
-import { logAudit } from '@/lib/audit'
-import { emitPasswordChanged, emitTwoFactorEnabled } from '@/modules/notifications/events'
+import { destroySession, requireSession } from '@/lib/auth/session'
 import type { CrudActionResult } from '@/lib/crud/types'
+import prisma from '@/lib/db/prisma'
+import { emitPasswordChanged, emitTwoFactorEnabled } from '@/modules/notifications/events'
 import { ensureUserPreferences } from '../repositories'
+import { exportAccountData } from '../services'
+import type { AccountNotificationsData, AccountPreferencesData, MfaSetupData } from '../types'
 import {
   changePasswordSchema,
   deleteAccountSchema,
@@ -28,8 +30,6 @@ import {
   profileSchema,
   sensitiveActionSchema,
 } from '../validators'
-import { exportAccountData } from '../services'
-import type { AccountNotificationsData, AccountPreferencesData, MfaSetupData } from '../types'
 
 const ACCOUNT_PATHS = [
   '/account/profile',

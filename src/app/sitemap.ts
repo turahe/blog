@@ -1,6 +1,6 @@
-import { MetadataRoute } from 'next'
-import { getAllPosts, getCategoriesWithCounts, getAuthorsWithPosts, getTagCounts } from '@/services'
+import type { MetadataRoute } from 'next'
 import { getSiteMetadata } from '@/lib/site-metadata/get-site-metadata'
+import { getAllPosts, getAuthorsWithPosts, getCategoriesWithCounts, getTagCounts } from '@/services'
 
 export const revalidate = 3600
 

@@ -1,9 +1,9 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
-import { getSession } from '@/lib/auth/session'
+import { Suspense } from 'react'
+import { AuthFormSkeleton } from '@/components/auth/AuthFormSkeleton'
 import { LoginCard } from '@/components/auth/LoginCard'
 import { LoginForm } from '@/components/auth/LoginForm'
-import { AuthFormSkeleton } from '@/components/auth/AuthFormSkeleton'
+import { getSession } from '@/lib/auth/session'
 
 export const dynamic = 'force-dynamic'
 

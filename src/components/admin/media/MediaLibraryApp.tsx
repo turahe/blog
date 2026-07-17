@@ -1,25 +1,25 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { ConfirmDialog } from '@/components/admin/settings/ConfirmDialog'
 import {
+  addMediaTagsAction,
   bulkDeleteMediaAction,
   createMediaFolderAction,
   deleteMediaAction,
   listMediaAction,
   moveMediaAction,
   renameMediaAction,
-  addMediaTagsAction,
 } from '@/modules/media/actions'
 import type { MediaFolderItem, MediaItem, MediaTypeFilter } from '@/modules/media/types'
-import { MediaProvider, useMediaContext } from './MediaContext'
-import { MediaToolbar } from './MediaToolbar'
 import { FolderBreadcrumb } from './FolderBreadcrumb'
+import { MediaProvider, useMediaContext } from './MediaContext'
 import { MediaGrid } from './MediaGrid'
-import { MediaTable } from './MediaTable'
-import { MediaUploader } from './MediaUploader'
-import { MediaSidebar } from './MediaSidebar'
 import { MediaPreviewModal } from './MediaPreviewModal'
-import { ConfirmDialog } from '@/components/admin/settings/ConfirmDialog'
+import { MediaSidebar } from './MediaSidebar'
+import { MediaTable } from './MediaTable'
+import { MediaToolbar } from './MediaToolbar'
+import { MediaUploader } from './MediaUploader'
 
 interface MediaLibraryAppProps {
   initialItems: MediaItem[]

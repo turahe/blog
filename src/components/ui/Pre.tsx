@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, ReactNode } from 'react'
+import { type ReactNode, useRef, useState } from 'react'
 
 export default function Pre({ children }: { children: ReactNode }) {
   const textInput = useRef<HTMLDivElement>(null)

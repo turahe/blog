@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { AdminThemeToggle } from '@/components/admin/header/AdminThemeToggle'
+import { AdminUserMenu } from '@/components/admin/header/AdminUserMenu'
 import type { AdminHeaderUser } from '@/components/admin/header/types'
 import { NotificationBell } from '@/components/notifications'
-import { AdminUserMenu } from '@/components/admin/header/AdminUserMenu'
-import { AdminThemeToggle } from '@/components/admin/header/AdminThemeToggle'
 
 type OpenPanel = 'user' | 'notifications' | null
 

@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation'
-import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader'
-import { getUserById } from '@/modules/users/services'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
+import { getSession } from '@/lib/auth/session'
+import { can } from '@/lib/rbac'
 import { getAllRoles } from '@/modules/roles/services'
 import { UserEditForm } from '@/modules/users/components/UserEditForm'
-import { can } from '@/lib/rbac'
-import { getSession } from '@/lib/auth/session'
+import { getUserById } from '@/modules/users/services'
 
 export const dynamic = 'force-dynamic'
 

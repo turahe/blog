@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useCallback, useEffect, useState } from 'react'
 import {
   deleteMediaAction,
   getMediaDetailAction,
@@ -10,9 +10,9 @@ import {
   updateMediaAction,
 } from '@/modules/media/actions'
 import type { MediaItem } from '@/modules/media/types'
-import { MediaSearch } from './MediaSearch'
 import { MediaPickerGrid } from './MediaPickerGrid'
 import { MediaPickerSidebar } from './MediaPickerSidebar'
+import { MediaSearch } from './MediaSearch'
 import { MediaUploadDropzone } from './MediaUploadDropzone'
 import {
   type MediaPickerModalProps,
