@@ -57,8 +57,11 @@ jobs:
       - name: Setup database
         uses: ./.github/actions/setup-database-storage
 
-      - name: Run tests
-        run: npm run lint
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+
+      - name: Run Biome
+        run: biome ci src css public
 
       - name: Build project
         run: npm run build
