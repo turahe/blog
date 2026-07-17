@@ -126,7 +126,7 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
       document.removeEventListener('touchstart', handleUserInteraction)
       stopProgressTracking()
     }
-  }, [isPlaying, stopProgressTracking, startProgressTracking])
+  }, [isPlaying])
 
   const startProgressTracking = () => {
     if (progressIntervalRef.current) {
