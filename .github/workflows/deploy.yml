@@ -13,10 +13,6 @@ concurrency:
 
 env:
   DATABASE_URL: postgresql://blog:blogpassword@localhost:5432/blog
-  STORAGE_DRIVER: mock
-  MOCK_STORAGE_DIR: .ci-storage
-  MOCK_STORAGE_PUBLIC_URL: https://storage.ci.test
-  MOCK_STORAGE_BUCKET: blog-media
   AUTH_TRUST_HOST: 'true'
 
 jobs:
@@ -44,6 +40,16 @@ jobs:
         uses: actions/checkout@v6
         with:
           ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.ref }}
+
+      - name: Setup R2 storage
+        uses: ./.github/actions/setup-r2-storage
+        with:
+          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          r2-bucket: ${{ secrets.R2_BUCKET }}
+          r2-public-url: ${{ secrets.R2_PUBLIC_URL }}
+          r2-endpoint: ${{ secrets.R2_ENDPOINT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6

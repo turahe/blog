@@ -1,26 +1,33 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { getStorageDriver } from '../src/lib/storage/config'
-import { buildObjectKey, uploadBufferToMinio } from '../src/lib/storage/minio'
+import {
+  buildObjectKey,
+  deleteObjectFromMinio,
+  uploadBufferToMinio,
+} from '../src/lib/storage/minio'
 import { getMockStorageRoot } from '../src/lib/storage/mock'
 
+const ARTIFACT_DIR = '.ci-storage'
+
 async function main() {
-  if (getStorageDriver() !== 'mock') {
-    console.log(`Skipping storage upload test (STORAGE_DRIVER=${getStorageDriver()})`)
+  const driver = getStorageDriver()
+  if (driver !== 'mock' && driver !== 'r2') {
+    console.log(`Skipping storage upload test (STORAGE_DRIVER=${driver})`)
     return
   }
 
   const buffer = Buffer.from(`ci storage upload test ${new Date().toISOString()}`)
-  const key = buildObjectKey('ci-upload.png', 'ci')
-  const result = await uploadBufferToMinio(buffer, 'ci-upload.png', 'image/png', key)
+  const key = buildObjectKey('ci-upload.txt', 'ci')
+  const result = await uploadBufferToMinio(buffer, 'ci-upload.txt', 'text/plain', key)
 
-  const root = getMockStorageRoot()
-  await fs.mkdir(root, { recursive: true })
+  const artifactRoot = path.resolve(ARTIFACT_DIR)
+  await fs.mkdir(artifactRoot, { recursive: true })
   await fs.writeFile(
-    path.join(root, 'upload-result.json'),
+    path.join(artifactRoot, 'upload-result.json'),
     JSON.stringify(
       {
-        driver: 'mock',
+        driver,
         key: result.key,
         url: result.url,
         size: result.size,
@@ -31,8 +38,14 @@ async function main() {
     )
   )
 
-  console.log(`Mock storage upload OK: ${result.url}`)
-  console.log(`Artifacts written under ${root}`)
+  console.log(`${driver} storage upload OK: ${result.url}`)
+
+  if (driver === 'r2') {
+    await deleteObjectFromMinio(result.key)
+    console.log(`Cleaned up R2 object: ${result.key}`)
+  } else {
+    console.log(`Artifacts written under ${getMockStorageRoot()}`)
+  }
 }
 
 main().catch((error) => {

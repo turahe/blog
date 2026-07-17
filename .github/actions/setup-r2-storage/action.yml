@@ -1,0 +1,44 @@
+name: Setup R2 storage
+description: Export Cloudflare R2 environment variables for CI from GitHub secrets.
+
+inputs:
+  r2-account-id:
+    description: Cloudflare account ID for R2
+    required: true
+  r2-access-key-id:
+    description: R2 API access key ID
+    required: true
+  r2-secret-access-key:
+    description: R2 API secret access key
+    required: true
+  r2-bucket:
+    description: R2 bucket name
+    required: true
+  r2-public-url:
+    description: Public base URL for uploaded objects (custom domain or r2.dev)
+    required: true
+  r2-region:
+    description: R2 region (usually auto)
+    required: false
+    default: auto
+  r2-endpoint:
+    description: Optional R2 S3 API endpoint override
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Export R2 environment
+      shell: bash
+      run: |
+        echo "STORAGE_DRIVER=r2" >> "$GITHUB_ENV"
+        echo "R2_ACCOUNT_ID=${{ inputs.r2-account-id }}" >> "$GITHUB_ENV"
+        echo "R2_ACCESS_KEY_ID=${{ inputs.r2-access-key-id }}" >> "$GITHUB_ENV"
+        echo "R2_SECRET_ACCESS_KEY=${{ inputs.r2-secret-access-key }}" >> "$GITHUB_ENV"
+        echo "R2_BUCKET=${{ inputs.r2-bucket }}" >> "$GITHUB_ENV"
+        echo "R2_PUBLIC_URL=${{ inputs.r2-public-url }}" >> "$GITHUB_ENV"
+        echo "R2_REGION=${{ inputs.r2-region }}" >> "$GITHUB_ENV"
+        if [ -n "${{ inputs.r2-endpoint }}" ]; then
+          echo "R2_ENDPOINT=${{ inputs.r2-endpoint }}" >> "$GITHUB_ENV"
+        fi
