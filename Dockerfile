@@ -19,7 +19,9 @@ RUN --mount=type=secret,id=npmrc,target=/tmp/npmrc,required=false \
 COPY . .
 RUN chmod +x scripts/docker-entrypoint.sh
 EXPOSE 3000
-CMD ["npm", "run", "docker:start"]
+# Call the entrypoint directly so a delayed bind mount of /app does not fail
+# before package.json is visible (npm run needs package.json to resolve scripts).
+CMD ["sh", "scripts/docker-entrypoint.sh"]
 
 FROM base AS builder
 WORKDIR /app
