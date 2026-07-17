@@ -187,27 +187,27 @@ test-e2e-down: ## Stop E2E profile containers
 
 # Linting and Code Quality
 .PHONY: lint
-lint: ## Run ESLint
-	@echo "$(GREEN)Running ESLint in Docker...$(RESET)"
+lint: ## Run Biome lint
+	@echo "$(GREEN)Running Biome lint in Docker...$(RESET)"
 	$(call run_app,npm run lint)
 
 .PHONY: lint-fix
-lint-fix: ## Run ESLint with auto-fix
-	@echo "$(GREEN)Running ESLint with auto-fix in Docker...$(RESET)"
-	$(call run_app,npm run lint -- --fix)
+lint-fix: ## Run Biome lint with auto-fix
+	@echo "$(GREEN)Running Biome lint with auto-fix in Docker...$(RESET)"
+	$(call run_app,npm run lint:fix)
 
 .PHONY: format
-format: ## Format code with Prettier
+format: ## Format code with Biome
 	@echo "$(GREEN)Formatting code in Docker...$(RESET)"
-	$(call run_app,npx prettier --write .)
+	$(call run_app,npm run format)
 
 .PHONY: format-check
 format-check: ## Check code formatting
 	@echo "$(GREEN)Checking code formatting in Docker...$(RESET)"
-	$(call run_app,npx prettier --check .)
+	$(call run_app,npm run format:check)
 
 .PHONY: format-lint
-format-lint: ## Format with Prettier and fix ESLint issues
+format-lint: ## Format with Biome and fix lint issues
 	@echo "$(GREEN)Formatting and lint-fixing in Docker...$(RESET)"
 	$(MAKE) format
 	$(MAKE) lint-fix

@@ -12,8 +12,7 @@
 [![npm](https://img.shields.io/badge/npm-Package%20Manager-CB3837?style=for-the-badge&logo=npm)](https://npmjs.com/)
 [![Jest](https://img.shields.io/badge/Jest-Testing-C21325?style=for-the-badge&logo=jest)](https://jestjs.io/)
 [![Playwright](https://img.shields.io/badge/Playwright-E2E%20Testing-2EAD33?style=for-the-badge&logo=playwright)](https://playwright.dev/)
-[![ESLint](https://img.shields.io/badge/ESLint-Linting-4B32C3?style=for-the-badge&logo=eslint)](https://eslint.org/)
-[![Prettier](https://img.shields.io/badge/Prettier-Code%20Formatting-F7B93E?style=for-the-badge&logo=prettier)](https://prettier.io/)
+[![Biome](https://img.shields.io/badge/Biome-Lint_&_Format-60A5FA?style=for-the-badge&logo=biome)](https://biomejs.dev/)
 [![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
 
 A modern, fast, and SEO-optimized blog and portfolio website built with Next.js 15, Tailwind CSS 4, and Contentlayer. This project was forked and modified from [tailwind starter blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
@@ -180,9 +179,9 @@ make test-coverage # Run tests with coverage
 ### Code Quality
 
 ```bash
-make lint         # Run ESLint
+make lint         # Run Biome lint
 make lint-fix     # Fix linting issues
-make format       # Format code with Prettier
+make format       # Format code with Biome
 make type-check   # Run TypeScript type checking
 ```
 
@@ -479,7 +478,7 @@ newsletter: {
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run serve` - Start production server
-- `npm run lint` - Run ESLint
+- `npm run lint` - Run Biome lint
 - `npm run analyze` - Analyze bundle size
 - `npm test` - Run tests
 - `npm test:watch` - Run tests in watch mode
