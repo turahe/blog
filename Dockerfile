@@ -15,7 +15,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN --mount=type=secret,id=npmrc,target=/tmp/npmrc,required=false \
   if [ -s /tmp/npmrc ]; then cp /tmp/npmrc /root/.npmrc && cp /tmp/npmrc .npmrc; fi && \
-  npm ci --ignore-scripts
+  npm ci --ignore-scripts && \
+  sha256sum package-lock.json | awk '{ print $1 }' > node_modules/.docker-lock-hash
 COPY . .
 RUN chmod +x scripts/docker-entrypoint.sh scripts/docker-ensure-deps.sh scripts/docker-run.sh
 EXPOSE 3000

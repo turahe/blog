@@ -5,7 +5,7 @@ import { SettingsField } from '@/components/admin/settings/SettingsField'
 import { useSettingsSection } from '@/modules/settings/hooks/useSettingsSection'
 import type { AdvancedSystemInfo, SettingsMap } from '@/modules/settings/types'
 
-type StorageDriver = 'minio' | 'r2' | 'mock' | 'local'
+type StorageDriver = 'minio' | 'r2'
 
 function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`
@@ -19,10 +19,6 @@ function driverLabel(driver: StorageDriver) {
       return 'MinIO (S3-compatible)'
     case 'r2':
       return 'Cloudflare R2'
-    case 'mock':
-      return 'Mock (filesystem / CI)'
-    case 'local':
-      return 'Local filesystem'
     default:
       return driver
   }
@@ -44,10 +40,7 @@ export function StorageSettingsPanel({
         title="Storage driver"
         description="Choose where uploaded media is stored. Environment variables override these values when set at deploy time."
       >
-        <SettingsField
-          label="Driver"
-          hint="MinIO or R2 for production. Mock/local for development and CI."
-        >
+        <SettingsField label="Driver" hint="MinIO for local/Docker, or Cloudflare R2 for production.">
           <select
             className="admin-select max-w-md"
             value={driver}
@@ -55,8 +48,6 @@ export function StorageSettingsPanel({
           >
             <option value="minio">MinIO (S3-compatible)</option>
             <option value="r2">Cloudflare R2</option>
-            <option value="mock">Mock (filesystem)</option>
-            <option value="local">Local filesystem</option>
           </select>
         </SettingsField>
         <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -179,37 +170,6 @@ export function StorageSettingsPanel({
                 />
               </SettingsField>
             </div>
-          </div>
-        </SettingsCard>
-      )}
-
-      {(driver === 'mock' || driver === 'local') && (
-        <SettingsCard
-          title={driver === 'mock' ? 'Mock storage' : 'Local storage'}
-          description="Files are written to a directory on the server filesystem."
-        >
-          <div className="grid gap-5 md:grid-cols-2">
-            <SettingsField label="Directory" hint="Relative to project root">
-              <input
-                className="admin-input"
-                value={values['storage.mock.directory'] ?? ''}
-                onChange={(e) => update('storage.mock.directory', e.target.value)}
-              />
-            </SettingsField>
-            <SettingsField label="Public URL" hint="Base URL used in generated media links">
-              <input
-                className="admin-input"
-                value={values['storage.mock.public_url'] ?? ''}
-                onChange={(e) => update('storage.mock.public_url', e.target.value)}
-              />
-            </SettingsField>
-            <SettingsField label="Bucket name" hint="Logical bucket folder inside the directory">
-              <input
-                className="admin-input"
-                value={values['storage.mock.bucket'] ?? ''}
-                onChange={(e) => update('storage.mock.bucket', e.target.value)}
-              />
-            </SettingsField>
           </div>
         </SettingsCard>
       )}

@@ -387,7 +387,6 @@ Icon
 # Prisma generated client
 # ===========================================
 src/generated/
-.mock-storage/
 .ci-storage/
 # Add any project-specific files here
 

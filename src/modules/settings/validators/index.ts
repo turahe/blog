@@ -134,7 +134,7 @@ const storageField = z.string().max(500)
 
 export const storageSettingsSchema = z
   .object({
-    'storage.driver': z.enum(['minio', 'r2', 'mock', 'local']),
+    'storage.driver': z.enum(['minio', 'r2']),
     'storage.minio.endpoint': storageField,
     'storage.minio.public_url': storageField,
     'storage.minio.bucket': storageField,
@@ -148,9 +148,6 @@ export const storageSettingsSchema = z
     'storage.r2.public_url': storageField,
     'storage.r2.region': storageField,
     'storage.r2.endpoint': storageField,
-    'storage.mock.directory': storageField,
-    'storage.mock.public_url': storageField,
-    'storage.mock.bucket': storageField,
   })
   .superRefine((data, ctx) => {
     if (data['storage.driver'] === 'r2') {

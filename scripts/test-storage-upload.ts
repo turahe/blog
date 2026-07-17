@@ -6,13 +6,12 @@ import {
   deleteObjectFromMinio,
   uploadBufferToMinio,
 } from '../src/lib/storage/minio'
-import { getMockStorageRoot } from '../src/lib/storage/mock'
 
 const ARTIFACT_DIR = '.ci-storage'
 
 async function main() {
   const driver = getStorageDriver()
-  if (driver !== 'mock' && driver !== 'r2') {
+  if (driver !== 'r2' && driver !== 'minio') {
     console.log(`Skipping storage upload test (STORAGE_DRIVER=${driver})`)
     return
   }
@@ -40,12 +39,8 @@ async function main() {
 
   console.log(`${driver} storage upload OK: ${result.url}`)
 
-  if (driver === 'r2') {
-    await deleteObjectFromMinio(result.key)
-    console.log(`Cleaned up R2 object: ${result.key}`)
-  } else {
-    console.log(`Artifacts written under ${getMockStorageRoot()}`)
-  }
+  await deleteObjectFromMinio(result.key)
+  console.log(`Cleaned up ${driver} object: ${result.key}`)
 }
 
 main().catch((error) => {

@@ -35,7 +35,9 @@ fi
 
 if [ ! -d "node_modules/next" ] || [ "$CURRENT_HASH" != "$STORED_HASH" ]; then
   echo "→ Installing dependencies (package-lock changed or node_modules missing)..."
-  npm ci --ignore-scripts
+  # Always include devDependencies — NODE_ENV=production would otherwise omit
+  # tools needed for seed/build (tsx, typescript, etc.).
+  npm ci --ignore-scripts --include=dev
   echo "$CURRENT_HASH" > "$MARKER"
 else
   echo "→ Dependencies up to date; skipping npm ci"

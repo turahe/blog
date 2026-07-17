@@ -121,6 +121,7 @@ services:
       AUTH_TRUST_HOST: 'true'
       AUTH_DISABLE_RATE_LIMIT: 'true'
       AUTH_COOKIE_SECURE: 'false'
+      STORAGE_DRIVER: minio
       MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_URL: http://minio:9000
       MINIO_ACCESS_KEY: minioadmin
@@ -163,6 +164,7 @@ services:
       PLAYWRIGHT_WORKERS: ${PLAYWRIGHT_WORKERS:-50%}
       AUTH_TRUST_HOST: 'true'
       DATABASE_URL: postgresql://blog:blogpassword@db:5432/blog
+      STORAGE_DRIVER: minio
       MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_URL: http://minio:9000
       MINIO_ACCESS_KEY: minioadmin

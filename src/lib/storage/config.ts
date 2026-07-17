@@ -1,4 +1,4 @@
-export type StorageDriver = 'minio' | 'r2' | 'mock'
+export type StorageDriver = 'minio' | 'r2'
 
 export type StorageConfig = {
   driver: StorageDriver
@@ -11,8 +11,6 @@ export type StorageConfig = {
   forcePathStyle: boolean
   /** When false, public URLs omit the bucket segment (R2 custom domain / r2.dev). */
   publicUrlIncludesBucket: boolean
-  /** Filesystem root for mock/local driver. */
-  mockDirectory?: string
 }
 
 type SettingsMap = Record<string, string>
@@ -33,43 +31,12 @@ function pickValue(
 
 function resolveDriver(settings: SettingsMap = {}): StorageDriver {
   const raw = (process.env.STORAGE_DRIVER ?? settings['storage.driver'] ?? 'minio').toLowerCase()
-
   if (raw === 'r2') return 'r2'
-  if (raw === 'mock' || raw === 'local') return 'mock'
   return 'minio'
 }
 
 export function buildStorageConfig(settings: SettingsMap = {}): StorageConfig {
   const driver = resolveDriver(settings)
-
-  if (driver === 'mock') {
-    return {
-      driver: 'mock',
-      bucket: pickValue(
-        process.env.MOCK_STORAGE_BUCKET,
-        settings['storage.mock.bucket'],
-        'blog-media'
-      ),
-      endpoint: 'mock://local',
-      publicUrl: trimTrailingSlash(
-        pickValue(
-          process.env.MOCK_STORAGE_PUBLIC_URL,
-          settings['storage.mock.public_url'],
-          'https://storage.mock.test'
-        )
-      ),
-      accessKey: 'mock',
-      secretKey: 'mock',
-      region: 'mock',
-      forcePathStyle: true,
-      publicUrlIncludesBucket: false,
-      mockDirectory: pickValue(
-        process.env.MOCK_STORAGE_DIR,
-        settings['storage.mock.directory'],
-        '.mock-storage'
-      ),
-    }
-  }
 
   if (driver === 'r2') {
     const accountId = pickValue(process.env.R2_ACCOUNT_ID, settings['storage.r2.account_id'], '')

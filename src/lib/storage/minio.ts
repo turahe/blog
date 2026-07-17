@@ -7,7 +7,6 @@ import {
 } from '@aws-sdk/client-s3'
 import imageSize from 'image-size'
 import { getPublicObjectUrl, type StorageConfig } from '@/lib/storage/config'
-import { deleteMockObject, moveMockObject, writeMockObject } from '@/lib/storage/mock'
 import { getResolvedStorageConfig } from '@/lib/storage/resolve-storage-config'
 import { getExtension, MAX_FILE_BYTES } from '@/modules/media/constants'
 import { isBlockedExecutable } from '@/modules/media/executable-policy'
@@ -42,11 +41,6 @@ function buildVariantKey(baseKey: string, size: string) {
 }
 
 async function putObject(key: string, buffer: Buffer, contentType: string, config: StorageConfig) {
-  if (config.driver === 'mock') {
-    await writeMockObject(key, buffer, config)
-    return getPublicObjectUrl(key, config)
-  }
-
   const client = getClient(config)
   await client.send(
     new PutObjectCommand({
@@ -175,22 +169,12 @@ export async function replaceFileInMinio(key: string, file: File) {
 
 export async function deleteObjectFromMinio(key: string) {
   const config = await getResolvedStorageConfig()
-  if (config.driver === 'mock') {
-    await deleteMockObject(key, config)
-    return
-  }
-
   const client = getClient(config)
   await client.send(new DeleteObjectCommand({ Bucket: config.bucket, Key: key }))
 }
 
 export async function moveObjectInMinio(oldKey: string, newKey: string) {
   const config = await getResolvedStorageConfig()
-  if (config.driver === 'mock') {
-    await moveMockObject(oldKey, newKey, config)
-    return getPublicObjectUrl(newKey, config)
-  }
-
   const client = getClient(config)
   await client.send(
     new CopyObjectCommand({

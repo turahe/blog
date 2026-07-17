@@ -78,9 +78,6 @@ export const SECTION_KEYS: Record<SettingsSection, string[]> = {
     'storage.r2.public_url',
     'storage.r2.region',
     'storage.r2.endpoint',
-    'storage.mock.directory',
-    'storage.mock.public_url',
-    'storage.mock.bucket',
   ],
   advanced: ['advanced.header_scripts', 'advanced.footer_scripts', 'advanced.custom_css'],
 }

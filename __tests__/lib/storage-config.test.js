@@ -25,9 +25,6 @@ describe('storage config', () => {
     delete process.env.R2_PUBLIC_URL
     delete process.env.R2_REGION
     delete process.env.R2_ENDPOINT
-    delete process.env.MOCK_STORAGE_DIR
-    delete process.env.MOCK_STORAGE_PUBLIC_URL
-    delete process.env.MOCK_STORAGE_BUCKET
   })
 
   afterAll(() => {
@@ -36,6 +33,12 @@ describe('storage config', () => {
 
   test('getStorageDriver defaults to minio', () => {
     expect(getStorageDriver()).toBe('minio')
+  })
+
+  test('unknown drivers fall back to minio', () => {
+    process.env.STORAGE_DRIVER = 'mock'
+    expect(getStorageDriver()).toBe('minio')
+    expect(getStorageDriver({ 'storage.driver': 'local' })).toBe('minio')
   })
 
   test('getStorageConfig returns MinIO defaults', () => {
@@ -141,38 +144,5 @@ describe('storage config', () => {
   test('buildStorageConfig throws when R2 env is incomplete', () => {
     process.env.STORAGE_DRIVER = 'r2'
     expect(() => buildStorageConfig()).toThrow('R2 account ID is required')
-  })
-
-  test('buildStorageConfig returns mock settings', () => {
-    process.env.STORAGE_DRIVER = 'mock'
-    process.env.MOCK_STORAGE_DIR = '.ci-storage'
-    process.env.MOCK_STORAGE_PUBLIC_URL = 'https://storage.ci.test'
-    process.env.MOCK_STORAGE_BUCKET = 'blog-media'
-
-    expect(buildStorageConfig()).toEqual({
-      driver: 'mock',
-      bucket: 'blog-media',
-      endpoint: 'mock://local',
-      publicUrl: 'https://storage.ci.test',
-      accessKey: 'mock',
-      secretKey: 'mock',
-      region: 'mock',
-      forcePathStyle: true,
-      publicUrlIncludesBucket: false,
-      mockDirectory: '.ci-storage',
-    })
-  })
-
-  test('getPublicObjectUrl omits bucket for mock public URLs', () => {
-    process.env.STORAGE_DRIVER = 'mock'
-    process.env.MOCK_STORAGE_PUBLIC_URL = 'https://storage.ci.test'
-
-    expect(getPublicObjectUrl('ci/2026/06/file.txt')).toBe(
-      'https://storage.ci.test/ci/2026/06/file.txt'
-    )
-  })
-
-  test('local driver maps to mock storage', () => {
-    expect(getStorageDriver({ 'storage.driver': 'local' })).toBe('mock')
   })
 })

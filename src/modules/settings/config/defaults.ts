@@ -155,14 +155,6 @@ export const SETTINGS_DEFAULTS: SettingRecord[] = [
   { key: 'storage.r2.public_url', value: '', type: 'string', group: 'storage' },
   { key: 'storage.r2.region', value: 'auto', type: 'string', group: 'storage' },
   { key: 'storage.r2.endpoint', value: '', type: 'string', group: 'storage' },
-  { key: 'storage.mock.directory', value: '.mock-storage', type: 'string', group: 'storage' },
-  {
-    key: 'storage.mock.public_url',
-    value: 'https://storage.mock.test',
-    type: 'string',
-    group: 'storage',
-  },
-  { key: 'storage.mock.bucket', value: 'blog-media', type: 'string', group: 'storage' },
 
   // Legacy keys (backward compatibility)
   { key: 'branding.logo', value: '/static/images/logo.png', type: 'string', group: 'appearance' },
