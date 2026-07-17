@@ -64,8 +64,8 @@ export default function AdminOverviewPage() {
       <Suspense
         fallback={
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <CardSkeleton key={i} />
+            {Array.from({ length: 5 }, (_, i) => `skel-${i}`).map((id) => (
+              <CardSkeleton key={id} />
             ))}
           </div>
         }

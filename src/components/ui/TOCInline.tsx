@@ -58,8 +58,8 @@ export default function TOCInline({
     if (!items?.length) return null
     return (
       <ul className={ulClassName}>
-        {items.map((item, index) => (
-          <li key={index} className={liClassName}>
+        {items.map((item) => (
+          <li key={item.url} className={liClassName}>
             <a href={item.url}>{item.text}</a>
             {createList(item.children)}
           </li>

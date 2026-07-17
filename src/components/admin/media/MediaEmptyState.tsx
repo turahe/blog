@@ -24,9 +24,9 @@ export function MediaEmptyState({ onUpload }: { onUpload?: () => void }) {
 export function MediaSkeleton({ count = 8 }: { count?: number }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-      {Array.from({ length: count }).map((_, i) => (
+      {Array.from({ length: count }, (_, i) => `media-${i}`).map((id) => (
         <div
-          key={i}
+          key={id}
           className="animate-pulse overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800"
         >
           <div className="aspect-square bg-gray-200 dark:bg-gray-800" />

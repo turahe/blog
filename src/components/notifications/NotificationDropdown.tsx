@@ -96,9 +96,9 @@ export function NotificationDropdown({ isOpen, onOpen, onClose }: NotificationDr
         <div className="max-h-[500px] overflow-y-auto px-1.5 py-1.5">
           {loading ? (
             <div className="space-y-2 p-2">
-              {Array.from({ length: 4 }).map((_, index) => (
+              {Array.from({ length: 4 }, (_, index) => `n-${index}`).map((id) => (
                 <div
-                  key={index}
+                  key={id}
                   className="h-16 animate-pulse rounded-xl bg-gray-100 dark:bg-white/5"
                 />
               ))}

@@ -120,11 +120,8 @@ export function NotificationCenter() {
       <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/60">
         {loading ? (
           <div className="space-y-2 p-4">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="h-20 animate-pulse rounded-xl bg-gray-100 dark:bg-white/5"
-              />
+            {Array.from({ length: 6 }, (_, index) => `n-${index}`).map((id) => (
+              <div key={id} className="h-20 animate-pulse rounded-xl bg-gray-100 dark:bg-white/5" />
             ))}
           </div>
         ) : items.length === 0 ? (

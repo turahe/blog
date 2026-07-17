@@ -40,7 +40,10 @@ export function StorageSettingsPanel({
         title="Storage driver"
         description="Choose where uploaded media is stored. Environment variables override these values when set at deploy time."
       >
-        <SettingsField label="Driver" hint="MinIO for local/Docker, or Cloudflare R2 for production.">
+        <SettingsField
+          label="Driver"
+          hint="MinIO for local/Docker, or Cloudflare R2 for production."
+        >
           <select
             className="admin-select max-w-md"
             value={driver}

@@ -33,7 +33,7 @@
 
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/lib/theme/theme-provider'
 
 interface PlayMusicProps {
@@ -53,6 +53,28 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
 
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), [])
+
+  const stopProgressTracking = useCallback(() => {
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current)
+      progressIntervalRef.current = null
+    }
+  }, [])
+
+  const startProgressTracking = useCallback(() => {
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current)
+    }
+
+    progressIntervalRef.current = setInterval(() => {
+      const audio = audioRef.current
+      if (audio?.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100
+        setProgress(progressPercent)
+        setCurrentTime(audio.currentTime)
+      }
+    }, 100)
+  }, [])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -126,29 +148,7 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
       document.removeEventListener('touchstart', handleUserInteraction)
       stopProgressTracking()
     }
-  }, [isPlaying])
-
-  const startProgressTracking = () => {
-    if (progressIntervalRef.current) {
-      clearInterval(progressIntervalRef.current)
-    }
-
-    progressIntervalRef.current = setInterval(() => {
-      const audio = audioRef.current
-      if (audio && isPlaying && audio.duration) {
-        const progressPercent = (audio.currentTime / audio.duration) * 100
-        setProgress(progressPercent)
-        setCurrentTime(audio.currentTime)
-      }
-    }, 100)
-  }
-
-  const stopProgressTracking = () => {
-    if (progressIntervalRef.current) {
-      clearInterval(progressIntervalRef.current)
-      progressIntervalRef.current = null
-    }
-  }
+  }, [isPlaying, startProgressTracking, stopProgressTracking])
 
   const toggleMusic = () => {
     const audio = audioRef.current
@@ -214,6 +214,7 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
         <div className="flex items-center justify-center space-x-2">
           {/* Seek Backward */}
           <button
+            type="button"
             onClick={seekBackward}
             className={`p-2 transition-colors ${isDark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'}`}
             title="Seek backward 10s"
@@ -231,6 +232,7 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
 
           {/* Seek Forward */}
           <button
+            type="button"
             onClick={seekForward}
             className={`p-2 transition-colors ${isDark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'}`}
             title="Seek forward 10s"
@@ -248,6 +250,7 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
 
           {/* Play/Pause */}
           <button
+            type="button"
             onClick={toggleMusic}
             className="rounded-full bg-blue-500 p-2 text-white shadow-lg transition-colors duration-200 hover:bg-blue-600"
             title={isPlaying ? 'Pause music' : 'Play music'}
@@ -297,6 +300,7 @@ export default function PlayMusic({ musicFile }: PlayMusicProps) {
 
           {/* Mute */}
           <button
+            type="button"
             onClick={toggleMute}
             className={`p-2 transition-colors ${isMuted ? 'text-red-500 hover:text-red-600' : isDark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800'}`}
             title={isMuted ? 'Unmute' : 'Mute'}

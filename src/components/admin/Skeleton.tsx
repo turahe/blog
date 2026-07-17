@@ -6,8 +6,8 @@ export function TableSkeleton({ rows = 5 }: { rows?: number; cols?: number }) {
   return (
     <div className="admin-table-wrap space-y-0 p-4">
       <Skeleton className="mb-4 h-11 w-full max-w-xs" />
-      {Array.from({ length: rows }).map((_, i) => (
-        <Skeleton key={i} className="mb-2 h-12 w-full" />
+      {Array.from({ length: rows }, (_, i) => `row-${i}`).map((id) => (
+        <Skeleton key={id} className="mb-2 h-12 w-full" />
       ))}
     </div>
   )

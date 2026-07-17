@@ -171,12 +171,13 @@ export function DataTable({
 
         <div className="flex gap-2">
           {exportCsv && (
-            <button onClick={exportCsv} className="admin-btn-secondary">
+            <button type="button" onClick={exportCsv} className="admin-btn-secondary">
               Export CSV
             </button>
           )}
           {bulkActions?.map((ba) => (
             <button
+              type="button"
               key={ba.label}
               disabled={selected.size === 0}
               onClick={async () => {
@@ -212,7 +213,11 @@ export function DataTable({
                   className="text-theme-xs px-4 py-3 text-left font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
                 >
                   {col.sortable ? (
-                    <button onClick={() => handleSort(col.key)} className="hover:text-brand-500">
+                    <button
+                      type="button"
+                      onClick={() => handleSort(col.key)}
+                      className="hover:text-brand-500"
+                    >
                       {col.label}
                     </button>
                   ) : (
@@ -309,6 +314,7 @@ export function DataTable({
         </span>
         <div className="flex gap-2">
           <button
+            type="button"
             disabled={page <= 1}
             onClick={() => updateParams({ page: String(page - 1) })}
             className="admin-btn-secondary !px-3 !py-1.5 disabled:opacity-40"
@@ -319,6 +325,7 @@ export function DataTable({
             {page} / {totalPages}
           </span>
           <button
+            type="button"
             disabled={page >= totalPages}
             onClick={() => updateParams({ page: String(page + 1) })}
             className="admin-btn-secondary !px-3 !py-1.5 disabled:opacity-40"

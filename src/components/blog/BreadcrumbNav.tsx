@@ -14,8 +14,8 @@ export function BreadcrumbNav({ items }: { items: BreadcrumbItem[] }) {
             Home
           </Link>
         </li>
-        {items.map((item, i) => (
-          <li key={`${item.label}-${i}`} className="flex items-center gap-1.5">
+        {items.map((item) => (
+          <li key={item.href ?? item.label} className="flex items-center gap-1.5">
             <span aria-hidden>/</span>
             {item.href ? (
               <Link href={item.href} className="hover:text-primary-600 dark:hover:text-primary-400">

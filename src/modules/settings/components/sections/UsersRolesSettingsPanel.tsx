@@ -51,11 +51,8 @@ export function UsersRolesSettingsPanel({ roles }: { roles: RolePermissionMatrix
               </tr>
             </thead>
             <tbody>
-              {MATRIX_ROWS.map((row, idx) => (
-                <tr
-                  key={`${row.slug}-${idx}`}
-                  className="border-t border-gray-100 dark:border-gray-800"
-                >
+              {MATRIX_ROWS.map((row) => (
+                <tr key={row.slug} className="border-t border-gray-100 dark:border-gray-800">
                   <td className="px-4 py-3 font-medium text-gray-800 dark:text-gray-200">
                     {row.label}
                   </td>

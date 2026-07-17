@@ -2,7 +2,7 @@
 
 import { PencilSquareIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { MediaPickerModal } from '@/components/admin/media/picker'
 import type { MediaPickerResult } from '@/modules/media/types'
@@ -31,6 +31,7 @@ export function MediaImageField({
   modalTitle = 'Media Library',
 }: MediaImageFieldProps) {
   const [pickerOpen, setPickerOpen] = useState(false)
+  const inputId = useId()
 
   const handleSelect = (result: MediaPickerResult) => {
     onChange(result.url)
@@ -39,7 +40,9 @@ export function MediaImageField({
 
   return (
     <div className="admin-field">
-      <label className="admin-label">{label}</label>
+      <label htmlFor={inputId} className="admin-label">
+        {label}
+      </label>
       <div className="space-y-3">
         {/* WordPress-style featured image card */}
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900/40">
@@ -75,6 +78,7 @@ export function MediaImageField({
         </div>
 
         <input
+          id={inputId}
           type="url"
           value={value}
           onChange={(e) => onChange(e.target.value)}

@@ -36,7 +36,7 @@ interface NotificationContextValue {
 const NotificationContext = createContext<NotificationContextValue | null>(null)
 
 export function NotificationProvider({
-  userId,
+  userId: _userId,
   children,
 }: {
   userId: string

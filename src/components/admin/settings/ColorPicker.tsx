@@ -1,5 +1,7 @@
 'use client'
 
+import { useId } from 'react'
+
 interface ColorPickerProps {
   label: string
   value: string
@@ -7,11 +9,16 @@ interface ColorPickerProps {
 }
 
 export function ColorPicker({ label, value, onChange }: ColorPickerProps) {
+  const colorId = useId()
+
   return (
     <div className="admin-field">
-      <label className="admin-label">{label}</label>
+      <label htmlFor={colorId} className="admin-label">
+        {label}
+      </label>
       <div className="flex items-center gap-3">
         <input
+          id={colorId}
           type="color"
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -23,6 +30,7 @@ export function ColorPicker({ label, value, onChange }: ColorPickerProps) {
           onChange={(e) => onChange(e.target.value)}
           className="admin-input max-w-[8rem] font-mono text-sm uppercase"
           pattern="^#[0-9a-fA-F]{6}$"
+          aria-label={`${label} hex value`}
         />
         <span
           className="h-10 flex-1 rounded-lg border border-gray-200 dark:border-gray-700"

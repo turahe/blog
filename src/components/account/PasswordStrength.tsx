@@ -32,12 +32,14 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
   return (
     <div className="mt-2 space-y-1.5">
       <div className="flex gap-1">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <span
-            key={index}
-            className={`h-1.5 flex-1 rounded-full ${index < score ? colors[score] : 'bg-gray-200 dark:bg-gray-700'}`}
-          />
-        ))}
+        {Array.from({ length: 5 }, (_, index) => ({ id: `bar-${index}`, index })).map(
+          ({ id, index }) => (
+            <span
+              key={id}
+              className={`h-1.5 flex-1 rounded-full ${index < score ? colors[score] : 'bg-gray-200 dark:bg-gray-700'}`}
+            />
+          )
+        )}
       </div>
       <p className="text-theme-xs text-gray-500 dark:text-gray-400">{labels[score]}</p>
     </div>

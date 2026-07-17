@@ -10,8 +10,8 @@ export function SettingsSkeleton() {
       </div>
       <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
         <div className="space-y-2">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="h-10 rounded-lg bg-gray-200 dark:bg-gray-800" />
+          {Array.from({ length: 8 }, (_, i) => `nav-${i}`).map((id) => (
+            <div key={id} className="h-10 rounded-lg bg-gray-200 dark:bg-gray-800" />
           ))}
         </div>
         <div className="space-y-4">

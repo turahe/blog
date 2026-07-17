@@ -62,7 +62,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
     <div className="space-y-2 pt-6 pb-8 md:space-y-5">
       <nav className="flex justify-between">
         {!prevPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
+          <button type="button" className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
             Previous
           </button>
         )}
@@ -78,7 +78,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           {currentPage} of {totalPages}
         </span>
         {!nextPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
+          <button type="button" className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
             Next
           </button>
         )}

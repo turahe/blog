@@ -119,6 +119,7 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
 
         <div className="flex items-center space-x-1">
           <button
+            type="button"
             onClick={() =>
               handleShare('facebook', {
                 url: shareUrl,
@@ -135,6 +136,7 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
           </button>
 
           <button
+            type="button"
             onClick={() =>
               handleShare('twitter', {
                 url: shareUrl,
@@ -151,6 +153,7 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
           </button>
 
           <button
+            type="button"
             onClick={() =>
               handleShare('linkedin', {
                 url: shareUrl,
@@ -167,6 +170,7 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
           </button>
 
           <button
+            type="button"
             onClick={() =>
               handleShare('whatsapp', {
                 url: shareUrl,
@@ -183,6 +187,7 @@ export default function SocialShare({ url, title, description, hashtags = [] }: 
           </button>
 
           <button
+            type="button"
             onClick={() =>
               handleShare('telegram', {
                 url: shareUrl,

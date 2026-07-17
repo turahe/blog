@@ -7,7 +7,7 @@ import {
   TrashIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import {
   deleteMediaAction,
   replaceMediaFileAction,
@@ -230,18 +230,28 @@ function Field({
   multiline?: boolean
   hint?: string
 }) {
+  const inputId = useId()
+
   return (
     <div className="admin-field">
-      <label className="admin-label">{label}</label>
+      <label htmlFor={inputId} className="admin-label">
+        {label}
+      </label>
       {multiline ? (
         <textarea
+          id={inputId}
           className="admin-textarea"
           rows={3}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
       ) : (
-        <input className="admin-input" value={value} onChange={(e) => onChange(e.target.value)} />
+        <input
+          id={inputId}
+          className="admin-input"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
       )}
       {hint && <p className="text-theme-xs text-gray-500">{hint}</p>}
     </div>
