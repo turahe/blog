@@ -143,7 +143,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "lint-staged": "^16.4.0",
-    "prisma": "^7.8.0",
+    "prisma": "^7.9.0",
     "tsx": "^4.22.4"
   },
   "overrides": {
