@@ -7,6 +7,7 @@ Upon full diagnostic analysis:
 - All static checks (linter, formatter, typecheckers) and unit tests pass successfully.
 - Code quality is outstanding, utilizing **Biome** for fast formatting and linting, and **TypeScript** for absolute type-safety.
 - The test suite features three layers of verification: Jest (unit tests), Node (integration tests), and Playwright (E2E tests).
+- Dependency security has been thoroughly audited and patched, achieving a state of **0 vulnerabilities** under `npm audit` by applying precise nested overrides.
 - Infrastructure relies on Docker and Docker Compose for easy local development and testing, though nested overlay filesystem constraints in specific sandbox environments may prevent nested container orchestration (handled gracefully with fallback recommendations).
 
 ---
@@ -20,14 +21,6 @@ The codebase leverages a robust, modern JavaScript/TypeScript ecosystem structur
 - **Styling & Assets:** PostCSS, Tailwind CSS 4, and CSS Modules/extra custom styles.
 - **Media Engine:** Integrated support for S3/MinIO and Cloudflare R2 object storage with FilePond.
 - **Quality & Automation:** Biome (linting/formatting), Husky (git hooks), and a feature-complete, comprehensive `Makefile` managing 20+ operations.
-
-### Structure Analysis:
-- `src/app/`: The Next.js pages, APIs, layouts, and route handlers.
-- `src/components/`: Modular React components divided into context-specific areas (admin, blog, auth, account, and notifications).
-- `src/lib/`: Core libraries (database connections, sanitization, post-processing, and storage drivers).
-- `src/modules/`: High-level domain-specific modules (notifications, settings, comments, media, security logs, audit logging).
-- `__tests__/`: Comprehensive unit test suites mocking network and storage clients.
-- `tests/`: Integration tests and Playwright E2E spec suites.
 
 ---
 
@@ -70,7 +63,23 @@ Analyzing the `package.json` and linter configuration reveals:
 
 ---
 
-## 5. Comprehensive Testing Suites Status
+## 5. Security Audit & Patch Analysis (CI Fixes)
+GitHub Actions CI checks initially detected multiple vulnerabilities during the security check step. A careful audit of the package tree resolved all security alerts via package overrides.
+
+### Identified Vulnerabilities & Resolutions:
+1. **`fast-uri` / `hono` / `js-yaml` / `brace-expansion`:** Resolved by running `npm audit fix` to update dependencies to non-vulnerable versions.
+2. **`find-my-way` (<= 9.6.0) - High Severity DDoS Vulnerability (GHSA-c96f-x56v-gq3h):**
+   - *Impact:* Remote denial of service in lookup function with HTTP2 protocols.
+   - *Resolution:* Added a strict package override `"find-my-way": "^9.7.0"` to force installation of the patched version.
+3. **`sharp` (< 0.35.0) - High Severity CVEs in libvips (GHSA-f88m-g3jw-g9cj):**
+   - *Impact:* Multiple inherited vulnerabilities (including CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591).
+   - *Resolution:* Added a strict package override `"sharp": "^0.35.0"` to ensure non-vulnerable binaries are compiled and served.
+
+The package tree has successfully achieved a state of **0 vulnerabilities found** under the latest `npm audit`.
+
+---
+
+## 6. Comprehensive Testing Suites Status
 Three distinct test suites validate correctness across all logical layers:
 
 | Layer | Framework/Runner | Target Scope | Health Status |
@@ -81,7 +90,7 @@ Three distinct test suites validate correctness across all logical layers:
 
 ---
 
-## 6. Infrastructure & Environment Diagnosis
+## 7. Infrastructure & Environment Diagnosis
 The project utilizes containerized infrastructure via `docker-compose.yml` for services:
 - **db:** PostgreSQL 17 Alpine image.
 - **minio / minio-init:** Local S3 bucket environment for testing file uploads.
@@ -105,7 +114,7 @@ If containerized infrastructure is unavailable, developers can spin up standard 
 
 ---
 
-## 7. Recommendations & Best Practices
+## 8. Recommendations & Best Practices
 
 1. **Local SQLite Option for Development/Testing (Optional):**
    For environments where running PostgreSQL is difficult, adding a development-only SQLite datasource provider branch or toggle within Prisma schemas or separate configurations can facilitate instantaneous zero-dependency local runs.
